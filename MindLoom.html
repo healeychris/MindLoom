@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
-<title>MindPlanner — Offline Mind Mapping and Planning</title>
+<title>MindLoom — Offline Mind Mapping and Planning</title>
 <style>
   :root {
     --bg: #1a1d23;
@@ -496,6 +496,9 @@
   .dp-mini:hover { color:var(--text); border-color:var(--text-muted); }
   .dp-due-quick { grid-column:2; display:flex; gap:3px; flex-wrap:wrap; }
   .dp-due-quick .dp-mini { font-size:9px; padding:1px 5px; }
+  .dp-due-quick .dp-mini:disabled { opacity:.35; cursor:default; }
+  .dp-due-quick.on .dp-mini { border-color:var(--accent); color:var(--accent); }
+  .dp-due-row input.dp-pick { border-color:var(--accent); }
   .dp-due-note { grid-column:2; font-size:11px; color:var(--text-muted); min-height:0; }
   .dp-due-note:empty { display:none; }
   .dp-due-note.overdue { color:#e05252; font-weight:600; }
@@ -879,7 +882,7 @@
 <body>
 
 <div id="toolbar">
-  <span class="brand">MindPlanner</span>
+  <span class="brand">MindLoom</span>
   <div class="sep"></div>
 
   <!-- File dropdown -->
@@ -915,7 +918,7 @@
       <div class="dd-sep"></div>
       <button class="dd-item danger" onclick="newMap();closeDD()" title="Start a new empty map (your current map is backed up first)">New Map</button>
       <div class="dd-sep"></div>
-      <button class="dd-item" onclick="showAbout();closeDD()" title="Version, features and information about MindPlanner">About MindPlanner</button>
+      <button class="dd-item" onclick="showAbout();closeDD()" title="Version, features and information about MindLoom">About MindLoom</button>
     </div>
   </div>
 
@@ -1254,7 +1257,7 @@
     <div class="dp-due-row"><input type="date" id="dp-start" title="Start date (optional, used by the Timeline)"><button class="dp-mini" id="dp-start-clear" type="button" title="Clear date">&times;</button></div>
     <label>Due</label>
     <div class="dp-due-row"><input type="date" id="dp-due" title="Expected / due date"><button class="dp-mini" id="dp-due-clear" type="button" title="Clear date">&times;</button></div>
-    <div class="dp-due-quick"><button class="dp-mini" type="button" data-d="0">Today</button><button class="dp-mini" type="button" data-d="1">Tomorrow</button><button class="dp-mini" type="button" data-d="7">+1 week</button><button class="dp-mini" type="button" data-d="14">+2 weeks</button><button class="dp-mini" type="button" data-m="1">+1 month</button></div>
+    <div class="dp-due-quick" id="dp-quick"><button class="dp-mini" type="button" data-d="0">Today</button><button class="dp-mini" type="button" data-d="1">Tomorrow</button><button class="dp-mini" type="button" data-d="7">+1 week</button><button class="dp-mini" type="button" data-d="14">+2 weeks</button><button class="dp-mini" type="button" data-m="1">+1 month</button></div>
     <div class="dp-due-note" id="dp-due-note"></div>
   </div>
   <div class="dp-label">Tags</div>
@@ -1316,8 +1319,8 @@
 <div id="about-overlay" onclick="if(event.target===this)closeAbout()">
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
-    <h2>MindPlanner</h2>
-    <div class="about-ver" id="about-ver">Version 1.19.0</div>
+    <h2>MindLoom</h2>
+    <div class="about-ver" id="about-ver">Version 1.20.2</div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1443,8 +1446,8 @@
 <script>
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 
-// ── Filename helper: MindPlanner-DDMMYYYY.ext ──
-function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindPlanner-'+dd+mm+yyyy+'.'+ext;}
+// ── Filename helper: MindLoom-DDMMYYYY.ext ──
+function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindLoom-'+dd+mm+yyyy+'.'+ext;}
 
 // ── Background presets ──
 const BG_COLORS = [
@@ -1752,7 +1755,8 @@ function sanitizeLinks(raw,list){
 // localStorage can throw (quota, blocked, private mode) - never let that break editing
 // Under file:// some browsers (Chrome) share one localStorage between every saved copy of this page, so key by path.
 // A copy with no data of its own starts from the old shared key, then keeps its own from then on.
-const LEGACY_KEY='mindmap_v5';
+const OLD_KEY='mindmap_v5';
+const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=3;
 let storageWarned=false;
@@ -1767,6 +1771,7 @@ function init(){
   let prevCount=0;
   let saved=storageGet(STORE_KEY);
   if(!saved&&STORE_KEY!==LEGACY_KEY)saved=storageGet(LEGACY_KEY);
+  if(!saved)saved=storageGet(OLD_KEY);
   if(saved){
     try{
       const d=JSON.parse(saved);
@@ -1800,6 +1805,7 @@ function init(){
   scheduleRollover();setTimeout(announceDue,400);
   if(prevCount)setTimeout(()=>toast('Started a new map. Your last map is under File > Restore backup'),900);
   initSig=sigOf();curSig=initSig;
+  if(!readBackups().length){try{const ob=localStorage.getItem(OLD_KEY+':backups');if(ob)localStorage.setItem(BK_KEY,ob);}catch(e){}}
   const _bk=readBackups();lastBackupSig=_bk.length?_bk[0].h:'';
   pushBackup('on open',true);
   updateSaveBadge();setInterval(saveTick,30000);
@@ -2826,6 +2832,7 @@ function showDetail(nid,anchorEl,pinned){
   $('#dp-owner').value=node.owner||'';
   $('#dp-status').value=node.status||'';
   $('#dp-marker').value=node.marker||'';
+  setDpField(null);
   $('#dp-start').value=node.start||'';
   $('#dp-due').value=node.due||'';updateDueNote();
   $('#dp-tag-input').value='';
@@ -3016,7 +3023,9 @@ function updateDueNote(){
   }
   el.textContent=parts.join(' · ');
 }
-function setDetailDue(v){$('#dp-due').value=v;saveDetailFields();updateDueNote();}
+let dpField=null;
+function setDpField(f){dpField=f;const q=$('#dp-quick');q.classList.toggle('on',!!f);q.querySelectorAll('button').forEach(b=>b.disabled=!f);q.querySelectorAll('button').forEach(b=>b.title=f?'Set the '+(f==='start'?'Start':'Due')+' date':'Click the Start or Due date first');['start','due'].forEach(k=>$('#dp-'+k).classList.toggle('dp-pick',k===f));}
+function setDetailDue(v,which){$(which==='start'?'#dp-start':'#dp-due').value=v;saveDetailFields();updateDueNote();}
 $('#dp-due').addEventListener('focus',()=>clearTimeout(detailPanel._ht));
 $('#dp-due').addEventListener('input',()=>{saveDetailFields();updateDueNote();});
 $('#dp-due').addEventListener('change',()=>{saveDetailFields();updateDueNote();});
@@ -3024,7 +3033,9 @@ $('#dp-due-clear').addEventListener('click',()=>setDetailDue(''));
 $('#dp-start').addEventListener('focus',()=>clearTimeout(detailPanel._ht));
 ['input','change'].forEach(ev=>$('#dp-start').addEventListener(ev,()=>{saveDetailFields();updateDueNote();}));
 $('#dp-start-clear').addEventListener('click',()=>{$('#dp-start').value='';saveDetailFields();updateDueNote();});
-detailPanel.querySelectorAll('.dp-due-quick button').forEach(b=>b.addEventListener('click',()=>setDetailDue(isoFromToday(+b.dataset.d||0,+b.dataset.m||0))));
+detailPanel.querySelectorAll('.dp-due-quick button').forEach(b=>b.addEventListener('click',()=>setDetailDue(isoFromToday(+b.dataset.d||0,+b.dataset.m||0),dpField||'due')));
+['start','due'].forEach(f=>{const el=$('#dp-'+f);['focus','click'].forEach(ev=>el.addEventListener(ev,()=>setDpField(f)));});
+setDpField(null);
 
 // ── Selection ──
 function selectNode(id){const _prev=selectedId;selectedId=id;if(dateMode&&!showUndated&&id!==null&&gn(id)&&!canvas.querySelector('[data-id="'+id+'"]')){_dmHid=null;if(dmHiddenUndated().has(id))render();} // a node just added without a date stays visible while it is selected
@@ -3116,7 +3127,7 @@ function toggleTheme(){
 // A copy is kept in memory as well, for the menu items when the browser will not let the page read the clipboard.
 // Pasting ordinary text (one idea per line, indentation = nesting, bullets and numbers ignored) creates nodes too.
 let memClip='';
-const CLIP_MARK='MindMapClip/1';
+const CLIP_MARK='MindLoomClip/1',OLD_CLIP_MARK='MindMapClip/1';
 function clipTops(){
   const ids=multiSelected.size>1?[...multiSelected]:(selectedId!==null?[selectedId]:[]);
   const set=new Set(ids.filter(id=>gn(id)));
@@ -3132,12 +3143,12 @@ function buildClip(){
   const items=order.map(n=>({text:n.text,rx:Math.round(n.x-x0),ry:Math.round(n.y-y0),parent:topSet.has(n.id)?-1:idx.get(n.parentId),collapsed:!!n.collapsed,colorId:n.colorId,notes:n.notes||'',project:n.project||'',owner:n.owner||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',deps:depsOf(n).filter(d=>idx.has(d)).map(d=>idx.get(d))}));
   const links=crossLinks.filter(l=>idx.has(l.from)&&idx.has(l.to)).map(l=>({from:idx.get(l.from),to:idx.get(l.to),label:l.label||''}));
   const outside=crossLinks.filter(l=>idx.has(l.from)!==idx.has(l.to)).length;
-  return {text:JSON.stringify({mindmap:CLIP_MARK,nodes:items,links}),count:order.length,outside};
+  return {text:JSON.stringify({mindloom:CLIP_MARK,nodes:items,links}),count:order.length,outside};
 }
 // Pasted data is untrusted: every field is coerced to what a node may hold
 function parseClip(text){
   let d;try{d=JSON.parse(text);}catch(e){return null;}
-  if(!d||d.mindmap!==CLIP_MARK||!Array.isArray(d.nodes)||!d.nodes.length||d.nodes.length>5000)return null;
+  if(!d||!((d.mindloom===CLIP_MARK)||(d.mindmap===OLD_CLIP_MARK))||!Array.isArray(d.nodes)||!d.nodes.length||d.nodes.length>5000)return null;
   const out=[],d_len=d.nodes.length;
   for(let i=0;i<d.nodes.length;i++){
     const r=d.nodes[i];if(!r||typeof r!=='object')return null;
@@ -3590,7 +3601,7 @@ function reportData(){
   const owners=new Map();
   tracked.forEach(n=>{const o=(n.owner||'').trim()||'Unassigned';let r=owners.get(o);if(!r)owners.set(o,r={owner:o,open:0,overdue:0,blocked:0,done:0});
     if(n.status==='completed')r.done++;else{r.open++;if(dueInfo(n).state==='overdue')r.overdue++;if(n.status==='blocked')r.blocked++;}});
-  const _r=getRoots();let title=branch?sel.text:(_r.length&&_r.length<=3?_r.map(r=>r.text).join(' \u00B7 '):'MindPlanner');
+  const _r=getRoots();let title=branch?sel.text:(_r.length&&_r.length<=3?_r.map(r=>r.text).join(' \u00B7 '):'MindLoom');
   return {title,days,branch:!!branch,generated:new Date(),
     kpis:{items:tracked.length,completed,pct:tracked.length?Math.round(completed/tracked.length*100):0,ongoing:cnt('ongoing'),awaiting:cnt('awaiting'),blocked:cnt('blocked'),overdue:overdue.length,waiting:waiting.length},
     sections:[
@@ -3659,7 +3670,7 @@ $('#rp-body').addEventListener('click',e=>{const t=e.target.closest('[data-jump]
 $('#rp-copy').addEventListener('click',()=>{const t=reportMarkdown(reportData());writeClipboard(t).then(()=>toast('Report copied as Markdown'),()=>toast('Could not copy. Use Download instead'));});
 $('#rp-dl').addEventListener('click',()=>{
   const blob=new Blob([reportMarkdown(reportData())],{type:'text/markdown'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('md').replace('MindPlanner-','Status-report-');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('md').replace('MindLoom-','Status-report-');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
   toast('Report downloaded');
 });
 $('#rp-print').addEventListener('click',()=>{
@@ -3911,7 +3922,7 @@ function handleMarkdownImport(file){
     for(const raw of lines){
       const line=raw.replace(/\s+$/,'');
       const t=line.trim();
-      if(/^#\s+Mind Map Export$/i.test(t))continue;
+      if(/^#\s+(Mind Map|MindLoom) Export$/i.test(t))continue;
       if(/^#{1,6}\s+Cross-links$/i.test(t)&&prev==='---'){inLinks=true;continue;}
       if(t)prev=t;
       if(inLinks){
@@ -5644,7 +5655,7 @@ function clearFilter(){
 
 // ── Export Markdown ──
 function exportMarkdown(){
-  let md='# Mind Map Export\n\n';
+  let md='# MindLoom Export\n\n';
   md+='_Exported: '+new Date().toLocaleString()+'_\n\n';
   const roots=getRoots();
   roots.forEach(root=>{

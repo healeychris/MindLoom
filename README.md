@@ -1,4 +1,4 @@
-# MINDPLANNER FEATURES (v1.19.0)
+# MINDLOOM FEATURES (v1.20.2)
 
 MAPPING AND EDITING
 
@@ -16,7 +16,7 @@ Curved or straight connectors
 NODE DETAILS
 
 Status: To do, Ongoing, Completed, Blocked, Awaiting and others
-Due dates and start dates
+Due dates and start dates, with quick buttons (Today, Tomorrow, +1 week, +2 weeks, +1 month) that work on whichever date field you click
 Owner and tags
 Notes and details panel
 Bookmarks, with quick jump
