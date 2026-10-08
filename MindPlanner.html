@@ -133,15 +133,24 @@
   #connectors { position:absolute; top:0; left:0; width:1px; height:1px; pointer-events:none; overflow:visible; }
 
   /* ── Date axis view ── */
+  #dm-tools { position:absolute; top:58px; right:12px; z-index:25; display:none; gap:6px; flex-wrap:wrap; justify-content:flex-end; max-width:calc(100% - 24px); }
+  body:has(#canvas.dm-on) #dm-tools { display:flex; }
+  #dm-zoom { display:flex; gap:3px; margin-right:6px; flex-wrap:wrap; justify-content:flex-end; }
+  #dm-zoom button { padding:3px 8px; }
+  #dm-tools button { background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:6px; font-size:12px; padding:3px 10px; cursor:pointer; opacity:0.92; }
+  #dm-tools button:hover { border-color:var(--accent); opacity:1; }
+  .node.dm-bar.dm-grp .collapse-btn { display:flex !important; left:3px; right:auto; width:16px; height:16px; font-size:12px; line-height:1; }
+  .node.dm-bar.dm-grp { padding-left:24px; }
+  .node.dm-bar.dm-grp .label[data-cnt]::after { content:" \00b7  " attr(data-cnt) " items"; font-weight:400; opacity:0.75; }
   #date-grid, #date-axis { position:absolute; left:0; right:0; display:none; }
   #date-grid { top:0; bottom:0; pointer-events:none; overflow:hidden; }
   #date-axis { top:0; height:52px; z-index:20; overflow:hidden; background:#16181d; border-bottom:1px solid rgba(255,255,255,0.15); cursor:grab; user-select:none; font-size:12px; font-weight:600; }
   .dm-cell { position:absolute; height:26px; line-height:26px; text-align:center; color:#e9ecf2; border-right:1px solid rgba(255,255,255,0.2); box-sizing:border-box; white-space:nowrap; overflow:hidden; }
   .dm-cell.q { top:0; background:#0d0e11; font-size:13px; }
   .dm-cell.m { top:26px; background:#1d2026; color:#c9ced8; }
-  .dm-line { position:absolute; top:0; bottom:0; width:1px; background:var(--dm-line,rgba(255,255,255,0.09)); }
-  .dm-line.q { background:var(--dm-line-q,rgba(255,255,255,0.22)); }
-  .dm-band { position:absolute; top:0; bottom:0; background:var(--dm-band,rgba(255,255,255,0.022)); }
+  .dm-line { position:absolute; top:0; bottom:0; width:1px; background:var(--dm-line,rgba(255,255,255,0.15)); }
+  .dm-line.q { background:var(--dm-line-q,rgba(255,255,255,0.34)); }
+  .dm-band { position:absolute; top:0; bottom:0; background:var(--dm-band,rgba(255,255,255,0.05)); }
   .dm-today { position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:rgba(235,80,80,0.75); }
   .dm-todaytag { position:absolute; top:30px; transform:translateX(-50%); background:#e5484d; color:#fff; font-size:10px; line-height:16px; padding:0 6px; border-radius:8px; }
   #date-lbls { position:absolute; left:0; right:0; top:0; bottom:0; pointer-events:none; overflow:hidden; z-index:15; display:none; }
@@ -152,13 +161,13 @@
   body.light-theme .dm-cell { color:#1a1d23; border-right-color:rgba(0,0,0,0.15); }
   body.light-theme .dm-cell.q { background:#cfd4dd; }
   body.light-theme .dm-cell.m { background:#e3e6ec; color:#333a47; }
-  body.light-theme { --dm-line:rgba(0,0,0,0.08); --dm-line-q:rgba(0,0,0,0.2); --dm-band:rgba(0,0,0,0.03); }
+  body.light-theme { --dm-line:rgba(0,0,0,0.13); --dm-line-q:rgba(0,0,0,0.3); --dm-band:rgba(0,0,0,0.045); }
   .node .dm-marker { flex:none; display:block; }
   .node .dm-date { display:none; font-size:11px; color:var(--text-muted); white-space:nowrap; }
   #canvas.dm-full .node .dm-date { display:inline; }
   body:has(#canvas.dm-on) #stats { top:100px; }
   .node.dm-ms { flex-direction:row; align-items:center; gap:6px; padding:0; min-width:0; height:26px; background:transparent !important; border-color:transparent !important; box-shadow:none !important; border-radius:6px; }
-  .node.dm-ms .label { font-size:12px; color:var(--text); flex:none; }
+  .node.dm-ms .label { font-size:13px; color:var(--text); flex:none; }
   .node.dm-ms .info-dot, .node.dm-ms .status-icon, .node.dm-ms .node-due, .node.dm-ms .node-tags, .node.dm-ms .collapse-btn, .node.dm-ms .child-count,
   .node.dm-bar .info-dot, .node.dm-bar .status-icon, .node.dm-bar .node-due, .node.dm-bar .node-tags, .node.dm-bar .collapse-btn, .node.dm-bar .child-count { display:none !important; }
   .node.dm-ms .more-btn { position:absolute; right:-24px; top:3px; }
@@ -166,8 +175,18 @@
   .node.dm-ms.selected { outline:2px solid var(--accent); outline-offset:1px; }
   .node.dm-bar { flex-direction:row; align-items:center; padding:0 8px; min-width:0; max-width:none; height:28px; border-radius:6px; overflow:hidden; font-size:12px; }
   .node.dm-bar .node-row { width:100%; min-width:0; }
-  .node.dm-bar .label { overflow:hidden; text-overflow:ellipsis; font-size:12px; }
+  .node.dm-bar .label { overflow:hidden; text-overflow:ellipsis; font-size:13px; }
   .node.dm-bar .more-btn { display:none; }
+  .node.dm-bar.dm-grp { height:20px; font-weight:700; letter-spacing:0.02em; box-shadow:inset 0 -3px 0 rgba(0,0,0,0.3); }
+  .node.dm-bar.dm-grp .label { font-weight:700; font-size:13px; }
+  .node.dm-bar[data-st="blocked"] { box-shadow:inset 6px 0 0 #e5484d; }
+  .node.dm-bar[data-st="completed"] { box-shadow:inset 6px 0 0 #3fb36b; }
+  .node.dm-bar[data-st="ongoing"] { box-shadow:inset 6px 0 0 #4a9bff; }
+  .node.dm-bar[data-st="awaiting"] { box-shadow:inset 6px 0 0 #e0a82e; }
+  .node.dm-bar.dm-grp[data-st] { box-shadow:inset 0 -3px 0 rgba(0,0,0,0.3); }
+  #canvas.dm-on .node .node-wait { font-size:11px; margin-top:0; align-self:center; padding:0 5px; }
+  .node.fdim { opacity:0.3; transition:opacity .15s; }
+  .node.fdim:hover { opacity:0.9; }
   .node .dm-h { position:absolute; top:0; bottom:0; width:7px; cursor:ew-resize; z-index:2; }
   .node .dm-h.l { left:0; } .node .dm-h.r { right:0; }
   .node .dm-h:hover { background:rgba(255,255,255,0.28); }
@@ -965,13 +984,17 @@
       <div class="dd-label">Display</div>
       <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
       <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names on the Date Axis">Lane Bands: On</button>
+      <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
+      <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Date Axis only: show no lines, only the selected node's lines, or every line">Date Axis Lines: Selected</button>
+      <button class="dd-item" id="undated-toggle" onclick="toggleShowUndated();closeDD()" title="Date Axis only: show or hide nodes that have no date">Date Axis Undated Nodes: Hidden</button>
+      <button class="dd-item" id="barcol-toggle" onclick="toggleBarColors();closeDD()" title="Date Axis only: colour bars by workstream, or by each node's own colour">Date Axis Bar Colours: Workstream</button>
       <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
       <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
       <button class="dd-item" id="theme-toggle" onclick="toggleTheme();closeDD()" title="Switch between the dark and light theme">Theme: Dark</button>
       <div class="dd-sep"></div>
       <div class="dd-label">Behaviour</div>
       <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
-      <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: On</button>
+      <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
       <div class="dd-sep"></div>
       <div class="dd-label">Background</div>
       <div class="bg-row" id="bg-colors"></div>
@@ -1183,6 +1206,7 @@
     </svg>
   </div>
   <div id="date-axis"></div>
+  <div id="dm-tools"><span id="dm-zoom"><button onclick="dmZoomQ(1)" title="Zoom to Q1">Q1</button><button onclick="dmZoomQ(2)" title="Zoom to Q2">Q2</button><button onclick="dmZoomQ(3)" title="Zoom to Q3">Q3</button><button onclick="dmZoomQ(4)" title="Zoom to Q4">Q4</button><button onclick="dmZoomQ(0)" title="Zoom to the whole year">Year</button><button onclick="dmJumpToday()" title="Centre the view on today">Today</button></span><button id="dm-undated-btn" onclick="toggleShowUndated()" style="display:none">Undated hidden: 0</button><button id="dm-lines-btn" onclick="cycleLinkVis()" title="Lines on the Date Axis: Off, Selected or All">Lines: Selected</button><button id="dm-fold-btn" onclick="dmFoldAll()" title="Fold or unfold every workstream lane">Fold lanes</button></div>
   <div id="date-lbls"></div>
 </div>
 <div id="dm-tip"></div>
@@ -1291,7 +1315,7 @@
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <h2>MindPlanner</h2>
-    <div class="about-ver" id="about-ver">Version 1.13.1</div>
+    <div class="about-ver" id="about-ver">Version 1.17.1</div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1550,8 +1574,8 @@ let multiSelected=new Set();
 let ctrlDragging=false;
 let dragDescOffsets={};
 let snapToGrid=false, GRID_SIZE=20;
-let hoverPopup=true;
-let dateMode=false,dateOrigin='',laneBands=true;const DM_PX=6,DM_MARK=22;
+let hoverPopup=false;
+let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected',barColors='lane',showUndated=false;const DM_PX=6,DM_MARK=22;
 let hideCompleted=false;
 let lightTheme=false;
 let bookmarks=[];
@@ -1688,6 +1712,7 @@ function sanitizeNodes(raw){
       status:STATUSES.includes(r.status)?r.status:'',
       marker:['dot','diamond','star','triangle'].includes(r.marker)?r.marker:'',
       px:(r.px!==undefined&&r.px!==null&&Number.isFinite(Number(r.px)))?Number(r.px):undefined,
+      py:(r.py!==undefined&&r.py!==null&&Number.isFinite(Number(r.py)))?Number(r.py):undefined,
       tags:cleanTags(r.tags),due:normDate(r.due),start:normDate(r.start),
       deps:[...new Set((Array.isArray(r.deps)?r.deps:[]).map(Number).filter(Number.isInteger))],
       createdAt:r.createdAt||now,modifiedAt:r.modifiedAt||r.createdAt||now
@@ -1751,6 +1776,9 @@ function init(){
       if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);
       if(typeof d.dateOrigin==='string')dateOrigin=d.dateOrigin;
       if(d.laneBands!==undefined)setLaneBands(d.laneBands!==false,true);
+      if(d.focusSel!==undefined)setFocusSel(d.focusSel!==false,true);
+      if(d.linkVis)setLinkVis(d.linkVis,true);if(d.barColors)setBarColors(d.barColors,true);
+      if(d.showUndated!==undefined)setShowUndated(!!d.showUndated,true);
       if(d.dateMode!==undefined)setDateMode(!!d.dateMode,true);
       if(d.hoverPopup!==undefined){hoverPopup=d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
       if(d.hideCompleted!==undefined){hideCompleted=d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
@@ -1791,7 +1819,7 @@ function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,savedViews}));
+  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,savedViews}));
   updateSaveBadge();pushBackup('auto',false);
 }
 window.addEventListener('beforeunload',flushSave);
@@ -1803,7 +1831,7 @@ let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,snapToGrid,hoverPopup,hideCompleted,savedViews},null,compact?0:2);
+  return JSON.stringify({nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,snapToGrid,hoverPopup,hideCompleted,savedViews},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
@@ -1965,7 +1993,7 @@ function applyLoadedData(text,name){
     if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
     if(d.bgColorId)setBgColor(d.bgColorId);if(d.bgPatternId)setBgPattern(d.bgPatternId);
     if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);
-    dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setDateMode(!!d.dateMode,true);
+    dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setFocusSel(d.focusSel!==false,true);setLinkVis(d.linkVis||'selected',true);setBarColors(d.barColors||'lane',true);setShowUndated(!!d.showUndated,true);setDateMode(!!d.dateMode,true);
     if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}
     if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
     if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
@@ -2003,6 +2031,7 @@ function gdesc(id){
   return r;
 }
 function isHidden(n){
+  if(dateMode&&!showUndated&&n.id!==selectedId&&n.id!==editingId&&dmHiddenUndated().has(n.id))return true;
   // A completed node (when Hide Completed is on) takes its whole branch with it
   if(hideCompleted&&n.status==='completed')return true;
   let x=n;
@@ -2090,6 +2119,7 @@ function rectEdge(cx,cy,w,h,tx,ty){ // where the line from a rectangle's centre 
 let elMap=new Map();
 function elOf(id){const e=elMap.get(Number(id));return (e&&e.isConnected)?e:canvas.querySelector('[data-id="'+id+'"]');}
 function render(){
+  _dmHid=null;
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
   applyDateLayout();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
@@ -2097,6 +2127,7 @@ function render(){
   const descInfo=id=>{let c=0,u=false;const st=[id];while(st.length){const k=kids.get(st.pop())||[];c+=k.length;for(const x of k){st.push(x.id);if(!u){const ds=dueInfo(x).state;if(ds==='overdue'||ds==='today')u=true;}}}return{c,u};};
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
 
+  const _par=new Set();for(const n of nodes)if(n.parentId!==null)_par.add(n.parentId);
   for(const node of nodes){
     if(isHidden(node))continue;
     const c=gc(node.colorId),depth=gdepth(node);
@@ -2105,7 +2136,7 @@ function render(){
     el.setAttribute('role','treeitem');el.setAttribute('aria-level',String(depth+1));
     el.setAttribute('aria-selected',node.id===selectedId?'true':'false');el.tabIndex=node.id===selectedId?0:-1;
     {const _di=dueInfo(node);el.setAttribute('aria-label',node.text+(node.status?', '+(node.status==='critical'?'critical path':node.status):'')+(_di.state==='overdue'?', overdue':_di.state==='today'?', due today':'')+(openDeps(node).length?', waiting on '+openDeps(node).length+' prerequisite'+(openDeps(node).length===1?'':'s'):''));}
-    el.style.background=c.bg;el.style.borderColor=c.border;
+    {const _lc=dmLaneColor(node)||c;el.style.background=_lc.bg;el.style.borderColor=_lc.border;}
     if(isRoot(node))el.classList.add('is-root');
     if(depth===0){el.style.fontSize='16px';el.style.fontWeight='600';el.style.padding='10px 18px';}
     if(node.collapsed)el.classList.add('collapsed');
@@ -2116,7 +2147,7 @@ function render(){
     el.style.left=node.x+'px';el.style.top=node.y+'px';
     const dmi=dateMode?dmInfo(node):null;
     if(dmi){
-      if(dmi.bar){el.classList.add('dm-bar');el.style.width=dmi.w+'px';['l','r'].forEach(sd=>{const hd=document.createElement('span');hd.className='dm-h '+sd;hd.title='Drag to change the '+(sd==='l'?'start':'due')+' date';hd.addEventListener('mousedown',ev=>dmBeginResize(ev,node,sd));el.appendChild(hd);});}
+      if(dmi.bar){el.classList.add('dm-bar');if(_par.has(node.id))el.classList.add('dm-grp');if(node.status)el.dataset.st=node.status;el.style.width=dmi.w+'px';['l','r'].forEach(sd=>{const hd=document.createElement('span');hd.className='dm-h '+sd;hd.title='Drag to change the '+(sd==='l'?'start':'due')+' date';hd.addEventListener('mousedown',ev=>dmBeginResize(ev,node,sd));el.appendChild(hd);});}
       else{el.classList.add('dm-ms');const h=document.createElement('span');h.innerHTML=dmMarkerSvg(node);el.appendChild(h.firstChild);}
     }
 
@@ -2137,7 +2168,7 @@ function render(){
 
     // Main row: label + more button
     const row=document.createElement('div');row.className='node-row';
-    const label=document.createElement('span');label.className='label';label.textContent=node.text;row.appendChild(label);
+    const label=document.createElement('span');label.className='label';label.textContent=node.text;if(dmi&&dmi.bar&&node.collapsed)label.dataset.cnt=descInfo(node.id).c;row.appendChild(label);
     const mb=document.createElement('button');mb.className='more-btn';mb.innerHTML='&#x22EF;';mb.setAttribute('aria-label','Open details');
     mb.addEventListener('mousedown',e=>e.stopPropagation());
     mb.addEventListener('click',e=>{e.stopPropagation();selectNode(node.id);showDetail(node.id,el,true);});
@@ -2157,7 +2188,7 @@ function render(){
 
     // Waiting-on-prerequisites chip
     {const od=openDeps(node);
-      if(od.length){const w=document.createElement('span');w.className='node-wait';w.textContent='\u26D3 Waiting on '+od.length;w.title='Waiting for: '+od.map(x=>x.text).join(', ');el.appendChild(w);el.classList.add('is-waiting');}}
+      if(od.length){const w=document.createElement('span');w.className='node-wait';w.textContent=dateMode?'\u26D3 '+od.length:'\u26D3 Waiting on '+od.length;w.title='Waiting for: '+od.map(x=>x.text).join(', ');el.appendChild(w);el.classList.add('is-waiting');}}
 
     // Tags row
     const _tags=getNodeTags(node);
@@ -2173,7 +2204,7 @@ function render(){
       const btn=document.createElement('span');
       btn.className='collapse-btn vis'+(node.collapsed?' alw':'');btn.setAttribute('role','button');btn.setAttribute('aria-label',node.collapsed?'Expand branch':'Collapse branch');el.setAttribute('aria-expanded',node.collapsed?'false':'true');
       btn.textContent=node.collapsed?'+':'\u2212';
-      btn.addEventListener('mousedown',e=>{e.stopPropagation();toggleCollapseNode(node.id);});
+      btn.addEventListener('mousedown',e=>{e.stopPropagation();if(dmi&&dmi.bar&&el.classList.contains('dm-grp'))dmToggleLane(node.id);else toggleCollapseNode(node.id);});
       el.appendChild(btn);
       // Child count badge when collapsed
       if(node.collapsed){
@@ -2193,7 +2224,9 @@ function render(){
     el.addEventListener('contextmenu',e=>onNodeContext(e,node));
     canvas.appendChild(el);elMap.set(node.id,el);
   }
-  if(dateMode)dmComputeLanes();
+  if(dateMode){dmComputeLanes();dmShiftLabels();}
+  applyFocus();
+  if(dateMode){dmUpdateUndatedBtn();dmFixOverlaps();}
   requestAnimationFrame(drawConnectors);
   watchNodeSizes();
   if(!canvas.querySelector('.node[tabindex="0"]')){const _f=canvas.querySelector('.node');if(_f)_f.tabIndex=0;}
@@ -2225,7 +2258,7 @@ function dmInfo(n){
 const dmMarkX=days=>(days-dmOrigin())*DM_PX+DM_PX/2-DM_MARK/2;
 function dmShape(n){return n.marker||(n.status==='critical'?'triangle':'diamond');}
 function dmMarkerSvg(n){
-  const sh=dmShape(n),c=gc(n.colorId);
+  const sh=dmShape(n),c=dmLaneColor(n)||gc(n.colorId);
   const fill=(n.status==='critical'||sh==='star'||sh==='triangle')?'#f5c518':(n.colorId==='default'?'#9aa3b2':c.border);
   const P={dot:'<circle cx="11" cy="11" r="7.5"/>',diamond:'<polygon points="11,1.5 20.5,11 11,20.5 1.5,11"/>',triangle:'<polygon points="11,1.5 21,19.5 1,19.5"/>',star:'<polygon points="'+DM_STAR+'"/>'};
   return '<svg class="dm-marker" viewBox="0 0 22 22" width="22" height="22"><g fill="'+fill+'" stroke="rgba(0,0,0,0.45)" stroke-width="1">'+(P[sh]||P.diamond)+'</g></svg>';
@@ -2247,6 +2280,118 @@ function dmParkUndated(){
   und.forEach(n=>{n.x=xs[lv.get(n.id)];});
 }
 let dmLanes=[];
+// Highlight selection: the selected node, its branch, its ancestors and anything it links to or depends on stay bright
+function setFocusSel(on,quiet){focusSel=!!on;const b=$('#focussel-toggle');if(b)b.textContent='Highlight Selection: '+(focusSel?'On':'Off');if(!quiet){applyFocus();drawConnectors();}}
+const LINKVIS_NAME={off:'Off',selected:'Selected',all:'All'};
+function setLinkVis(v,quiet){linkVis=LINKVIS_NAME[v]?v:'selected';const t='Lines: '+LINKVIS_NAME[linkVis];const a=$('#dm-lines-btn');if(a)a.textContent=t;const b=$('#linkvis-toggle');if(b)b.textContent='Date Axis Lines: '+LINKVIS_NAME[linkVis];if(!quiet)drawConnectors();}
+function cycleLinkVis(){setLinkVis(linkVis==='selected'?'all':linkVis==='all'?'off':'selected');autoSave();toast('Date Axis lines: '+LINKVIS_NAME[linkVis].toLowerCase()+(dateMode?'':' (applies with the Date Axis)'));}
+function setBarColors(v,quiet){barColors=v==='node'?'node':'lane';const b=$('#barcol-toggle');if(b)b.textContent='Date Axis Bar Colours: '+(barColors==='lane'?'Workstream':'Node');if(!quiet)render();}
+function toggleBarColors(){setBarColors(barColors==='lane'?'node':'lane');autoSave();toast('Date Axis bars coloured by '+(barColors==='lane'?'workstream':'node'));}
+// The workstream colour is that of the node directly under the root
+function dmLaneColor(n){if(!dateMode||barColors!=='lane')return null;let x=n;while(x&&x.parentId!==null){const p=gn(x.parentId);if(p&&p.parentId===null)return gc(x.colorId);x=p;}return null;}
+// Zoom the axis to a quarter (1-4) or the whole year (0). The year is the one in the middle of the current view
+function dmViewDay(){const px=DM_PX*zoom;return dmOrigin()+(wrap.clientWidth/2-panX)/px;}
+function dmZoomQ(q){
+  const cy=new Date(dmViewDay()*864e5).getUTCFullYear();
+  const s=Date.UTC(cy,q?(q-1)*3:0,1)/864e5,e=Date.UTC(cy,q?q*3:12,1)/864e5;
+  const W=wrap.clientWidth,padL=150,padR=30;
+  const H=wrap.clientHeight,wy=(H/2-panY)/zoom;
+  zoom=Math.min(1.8,Math.max(0.15,(W-padL-padR)/((e-s)*DM_PX)));
+  panY=H/2-wy*zoom;
+  panX=padL-(s-dmOrigin())*DM_PX*zoom;
+  updateTransform();autoSave();
+  toast(q?('Q'+q+' '+cy):('Year '+cy));
+}
+function dmJumpToday(){
+  const td=Math.floor(todayMs()/864e5);
+  panX=wrap.clientWidth/2-(td-dmOrigin())*DM_PX*zoom;
+  updateTransform();autoSave();
+}
+// Keep a long bar's name readable when its left end has scrolled off-screen
+let dmPinnedShown=false,dmNoFix=false,dmFixing=false;
+// Changing a date moves a node sideways but not up or down, so it can land on top of a neighbour. When that happens
+// (other than during a drag, where you are placing things yourself) the swimlanes are re-tidied, keeping the view where it is.
+function dmFixOverlaps(){
+  if(!dateMode||dmNoFix||dmFixing)return;
+  const r=[];
+  for(const n of nodes){if(isHidden(n))continue;const e=elOf(n.id);if(e)r.push({x:n.x,y:n.y,w:e.offsetWidth,h:e.offsetHeight});}
+  r.sort((a,b)=>a.x-b.x);
+  let hit=false;
+  for(let i=0;i<r.length&&!hit;i++)for(let j=i+1;j<r.length;j++){
+    const a=r[i],b=r[j];if(b.x>=a.x+a.w-2)break;
+    if(a.y<b.y+b.h-2&&b.y<a.y+a.h-2){hit=true;break;}
+  }
+  if(!hit)return;
+  dmFixing=true;const v=[panX,panY,zoom];
+  try{dateTidy('all',true);panX=v[0];panY=v[1];zoom=v[2];updateTransform();}finally{dmFixing=false;}
+}
+function dmShiftLabels(){
+  if(!dateMode)return;
+  const T=dmPinnedShown?140:6;
+  canvas.querySelectorAll('.node.dm-bar').forEach(el=>{
+    const n=gn(parseInt(el.dataset.id));if(!n)return;
+    const row=el.querySelector('.node-row');if(!row)return;
+    const sl=panX+n.x*zoom;
+    const shift=sl<T?Math.max(0,Math.min((T-sl)/zoom,el.offsetWidth-90)):0;
+    const v=Math.round(shift);
+    if(row._sh===v)return;row._sh=v;
+    row.style.marginLeft=v?v+'px':'';row.style.width=v?'calc(100% - '+v+'px)':'';
+  });
+}
+// Date Axis: nodes with no date (and nothing dated beneath them) have no place on a calendar, so they are left off it
+let _dmHid=null;
+function dmHiddenUndated(){
+  if(_dmHid)return _dmHid;
+  const keep=new Set();
+  for(const n of nodes){if(!dmInfo(n))continue;let x=n;while(x&&!keep.has(x.id)){keep.add(x.id);x=x.parentId===null?null:gn(x.parentId);}}
+  _dmHid=new Set(nodes.filter(n=>!keep.has(n.id)).map(n=>n.id));
+  return _dmHid;
+}
+function dmUpdateUndatedBtn(){
+  const b=$('#dm-undated-btn');if(!b)return;
+  _dmHid=null;const c=dmHiddenUndated().size;
+  b.style.display=(dateMode&&(showUndated||c))?'':'none';
+  b.textContent=showUndated?'Hide undated':'Undated hidden: '+c;
+  b.title=showUndated?'Hide the nodes that have no date':'Nodes with no date are hidden on the Date Axis. Click to show them.';
+  const m=$('#undated-toggle');if(m)m.textContent='Date Axis Undated Nodes: '+(showUndated?'Shown':'Hidden');
+}
+function setShowUndated(on,quiet){
+  showUndated=!!on;_dmHid=null;dmUpdateUndatedBtn();
+  if(!quiet&&dateMode){const v=[panX,panY,zoom];dateTidy('all',true);panX=v[0];panY=v[1];zoom=v[2];updateTransform();}
+}
+function toggleShowUndated(){setShowUndated(!showUndated);autoSave();toast(showUndated?'Showing nodes with no date':'Nodes with no date are hidden on the Date Axis');}
+function dmToggleLane(id){
+  const n=gn(id);if(!n)return;
+  const v=[panX,panY,zoom];n.collapsed=!n.collapsed;
+  dateTidy('all',true);panX=v[0];panY=v[1];zoom=v[2];updateTransform();
+}
+let dmFolded=new Set();
+function dmFoldAll(){
+  const lanes=[];for(const r of getRoots())for(const h of gch(r.id))if(gch(h.id).length)lanes.push(h);
+  if(!lanes.length)return;
+  const fold=lanes.some(h=>!h.collapsed);
+  // remember which lanes we folded, so unfolding leaves branches you had collapsed yourself alone
+  if(fold){dmFolded=new Set(lanes.filter(h=>!h.collapsed).map(h=>h.id));lanes.forEach(h=>{h.collapsed=true;});}
+  else{lanes.forEach(h=>{if(!dmFolded.size||dmFolded.has(h.id))h.collapsed=false;});dmFolded=new Set();}
+  dateTidy('all',true);
+  const b=$('#dm-fold-btn');if(b)b.textContent=fold?'Unfold lanes':'Fold lanes';
+}
+function toggleFocusSel(){setFocusSel(!focusSel);autoSave();toast('Highlight selection '+(focusSel?'on':'off'));}
+function focusSets(force){
+  if((!focusSel&&!force)||selectedId===null||!gn(selectedId)||gn(selectedId).parentId===null)return null; // a root would light up the whole map
+  const kids=buildKids(),core=new Set(),anc=new Set(),rel=new Set();
+  const st=[selectedId];while(st.length){const i=st.pop();if(core.has(i))continue;core.add(i);for(const c of (kids.get(i)||[]))st.push(c.id);}
+  let x=gn(selectedId);while(x&&x.parentId!==null){anc.add(x.parentId);x=gn(x.parentId);}
+  core.forEach(i=>rel.add(i));anc.forEach(i=>rel.add(i));
+  for(const n of nodes){for(const pid of depsOf(n)){if(core.has(n.id))rel.add(pid);if(core.has(pid))rel.add(n.id);}}
+  for(const l of crossLinks){if(core.has(l.from))rel.add(l.to);if(core.has(l.to))rel.add(l.from);}
+  return{core,anc,rel};
+}
+function applyFocus(){
+  const f=focusSets();
+  canvas.classList.toggle('has-focus',!!f);
+  canvas.querySelectorAll('.node').forEach(el=>el.classList.toggle('fdim',!!f&&!f.rel.has(parseInt(el.dataset.id))));
+}
 function setLaneBands(on,quiet){laneBands=!!on;const b=$('#lanes-toggle');if(b)b.textContent='Lane Bands: '+(laneBands?'On':'Off');if(!quiet)drawDateAxis();}
 function toggleLaneBands(){setLaneBands(!laneBands);autoSave();toast('Lane bands '+(laneBands?'on':'off')+(dateMode?'':' (shown with the Date Axis)'));}
 // Swimlanes: one band per workstream (child of a root), spanning every item beneath it
@@ -2267,7 +2412,7 @@ function dmComputeLanes(){
       }
       if(y1===Infinity)continue;
       const he=elOf(h.id);
-      dmLanes.push({id:h.id,text:h.text,y1:y1-8,y2:y2+8,color:gc(h.colorId).border,right:h.x+(he?he.offsetWidth:0)});
+      dmLanes.push({id:h.id,text:h.text,y1:y1-8,y2:y2+8,color:gc(h.colorId).border,right:h.x+(he?he.offsetWidth:0),edge:dmInfo(h)?h.x:h.x+(he?he.offsetWidth:0)});
     }
   }
   drawDateAxis();
@@ -2281,13 +2426,23 @@ function setDateMode(on,quiet){
     const b=new Date((min!==null?min:Math.floor(todayMs()/864e5))*864e5);
     dateOrigin=b.getUTCFullYear()+'-'+pad2(b.getUTCMonth()+1)+'-01';
     hideDetail();
-    for(const n of nodes){if(n.px===undefined)n.px=n.x;}
-    dateMode=true;render();dmParkUndated();render();fitAll();
+    for(const n of nodes){if(n.px===undefined||n.py===undefined){n.px=n.x;n.py=n.y;}}
+    dateMode=true;render();dmParkUndated();dateTidy('all',true);fitAll();
     toast(min===null?'Date axis on: give nodes due dates to place them':'Date axis on');
   }else if(!on&&dateMode){
     hideDetail();
-    for(const n of nodes){if(n.px!==undefined){n.x=n.px;delete n.px;}}
-    dateMode=false;render();fitAll();toast('Date axis off');
+    // Put every node back where it was before the Date Axis moved it. Maps that were saved already on the axis have no
+    // remembered layout, so they get a fresh tidy; nodes added on the axis are placed beside their parent.
+    const kept=nodes.filter(n=>n.px!==undefined&&n.py!==undefined),lost=nodes.filter(n=>n.px===undefined||n.py===undefined);
+    for(const n of kept){n.x=n.px;n.y=n.py;}
+    for(const n of nodes){delete n.px;delete n.py;}
+    dateMode=false;render();
+    if(!kept.length&&nodes.length)tidyLayout('h','all',{quiet:true});
+    else if(lost.length){
+      for(const n of lost){const pr=n.parentId!==null?gn(n.parentId):null,pe=pr?elOf(pr.id):null;if(!pr)continue;const x=pr.x+(pe?pe.offsetWidth:140)+60;n.x=x;n.y=freeY(x,pr.y,140,36);}
+      render();
+    }
+    fitAll();toast('Date axis off');
   }
   const btn=$('#datemode-toggle');if(btn)btn.textContent='Date Axis: '+(dateMode?'On':'Off');
   canvas.classList.toggle('dm-on',dateMode);
@@ -2312,7 +2467,7 @@ function drawDateAxis(){
     const qi=c.y*4+Math.floor(c.m/3);
     if(!qc||qc.qi!==qi){qc={qi,y:c.y,q:Math.floor(c.m/3)+1,s:c.s,e:c.e};quarters.push(qc);}else qc.e=c.e;
     if(mw>=3)lines+='<div class="dm-line'+(c.m%3===0?' q':'')+'" style="left:'+l+'px"></div>';
-    if(c.m%2===1&&mw>=3)bands+='<div class="dm-band" style="left:'+l+'px;width:'+w+'px"></div>';
+    if(qi%2===1&&mw>=3)bands+='<div class="dm-band" style="left:'+l+'px;width:'+w+'px"></div>';
     const lab=mw>=44?DM_MON[c.m]:mw>=22?DM_MON[c.m][0]:'';
     hm+='<div class="dm-cell m" style="left:'+l+'px;width:'+w+'px">'+lab+'</div>';
   }
@@ -2331,10 +2486,10 @@ function drawDateAxis(){
     if(top>H||top+h<52)continue;
     lanes+='<div class="dm-lane" style="top:'+top+'px;height:'+h+'px;background:'+L.color+';opacity:0.07"></div>';
     // pinned caption, shown once the lane's own heading card has scrolled off to the left
-    if(panX+L.right*zoom<140&&h>=18)lbls+='<div class="dm-lanelbl" style="top:'+top+'px;height:'+Math.max(h,28)+'px;border-left-color:'+L.color+'">'+esc(L.text)+'</div>';
+    if(panX+L.edge*zoom<135&&h>=18)lbls+='<div class="dm-lanelbl" style="top:'+top+'px;height:'+Math.max(h,28)+'px;border-left-color:'+L.color+'">'+esc(L.text)+'</div>';
   }
   gr.innerHTML=lanes+bands+lines+today;
-  lb.innerHTML=lbls;
+  lb.innerHTML=lbls;dmPinnedShown=!!lbls;
   ax.innerHTML=hq+hm+tag;
 }
 window.addEventListener('resize',()=>{if(dateMode)drawDateAxis();});
@@ -2379,7 +2534,7 @@ function dmBeginResize(e,node,side){
   window.addEventListener('mousemove',mv);window.addEventListener('mouseup',up);
 }
 // Tidy for the date axis: each workstream becomes a swimlane; its dated items are packed into as few rows as fit
-function dateTidy(scope){
+function dateTidy(scope,quiet){
   hideDetail();
   let tops;
   if(scope==='branch'){
@@ -2402,8 +2557,10 @@ function dateTidy(scope){
     else{kids.forEach((k,i)=>lanes.push({head:k,items:k.collapsed?[]:below(k),root:i===0?t:null,rootGroup:t}));}
   }
   let y=Math.min(...tops.map(t=>t.y));
-  const laneInfo=[];
+  const laneInfo=[],rootOwn=new Set();
   for(const L of lanes){
+    // a root that has dates of its own is a bar, so it gets a row of its own above its first lane
+    if(L.root&&dmInfo(L.root)){L.root.y=y;rootOwn.add(L.root.id);y+=ROW;}
     const dated=L.items.filter(n=>dmInfo(n)).sort(cmp),undated=L.items.filter(n=>!dmInfo(n));
     const own=dmInfo(L.head)?[L.head]:[];
     const rowsEnd=[];const place=n=>{
@@ -2415,16 +2572,19 @@ function dateTidy(scope){
     // x for dated nodes is known from their dates
     applyDateLayout();
     own.concat(dated).forEach(place);
-    let extra=rowsEnd.length;undated.forEach(n=>{n.y=y+extra*ROW;extra++;});
-    const rows=Math.max(1,extra);
-    laneInfo.push({L,top:y,rows});
-    y+=rows*ROW+LANE_GAP;
+    // undated items stack beneath the dated rows, each as tall as its own card; an undated heading card also needs room
+    let uy=y+Math.max(rowsEnd.length,own.length?1:0)*ROW;
+    undated.forEach(n=>{n.y=uy;const e=elOf(n.id);uy+=Math.max(ROW,(e?e.offsetHeight:30)+6);});
+    const he=elOf(L.head.id),headNeed=(!own.length&&he)?he.offsetHeight+6:0;
+    const laneH=Math.max(uy-y,headNeed,ROW);
+    laneInfo.push({L,top:y,rows:Math.round(laneH/ROW)});
+    y+=laneH+LANE_GAP;
   }
   // roots sit at the top of their first lane
-  for(const li of laneInfo){if(li.L.root)li.L.root.y=li.top;}
+  for(const li of laneInfo){if(li.L.root&&!rootOwn.has(li.L.root.id))li.L.root.y=li.top;}
   dmParkUndated();render();autoSave();
   if(scope==='all')fitAll();
-  toast('Tidied: swimlanes on the date axis'+(scope==='branch'?' (selected branch)':''));
+  if(!quiet)toast('Tidied: swimlanes on the date axis'+(scope==='branch'?' (selected branch)':''));
 }
 // ── Connector routing (Squared style) ──
 let connStyle='curved';
@@ -2516,6 +2676,9 @@ function linkPts(nA,nB,rects){
 function drawConnectors(){
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
   const sq=connStyle==='squared',rects=sq?nodeRects():null;
+  const lvm=dateMode?linkVis:'all',FS=focusSets(dateMode&&lvm==='selected'),quietDM=focusSel&&dateMode&&lvm==='all'&&!FS;
+  const fw=(n)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
+  const fx=(a,b)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(a)||FS.core.has(b))?1:0):FS?((FS.core.has(a)||FS.core.has(b))?1:0):(quietDM?0.5:1);
 
   // Parent-child wires
   for(const node of nodes){
@@ -2524,6 +2687,7 @@ function drawConnectors(){
     const pEl=elOf(parent.id);
     const cEl=elOf(node.id);
     if(!pEl||!cEl)continue;
+    const _fw=fw(node);if(_fw===0)continue;
 
     const px=parent.x+pEl.offsetWidth,py=parent.y+pEl.offsetHeight/2;
     const cx=node.x,cy=node.y+cEl.offsetHeight/2;
@@ -2535,12 +2699,13 @@ function drawConnectors(){
     path.setAttribute('d',tp?cmdsToSvg(polyCmds(tp,10)):'M'+px+','+py+' C'+midX+','+py+' '+midX+','+cy+' '+cx+','+cy);
     path.setAttribute('stroke',c.wire);path.setAttribute('stroke-width','2.5');path.setAttribute('fill','none');
     path.setAttribute('stroke-linecap','round');
+    if(_fw<1)path.setAttribute('opacity',_fw);
     svgEl.appendChild(path);
 
     // End dots
     [[cx,cy,3.5],[px,py,3]].forEach(([x,y,r])=>{
       const d=document.createElementNS('http://www.w3.org/2000/svg','circle');
-      d.setAttribute('cx',x);d.setAttribute('cy',y);d.setAttribute('r',r);d.setAttribute('fill',c.wire);
+      d.setAttribute('cx',x);d.setAttribute('cy',y);d.setAttribute('r',r);d.setAttribute('fill',c.wire);if(_fw<1)d.setAttribute('opacity',_fw);
       svgEl.appendChild(d);
     });
   }
@@ -2550,6 +2715,7 @@ function drawConnectors(){
     if(isHidden(dn))continue;
     for(const pid of depsOf(dn)){
       const pn=gn(pid);if(!pn||isHidden(pn))continue;
+      const _fd=fx(pn.id,dn.id);if(_fd===0)continue;
       const pe=elOf(pn.id),de=elOf(dn.id);if(!pe||!de)continue;
       const pcx=pn.x+pe.offsetWidth/2,pcy=pn.y+pe.offsetHeight/2,dcx=dn.x+de.offsetWidth/2,dcy=dn.y+de.offsetHeight/2;
       const a=rectEdge(pcx,pcy,pe.offsetWidth+6,pe.offsetHeight+6,dcx,dcy),b=rectEdge(dcx,dcy,de.offsetWidth+10,de.offsetHeight+10,pcx,pcy);
@@ -2561,7 +2727,7 @@ function drawConnectors(){
       path.setAttribute('stroke-width',done?'2':'2.5');
       if(done)path.setAttribute('stroke-dasharray','2 5');
       path.setAttribute('fill','none');path.setAttribute('stroke-linecap','round');
-      path.setAttribute('marker-end','url(#'+(done?'arrowdone':'arrowdep')+')');
+      path.setAttribute('marker-end','url(#'+(done?'arrowdone':'arrowdep')+')');if(_fd<1)path.setAttribute('opacity',_fd);
       const tt=document.createElementNS('http://www.w3.org/2000/svg','title');tt.textContent=pn.text+' \u2192 '+dn.text+' (must be finished first)';path.appendChild(tt);
       svgEl.appendChild(path);
     }
@@ -2571,6 +2737,8 @@ function drawConnectors(){
   for(const link of crossLinks){
     const nA=gn(link.from),nB=gn(link.to);
     if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;
+    const _fl=fx(nA.id,nB.id);if(_fl===0)continue;
+    const _g0=svgEl.childNodes.length;
     const eA=elOf(nA.id);
     const eB=elOf(nB.id);
     if(!eA||!eB)continue;
@@ -2619,6 +2787,7 @@ function drawConnectors(){
       bg.setAttribute('fill','rgba(30,30,30,0.7)');
       svgEl.appendChild(bg);svgEl.appendChild(text);
     }
+    if(_fl<1)for(let i=_g0;i<svgEl.childNodes.length;i++)svgEl.childNodes[i].setAttribute('opacity',_fl);
   }
 }
 
@@ -2852,7 +3021,10 @@ $('#dp-start-clear').addEventListener('click',()=>{$('#dp-start').value='';saveD
 detailPanel.querySelectorAll('.dp-due-quick button').forEach(b=>b.addEventListener('click',()=>setDetailDue(isoFromToday(+b.dataset.d||0,+b.dataset.m||0))));
 
 // ── Selection ──
-function selectNode(id){selectedId=id;canvas.querySelectorAll('.node').forEach(el=>{const on=parseInt(el.dataset.id)===id;el.classList.toggle('selected',on);el.tabIndex=on?0:-1;el.setAttribute('aria-selected',on?'true':'false');});
+function selectNode(id){const _prev=selectedId;selectedId=id;if(dateMode&&!showUndated&&id!==null&&gn(id)&&!canvas.querySelector('[data-id="'+id+'"]')){_dmHid=null;if(dmHiddenUndated().has(id))render();} // a node just added without a date stays visible while it is selected
+ canvas.querySelectorAll('.node').forEach(el=>{const on=parseInt(el.dataset.id)===id;el.classList.toggle('selected',on);el.tabIndex=on?0:-1;el.setAttribute('aria-selected',on?'true':'false');});
+  if(dateMode&&!showUndated&&_prev!==null&&_prev!==id&&_prev!==editingId&&gn(_prev)){_dmHid=null;if(dmHiddenUndated().has(_prev)){toast('\u201C'+gn(_prev).text+'\u201D has no date, so it is hidden on the Date Axis until you give it one');render();}}
+  if(focusSel||dateMode||canvas.classList.contains('has-focus')){applyFocus();drawConnectors();}
   if(id!==null&&!editingId){const a=document.activeElement;if(!a||a===document.body||(a.classList&&a.classList.contains('node'))){const se=elOf(id);if(se&&a!==se)se.focus({preventScroll:true});}}
  colorBar.classList.toggle('visible',id!==null);updateColorBarActive();updateToolbarEnabled();if(!id&&!detailPinned)hideDetail();}
 
@@ -3945,7 +4117,7 @@ function autoLayoutOutline(){hideDetail();snap();const INDENT=60,VGAP=14;
   render();autoSave();toast('Outline layout applied');
 }
 
-function fitAll(){if(!nodes.length)return;render();let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),vw=_vr.width,inset=dateMode?52:0,vh=_vr.height-inset;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
+function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),vw=_vr.width,inset=dateMode?52:0,vh=_vr.height-inset;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
 
 function centreView(){panX=0;panY=0;zoom=1;updateTransform();autoSave();}
 
@@ -4018,7 +4190,7 @@ function pngChips(ctx,el,x,y,bw){
     ctx.restore();
   });
 }
-function exportPNG(){render();let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
+function exportPNG(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return;}let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
   const pad=dateMode?110:50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;const cv=document.createElement('canvas');const dpr=2;cv.width=cw*dpr;cv.height=ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
   const bgc=BG_COLORS.find(b=>b.id===bgColorId);ctx.fillStyle=bgc?bgc.color:'#1a1d23';ctx.fillRect(0,0,cw,ch);
   if(dateMode)dmExportAxis(ctx,x1,y1,pad,cw,ch);
@@ -4094,7 +4266,7 @@ function mmGoto(e){
 })();
 
 // ── Pan & Zoom ──
-function updateTransform(){canvas.style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')';canvas.classList.toggle('dm-full',zoom>=1.15);if(dateMode)drawDateAxis();}
+function updateTransform(){canvas.style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')';canvas.classList.toggle('dm-full',zoom>=1.15);if(dateMode){drawDateAxis();dmShiftLabels();}}
 function onWrapDown(e){if(e.target===wrap||e.target===canvas||e.target===svgEl||(e.target.closest&&e.target.closest('#date-axis'))){if(linkMode){cancelLinkMode();return;}isPanning=true;panStartX=e.clientX-panX;panStartY=e.clientY-panY;wrap.classList.add('grabbing');selectNode(null);hideCtx();if(multiSelected.size)clearMultiSelect();if(!detailPinned)hideDetail();}}
 wrap.addEventListener('mousedown',onWrapDown);
 function onPointerMove(e){
@@ -4143,7 +4315,7 @@ function onPointerUp(e){
     const _dmId=dragNode,_dmMoved=dragMoved&&dateMode&&!ctrlDragging;
     dragNode=null;ctrlDragging=false;dragMoved=false;dragDescOffsets={};
     dmTip(0,0,null);
-    if(_dmMoved){dmCommitDrag(_dmId);render();}
+    if(_dmMoved){dmCommitDrag(_dmId);dmNoFix=true;render();dmNoFix=false;}
     autoSave();
   }
 }
@@ -4410,6 +4582,7 @@ function buildAgenda(){
 // Reveal a node (expanding collapsed parents), centre the view on it and flash it
 function jumpToNode(id){
   const n=gn(id);if(!n)return;
+  if(dateMode&&!showUndated&&dmHiddenUndated().has(id)){setShowUndated(true);toast('Showing nodes with no date so that \u201C'+n.text+'\u201D is visible');}
   const anc=[];let p=n.parentId!==null?gn(n.parentId):null;
   while(p){anc.push(p);p=p.parentId!==null?gn(p.parentId):null;}
   const root=anc.length?anc[anc.length-1]:n;
