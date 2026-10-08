@@ -1,4 +1,4 @@
-# MINDPLANNER FEATURES (v1.13.1)
+# MINDPLANNER FEATURES (v1.17.1)
 
 MAPPING AND EDITING
 
@@ -29,12 +29,25 @@ Fit All, Centre, zoom, and a minimap
 Focus Roots, to show only the roots you choose
 Outline view (indented list)
 Timeline (Gantt style)
-Date Axis, which lays the map out along a calendar with months and quarters (Q1 to Q4)
+Date Axis, which lays the map out along a calendar with months and quarters (Q1 to Q4). See DATE AXIS below.
 Agenda, grouped by due date
 Board (kanban), with columns by status
 Status report: summary figures, overdue items, blocked items, and what is due next. It is printable.
 Statistics and legend
 Presentation mode
+
+DATE AXIS
+
+Bars for items with a start and due date, markers for items with one date, grouped in swimlanes by workstream
+Quarter and month headings, month gridlines, alternate quarter shading, and a Today line
+Zoom buttons for Q1, Q2, Q3, Q4 and the whole Year, plus a Today button
+Fold or unfold lanes, one at a time (the - and + button on a lane bar) or all at once (Fold lanes)
+Lines setting: Off, Selected (only the selected node's links) or All
+Bars coloured by workstream, with a status stripe on the left of each bar (Settings: Date Axis Bar Colours)
+Nodes with no date are hidden, unless something dated sits beneath them. A button shows how many are hidden and brings them back
+Lane names pinned to the left edge, and bar names that stay readable when the start of a bar is off-screen
+Drag a bar to change its dates, or drag its ends to change the start or due date
+Automatic tidy so that nodes never overlap, and switching the axis off puts every node back where it was
 
 FINDING THINGS
 
@@ -60,7 +73,8 @@ Print (Ctrl+P)
 SETTINGS AND INTERFACE
 
 Light and dark theme
-Hover popups on or off
+Hover popups on or off (off by default)
+Highlight Selection: fade everything unrelated to the selected node and show only its own links and dependencies
 Grouped toolbar with menus: File, Edit, View, Link, Tidy, Settings
 Close (×) buttons on every panel
 Phone layout: quick-action bar at the bottom (add, child, sibling, link, views)
