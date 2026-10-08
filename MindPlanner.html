@@ -1020,24 +1020,26 @@
   </div>
   <div class="sep tb-wide"></div>
   <button class="tb-btn tb-view tb-wide" id="tb-focus" onclick="toggleFocusPanel()" title="Show or hide whole root trees so you can concentrate on one (G)">Focus</button>
-  <button class="tb-btn tb-view tb-wide" id="date-btn" onclick="toggleDateMode()" title="Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map.">Date Axis</button>
   <div class="dropdown tb-wide" id="dd-tidy">
     <button class="tb-btn tb-view" onclick="toggleDD('dd-tidy')" title="Auto-arrange nodes into a tree, an outline, or date swimlanes when the Date Axis is on">Tidy &#9662;</button>
     <div class="dropdown-menu" id="ddm-tidy">
       <div class="dd-label">Whole map</div>
       <button class="dd-item" onclick="tidyLayout('h','all');closeDD()" title="Arrange the whole map as a left-to-right tree, siblings ordered by due date">Horizontal tree &rarr;</button>
       <button class="dd-item" onclick="tidyLayout('v','all');closeDD()" title="Arrange the whole map as a top-to-bottom tree, siblings ordered by due date">Vertical tree &darr;</button>
+      <button class="dd-item" onclick="tidyLayout('b','all');closeDD()" title="Root in the middle, branches split between the left and right sides. Best for large maps">Balanced (both sides) &harr;</button>
       <button class="dd-item" onclick="autoLayoutOutline();closeDD()" title="Arrange the map as an indented list">Outline (indented list)</button>
       <div class="dd-sep"></div>
       <div class="dd-label">Selected branch only</div>
       <button class="dd-item" onclick="tidyLayout('h','branch');closeDD()" title="Arrange only the selected branch as a left-to-right tree">Horizontal tree &rarr;</button>
       <button class="dd-item" onclick="tidyLayout('v','branch');closeDD()" title="Arrange only the selected branch as a top-to-bottom tree">Vertical tree &darr;</button>
+      <button class="dd-item" onclick="tidyLayout('b','branch');closeDD()" title="Arrange only the selected branch with its children split between both sides">Balanced (both sides) &harr;</button>
     </div>
   </div>
   <div class="sep tb-wide"></div>
   <div class="tb-group tb-wide" role="group" aria-label="Views">
     <button class="tb-btn tb-view" id="tb-agenda" onclick="toggleAgenda()" title="List everything with a due date, grouped by urgency (A)">Agenda</button>
     <button class="tb-btn tb-view" id="tb-timeline" onclick="toggleTimeline()" title="Gantt-style rows of start and due dates that you can drag to change (T)">Timeline</button>
+    <button class="tb-btn tb-view" id="date-btn" onclick="toggleDateMode()" title="Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map.">Date Axis</button>
     <button class="tb-btn tb-view" id="tb-board" onclick="toggleBoard()" title="Kanban columns by status, owner or project. Drag cards to change them (K)">Board</button>
     <button class="tb-btn tb-view" id="tb-report" onclick="toggleReport()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed (R)">Report</button>
   </div>
@@ -1315,7 +1317,7 @@
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <h2>MindPlanner</h2>
-    <div class="about-ver" id="about-ver">Version 1.17.1</div>
+    <div class="about-ver" id="about-ver">Version 1.19.0</div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1762,6 +1764,7 @@ function storageSet(k,v){
 
 // ── Init ──
 function init(){
+  let prevCount=0;
   let saved=storageGet(STORE_KEY);
   if(!saved&&STORE_KEY!==LEGACY_KEY)saved=storageGet(LEGACY_KEY);
   if(saved){
@@ -1779,7 +1782,6 @@ function init(){
       if(d.focusSel!==undefined)setFocusSel(d.focusSel!==false,true);
       if(d.linkVis)setLinkVis(d.linkVis,true);if(d.barColors)setBarColors(d.barColors,true);
       if(d.showUndated!==undefined)setShowUndated(!!d.showUndated,true);
-      if(d.dateMode!==undefined)setDateMode(!!d.dateMode,true);
       if(d.hoverPopup!==undefined){hoverPopup=d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
       if(d.hideCompleted!==undefined){hideCompleted=d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
       if(d.colorLabels) d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});
@@ -1788,11 +1790,15 @@ function init(){
       bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
       savedViews=sanitizeViews(d.savedViews);
       nodes.forEach(n=>{if(!n.colorId)n.colorId='default';if(n.notes===undefined)n.notes='';if(!n.project)n.project='';if(!n.owner)n.owner='';if(!n.status)n.status='';if(!n.createdAt)n.createdAt=new Date().toISOString();if(!n.modifiedAt)n.modifiedAt=n.createdAt;});
+      // Always open on a fresh map so it is never mistaken for a saved file; keep the last map in Restore backup
+      if(nodes.length>1){dateMode=!!d.dateMode;pushBackup('last session',true);dateMode=false;prevCount=nodes.length;}
+      createDefault();bookmarks=[];savedViews=[];hiddenRoots=new Set();dateOrigin='';
     }catch(e){createDefault();}
   }else createDefault();
   setBgColor(bgColorId); setBgPattern(bgPatternId);
   render();updateTransform();
   scheduleRollover();setTimeout(announceDue,400);
+  if(prevCount)setTimeout(()=>toast('Started a new map. Your last map is under File > Restore backup'),900);
   initSig=sigOf();curSig=initSig;
   const _bk=readBackups();lastBackupSig=_bk.length?_bk[0].h:'';
   pushBackup('on open',true);
@@ -4071,6 +4077,7 @@ function tidyLayout(orient,scope,opts){
   if(!tops.length)return;
   if(!opts.noSnap)snap();
   render();
+  if(orient==='b'){tidyBalanced(tops,scope,opts);return;}
   const H=orient==='h',LEVEL=H?60:56,GAP=H?14:22,TREEGAP=70;
   const dim=n=>{const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};};
   const crossOf=n=>{const d=dim(n);return H?d.h:d.w;},depthOf=n=>{const d=dim(n);return H?d.w:d.h;};
@@ -4102,6 +4109,48 @@ function tidyLayout(orient,scope,opts){
   if(opts.quiet)return;
   if(scope==='all')fitAll();
   toast('Tidied: '+(H?'horizontal':'vertical')+' tree'+(scope==='branch'?' (selected branch)':''));
+}
+// Balanced layout: the root sits in the middle, its branches are split between the right and left sides
+// (by size, keeping due-date order) and each branch grows outward in tidy columns.
+function tidyBalanced(tops,scope,opts){
+  const LEVEL=60,GAP=14,TREEGAP=70;
+  const dim=n=>{const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};};
+  const byStart=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
+  const kids=n=>n.collapsed?[]:gch(n.id).filter(c=>!isHidden(c)).map((c,i)=>[c,i]).sort((a,b)=>byStart(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
+  const span=new Map(),kt=new Map();
+  function measure(n){let tot=0;kids(n).forEach((c,i)=>{tot+=measure(c)+(i?GAP:0);});kt.set(n.id,tot);const sp=Math.max(dim(n).h,tot);span.set(n.id,sp);return sp;}
+  function sizes(list,out,l){list.forEach(n=>{out[l]=Math.max(out[l]||0,dim(n).w);sizes(kids(n),out,l+1);});}
+  const first=tops[0],rx=first.x,rcy=first.y+dim(first).h/2;
+  let cy=null;
+  tops.forEach(t=>{
+    const all=kids(t);all.forEach(measure);
+    const tot=all.reduce((a,c)=>a+span.get(c.id),0);
+    let acc=0,best=all.length,bd=Infinity;
+    for(let k=1;k<=all.length;k++){acc+=span.get(all[k-1].id);const d=Math.abs(tot-2*acc);if(d<bd){bd=d;best=k;}}
+    const right=all.slice(0,best),left=all.slice(best);
+    const hOf=l=>l.reduce((a,c,i)=>a+span.get(c.id)+(i?GAP:0),0);
+    const rh=hOf(right),lh=hOf(left),th=Math.max(dim(t).h,rh,lh);
+    if(cy===null)cy=rcy-th/2;
+    const mid=cy+th/2,rd=dim(t);
+    t.x=rx;t.y=mid-rd.h/2;
+    function side(list,dir,hh){
+      const sz=[];sizes(list,sz,0);const edge=[];let a=0;sz.forEach((w,l)=>{edge[l]=a;a+=w+LEVEL;});
+      function put(n,l,cs){
+        const d=dim(n),sp=span.get(n.id);
+        n.y=cs+sp/2-d.h/2;
+        n.x=dir>0?rx+rd.w+LEVEL+edge[l]:rx-LEVEL-edge[l]-d.w;
+        let cur=cs+(sp-kt.get(n.id))/2;
+        kids(n).forEach(c=>{put(c,l+1,cur);cur+=span.get(c.id)+GAP;});
+      }
+      let cs=mid-hh/2;list.forEach(c=>{put(c,0,cs);cs+=span.get(c.id)+GAP;});
+    }
+    side(right,1,rh);side(left,-1,lh);
+    cy+=th+TREEGAP;
+  });
+  render();autoSave();
+  if(opts.quiet)return;
+  if(scope==='all')fitAll();
+  toast('Tidied: balanced tree'+(scope==='branch'?' (selected branch)':''));
 }
 function autoLayout(){tidyLayout('h','all');}
 function autoLayoutVertical(){tidyLayout('v','all');}

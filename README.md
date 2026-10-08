@@ -1,4 +1,4 @@
-# MINDPLANNER FEATURES (v1.17.1)
+# MINDPLANNER FEATURES (v1.19.0)
 
 MAPPING AND EDITING
 
@@ -24,12 +24,13 @@ Bookmarks, with quick jump
 LAYOUT AND VIEWS
 
 Horizontal tree and vertical tree, for the whole map or a single branch
+Balanced tree (both sides), with the root in the middle and branches split left and right, for large maps
 Tidy layout
 Fit All, Centre, zoom, and a minimap
 Focus Roots, to show only the roots you choose
 Outline view (indented list)
 Timeline (Gantt style)
-Date Axis, which lays the map out along a calendar with months and quarters (Q1 to Q4). See DATE AXIS below.
+Date Axis (next to Agenda and Timeline on the toolbar), which lays the map out along a calendar with months and quarters (Q1 to Q4). See DATE AXIS below.
 Agenda, grouped by due date
 Board (kanban), with columns by status
 Status report: summary figures, overdue items, blocked items, and what is due next. It is printable.
@@ -64,6 +65,7 @@ Shift dates for a node, or for a branch plus its linked nodes, by a number of da
 FILES AND SAVING
 
 Saved automatically in the browser (localStorage), with rolling backups and a Restore backup option
+The app always opens on a fresh map; your previous map is kept under File > Restore backup ("last session")
 Save, Save As and Load as a JSON file
 Auto-save to your file, using the File System Access API, with the save status shown
 Export to CSV, Markdown and PNG
