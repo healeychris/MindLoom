@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.20.2)
+# MINDLOOM FEATURES (v1.26.0)
 
 MAPPING AND EDITING
 
@@ -18,7 +18,12 @@ NODE DETAILS
 Status: To do, Ongoing, Completed, Blocked, Awaiting and others
 Due dates and start dates, with quick buttons (Today, Tomorrow, +1 week, +2 weeks, +1 month) that work on whichever date field you click
 Owner and tags
-Notes and details panel
+Notes and a movable details panel (drag its title bar, double-click to reset)
+Optional sections, opened with buttons in the details panel (open by default when the node has content):
+  Tags
+  Checklist: tick-off items inside a node, with a count shown on the node
+  Progress: % complete, shown as a bar on the node
+  Repeat: recurring tasks (every n days, weeks, months or years). Completing one rolls its dates forward, ticks the checklist off and resets progress
 Bookmarks, with quick jump
 
 LAYOUT AND VIEWS
@@ -31,7 +36,7 @@ Focus Roots, to show only the roots you choose
 Outline view (indented list)
 Timeline (Gantt style)
 Date Axis (next to Agenda and Timeline on the toolbar), which lays the map out along a calendar with months and quarters (Q1 to Q4). See DATE AXIS below.
-Agenda, grouped by due date
+Agenda (key A): a side panel grouping your tasks into Overdue, Due today, Next 7 days and Under way, with an owner filter. Tick a task to complete it, and tick checklist items inline
 Board (kanban), with columns by status
 Status report: summary figures, overdue items, blocked items, and what is due next. It is printable.
 Statistics and legend
@@ -39,6 +44,8 @@ Presentation mode
 
 DATE AXIS
 
+Critical path view: show only critical items with their context, with critical links highlighted
+Slide view: a clean, labelled-lane layout for PowerPoint, with non-critical items dimmed, a legend, and high-resolution PNG export
 Bars for items with a start and due date, markers for items with one date, grouped in swimlanes by workstream
 Quarter and month headings, month gridlines, alternate quarter shading, and a Today line
 Zoom buttons for Q1, Q2, Q3, Q4 and the whole Year, plus a Today button
@@ -55,7 +62,7 @@ FINDING THINGS
 Search (/)
 Filter bar (Ctrl+F)
 Hide Completed
-Saved Views, which store a named combination of filters, layout and view, and can be recalled at any time
+Saved Views (toolbar button), which store a named combination of filters, layout and view, and can be recalled at any time
 Command palette (Ctrl+K), with recent commands, searches every action
 
 DATES

@@ -138,6 +138,7 @@
   #dm-zoom { display:flex; gap:3px; margin-right:6px; flex-wrap:wrap; justify-content:flex-end; }
   #dm-zoom button { padding:3px 8px; }
   #dm-tools button { background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:6px; font-size:12px; padding:3px 10px; cursor:pointer; opacity:0.92; }
+  #dm-tools button.on { border-color:#f5c518; color:#f5c518; opacity:1; }
   #dm-tools button:hover { border-color:var(--accent); opacity:1; }
   .node.dm-bar.dm-grp .collapse-btn { display:flex !important; left:3px; right:auto; width:16px; height:16px; font-size:12px; line-height:1; }
   .node.dm-bar.dm-grp { padding-left:24px; }
@@ -155,6 +156,12 @@
   .dm-todaytag { position:absolute; top:30px; transform:translateX(-50%); background:#e5484d; color:#fff; font-size:10px; line-height:16px; padding:0 6px; border-radius:8px; }
   #date-lbls { position:absolute; left:0; right:0; top:0; bottom:0; pointer-events:none; overflow:hidden; z-index:15; display:none; }
   .dm-lane { position:absolute; left:0; right:0; }
+  .dm-lanelbl.slide { width:auto; max-width:70%; height:19px; padding:0 10px; font-size:12px; font-weight:700; background:transparent; border-left-width:4px; border-radius:0; opacity:1; white-space:nowrap; text-overflow:ellipsis; }
+  #canvas.slide-on .node.slide-hide { visibility:hidden; }
+  #canvas.slide-on .node.dm-bar:not(.crit), #canvas.slide-on .node.dm-ms:not(.crit) { opacity:0.5; }
+  #canvas.slide-on .node.crit { filter:drop-shadow(0 0 5px rgba(245,197,24,0.6)); }
+  #slide-legend { position:absolute; left:14px; bottom:14px; z-index:25; display:none; gap:14px; align-items:center; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:12px; color:var(--text); opacity:0.95; pointer-events:none; }
+  #slide-legend span { display:inline-flex; align-items:center; gap:5px; }
   .dm-lanelbl { position:absolute; left:0; width:130px; box-sizing:border-box; padding:3px 8px; font-size:11px; font-weight:600; line-height:1.25; color:var(--text); background:var(--surface); border-left:4px solid; border-radius:0 6px 6px 0; overflow:hidden; opacity:0.94; display:flex; align-items:center; }
   #dm-tip { position:fixed; z-index:300; pointer-events:none; background:var(--surface); color:var(--text); border:1px solid var(--accent); border-radius:6px; padding:3px 8px; font-size:12px; display:none; box-shadow:0 4px 14px rgba(0,0,0,0.4); }
   body.light-theme #date-axis { background:#e3e6ec; border-bottom-color:#c5cad3; }
@@ -168,6 +175,7 @@
   body:has(#canvas.dm-on) #stats { top:100px; }
   .node.dm-ms { flex-direction:row; align-items:center; gap:6px; padding:0; min-width:0; height:26px; background:transparent !important; border-color:transparent !important; box-shadow:none !important; border-radius:6px; }
   .node.dm-ms .label { font-size:13px; color:var(--text); flex:none; }
+  .node.dm-ms .node-ck, .node.dm-bar .node-ck, .node.dm-ms .node-rp, .node.dm-bar .node-rp { display:none !important; }
   .node.dm-ms .info-dot, .node.dm-ms .status-icon, .node.dm-ms .node-due, .node.dm-ms .node-tags, .node.dm-ms .collapse-btn, .node.dm-ms .child-count,
   .node.dm-bar .info-dot, .node.dm-bar .status-icon, .node.dm-bar .node-due, .node.dm-bar .node-tags, .node.dm-bar .collapse-btn, .node.dm-bar .child-count { display:none !important; }
   .node.dm-ms .more-btn { position:absolute; right:-24px; top:3px; }
@@ -241,7 +249,7 @@
     box-shadow:0 12px 40px rgba(0,0,0,0.5); z-index:150; display:none;
   }
   #detail-panel.visible { display:block; }
-  #detail-panel h3 { font-size:13px; font-weight:600; margin-bottom:7px; display:flex; align-items:center; gap:8px; padding-right:24px; }
+  #detail-panel h3 { cursor:move; user-select:none; touch-action:none; font-size:13px; font-weight:600; margin-bottom:7px; display:flex; align-items:center; gap:8px; padding-right:24px; }
   #detail-panel h3 .color-pip { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
   #detail-panel .notes-area {
     width:100%; min-height:100px; height:130px; max-height:45vh;
@@ -515,11 +523,65 @@
   #save-badge.sb-warn { color:#ffc866; border-color:rgba(255,160,40,0.55); }
   #save-badge.sb-stale { color:#ff9a9a; border-color:rgba(224,82,82,0.65); font-weight:600; }
   #save-badge.sb-muted { color:var(--text-muted); }
-  #agenda-panel { position:fixed; top:48px; right:16px; z-index:130; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px 14px 10px; width:340px; max-height:80vh; overflow-y:auto; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; }
-  #agenda-panel.visible { display:block; }
   .agenda-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .agenda-head .stats-title { margin:0; flex:1; }
   .agenda-opt { font-size:11px; color:var(--text-muted); display:flex; gap:6px; align-items:center; margin-bottom:8px; cursor:pointer; }
+  .node .node-ck { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(255,255,255,0.07); color:#aab2c0; border:1px solid rgba(255,255,255,0.12); }
+  .node .node-ck.done { background:rgba(63,179,107,0.18); color:#7fd6a0; border-color:rgba(63,179,107,0.5); }
+  .node .node-rp { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(120,170,255,0.12); color:#9dbcff; border:1px solid rgba(120,170,255,0.3); }
+  #dp-rp-sec { display:none; align-items:center; gap:6px; margin:2px 0 6px; flex-wrap:wrap; }
+  #dp-rp-sec > span { font-size:12px; color:var(--text-muted); }
+  #dp-rp-sec input[type=number] { width:56px; }
+  #dp-rp-sec select { width:auto; }
+  #dp-rp-sec .dp-rp-quick { display:flex; gap:4px; flex-wrap:wrap; width:100%; }
+  #dp-rp-note { width:100%; font-size:11px; color:var(--text-muted); }
+  .node .node-pg { position:absolute; left:4px; right:4px; bottom:2px; height:3px; border-radius:2px; background:rgba(255,255,255,0.16); overflow:hidden; pointer-events:none; }
+  .node .node-pg i { display:block; height:100%; background:#4a9bff; }
+  .node .node-pg.full i { background:#3fb36b; }
+  .node.dm-bar .node-pg { left:0; right:0; bottom:0; height:4px; border-radius:0; }
+  .node.dm-ms .node-pg { display:none; }
+  #dp-pg-sec { display:none; align-items:center; gap:8px; margin:2px 0 6px; flex-wrap:wrap; }
+  #dp-pg-sec input[type=range] { flex:1; min-width:120px; accent-color:var(--accent); }
+  #dp-pg-sec input[type=number] { width:56px; }
+  #dp-pg-sec .dp-pg-quick { display:flex; gap:4px; width:100%; }
+  .dp-togs { display:flex; gap:6px; margin:8px 0 4px; flex-wrap:wrap; }
+  .dp-tog { background:none; border:1px solid var(--border); border-radius:6px; color:var(--text-muted); font:inherit; font-size:12px; padding:3px 10px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; }
+  .dp-tog::before { content:'+'; font-weight:700; }
+  .dp-tog[aria-expanded=true]::before { content:'\2212'; }
+  .dp-tog:hover { color:var(--text); border-color:var(--text-muted); }
+  .dp-tog[aria-expanded=true] { color:var(--accent); border-color:var(--accent); }
+  .dp-tog i { font-style:normal; font-size:10.5px; background:rgba(128,128,128,0.25); color:var(--text); border-radius:8px; padding:0 6px; }
+  .dp-tog i:empty { display:none; }
+  #dp-checks { display:flex; flex-direction:column; gap:3px; margin-bottom:4px; }
+  .ck-row { display:flex; align-items:center; gap:6px; }
+  .ck-row input[type=checkbox] { flex:none; margin:0; accent-color:var(--accent); cursor:pointer; }
+  .ck-row input.ck-text { flex:1; min-width:0; background:transparent; border:1px solid transparent; border-radius:4px; color:var(--text); font:inherit; font-size:12.5px; padding:2px 4px; }
+  .ck-row input.ck-text:hover, .ck-row input.ck-text:focus { border-color:var(--border); background:rgba(128,128,128,0.08); outline:none; }
+  .ck-row.done input.ck-text { text-decoration:line-through; color:var(--text-muted); }
+  .ck-row .ck-del { flex:none; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:15px; line-height:1; padding:0 3px; opacity:0.5; }
+  .ck-row .ck-del:hover { opacity:1; color:#e05252; }
+  .ck-bar { height:4px; border-radius:2px; background:rgba(128,128,128,0.25); overflow:hidden; margin:2px 0 6px; } .ck-bar > i { display:block; height:100%; background:#3fb36b; }
+  #dp-ck-add { width:100%; box-sizing:border-box; }
+  #agenda-panel { position:fixed; top:48px; right:16px; z-index:130; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:14px 14px 10px; width:380px; max-width:calc(100vw - 32px); max-height:82vh; overflow-y:auto; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; }
+  #agenda-panel.visible { display:block; }
+  .md-date { font-size:11px; color:var(--text-muted); margin:-4px 0 6px; }
+  .md-bar { display:flex; gap:8px; align-items:center; margin-bottom:8px; font-size:11px; color:var(--text-muted); }
+  .md-bar select { flex:1; min-width:0; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-size:12px; padding:2px 4px; }
+  .md-sum { font-size:11.5px; color:var(--text-muted); margin-bottom:10px; }
+  .md-sum b.o { color:#e05252; } .md-sum b.t { color:#d98a1f; }
+  .md-row { display:flex; gap:8px; align-items:flex-start; padding:5px 4px; border-radius:6px; }
+  .md-row:hover { background:rgba(128,128,128,0.10); }
+  .md-row > input[type=checkbox] { flex:none; margin:3px 0 0; accent-color:#3fb36b; cursor:pointer; width:15px; height:15px; }
+  .md-main { flex:1; min-width:0; cursor:pointer; }
+  .md-title { font-size:12.5px; overflow-wrap:anywhere; }
+  .md-sub { font-size:10.5px; color:var(--text-muted); }
+  .md-when { font-size:11px; color:var(--text-muted); white-space:nowrap; }
+  .md-row.overdue .md-when { color:#e05252; font-weight:600; } .md-row.today .md-when { color:#d98a1f; font-weight:600; }
+  .md-wait { font-size:10.5px; color:#d98a1f; }
+  .md-checks { margin:3px 0 1px 2px; display:flex; flex-direction:column; gap:1px; }
+  .md-ck { display:flex; gap:6px; align-items:flex-start; font-size:11.5px; cursor:pointer; }
+  .md-ck input { flex:none; margin:2px 0 0; accent-color:var(--accent); cursor:pointer; }
+  .md-ck.done span { text-decoration:line-through; color:var(--text-muted); }
   .ag-group { margin-bottom:12px; }
   .ag-group-title { font-size:11px; font-weight:600; letter-spacing:0.4px; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; display:flex; gap:6px; }
   .ag-group-title.overdue { color:#e05252; } .ag-group-title.today { color:#d98a1f; }
@@ -812,6 +874,15 @@
   .node .node-tag { font-size:10px; color:#9dbcff; }
 
   /* ── Narrow screens: quick-action bar replaces the wide toolbar controls ── */
+  @media (min-width:1101px) and (max-width:1700px) {
+    #cmd-btn .cmd-txt, #cmd-btn .cmd-kbd { display:none; }
+    #toolbar { gap:0; padding:0 6px; }
+    #toolbar .tb-btn { padding-left:7px; padding-right:7px; }
+  }
+  @media (min-width:1101px) and (max-width:1450px) {
+    #toolbar .tb-btn { font-size:12px; padding-left:5px; padding-right:5px; }
+    #toolbar .brand { margin-right:4px; }
+  }
   @media (max-width:1100px) {
     #toolbar .tb-wide { display:none !important; }
     #toolbar > .sep { display:none; }
@@ -969,7 +1040,7 @@
         </div>
       </div>
       <div class="dd-sep"></div>
-      <button class="dd-item" onclick="toggleAgenda();closeDD()" title="List everything with a due date, grouped by urgency">Agenda (due dates) <span class="shortcut">A</span></button>
+      <button class="dd-item" onclick="toggleAgenda();closeDD()" title="Your to-do list: overdue, due today, this week and under way, with checklists">Agenda <span class="shortcut">A</span></button>
       <button class="dd-item" onclick="toggleTimeline();closeDD()" title="Gantt-style rows of start and due dates that you can drag to change">Timeline <span class="shortcut">T</span></button>
       <button class="dd-item" onclick="toggleBoard();closeDD()" title="Kanban columns by status, owner or project. Drag cards between columns to change them">Board <span class="shortcut">K</span></button>
       <button class="dd-item" onclick="toggleReport();closeDD()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed. Copy, download or print it">Status report <span class="shortcut">R</span></button>
@@ -989,6 +1060,8 @@
       <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names on the Date Axis">Lane Bands: On</button>
       <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
       <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Date Axis only: show no lines, only the selected node's lines, or every line">Date Axis Lines: Selected</button>
+      <button class="dd-item" id="slide-toggle" onclick="toggleSlide();closeDD()" title="Date Axis only: a clean view for slides, with Critical Path items emphasised">Date Axis Slide View: Off</button>
+      <button class="dd-item" id="crit-toggle" onclick="toggleCritOnly();closeDD()" title="Date Axis only: show only Critical Path items, their workstreams and the chain of dependencies between them">Date Axis Critical Path Only: Off</button>
       <button class="dd-item" id="undated-toggle" onclick="toggleShowUndated();closeDD()" title="Date Axis only: show or hide nodes that have no date">Date Axis Undated Nodes: Hidden</button>
       <button class="dd-item" id="barcol-toggle" onclick="toggleBarColors();closeDD()" title="Date Axis only: colour bars by workstream, or by each node's own colour">Date Axis Bar Colours: Workstream</button>
       <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
@@ -1040,13 +1113,13 @@
   </div>
   <div class="sep tb-wide"></div>
   <div class="tb-group tb-wide" role="group" aria-label="Views">
-    <button class="tb-btn tb-view" id="tb-agenda" onclick="toggleAgenda()" title="List everything with a due date, grouped by urgency (A)">Agenda</button>
+    <button class="tb-btn tb-view" id="tb-agenda" onclick="toggleAgenda()" title="Your to-do list: overdue, due today, this week and under way, with checklists (A)">Agenda</button>
     <button class="tb-btn tb-view" id="tb-timeline" onclick="toggleTimeline()" title="Gantt-style rows of start and due dates that you can drag to change (T)">Timeline</button>
     <button class="tb-btn tb-view" id="date-btn" onclick="toggleDateMode()" title="Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map.">Date Axis</button>
     <button class="tb-btn tb-view" id="tb-board" onclick="toggleBoard()" title="Kanban columns by status, owner or project. Drag cards to change them (K)">Board</button>
     <button class="tb-btn tb-view" id="tb-report" onclick="toggleReport()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed (R)">Report</button>
   </div>
-  <button class="tb-btn tb-view tb-wide" id="tb-saved" onclick="toggleViews()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)">Saved</button>
+  <button class="tb-btn tb-view tb-wide" id="tb-saved" onclick="toggleViews()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)">Saved Views</button>
 
   <div class="spacer"></div>
   <button class="tb-btn sb-muted" id="save-badge" onclick="saveToFile()" title="Save status: click to save the map to a file"></button>
@@ -1125,9 +1198,12 @@
 </div>
 
 <div id="agenda-panel" role="dialog" aria-label="Agenda">
-  <div class="agenda-head"><div class="stats-title">Agenda &middot; due dates</div><button class="dp-mini" type="button" onclick="toggleAgenda()" title="Close (Esc)">&times;</button></div>
-  <label class="agenda-opt"><input type="checkbox" id="agenda-done" onchange="buildAgenda()"> Show completed</label>
+  <div class="agenda-head"><div class="stats-title">Agenda</div><button class="dp-mini" type="button" onclick="toggleAgenda()" title="Close (Esc)">&times;</button></div>
+  <div class="md-date" id="md-date"></div>
+  <div class="md-bar"><label for="md-owner">Show</label><select id="md-owner" onchange="mdOwner=this.value;buildAgenda()"></select></div>
+  <div class="md-sum" id="md-sum"></div>
   <div id="agenda-content"></div>
+</div>
 </div>
 
 <div id="timeline-overlay" role="dialog" aria-label="Timeline">
@@ -1211,9 +1287,10 @@
     </svg>
   </div>
   <div id="date-axis"></div>
-  <div id="dm-tools"><span id="dm-zoom"><button onclick="dmZoomQ(1)" title="Zoom to Q1">Q1</button><button onclick="dmZoomQ(2)" title="Zoom to Q2">Q2</button><button onclick="dmZoomQ(3)" title="Zoom to Q3">Q3</button><button onclick="dmZoomQ(4)" title="Zoom to Q4">Q4</button><button onclick="dmZoomQ(0)" title="Zoom to the whole year">Year</button><button onclick="dmJumpToday()" title="Centre the view on today">Today</button></span><button id="dm-undated-btn" onclick="toggleShowUndated()" style="display:none">Undated hidden: 0</button><button id="dm-lines-btn" onclick="cycleLinkVis()" title="Lines on the Date Axis: Off, Selected or All">Lines: Selected</button><button id="dm-fold-btn" onclick="dmFoldAll()" title="Fold or unfold every workstream lane">Fold lanes</button></div>
+  <div id="dm-tools"><span id="dm-zoom"><button onclick="dmZoomQ(1)" title="Zoom to Q1">Q1</button><button onclick="dmZoomQ(2)" title="Zoom to Q2">Q2</button><button onclick="dmZoomQ(3)" title="Zoom to Q3">Q3</button><button onclick="dmZoomQ(4)" title="Zoom to Q4">Q4</button><button onclick="dmZoomQ(0)" title="Zoom to the whole year">Year</button><button onclick="dmJumpToday()" title="Centre the view on today">Today</button></span><button id="dm-undated-btn" onclick="toggleShowUndated()" style="display:none">Undated hidden: 0</button><button id="dm-lines-btn" onclick="cycleLinkVis()" title="Lines on the Date Axis: Off, Selected or All">Lines: Selected</button><button id="dm-slide-btn" onclick="toggleSlide()" title="Clean view for slides: no headings or clutter, workstreams labelled, Critical Path items stand out with their dependency chain. Export PNG then includes a title and legend.">Slide view</button><button id="dm-crit-btn" onclick="toggleCritOnly()" title="Show only Critical Path items, their workstreams and the dependencies between them. Export PNG then gives a clean picture for slides.">Critical path</button><button id="dm-fold-btn" onclick="dmFoldAll()" title="Fold or unfold every workstream lane">Fold lanes</button></div>
   <div id="date-lbls"></div>
 </div>
+<div id="slide-legend"><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1.5 21,19.5 1,19.5" fill="#f5c518" stroke="rgba(0,0,0,.45)"/></svg>Critical path</span><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1 14,8 21.5,8.5 15.8,13.4 17.6,20.8 11,16.8 4.4,20.8 6.2,13.4 0.5,8.5 8,8" fill="#9aa3b2"/></svg>Key milestone</span><span><svg width="14" height="14" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.5" fill="#9aa3b2"/></svg>Milestone</span><span><svg width="22" height="10"><rect x="0" y="1" width="22" height="8" rx="2" fill="#9aa3b2"/></svg>Activity</span><span><svg width="26" height="10"><path d="M1,5 L21,5" stroke="#f5c518" stroke-width="3"/><polygon points="26,5 19,1 19,9" fill="#f5c518"/></svg>Critical dependency</span></div>
 <div id="dm-tip"></div>
 
 <div id="color-bar"><span class="color-label">Category:</span></div>
@@ -1260,9 +1337,34 @@
     <div class="dp-due-quick" id="dp-quick"><button class="dp-mini" type="button" data-d="0">Today</button><button class="dp-mini" type="button" data-d="1">Tomorrow</button><button class="dp-mini" type="button" data-d="7">+1 week</button><button class="dp-mini" type="button" data-d="14">+2 weeks</button><button class="dp-mini" type="button" data-m="1">+1 month</button></div>
     <div class="dp-due-note" id="dp-due-note"></div>
   </div>
-  <div class="dp-label">Tags</div>
-  <div id="dp-tags" class="tag-chips"></div>
-  <input type="text" id="dp-tag-input" class="dp-tag-input" placeholder="Add tag and press Enter">
+  <div class="dp-togs">
+    <button type="button" class="dp-tog" id="dp-tog-tags" aria-expanded="false" title="Show or hide the tags">Tags<i id="dp-tog-tags-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-ck" aria-expanded="false" title="Show or hide the checklist">Checklist<i id="dp-tog-ck-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-pg" aria-expanded="false" title="Show or hide the progress (% complete)">Progress<i id="dp-tog-pg-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-rp" aria-expanded="false" title="Show or hide the repeat setting (recurring task)">Repeat<i id="dp-tog-rp-n"></i></button>
+  </div>
+  <div id="dp-tags-sec" style="display:none">
+    <div id="dp-tags" class="tag-chips"></div>
+    <input type="text" id="dp-tag-input" class="dp-tag-input" placeholder="Add tag and press Enter">
+  </div>
+  <div id="dp-ck-sec" style="display:none">
+    <div class="dp-label" style="margin-top:4px">Checklist <span id="dp-ck-count" style="font-weight:400;opacity:0.75"></span></div>
+    <div class="ck-bar" id="dp-ck-bar" style="display:none"><i></i></div>
+    <div id="dp-checks"></div>
+    <input type="text" id="dp-ck-add" class="dp-tag-input" placeholder="Add an item and press Enter (paste a list to add several)">
+  </div>
+  <div id="dp-pg-sec">
+    <input type="range" id="dp-pg-range" min="0" max="100" step="5" value="0" aria-label="Percent complete">
+    <span><input type="number" id="dp-pg-num" min="0" max="100" step="1" value="0" aria-label="Percent complete"> %</span>
+    <div class="dp-pg-quick"><button class="dp-mini" type="button" data-v="0">0%</button><button class="dp-mini" type="button" data-v="25">25%</button><button class="dp-mini" type="button" data-v="50">50%</button><button class="dp-mini" type="button" data-v="75">75%</button><button class="dp-mini" type="button" data-v="100">100%</button></div>
+  </div>
+  <div id="dp-rp-sec">
+    <span>Every</span><input type="number" id="dp-rp-num" min="1" max="99" value="1" aria-label="Repeat every">
+    <select id="dp-rp-unit" aria-label="Repeat unit"><option value="d">days</option><option value="w">weeks</option><option value="m">months</option><option value="y">years</option></select>
+    <button class="dp-mini" type="button" id="dp-rp-stop" title="Stop repeating">Stop</button>
+    <div class="dp-rp-quick"><button class="dp-mini" type="button" data-n="1" data-u="d">Daily</button><button class="dp-mini" type="button" data-n="1" data-u="w">Weekly</button><button class="dp-mini" type="button" data-n="2" data-u="w">Fortnightly</button><button class="dp-mini" type="button" data-n="1" data-u="m">Monthly</button><button class="dp-mini" type="button" data-n="3" data-u="m">Quarterly</button><button class="dp-mini" type="button" data-n="1" data-u="y">Yearly</button></div>
+    <div id="dp-rp-note"></div>
+  </div>
   <div class="dp-label" style="margin-top:7px">Notes &amp; Details</div>
   <textarea class="notes-area" placeholder="Add notes, details, references..."></textarea>
   <div class="dp-note-links" style="display:none"></div>
@@ -1320,7 +1422,7 @@
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <h2>MindLoom</h2>
-    <div class="about-ver" id="about-ver">Version 1.20.2</div>
+    <div class="about-ver" id="about-ver">Version 1.26.0</div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1364,7 +1466,7 @@
           <kbd>Ctrl+F</kbd><span>Toggle filter bar</span>
           <kbd>G</kbd><span>Focus — show/hide root trees</span>
       <kbd>S</kbd><span>Statistics dashboard</span>
-          <kbd>A</kbd><span>Agenda (due dates)</span>
+          <kbd>A</kbd><span>Agenda (to-do list)</span>
           <kbd>T</kbd><span>Timeline</span>
           <kbd>Ctrl+S</kbd><span>Save to file</span>
           <kbd>Ctrl+C / X / V</kbd><span>Copy, cut, paste branch</span>
@@ -1567,7 +1669,7 @@ let isPanning=false,panStartX,panStartY;
 let dragNode=null,dragOffX,dragOffY;
 let editingId=null,detailNodeId=null,detailPinned=false,detailSnapped=false;
 let dragMoved=false,dragStart={x:0,y:0};
-let agendaVisible=false;
+let agendaVisible=false,mdOwner='';
 let lastFileSig=null,lastFileSavedAt=0,lastFileName='',dirtySince=null,lastNudge=0,curSig='',initSig='',lastBackupAt=0,lastBackupSig='';
 let searchHits=null;
 let legendVisible=false,minimapVisible=false;
@@ -1580,7 +1682,7 @@ let ctrlDragging=false;
 let dragDescOffsets={};
 let snapToGrid=false, GRID_SIZE=20;
 let hoverPopup=false;
-let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected',barColors='lane',showUndated=false;const DM_PX=6,DM_MARK=22;
+let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected',barColors='lane',showUndated=false,critOnly=false,axSlide=false;const DM_PX=6,DM_MARK=22;
 let hideCompleted=false;
 let lightTheme=false;
 let bookmarks=[];
@@ -1648,6 +1750,35 @@ function normDate(v){
   if(y<1000||dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==d)return '';
   return y+'-'+pad2(mo)+'-'+pad2(d);
 }
+// Checklist items inside a node: [{t:'text',d:true|false}]
+function cleanChecks(a){return Array.isArray(a)?a.filter(c=>c&&typeof c==='object'&&String(c.t||'').trim()).slice(0,200).map(c=>({t:String(c.t).slice(0,300),d:!!c.d})):[];}
+// Recurring tasks: repeat={n:1..99,u:'d'|'w'|'m'|'y'}. Completing the node moves its dates on and resets it.
+function cleanRepeat(r){if(!r||typeof r!=='object')return null;const n=Math.round(Number(r.n)),u=r.u;return(n>=1&&n<=99&&'dwmy'.includes(u)&&String(u).length===1)?{n,u}:null;}
+function repeatLabel(r){r=cleanRepeat(r);if(!r)return '';const W={d:['Daily','days'],w:['Weekly','weeks'],m:['Monthly','months'],y:['Yearly','years']}[r.u];return r.n===1?W[0]:'Every '+r.n+' '+W[1];}
+function addToIso(iso,n,u){
+  const c=normDate(iso);if(!c)return '';const p=c.split('-').map(Number);
+  if(u==='d'||u==='w'){const d=new Date(Date.UTC(p[0],p[1]-1,p[2]+n*(u==='w'?7:1)));return d.toISOString().slice(0,10);}
+  const months=p[1]-1+n*(u==='y'?12:1),y=p[0]+Math.floor(months/12),m=((months%12)+12)%12;
+  const last=new Date(Date.UTC(y,m+1,0)).getUTCDate();
+  return y+'-'+String(m+1).padStart(2,'0')+'-'+String(Math.min(p[2],last)).padStart(2,'0');
+}
+// Called after a node has just been marked Completed. Returns true when it was recurring and has been rolled on.
+function rollRecurring(n,prevStatus){
+  const r=cleanRepeat(n.repeat);if(!r||n.status!=='completed')return false;
+  const today=new Date(todayMs()).toISOString().slice(0,10);
+  const base=normDate(n.due)||normDate(n.start)||today;
+  let next=addToIso(base,r.n,r.u),guard=0;
+  while(next<=today&&guard++<2000)next=addToIso(next,r.n,r.u);
+  if(normDate(n.due)||!normDate(n.start))n.due=next;
+  if(normDate(n.start)){const delta=Math.round((dayMs(next)-dayMs(base))/864e5);n.start=addToIso(n.start,delta,'d');}
+  n.lastDone=today;n.status=(prevStatus&&prevStatus!=='completed')?prevStatus:'';
+  if(n.checks)n.checks.forEach(c=>{c.d=false;});n.progress=0;n.modifiedAt=new Date().toISOString();
+  return next;
+}
+function rollToast(n,next){toast('\u201C'+n.text+'\u201D done. It repeats: next due '+fmtDay(next,true)+' (Ctrl+Z to undo)');}
+function cleanPct(v){v=Math.round(Number(v));return isFinite(v)?Math.max(0,Math.min(100,v)):0;}
+function pgBarEl(v){const w=document.createElement('span');w.className='node-pg'+(v>=100?' full':'');w.title=v+'% complete';const i=document.createElement('i');i.style.width=v+'%';w.appendChild(i);return w;}
+function ckCount(n){const a=n&&n.checks?n.checks:[];return{done:a.filter(c=>c.d).length,total:a.length};}
 function dayMs(s){const c=normDate(s);if(!c)return null;const p=c.split('-').map(Number);return Date.UTC(p[0],p[1]-1,p[2]);}
 function todayMs(){const n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());}
 // today (+ days / + months) as a local YYYY-MM-DD string; month arithmetic clamps to the end of shorter months
@@ -1713,7 +1844,7 @@ function sanitizeNodes(raw){
       parentId:(r.parentId===null||r.parentId===undefined)?null:Number(r.parentId),
       collapsed:!!r.collapsed,
       colorId:COLORS.some(c=>c.id===r.colorId)?r.colorId:'default',
-      notes:String(r.notes||''),project:String(r.project||''),owner:String(r.owner||''),
+      notes:String(r.notes||''),project:String(r.project||''),owner:String(r.owner||''),checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',
       status:STATUSES.includes(r.status)?r.status:'',
       marker:['dot','diamond','star','triangle'].includes(r.marker)?r.marker:'',
       px:(r.px!==undefined&&r.px!==null&&Number.isFinite(Number(r.px)))?Number(r.px):undefined,
@@ -1831,7 +1962,7 @@ function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,savedViews}));
+  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews}));
   updateSaveBadge();pushBackup('auto',false);
 }
 window.addEventListener('beforeunload',flushSave);
@@ -1843,7 +1974,7 @@ let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,snapToGrid,hoverPopup,hideCompleted,savedViews},null,compact?0:2);
+  return JSON.stringify({nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
@@ -2005,7 +2136,7 @@ function applyLoadedData(text,name){
     if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
     if(d.bgColorId)setBgColor(d.bgColorId);if(d.bgPatternId)setBgPattern(d.bgPatternId);
     if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);
-    dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setFocusSel(d.focusSel!==false,true);setLinkVis(d.linkVis||'selected',true);setBarColors(d.barColors||'lane',true);setShowUndated(!!d.showUndated,true);setDateMode(!!d.dateMode,true);
+    dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setFocusSel(d.focusSel!==false,true);setLinkVis(d.linkVis||'selected',true);setBarColors(d.barColors||'lane',true);setShowUndated(!!d.showUndated,true);setCritOnly(!!d.critOnly,true);setSlide(!!d.axSlide,true);setDateMode(!!d.dateMode,true);
     if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}
     if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
     if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
@@ -2043,7 +2174,8 @@ function gdesc(id){
   return r;
 }
 function isHidden(n){
-  if(dateMode&&!showUndated&&n.id!==selectedId&&n.id!==editingId&&dmHiddenUndated().has(n.id))return true;
+  if(dateMode&&critOnly&&dmHiddenUndated().has(n.id))return true;
+  if(dateMode&&!critOnly&&(!showUndated||axSlide)&&n.id!==selectedId&&n.id!==editingId&&dmHiddenUndated().has(n.id))return true;
   // A completed node (when Hide Completed is on) takes its whole branch with it
   if(hideCompleted&&n.status==='completed')return true;
   let x=n;
@@ -2198,6 +2330,15 @@ function render(){
       }
     }
 
+    // Checklist progress chip
+    {const kc=ckCount(node);if(kc.total){const ck=document.createElement('span');ck.className='node-ck'+(kc.done===kc.total?' done':'');ck.textContent='\u2611 '+kc.done+'/'+kc.total;ck.title='Checklist: '+kc.done+' of '+kc.total+' done';el.appendChild(ck);}}
+
+    // Repeat chip
+    {const rl=repeatLabel(node.repeat);if(rl){const rp=document.createElement('span');rp.className='node-rp';rp.textContent='\u21BB '+rl;rp.title='Repeats: '+rl.toLowerCase()+(node.lastDone?'. Last done '+fmtDay(node.lastDone,true):'');el.appendChild(rp);}}
+
+    // Progress bar along the bottom edge
+    {const pv=cleanPct(node.progress);if(pv>0)el.appendChild(pgBarEl(pv));}
+
     // Waiting-on-prerequisites chip
     {const od=openDeps(node);
       if(od.length){const w=document.createElement('span');w.className='node-wait';w.textContent=dateMode?'\u26D3 '+od.length:'\u26D3 Waiting on '+od.length;w.title='Waiting for: '+od.map(x=>x.text).join(', ');el.appendChild(w);el.classList.add('is-waiting');}}
@@ -2236,6 +2377,7 @@ function render(){
     el.addEventListener('contextmenu',e=>onNodeContext(e,node));
     canvas.appendChild(el);elMap.set(node.id,el);
   }
+  slideApply();
   if(dateMode){dmComputeLanes();dmShiftLabels();}
   applyFocus();
   if(dateMode){dmUpdateUndatedBtn();dmFixOverlaps();}
@@ -2355,14 +2497,14 @@ let _dmHid=null;
 function dmHiddenUndated(){
   if(_dmHid)return _dmHid;
   const keep=new Set();
-  for(const n of nodes){if(!dmInfo(n))continue;let x=n;while(x&&!keep.has(x.id)){keep.add(x.id);x=x.parentId===null?null:gn(x.parentId);}}
+  for(const n of nodes){if(!dmInfo(n))continue;if(critOnly&&n.status!=='critical')continue;let x=n;while(x&&!keep.has(x.id)){keep.add(x.id);x=x.parentId===null?null:gn(x.parentId);}}
   _dmHid=new Set(nodes.filter(n=>!keep.has(n.id)).map(n=>n.id));
   return _dmHid;
 }
 function dmUpdateUndatedBtn(){
   const b=$('#dm-undated-btn');if(!b)return;
   _dmHid=null;const c=dmHiddenUndated().size;
-  b.style.display=(dateMode&&(showUndated||c))?'':'none';
+  b.style.display=(dateMode&&!critOnly&&!axSlide&&(showUndated||c))?'':'none';
   b.textContent=showUndated?'Hide undated':'Undated hidden: '+c;
   b.title=showUndated?'Hide the nodes that have no date':'Nodes with no date are hidden on the Date Axis. Click to show them.';
   const m=$('#undated-toggle');if(m)m.textContent='Date Axis Undated Nodes: '+(showUndated?'Shown':'Hidden');
@@ -2371,6 +2513,38 @@ function setShowUndated(on,quiet){
   showUndated=!!on;_dmHid=null;dmUpdateUndatedBtn();
   if(!quiet&&dateMode){const v=[panX,panY,zoom];dateTidy('all',true);panX=v[0];panY=v[1];zoom=v[2];updateTransform();}
 }
+// Slide view: a decluttered Date Axis for slides. Headings and lines are hidden, lanes are labelled above their rows,
+// everything is muted except Critical Path items, and the dependency chain between critical items is drawn heavy yellow.
+function slideHides(n){
+  const i=dmInfo(n);if(!i)return true;
+  if(i.bar&&n.parentId!==null){const p=gn(n.parentId);if(p&&p.parentId===null&&gch(n.id).length)return true;}
+  return false;
+}
+function slideApply(){
+  const on=dateMode&&axSlide;
+  canvas.classList.toggle('slide-on',on);
+  const lg=$('#slide-legend');if(lg)lg.style.display=on?'flex':'none';
+  if(!on){canvas.querySelectorAll('.slide-hide').forEach(e=>e.classList.remove('slide-hide'));return;}
+  for(const n of nodes){const el=elOf(n.id);if(el)el.classList.toggle('slide-hide',slideHides(n));}
+}
+function setSlide(on,quiet){
+  axSlide=!!on;_dmHid=null;
+  const b=$('#dm-slide-btn');if(b)b.classList.toggle('on',axSlide);
+  const m=$('#slide-toggle');if(m)m.textContent='Date Axis Slide View: '+(axSlide?'On':'Off');
+  dmUpdateUndatedBtn();
+  if(!quiet&&dateMode){dateTidy('all',true);}
+}
+function toggleSlide(){setSlide(!axSlide);autoSave();if(dateMode)toast(axSlide?'Slide view on. Export PNG gives a clean picture for slides':'Slide view off');else toast('Slide view applies with the Date Axis');}
+function setCritOnly(on,quiet){
+  on=!!on;
+  if(on&&!quiet){const has=nodes.some(n=>n.status==='critical'&&dmInfo(n));if(!has){toast('No Critical Path items have a date yet');return;}}
+  critOnly=on;_dmHid=null;
+  const b=$('#dm-crit-btn');if(b){b.classList.toggle('on',critOnly);b.textContent=critOnly?'Critical path only':'Critical path';}
+  const m=$('#crit-toggle');if(m)m.textContent='Date Axis Critical Path Only: '+(critOnly?'On':'Off');
+  dmUpdateUndatedBtn();
+  if(!quiet&&dateMode){dateTidy('all',true);}
+}
+function toggleCritOnly(){setCritOnly(!critOnly);autoSave();if(dateMode)toast(critOnly?'Showing the critical path only':'Showing all items');else toast('Critical path view applies with the Date Axis');}
 function toggleShowUndated(){setShowUndated(!showUndated);autoSave();toast(showUndated?'Showing nodes with no date':'Nodes with no date are hidden on the Date Axis');}
 function dmToggleLane(id){
   const n=gn(id);if(!n)return;
@@ -2457,7 +2631,7 @@ function setDateMode(on,quiet){
     fitAll();toast('Date axis off');
   }
   const btn=$('#datemode-toggle');if(btn)btn.textContent='Date Axis: '+(dateMode?'On':'Off');
-  canvas.classList.toggle('dm-on',dateMode);
+  canvas.classList.toggle('dm-on',dateMode);slideApply();
   const db=$('#date-btn');if(db)db.classList.toggle('active',dateMode);
   drawDateAxis();
 }
@@ -2493,15 +2667,17 @@ function drawDateAxis(){
   if(tx>-10&&tx<W+10){today='<div class="dm-today" style="left:'+tx+'px"></div>';tag='<div class="dm-todaytag" style="left:'+tx+'px">Today</div>';}
   let lanes='',lbls='';
   const H=printBox?printBox.h:wrap.clientHeight;
-  for(const L of (laneBands?dmLanes:[])){
+  const PM=dateMode&&axSlide;
+  for(const L of ((laneBands||PM)?dmLanes:[])){
     const top=Math.round(panY+L.y1*zoom),h=Math.max(2,Math.round((L.y2-L.y1)*zoom));
     if(top>H||top+h<52)continue;
-    lanes+='<div class="dm-lane" style="top:'+top+'px;height:'+h+'px;background:'+L.color+';opacity:0.07"></div>';
+    lanes+='<div class="dm-lane" style="top:'+top+'px;height:'+h+'px;background:'+L.color+';opacity:'+(PM?0.1:0.07)+'"></div>';
+    if(PM){lbls+='<div class="dm-lanelbl slide" style="top:'+(top-21)+'px;border-left-color:'+L.color+'">'+esc(L.text)+'</div>';continue;}
     // pinned caption, shown once the lane's own heading card has scrolled off to the left
     if(panX+L.edge*zoom<135&&h>=18)lbls+='<div class="dm-lanelbl" style="top:'+top+'px;height:'+Math.max(h,28)+'px;border-left-color:'+L.color+'">'+esc(L.text)+'</div>';
   }
   gr.innerHTML=lanes+bands+lines+today;
-  lb.innerHTML=lbls;dmPinnedShown=!!lbls;
+  lb.innerHTML=lbls;dmPinnedShown=PM?false:!!lbls;
   ax.innerHTML=hq+hm+tag;
 }
 window.addEventListener('resize',()=>{if(dateMode)drawDateAxis();});
@@ -2557,7 +2733,7 @@ function dateTidy(scope,quiet){
   }else tops=getRoots().filter(r=>!hiddenRoots.has(r.id)&&!isHidden(r));
   if(!tops.length)return;
   snap();render();
-  const ROW=34,LANE_GAP=26,H_GAP=12;
+  const ROW=34,LANE_GAP=(dateMode&&axSlide)?46:26,H_GAP=12;
   const key=n=>{const i=dmInfo(n);return i?(i.bar?i.s:i.d):null;};
   const cmp=(a,b)=>{const ka=key(a),kb=key(b);if(ka!==null&&kb!==null&&ka!==kb)return ka-kb;if((ka===null)!==(kb===null))return ka===null?1:-1;return 0;};
   const below=n=>{const r=[];for(const c of gch(n.id)){if(isHidden(c))continue;r.push(c);if(!c.collapsed)r.push(...below(c));}return r;};
@@ -2688,13 +2864,14 @@ function linkPts(nA,nB,rects){
 function drawConnectors(){
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
   const sq=connStyle==='squared',rects=sq?nodeRects():null;
+  const critView=dateMode&&(critOnly||axSlide);
   const lvm=dateMode?linkVis:'all',FS=focusSets(dateMode&&lvm==='selected'),quietDM=focusSel&&dateMode&&lvm==='all'&&!FS;
   const fw=(n)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
   const fx=(a,b)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(a)||FS.core.has(b))?1:0):FS?((FS.core.has(a)||FS.core.has(b))?1:0):(quietDM?0.5:1);
 
   // Parent-child wires
   for(const node of nodes){
-    if(isHidden(node)||node.parentId===null)continue;
+    if(critView||isHidden(node)||node.parentId===null)continue;
     const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;
     const pEl=elOf(parent.id);
     const cEl=elOf(node.id);
@@ -2727,7 +2904,8 @@ function drawConnectors(){
     if(isHidden(dn))continue;
     for(const pid of depsOf(dn)){
       const pn=gn(pid);if(!pn||isHidden(pn))continue;
-      const _fd=fx(pn.id,dn.id);if(_fd===0)continue;
+      if(critView&&(pn.status!=='critical'||dn.status!=='critical'))continue;
+      const _fd=critView?1:fx(pn.id,dn.id);if(_fd===0)continue;
       const pe=elOf(pn.id),de=elOf(dn.id);if(!pe||!de)continue;
       const pcx=pn.x+pe.offsetWidth/2,pcy=pn.y+pe.offsetHeight/2,dcx=dn.x+de.offsetWidth/2,dcy=dn.y+de.offsetHeight/2;
       const a=rectEdge(pcx,pcy,pe.offsetWidth+6,pe.offsetHeight+6,dcx,dcy),b=rectEdge(dcx,dcy,de.offsetWidth+10,de.offsetHeight+10,pcx,pcy);
@@ -2735,8 +2913,8 @@ function drawConnectors(){
       const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,ddx=b.x-a.x,ddy=b.y-a.y;
       const path=document.createElementNS('http://www.w3.org/2000/svg','path');
       path.setAttribute('d','M'+a.x+','+a.y+' Q'+(mx+ddy*0.12)+','+(my-ddx*0.12)+' '+b.x+','+b.y);
-      path.setAttribute('stroke',done?'rgba(110,190,140,0.55)':'#ff8a3d');
-      path.setAttribute('stroke-width',done?'2':'2.5');
+      path.setAttribute('stroke',critView?'#f5c518':done?'rgba(110,190,140,0.55)':'#ff8a3d');
+      path.setAttribute('stroke-width',critView?'4':done?'2':'2.5');
       if(done)path.setAttribute('stroke-dasharray','2 5');
       path.setAttribute('fill','none');path.setAttribute('stroke-linecap','round');
       path.setAttribute('marker-end','url(#'+(done?'arrowdone':'arrowdep')+')');if(_fd<1)path.setAttribute('opacity',_fd);
@@ -2749,7 +2927,8 @@ function drawConnectors(){
   for(const link of crossLinks){
     const nA=gn(link.from),nB=gn(link.to);
     if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;
-    const _fl=fx(nA.id,nB.id);if(_fl===0)continue;
+    if(critView&&(nA.status!=='critical'||nB.status!=='critical'))continue;
+    const _fl=critView?1:fx(nA.id,nB.id);if(_fl===0)continue;
     const _g0=svgEl.childNodes.length;
     const eA=elOf(nA.id);
     const eB=elOf(nB.id);
@@ -2765,9 +2944,9 @@ function drawConnectors(){
     const lp=sq?linkPts(nA,nB,rects):null;
     if(lp){ax=lp[0].x;ay=lp[0].y;bx=lp[lp.length-1].x;by=lp[lp.length-1].y;}
     path.setAttribute('d',lp?cmdsToSvg(polyCmds(lp,10)):'M'+ax+','+ay+' Q'+cpx+','+cpy+' '+bx+','+by);
-    path.setAttribute('stroke','rgba(255,200,60,0.6)');
-    path.setAttribute('stroke-width','2.5');
-    path.setAttribute('stroke-dasharray','10 5');
+    path.setAttribute('stroke',critView?'#f5c518':'rgba(255,200,60,0.6)');
+    path.setAttribute('stroke-width',critView?'4':'2.5');
+    if(!critView)path.setAttribute('stroke-dasharray','10 5');
     path.setAttribute('fill','none');
     path.setAttribute('stroke-linecap','round');
     path.setAttribute('marker-end','url(#arrow)');
@@ -2836,7 +3015,9 @@ function showDetail(nid,anchorEl,pinned){
   $('#dp-start').value=node.start||'';
   $('#dp-due').value=node.due||'';updateDueNote();
   $('#dp-tag-input').value='';
-  renderDetailTags(nid);
+  renderDetailTags(nid);renderDetailChecks();$('#dp-ck-add').value='';
+  renderDetailProgress();renderDetailRepeat();
+  setDpSec('rp',!!cleanRepeat(node.repeat));setDpSec('tags',getNodeTags(node).length>0);setDpSec('ck',ckCount(node).total>0);setDpSec('pg',cleanPct(node.progress)>0);
 
   const tsDiv=$('#dp-timestamps');
   if(node.createdAt||node.modifiedAt){
@@ -2875,9 +3056,134 @@ function showDetail(nid,anchorEl,pinned){
   if(left<8)left=Math.max(8,vw-pw-8);
   if(top+ph>vh-8)top=vh-ph-8;
   if(top<52)top=52;
+  if(dpUser){left=dpUser.left;top=dpUser.top;const m=dpClamp(left,top);left=m.left;top=m.top;}
   detailPanel.style.left=left+'px';detailPanel.style.top=top+'px';
   if(pinned)detailPanel.querySelector('.notes-area').focus();
 }
+// ── Details panel: collapsible Tags and Checklist, and a movable panel ──
+function setDpSec(which,open,focus){
+  const M={tags:['#dp-tags-sec','#dp-tog-tags','#dp-tag-input'],ck:['#dp-ck-sec','#dp-tog-ck','#dp-ck-add'],pg:['#dp-pg-sec','#dp-tog-pg','#dp-pg-range'],rp:['#dp-rp-sec','#dp-tog-rp','#dp-rp-num']}[which];
+  const sec=$(M[0]),btn=$(M[1]);
+  sec.style.display=open?((which==='pg'||which==='rp')?'flex':''):'none';btn.setAttribute('aria-expanded',open?'true':'false');
+  if(open&&focus)$(M[2]).focus();
+  if(detailPanel.classList.contains('visible')){const m=dpClamp(detailPanel.offsetLeft,detailPanel.offsetTop);detailPanel.style.left=m.left+'px';detailPanel.style.top=m.top+'px';}
+}
+$('#dp-tog-tags').addEventListener('click',()=>setDpSec('tags',$('#dp-tags-sec').style.display==='none',true));
+$('#dp-tog-ck').addEventListener('click',()=>setDpSec('ck',$('#dp-ck-sec').style.display==='none',true));
+$('#dp-tog-pg').addEventListener('click',()=>setDpSec('pg',$('#dp-pg-sec').style.display==='none',true));
+// Repeat (recurring task)
+function renderDetailRepeat(){
+  const n=detailNodeId?gn(detailNodeId):null,r=n?cleanRepeat(n.repeat):null;
+  $('#dp-tog-rp-n').textContent=r?repeatLabel(r):'';
+  if(r){$('#dp-rp-num').value=r.n;$('#dp-rp-unit').value=r.u;}else{$('#dp-rp-num').value=1;$('#dp-rp-unit').value='w';}
+  $('#dp-rp-note').textContent=r?(repeatLabel(r)+'. When you mark it Completed its dates move on, the checklist and progress reset and it stays open.'+(n.lastDone?' Last done '+fmtDay(n.lastDone,true)+'.':'')):'Not repeating. Pick a pattern, or set a number and unit.';
+}
+function setRepeat(raw){
+  const n=detailNodeId?gn(detailNodeId):null;if(!n)return;
+  const r=raw?cleanRepeat(raw):null;
+  if(JSON.stringify(r)===JSON.stringify(cleanRepeat(n.repeat)))return;
+  if(!detailSnapped){snap();detailSnapped=true;}
+  n.repeat=r;n.modifiedAt=new Date().toISOString();autoSave();render();renderDetailRepeat();refreshAgenda();
+  if(r&&!normDate(n.due)&&!normDate(n.start))toast('Give it a due date so the next one can be worked out');
+}
+const rpApply=()=>setRepeat({n:+$('#dp-rp-num').value,u:$('#dp-rp-unit').value});
+$('#dp-tog-rp').addEventListener('click',()=>setDpSec('rp',$('#dp-rp-sec').style.display==='none',true));
+$('#dp-rp-num').addEventListener('change',rpApply);$('#dp-rp-unit').addEventListener('change',rpApply);
+$('#dp-rp-num').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();rpApply();}});
+$('#dp-rp-stop').addEventListener('click',()=>setRepeat(null));
+$('#dp-rp-sec').querySelectorAll('.dp-rp-quick button').forEach(b=>b.addEventListener('click',()=>setRepeat({n:+b.dataset.n,u:b.dataset.u})));
+// Progress (% complete)
+function renderDetailProgress(){
+  const n=detailNodeId?gn(detailNodeId):null,v=n?cleanPct(n.progress):0;
+  $('#dp-pg-range').value=v;$('#dp-pg-num').value=v;$('#dp-tog-pg-n').textContent=v?v+'%':'';
+}
+function setProgress(raw){
+  const n=detailNodeId?gn(detailNodeId):null;if(!n)return;
+  const v=cleanPct(raw);
+  $('#dp-pg-range').value=v;$('#dp-pg-num').value=v;$('#dp-tog-pg-n').textContent=v?v+'%':'';
+  if(v===cleanPct(n.progress))return;
+  if(!detailSnapped){snap();detailSnapped=true;}
+  n.progress=v;n.modifiedAt=new Date().toISOString();autoSave();
+  const el=elOf(n.id);if(el){const w=el.querySelector('.node-pg');
+    if(v>0){if(w){w.firstChild.style.width=v+'%';w.classList.toggle('full',v>=100);w.title=v+'% complete';}else el.appendChild(pgBarEl(v));}else if(w)w.remove();}
+  refreshAgenda();
+}
+$('#dp-pg-range').addEventListener('input',e=>setProgress(e.target.value));
+$('#dp-pg-num').addEventListener('input',e=>{if(e.target.value!=='')setProgress(e.target.value);});
+$('#dp-pg-num').addEventListener('keydown',e=>e.stopPropagation());
+$('#dp-pg-sec').querySelectorAll('.dp-pg-quick button').forEach(b=>b.addEventListener('click',()=>setProgress(+b.dataset.v)));
+let dpUser=null; // where the person last dragged the panel to
+function dpClamp(left,top){
+  const pw=detailPanel.offsetWidth||380,ph=detailPanel.offsetHeight||440,vw=window.innerWidth,vh=window.innerHeight;
+  return{left:Math.max(8-pw+80,Math.min(left,vw-80)),top:Math.max(52,Math.min(top,vh-Math.min(ph,120)))};
+}
+(function(){
+  const h=detailPanel.querySelector('h3');let drag=null;
+  h.addEventListener('pointerdown',e=>{
+    if(e.button!==0||e.target.closest('button'))return;
+    drag={dx:e.clientX-detailPanel.offsetLeft,dy:e.clientY-detailPanel.offsetTop,moved:false};
+    h.setPointerCapture(e.pointerId);e.preventDefault();
+  });
+  h.addEventListener('pointermove',e=>{
+    if(!drag)return;
+    const m=dpClamp(e.clientX-drag.dx,e.clientY-drag.dy);
+    if(!drag.moved){drag.moved=true;detailPinned=true;clearTimeout(detailPanel._ht);}
+    detailPanel.style.left=m.left+'px';detailPanel.style.top=m.top+'px';
+  });
+  const end=e=>{
+    if(!drag)return;
+    if(drag.moved)dpUser={left:detailPanel.offsetLeft,top:detailPanel.offsetTop};
+    drag=null;try{h.releasePointerCapture(e.pointerId);}catch(_){}
+  };
+  h.addEventListener('pointerup',end);h.addEventListener('pointercancel',end);
+  h.addEventListener('dblclick',e=>{if(e.target.closest('button'))return;dpUser=null;if(detailNodeId){const el=elOf(detailNodeId);if(el)showDetail(detailNodeId,el,true);}toast('Details panel back beside the node');});
+  h.title='Drag to move this panel. Double-click to put it back beside the node.';
+})();
+// ── Checklist inside a node (details panel) ──
+function ckTouch(n,rebuild){
+  if(!detailSnapped){snap();detailSnapped=true;}
+  n.modifiedAt=new Date().toISOString();autoSave();render();if(rebuild)renderDetailChecks();refreshAgenda();
+}
+function renderDetailChecks(){
+  const box=$('#dp-checks');if(!box)return;
+  const n=detailNodeId?gn(detailNodeId):null;box.innerHTML='';
+  const c=n?ckCount(n):{done:0,total:0};
+  $('#dp-tog-ck-n').textContent=c.total?c.done+'/'+c.total:'';
+  $('#dp-ck-count').textContent=c.total?'· '+c.done+' of '+c.total+' done':'';
+  const bar=$('#dp-ck-bar');bar.style.display=c.total?'':'none';bar.firstElementChild.style.width=(c.total?Math.round(100*c.done/c.total):0)+'%';
+  if(!n||!c.total)return;
+  n.checks.forEach((it,i)=>{
+    const row=document.createElement('div');row.className='ck-row'+(it.d?' done':'');
+    const cb=document.createElement('input');cb.type='checkbox';cb.checked=it.d;cb.title=it.d?'Mark as not done':'Mark as done';
+    cb.addEventListener('change',()=>{it.d=cb.checked;ckTouch(n,true);});
+    const tx=document.createElement('input');tx.type='text';tx.className='ck-text';tx.value=it.t;tx.maxLength=300;
+    tx.addEventListener('change',()=>{const v=tx.value.trim();if(!v){n.checks.splice(i,1);}else it.t=v;ckTouch(n,true);});
+    tx.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();tx.blur();$('#dp-ck-add').focus();}e.stopPropagation();});
+    const del=document.createElement('button');del.type='button';del.className='ck-del';del.textContent='\u00D7';del.title='Remove this item';
+    del.addEventListener('click',()=>{n.checks.splice(i,1);ckTouch(n,true);});
+    row.appendChild(cb);row.appendChild(tx);row.appendChild(del);box.appendChild(row);
+  });
+}
+// Turns pasted text into items: one per line, ignoring list markers; "[x]" lines arrive ticked
+function ckParse(text){
+  return String(text).split(/\r?\n/).map(l=>{
+    let t=l.trim(),d=false;
+    t=t.replace(/^(?:[-*\u2022]\s+|\d+[.)]\s+)/,'');
+    const m=t.match(/^\[( |x|X)\]\s*/);if(m){d=m[1]!==' ';t=t.slice(m[0].length);}
+    return {t:t.trim().slice(0,300),d};
+  }).filter(x=>x.t);
+}
+function ckAddItems(text){
+  const n=detailNodeId?gn(detailNodeId):null;if(!n)return false;
+  const items=ckParse(text);if(!items.length)return false;
+  n.checks=cleanChecks(n.checks).concat(items).slice(0,200);ckTouch(n,true);return true;
+}
+(function(){
+  const inp=document.getElementById('dp-ck-add');if(!inp)return;
+  inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();if(ckAddItems(inp.value))inp.value='';}});
+  inp.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text');if(/\r?\n/.test(t.trim())){e.preventDefault();ckAddItems(t);}});
+  inp.addEventListener('blur',()=>{if(inp.value.trim()&&ckAddItems(inp.value))inp.value='';});
+})();
 function saveDetailFields(){
   if(!detailNodeId)return;
   const nid=detailNodeId;
@@ -2897,8 +3203,11 @@ function saveDetailFields(){
   n.notes=nv.notes;n.project=nv.project;n.owner=nv.owner;n.status=nv.status;n.marker=nv.marker;n.due=nv.due;n.start=nv.start;
   if(newTags.length)setNodeTags(nid,[...cur,...newTags]);
   n.modifiedAt=new Date().toISOString();
+  let rolled=false;
+  if(n.status==='completed'&&oldStatus!=='completed'){const nx=rollRecurring(n,oldStatus);if(nx){rolled=true;rollToast(n,nx);}}
   autoSave();
-  if(n.status!==oldStatus||newTags.length||(n.due||'')!==oldDue||(n.start||'')!==oldStart||(n.marker||'')!==oldMarker) render();
+  if(rolled){$('#dp-status').value=n.status||'';$('#dp-start').value=n.start||'';$('#dp-due').value=n.due||'';updateDueNote();renderDetailChecks();renderDetailProgress();renderDetailRepeat();}
+  if(rolled||n.status!==oldStatus||newTags.length||(n.due||'')!==oldDue||(n.start||'')!==oldStart||(n.marker||'')!==oldMarker) render();
   else{const el=elOf(nid);
     if(el){const d=el.querySelector('.info-dot');if(d)d.classList.toggle('has',n.notes.trim().length>0||!!n.project||!!n.owner||!!n.due||!!n.start||getNodeTags(n).length>0);}
   }
@@ -3088,7 +3397,7 @@ function duplicateSelected(){
   snap();const idMap={};const dnow=new Date().toISOString();
   function dup(n,pid,top){
     const nid=nextId++;idMap[n.id]=nid;
-    nodes.push({id:nid,text:top?n.text+' (copy)':n.text,x:n.x+40,y:n.y+40,parentId:pid,collapsed:n.collapsed,colorId:n.colorId,notes:n.notes,project:n.project||'',owner:n.owner||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',createdAt:dnow,modifiedAt:dnow});
+    nodes.push({id:nid,text:top?n.text+' (copy)':n.text,x:n.x+40,y:n.y+40,parentId:pid,collapsed:n.collapsed,colorId:n.colorId,notes:n.notes,project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',createdAt:dnow,modifiedAt:dnow});
     for(const ch of gch(n.id))dup(ch,nid,false);
   }
   dup(orig,orig.parentId,true);
@@ -3140,7 +3449,7 @@ function buildClip(){
   const add=n=>{idx.set(n.id,order.length);order.push(n);gch(n.id).forEach(add);}; // parents always come before their children
   tops.forEach(add);
   const x0=Math.min(...tops.map(n=>n.x)),y0=Math.min(...tops.map(n=>n.y));
-  const items=order.map(n=>({text:n.text,rx:Math.round(n.x-x0),ry:Math.round(n.y-y0),parent:topSet.has(n.id)?-1:idx.get(n.parentId),collapsed:!!n.collapsed,colorId:n.colorId,notes:n.notes||'',project:n.project||'',owner:n.owner||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',deps:depsOf(n).filter(d=>idx.has(d)).map(d=>idx.get(d))}));
+  const items=order.map(n=>({text:n.text,rx:Math.round(n.x-x0),ry:Math.round(n.y-y0),parent:topSet.has(n.id)?-1:idx.get(n.parentId),collapsed:!!n.collapsed,colorId:n.colorId,notes:n.notes||'',project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',deps:depsOf(n).filter(d=>idx.has(d)).map(d=>idx.get(d))}));
   const links=crossLinks.filter(l=>idx.has(l.from)&&idx.has(l.to)).map(l=>({from:idx.get(l.from),to:idx.get(l.to),label:l.label||''}));
   const outside=crossLinks.filter(l=>idx.has(l.from)!==idx.has(l.to)).length;
   return {text:JSON.stringify({mindloom:CLIP_MARK,nodes:items,links}),count:order.length,outside};
@@ -3158,7 +3467,7 @@ function parseClip(text){
       parent:(Number.isInteger(r.parent)&&r.parent>=0&&r.parent<i)?r.parent:-1,
       collapsed:!!r.collapsed,
       colorId:COLORS.some(c=>c.id===r.colorId)?r.colorId:'default',
-      notes:String(r.notes||''),project:String(r.project||''),owner:String(r.owner||''),
+      notes:String(r.notes||''),project:String(r.project||''),owner:String(r.owner||''),checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',
       status:STATUSES.includes(r.status)?r.status:'',
       marker:['dot','diamond','star','triangle'].includes(r.marker)?r.marker:'',
       tags:cleanTags(r.tags),due:normDate(r.due),start:normDate(r.start),
@@ -3199,7 +3508,7 @@ function pasteClip(clip){
     if(ch.length)by=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));
   }else{const o=importOrigin();bx=o.x;by=o.y;}
   by=freeY(bx,by,bw,bh);
-  clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});});
+  clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});});
   clip.links.forEach(l=>{crossLinks.push({from:ids[l.from],to:ids[l.to],label:l.label});});
   render();
   const first=clip.nodes.findIndex(r=>r.parent<0);
@@ -3561,7 +3870,8 @@ function boardMove(id,value,group){
   const cur=group==='status'?(n.status||''):boardKey(n,group);
   if(cur===value){return;}
   snap();
-  n[group]=value;n.modifiedAt=new Date().toISOString();
+  const was=n.status;n[group]=value;n.modifiedAt=new Date().toISOString();
+  if(group==='status'&&value==='completed'){const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);}
   render();autoSave();buildBoard(true);
   const again=$('#board-body').querySelector('.bd-card[data-id="'+id+'"]');if(again)again.focus({preventScroll:false});
   toast('Moved "'+n.text+'" to '+(value||(group==='status'?'No status':group==='owner'?'Unassigned':'No project')));
@@ -4200,7 +4510,9 @@ function dmExportAxis(ctx,x1,y1,pad,cw,ch){
   const o=dmOrigin(),px=DM_PX,ox=-x1+pad;               // canvas x -> image x
   const dL=Math.floor((x1-pad)/px)+o-2,dR=Math.ceil((x1-pad+cw)/px)+o+2;
   const st=new Date(dL*864e5);let y=st.getUTCFullYear(),m=st.getUTCMonth();
-  ctx.save();ctx.globalAlpha=0.07;for(const L of (laneBands?dmLanes:[])){ctx.fillStyle=L.color;ctx.fillRect(0,L.y1-y1+pad,cw,L.y2-L.y1);}ctx.globalAlpha=1;
+  const PM=dateMode&&axSlide;
+  ctx.save();ctx.globalAlpha=PM?0.1:0.07;for(const L of ((laneBands||PM)?dmLanes:[])){ctx.fillStyle=L.color;ctx.fillRect(0,L.y1-y1+pad,cw,L.y2-L.y1);}ctx.globalAlpha=1;
+  if(PM){ctx.font='700 13px system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';for(const L of dmLanes){const ly=L.y1-y1+pad-11;ctx.fillStyle=L.color;ctx.fillRect(14,ly-8,4,16);ctx.fillStyle='#e9ecf2';ctx.fillText(L.text,24,ly);}}
   ctx.fillStyle='#16181d';ctx.fillRect(0,0,cw,52);ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
   let qs=null;
   const flushQ=e=>{if(!qs)return;const l=(qs.s-o)*px+ox,r=(e-o)*px+ox;ctx.fillStyle='#0d0e11';ctx.fillRect(l,0,r-l,26);ctx.fillStyle='#e9ecf2';ctx.fillText('Q'+qs.q+' '+qs.y,(l+r)/2,13);ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fillRect(r-1,0,1,52);};
@@ -4216,6 +4528,39 @@ function dmExportAxis(ctx,x1,y1,pad,cw,ch){
   flushQ(Date.UTC(y,m,1)/864e5);
   const tx=(todayMs()/864e5-o)*px+px/2+ox;ctx.fillStyle='rgba(235,80,80,0.75)';ctx.fillRect(tx-1,52,2,ch-52);
   ctx.restore();
+}
+// Critical-path view: the dependency chain between critical items, drawn as heavy yellow arrows
+// Slide view export: title under the axis, legend along the bottom
+function dmExportLegend(ctx,cw,ch){
+  const r=getRoots().find(x=>!hiddenRoots.has(x.id));
+  ctx.save();ctx.textBaseline='middle';ctx.textAlign='left';
+  if(r){ctx.font='700 22px system-ui,sans-serif';ctx.fillStyle='#e9ecf2';ctx.fillText(r.text,14,86);}
+  const y=ch-34;let x=14;ctx.font='13px system-ui,sans-serif';
+  const item=(label,draw,w)=>{draw(x,y);ctx.fillStyle='#c9ced8';ctx.fillText(label,x+w+8,y);x+=w+8+ctx.measureText(label).width+26;};
+  item('Critical path',(x,y)=>{ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+8,y-8);ctx.lineTo(x+16,y+7);ctx.lineTo(x,y+7);ctx.closePath();ctx.fill();},16);
+  item('Key milestone',(x,y)=>{ctx.fillStyle='#9aa3b2';ctx.beginPath();DM_STAR.split(' ').forEach((p,k)=>{const q=p.split(',').map(Number);k?ctx.lineTo(x+q[0]*0.75,y-8+q[1]*0.75):ctx.moveTo(x+q[0]*0.75,y-8+q[1]*0.75);});ctx.closePath();ctx.fill();},16);
+  item('Milestone',(x,y)=>{ctx.fillStyle='#9aa3b2';ctx.beginPath();ctx.arc(x+7,y,6,0,Math.PI*2);ctx.fill();},14);
+  item('Activity',(x,y)=>{ctx.fillStyle='#9aa3b2';ctx.fillRect(x,y-4,22,8);},22);
+  item('Critical dependency',(x,y)=>{ctx.strokeStyle='#f5c518';ctx.fillStyle='#f5c518';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+20,y);ctx.stroke();ctx.beginPath();ctx.moveTo(x+27,y);ctx.lineTo(x+19,y-5);ctx.lineTo(x+19,y+5);ctx.closePath();ctx.fill();},27);
+  ctx.restore();
+}
+function dmExportChain(ctx,x1,y1,pad){
+  const pairs=[];
+  for(const dn of nodes){if(dn.status!=='critical')continue;for(const pid of depsOf(dn))pairs.push([pid,dn.id]);}
+  for(const l of crossLinks)pairs.push([l.from,l.to]);
+  {
+    for(const [pid,did] of pairs){
+      const dn=gn(did),pn=gn(pid);if(!dn||!pn||isHidden(dn)||isHidden(pn)||dn.status!=='critical'||pn.status!=='critical')continue;
+      const pe=elOf(pn.id),de=elOf(dn.id);if(!pe||!de)continue;
+      const pcx=pn.x+pe.offsetWidth/2,pcy=pn.y+pe.offsetHeight/2,dcx=dn.x+de.offsetWidth/2,dcy=dn.y+de.offsetHeight/2;
+      const a=rectEdge(pcx,pcy,pe.offsetWidth+6,pe.offsetHeight+6,dcx,dcy),b=rectEdge(dcx,dcy,de.offsetWidth+10,de.offsetHeight+10,pcx,pcy);
+      const ax=a.x-x1+pad,ay=a.y-y1+pad,bx=b.x-x1+pad,by=b.y-y1+pad,mx=(ax+bx)/2,my=(ay+by)/2,ddx=bx-ax,ddy=by-ay,qx=mx+ddy*0.12,qy=my-ddx*0.12;
+      ctx.save();ctx.strokeStyle='#f5c518';ctx.fillStyle='#f5c518';ctx.lineWidth=4;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(qx,qy,bx,by);ctx.stroke();
+      const ang=Math.atan2(by-qy,bx-qx);ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx-12*Math.cos(ang-0.4),by-12*Math.sin(ang-0.4));ctx.lineTo(bx-12*Math.cos(ang+0.4),by-12*Math.sin(ang+0.4));ctx.closePath();ctx.fill();
+      ctx.restore();
+    }
+  }
 }
 function dmExportNode(ctx,node,el,x1,y1,pad){
   const i=dmInfo(node);if(!i)return false;
@@ -4250,18 +4595,21 @@ function pngChips(ctx,el,x,y,bw){
     ctx.restore();
   });
 }
-function exportPNG(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return;}let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
-  const pad=dateMode?110:50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;const cv=document.createElement('canvas');const dpr=2;cv.width=cw*dpr;cv.height=ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+function exportPNG(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return;}const slideX=dateMode&&axSlide;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n)||(slideX&&slideHides(n)))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
+  const pad=dateMode?(slideX?150:110):50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;const cv=document.createElement('canvas');const dpr=2;cv.width=cw*dpr;cv.height=ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
   const bgc=BG_COLORS.find(b=>b.id===bgColorId);ctx.fillStyle=bgc?bgc.color:'#1a1d23';ctx.fillRect(0,0,cw,ch);
   if(dateMode)dmExportAxis(ctx,x1,y1,pad,cw,ch);
   // Wires
   const sqx=connStyle==='squared',rcs=sqx?nodeRects():null;
-  for(const node of nodes){if(isHidden(node)||node.parentId===null)continue;const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;const pEl=elOf(parent.id);const cEl=elOf(node.id);if(!pEl||!cEl)continue;const px=parent.x+pEl.offsetWidth-x1+pad,py=parent.y+pEl.offsetHeight/2-y1+pad;const cx=node.x-x1+pad,cy=node.y+cEl.offsetHeight/2-y1+pad;const c=gc(node.colorId);ctx.beginPath();const tp=sqx?treeWirePts(parent,node,rcs):null;if(tp){tp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(tp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(px,py);const mx=(px+cx)/2;ctx.bezierCurveTo(mx,py,mx,cy,cx,cy);}ctx.strokeStyle=c.wire;ctx.lineWidth=2.5;ctx.stroke();}
+  const critX=dateMode&&(critOnly||axSlide);
+  for(const node of nodes){if(critX||isHidden(node)||node.parentId===null)continue;const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;const pEl=elOf(parent.id);const cEl=elOf(node.id);if(!pEl||!cEl)continue;const px=parent.x+pEl.offsetWidth-x1+pad,py=parent.y+pEl.offsetHeight/2-y1+pad;const cx=node.x-x1+pad,cy=node.y+cEl.offsetHeight/2-y1+pad;const c=gc(node.colorId);ctx.beginPath();const tp=sqx?treeWirePts(parent,node,rcs):null;if(tp){tp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(tp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(px,py);const mx=(px+cx)/2;ctx.bezierCurveTo(mx,py,mx,cy,cx,cy);}ctx.strokeStyle=c.wire;ctx.lineWidth=2.5;ctx.stroke();}
   // Cross-links
-  for(const lk of crossLinks){const nA=gn(lk.from),nB=gn(lk.to);if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;const eA=elOf(nA.id);const eB=elOf(nB.id);if(!eA||!eB)continue;const ax=nA.x+eA.offsetWidth/2-x1+pad,ay=nA.y+eA.offsetHeight/2-y1+pad;const bx=nB.x+eB.offsetWidth/2-x1+pad,by=nB.y+eB.offsetHeight/2-y1+pad;ctx.beginPath();ctx.setLineDash([10,5]);const dx=bx-ax,dy=by-ay;const cpx=(ax+bx)/2-dy*0.3,cpy=(ay+by)/2+dx*0.3;const lp=sqx?linkPts(nA,nB,rcs):null;if(lp){lp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(lp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cpx,cpy,bx,by);}ctx.strokeStyle='rgba(255,200,60,0.6)';ctx.lineWidth=2.5;ctx.stroke();ctx.setLineDash([]);
+  if(critX)dmExportChain(ctx,x1,y1,pad);
+  for(const lk of (critX?[]:crossLinks)){const nA=gn(lk.from),nB=gn(lk.to);if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;const eA=elOf(nA.id);const eB=elOf(nB.id);if(!eA||!eB)continue;const ax=nA.x+eA.offsetWidth/2-x1+pad,ay=nA.y+eA.offsetHeight/2-y1+pad;const bx=nB.x+eB.offsetWidth/2-x1+pad,by=nB.y+eB.offsetHeight/2-y1+pad;ctx.beginPath();ctx.setLineDash([10,5]);const dx=bx-ax,dy=by-ay;const cpx=(ax+bx)/2-dy*0.3,cpy=(ay+by)/2+dx*0.3;const lp=sqx?linkPts(nA,nB,rcs):null;if(lp){lp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(lp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cpx,cpy,bx,by);}ctx.strokeStyle='rgba(255,200,60,0.6)';ctx.lineWidth=2.5;ctx.stroke();ctx.setLineDash([]);
     if(lk.label){let tx=(ax+2*cpx+bx)/4,ty=(ay+2*cpy+by)/4;if(lp){const m=polyMid(lp);tx=m.x;ty=m.y;}ctx.font='11px system-ui,sans-serif';ctx.fillStyle='rgba(255,220,100,0.85)';ctx.textAlign='center';ctx.fillText(lk.label,tx,ty-4);ctx.textAlign='start';}}
   // Nodes
-  for(const node of nodes){if(isHidden(node))continue;const el=elOf(node.id);if(!el)continue;if(dateMode&&dmExportNode(ctx,node,el,x1,y1,pad))continue;const c=gc(node.colorId);const x=node.x-x1+pad,y=node.y-y1+pad;const w=el.offsetWidth,h=el.offsetHeight;const crit=node.status==='critical';ctx.fillStyle=c.bg;ctx.strokeStyle=crit?'#f5c518':c.border;ctx.lineWidth=crit?3:(isRoot(node)?3:2);if(crit){ctx.shadowColor='rgba(245,197,24,0.8)';ctx.shadowBlur=18;}ctx.beginPath();const r=8;ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowColor='transparent';ctx.shadowBlur=0;const _lab=el.querySelector('.label'),_bw=isRoot(node)?3:2;ctx.fillStyle='#d4d8e0';ctx.font=(gdepth(node)===0?'600 16':'14')+'px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='start';ctx.fillText(node.text,x+_bw+(_lab?_lab.offsetLeft:12),y+_bw+(_lab?_lab.offsetTop+_lab.offsetHeight/2:(h-2*_bw)/2),w-28);pngChips(ctx,el,x,y,_bw);if(node.status==='critical'){ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+w-2,y-18);ctx.lineTo(x+w+14,y+8);ctx.lineTo(x+w-18,y+8);ctx.closePath();ctx.fill();}else if(node.status==='blocked'){ctx.fillStyle='#bf3a3a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u26A0',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='completed'){ctx.fillStyle='#3a9f55';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u2713',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='awaiting'){ctx.fillStyle='#bf8f2a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u23F3',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='ongoing'){ctx.fillStyle='#3a7abf';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u25B6',x+w-4,y+1);ctx.textAlign='start';}}
+  for(const node of nodes){if(isHidden(node)||(slideX&&slideHides(node)))continue;const el=elOf(node.id);if(!el)continue;if(dateMode){ctx.globalAlpha=(slideX&&node.status!=='critical')?0.5:1;const done=dmExportNode(ctx,node,el,x1,y1,pad);ctx.globalAlpha=1;if(done)continue;}const c=gc(node.colorId);const x=node.x-x1+pad,y=node.y-y1+pad;const w=el.offsetWidth,h=el.offsetHeight;const crit=node.status==='critical';ctx.fillStyle=c.bg;ctx.strokeStyle=crit?'#f5c518':c.border;ctx.lineWidth=crit?3:(isRoot(node)?3:2);if(crit){ctx.shadowColor='rgba(245,197,24,0.8)';ctx.shadowBlur=18;}ctx.beginPath();const r=8;ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowColor='transparent';ctx.shadowBlur=0;const _lab=el.querySelector('.label'),_bw=isRoot(node)?3:2;ctx.fillStyle='#d4d8e0';ctx.font=(gdepth(node)===0?'600 16':'14')+'px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='start';ctx.fillText(node.text,x+_bw+(_lab?_lab.offsetLeft:12),y+_bw+(_lab?_lab.offsetTop+_lab.offsetHeight/2:(h-2*_bw)/2),w-28);pngChips(ctx,el,x,y,_bw);if(node.status==='critical'){ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+w-2,y-18);ctx.lineTo(x+w+14,y+8);ctx.lineTo(x+w-18,y+8);ctx.closePath();ctx.fill();}else if(node.status==='blocked'){ctx.fillStyle='#bf3a3a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u26A0',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='completed'){ctx.fillStyle='#3a9f55';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u2713',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='awaiting'){ctx.fillStyle='#bf8f2a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u23F3',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='ongoing'){ctx.fillStyle='#3a7abf';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u25B6',x+w-4,y+1);ctx.textAlign='start';}}
+  if(slideX)dmExportLegend(ctx,cw,ch);
   cv.toBlob(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('png');a.click();URL.revokeObjectURL(a.href);toast('PNG exported');});
 }
 
@@ -4594,7 +4942,7 @@ function navigateArrow(key){if(!selectedId){selectNode(nodes[0]?.id);return;}con
 
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
 
-// ── Agenda (everything with a due date, grouped by urgency) ──
+// ── Agenda: a working to-do list (overdue, today, this week, under way) ──
 function toggleAgenda(){
   if(!agendaVisible&&statsPanelVisible)toggleStatsPanel();
   agendaVisible=!agendaVisible;
@@ -4602,42 +4950,76 @@ function toggleAgenda(){
   if(agendaVisible)buildAgenda();
   syncToolbarState();
 }
+function mdTasks(owner){
+  const B={overdue:[],today:[],week:[],under:[]},UN=['ongoing','blocked','awaiting','critical'];
+  const want=n=>{const o=(n.owner||'').trim().toLowerCase();return owner===''?true:owner==='__none__'?!o:o===owner;};
+  for(const n of nodes){
+    if(n.status==='completed'||!want(n))continue;
+    const i=dueInfo(n);let k=null;
+    if(i.state==='overdue')k='overdue';else if(i.state==='today')k='today';
+    else if(i.state!=='none'&&i.state!=='done'&&i.days<=7)k='week';
+    else if(UN.includes(n.status))k='under';
+    if(k)B[k].push([n,i]);
+  }
+  const byDate=(a,b)=>(a[0].due||'9999')<(b[0].due||'9999')?-1:(a[0].due||'9999')>(b[0].due||'9999')?1:String(a[0].text).localeCompare(String(b[0].text));
+  for(const k in B)B[k].sort(byDate);
+  return B;
+}
 function buildAgenda(){
   const box=document.getElementById('agenda-content');if(!box)return;
-  const showDone=document.getElementById('agenda-done').checked;
-  const B={overdue:[],today:[],week:[],later:[],done:[]};
-  for(const n of nodes){
-    const i=dueInfo(n);if(i.state==='none')continue;
-    const k=i.state==='done'?'done':i.state==='overdue'?'overdue':i.state==='today'?'today':i.days<=7?'week':'later';
-    B[k].push([n,i]);
-  }
-  const byDate=(a,b)=>a[0].due<b[0].due?-1:a[0].due>b[0].due?1:String(a[0].text).localeCompare(String(b[0].text));
+  // owner choices, as written by the user (case-insensitive)
+  const seen=new Map();for(const n of nodes){const o=(n.owner||'').trim();if(o&&!seen.has(o.toLowerCase()))seen.set(o.toLowerCase(),o);}
+  const sel=$('#md-owner');
+  if(mdOwner&&mdOwner!=='__none__'&&!seen.has(mdOwner))mdOwner='';
+  sel.innerHTML='<option value="">Everyone</option>'+[...seen].sort((a,b)=>a[1].localeCompare(b[1])).map(([k,v])=>'<option value="'+esc(k)+'">'+esc(v)+'</option>').join('')+'<option value="__none__">Unassigned</option>';
+  sel.value=mdOwner;
+  $('#md-date').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+  const B=mdTasks(mdOwner);
+  const bits=[];
+  if(B.overdue.length)bits.push('<b class="o">'+B.overdue.length+' overdue</b>');
+  if(B.today.length)bits.push('<b class="t">'+B.today.length+' due today</b>');
+  if(B.week.length)bits.push(B.week.length+' this week');
+  if(B.under.length)bits.push(B.under.length+' under way');
+  $('#md-sum').innerHTML=bits.length?bits.join(' &middot; '):'';
   box.innerHTML='';
-  const groups=[['overdue','Overdue'],['today','Due today'],['week','Next 7 days'],['later','Later']];
-  if(showDone)groups.push(['done','Completed']);
+  const groups=[['overdue','Overdue'],['today','Due today'],['week','Next 7 days'],['under','Under way']];
   let any=false;
   for(const [key,title] of groups){
-    const items=B[key].sort(byDate);if(!items.length)continue;any=true;
+    const items=B[key];if(!items.length)continue;any=true;
     const g=document.createElement('div');g.className='ag-group';
     const h=document.createElement('div');h.className='ag-group-title '+key;h.textContent=title+' ('+items.length+')';g.appendChild(h);
     for(const [n,i] of items){
-      const row=document.createElement('button');row.type='button';row.className='ag-row '+key;row.dataset.id=n.id;
-      const main=document.createElement('div');main.className='ag-main';
-      const t=document.createElement('div');t.className='ag-title';t.textContent=n.text;
-      const sub=document.createElement('div');sub.className='ag-sub';
+      const row=document.createElement('div');row.className='md-row '+key;
+      const cb=document.createElement('input');cb.type='checkbox';cb.title='Mark as completed';
+      cb.addEventListener('change',()=>{snap();const was=n.status;n.status='completed';n.modifiedAt=new Date().toISOString();const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);render();autoSave();});
+      const main=document.createElement('div');main.className='md-main';
+      const t=document.createElement('div');t.className='md-title';t.textContent=n.text;
       const par=n.parentId!==null?gn(n.parentId):null;
-      sub.textContent=[par?'in '+par.text:'top level',n.owner,n.project,n.status==='critical'?'Critical Path':n.status].filter(Boolean).join(' \u00B7 ');
-      main.appendChild(t);main.appendChild(sub);
-      const d=document.createElement('div');d.className='ag-date';
-      const rel=i.state==='overdue'?(-i.days)+'d overdue':i.state==='today'?'today':i.state==='done'?'done':i.days===1?'tomorrow':'in '+i.days+'d';
-      d.textContent=fmtDay(n.due,true)+' \u00B7 '+rel;
-      row.appendChild(main);row.appendChild(d);
-      row.addEventListener('click',()=>jumpToNode(n.id));
-      g.appendChild(row);
+      const sub=document.createElement('div');sub.className='md-sub';
+      sub.textContent=[par?'in '+par.text:'',n.owner,n.status==='critical'?'Critical Path':n.status,n.progress?cleanPct(n.progress)+'%':'',repeatLabel(n.repeat)?'\u21BB '+repeatLabel(n.repeat):''].filter(Boolean).join(' \u00B7 ');
+      main.appendChild(t);if(sub.textContent)main.appendChild(sub);
+      const od=openDeps(n);
+      if(od.length){const w=document.createElement('div');w.className='md-wait';w.textContent='\u26D3 Waiting on '+od.map(x=>x.text).join(', ');main.appendChild(w);}
+      if(n.checks&&n.checks.length){
+        const cl=document.createElement('div');cl.className='md-checks';
+        n.checks.forEach(it=>{
+          const lab=document.createElement('label');lab.className='md-ck'+(it.d?' done':'');
+          const c2=document.createElement('input');c2.type='checkbox';c2.checked=it.d;
+          c2.addEventListener('change',()=>{snap();it.d=c2.checked;n.modifiedAt=new Date().toISOString();render();autoSave();if(detailNodeId===n.id)renderDetailChecks();});
+          c2.addEventListener('click',e=>e.stopPropagation());
+          const sp=document.createElement('span');sp.textContent=it.t;
+          lab.appendChild(c2);lab.appendChild(sp);cl.appendChild(lab);
+        });
+        main.appendChild(cl);
+      }
+      main.addEventListener('click',()=>jumpToNode(n.id));
+      const wh=document.createElement('div');wh.className='md-when';
+      wh.textContent=i.state==='none'?'':i.state==='overdue'?(-i.days)+'d overdue':i.state==='today'?'today':i.days===1?'tomorrow':fmtDay(n.due,false);
+      row.appendChild(cb);row.appendChild(main);row.appendChild(wh);g.appendChild(row);
     }
     box.appendChild(g);
   }
-  if(!any){const e=document.createElement('div');e.className='ag-empty';e.textContent=nodes.some(n=>dayMs(n.due)!==null)?'Nothing open has a due date. Tick "Show completed" to see finished items.':'No due dates yet. Select a node and press I to set one.';box.appendChild(e);}
+  if(!any){const e=document.createElement('div');e.className='ag-empty';e.textContent=mdOwner?'Nothing for this person today.':'Nothing is overdue, due this week or under way. Give items a due date or a status to see them here.';box.appendChild(e);}
 }
 // Reveal a node (expanding collapsed parents), centre the view on it and flash it
 function jumpToNode(id){
@@ -5100,7 +5482,7 @@ function applyBulk(){
   multiSelected.forEach(id=>{
     const n=gn(id);if(!n)return;
     if(bc)n.colorId=bc;
-    if(bs)n.status=bs;
+    if(bs){const was=n.status;n.status=bs;if(bs==='completed'&&was!=='completed')rollRecurring(n,was);}
     if(bo)n.owner=bo;
     if(bd)n.due=bd;
   });
@@ -5556,6 +5938,7 @@ function renderDetailTags(nodeId){
   container.innerHTML='';
   const n=gn(nodeId);if(!n)return;
   const tags=getNodeTags(n);
+  $('#dp-tog-tags-n').textContent=tags.length||'';
   tags.forEach((t,i)=>{
     const nid=nodeId; // capture ID not object
     const chip=document.createElement('span');chip.className='tag-chip';
