@@ -538,6 +538,31 @@
   .node .node-ck { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(255,255,255,0.07); color:#aab2c0; border:1px solid rgba(255,255,255,0.12); }
   .node .node-ck.done { background:rgba(63,179,107,0.18); color:#7fd6a0; border-color:rgba(63,179,107,0.5); }
   .node .node-rp { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(120,170,255,0.12); color:#9dbcff; border:1px solid rgba(120,170,255,0.3); }
+  #act-panel .dp-log-add { display:flex; gap:6px; align-items:flex-start; margin:4px 0 8px; }
+  #act-in { flex:1; box-sizing:border-box; min-height:42px; resize:vertical; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 8px; font-family:var(--font); font-size:12.5px; line-height:1.4; outline:none; }
+  #act-in:focus { border-color:var(--accent); }
+  #act-panel { position:fixed; top:90px; right:12px; z-index:135; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; width:330px; max-width:calc(100vw - 24px); max-height:75vh; overflow-y:auto; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; }
+  #act-panel.visible { display:block; }
+  #act-panel .act-hd { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  #act-panel .act-hd b { flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px; }
+  #act-panel .act-x { background:none; border:0; color:var(--text-muted); cursor:pointer; font-size:18px; line-height:1; }
+  #act-panel .act-x:hover { color:var(--text); }
+  .dp-act svg { width:13px; height:13px; vertical-align:-2px; margin-right:3px; }
+  .node-cm { cursor:pointer; }
+  #act-list { max-height:230px; overflow-y:auto; font-size:12px; line-height:1.45; }
+  .lg-row { padding:5px 0; border-bottom:1px dotted var(--border); overflow:hidden; }
+  .lg-when { display:block; color:var(--text-muted); font-size:11px; }
+  .lg-note { white-space:pre-wrap; word-break:break-word; }
+  .lg-why { color:var(--text-muted); font-style:italic; }
+  .lg-x { float:right; background:none; border:0; color:var(--text-muted); cursor:pointer; font-size:15px; line-height:1; padding:0 2px; }
+  .lg-x:hover { color:var(--danger); }
+  .lg-add { background:none; border:0; color:var(--accent); cursor:pointer; font-size:11px; padding:0; }
+  .lg-add:hover { text-decoration:underline; }
+  #why-bar { position:fixed; left:50%; bottom:124px; transform:translateX(-50%); z-index:200; display:none; align-items:center; gap:8px; flex-wrap:wrap; justify-content:center; max-width:calc(100vw - 24px); background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:8px 12px; box-shadow:0 8px 28px rgba(0,0,0,0.5); font-size:12.5px; }
+  #why-bar.visible { display:flex; }
+  #why-chips { display:flex; gap:5px; flex-wrap:wrap; }
+  #why-in { width:150px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:4px 8px; font-family:var(--font); font-size:12px; outline:none; }
+  #why-in:focus { border-color:var(--accent); }
   #dp-rp-sec { display:none; align-items:center; gap:8px; margin:8px 0 12px; flex-wrap:wrap; }
   #dp-rp-sec > span { font-size:12px; color:var(--text-muted); }
   #dp-rp-sec input[type=number], #dp-rp-sec select { box-sizing:border-box; height:28px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-family:var(--font); font-size:12px; font-weight:400; line-height:1.2; padding:0 8px; outline:none; }
@@ -750,6 +775,8 @@
   .dd-submenu > .dd-item::after { content:'▸'; margin-left:auto; font-size:10px; color:var(--text-muted); }
   .dd-submenu-items { position:absolute; left:100%; top:-4px; margin-left:2px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:4px; min-width:180px; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; z-index:115; }
   .dd-submenu:hover > .dd-submenu-items { display:block; }
+  #ddm-settings .dd-submenu-items { min-width:240px; }
+  #ddm-settings .dd-submenu-items .dd-item { white-space:nowrap; }
   .dd-submenu.open > .dd-submenu-items { display:block; }
   @media (max-width:900px), (hover:none) {
     .dropdown-menu { max-height:calc(100vh - 64px); overflow-y:auto; }
@@ -930,7 +957,7 @@
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
-    #bookmarks-panel, #views-panel, #bl-panel, #pres-overlay, #due-badge, #dm-tip,
+    #bookmarks-panel, #views-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
     body.print-report > *:not(#report-overlay) { display:none !important; }
     body.print-report #report-overlay { display:block !important; position:static !important; transform:none !important; width:auto !important; box-shadow:none !important; border:0 !important; background:#fff !important; }
@@ -1084,30 +1111,42 @@
 
   <!-- Settings dropdown -->
   <div class="dropdown" id="dd-settings">
-    <button class="tb-btn" onclick="toggleDD('dd-settings')" title="Theme, connector style, snapping, popups and the background">Settings &#9662;</button>
+    <button class="tb-btn" onclick="toggleDD('dd-settings')" title="Appearance, editing options, baselines and Date Axis settings">Settings &#9662;</button>
     <div class="dropdown-menu" id="ddm-settings">
-      <div class="dd-label">Display</div>
-      <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
-      <button class="dd-item" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines…</button>
-      <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names on the Date Axis">Lane Bands: On</button>
-      <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
-      <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Date Axis only: show no lines, only the selected node's lines, or every line">Date Axis Lines: Selected</button>
-      <button class="dd-item" id="slide-toggle" onclick="toggleSlide();closeDD()" title="Date Axis only: a clean view for slides, with Critical Path items emphasised">Date Axis Slide View: Off</button>
-      <button class="dd-item" id="crit-toggle" onclick="toggleCritOnly();closeDD()" title="Date Axis only: show only Critical Path items, their workstreams and the chain of dependencies between them">Date Axis Critical Path Only: Off</button>
-      <button class="dd-item" id="undated-toggle" onclick="toggleShowUndated();closeDD()" title="Date Axis only: show or hide nodes that have no date">Date Axis Undated Nodes: Hidden</button>
-      <button class="dd-item" id="barcol-toggle" onclick="toggleBarColors();closeDD()" title="Date Axis only: colour bars by workstream, or by each node's own colour">Date Axis Bar Colours: Workstream</button>
-      <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
-      <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
+      <div class="dd-label">Appearance</div>
       <button class="dd-item" id="theme-toggle" onclick="toggleTheme();closeDD()" title="Switch between the dark and light theme">Theme: Dark</button>
-      <div class="dd-sep"></div>
-      <div class="dd-label">Behaviour</div>
-      <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
-      <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
-      <div class="dd-sep"></div>
+      <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
       <div class="dd-label">Background</div>
       <div class="bg-row" id="bg-colors"></div>
       <div class="dd-label">Pattern</div>
       <div class="bg-row" id="bg-patterns"></div>
+      <div class="dd-sep"></div>
+      <div class="dd-label">Editing</div>
+      <button class="dd-item" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Activity &amp; comments: Off</button>
+      <button class="dd-item" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
+      <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
+      <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
+      <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
+      <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
+      <div class="dd-sep"></div>
+      <div class="dd-label">Planning</div>
+      <button class="dd-item" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines&hellip;</button>
+      <div class="dd-submenu">
+        <button class="dd-item" id="dm-settings-trigger" title="Everything about how the Date Axis looks and behaves">Date Axis settings</button>
+        <div class="dd-submenu-items">
+          <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
+          <div class="dd-sep"></div>
+          <div class="dd-label">Layout</div>
+          <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names">Lane Bands: On</button>
+          <button class="dd-item" id="undated-toggle" onclick="toggleShowUndated();closeDD()" title="Show or hide nodes that have no date">Undated Nodes: Hidden</button>
+          <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Show no lines, only the selected node's lines, or every line">Lines: Selected</button>
+          <button class="dd-item" id="barcol-toggle" onclick="toggleBarColors();closeDD()" title="Colour bars by workstream, or by each node's own colour">Bar Colours: Workstream</button>
+          <div class="dd-sep"></div>
+          <div class="dd-label">Focus</div>
+          <button class="dd-item" id="crit-toggle" onclick="toggleCritOnly();closeDD()" title="Show only Critical Path items, their workstreams and the chain of dependencies between them">Critical Path Only: Off</button>
+          <button class="dd-item" id="slide-toggle" onclick="toggleSlide();closeDD()" title="A clean view for slides, with Critical Path items emphasised">Slide View: Off</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1327,6 +1366,8 @@
 </div>
 <div id="slide-legend"><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1.5 21,19.5 1,19.5" fill="#f5c518" stroke="rgba(0,0,0,.45)"/></svg>Critical path</span><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1 14,8 21.5,8.5 15.8,13.4 17.6,20.8 11,16.8 4.4,20.8 6.2,13.4 0.5,8.5 8,8" fill="#9aa3b2"/></svg>Key milestone</span><span><svg width="14" height="14" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.5" fill="#9aa3b2"/></svg>Milestone</span><span><svg width="22" height="10"><rect x="0" y="1" width="22" height="8" rx="2" fill="#9aa3b2"/></svg>Activity</span><span><svg width="26" height="10"><path d="M1,5 L21,5" stroke="#f5c518" stroke-width="3"/><polygon points="26,5 19,1 19,9" fill="#f5c518"/></svg>Critical dependency</span></div>
 <div id="dm-tip"></div>
+<div id="act-panel" role="dialog" aria-label="Activity and comments"><div class="act-hd"><b id="act-title"></b><button type="button" class="act-x" id="act-close" title="Close" aria-label="Close">&times;</button></div><div class="dp-log-add"><textarea id="act-in" rows="2" maxlength="1000" placeholder="Add a comment (Ctrl+Enter to post)" aria-label="Add a comment"></textarea><button class="dp-mini" id="act-post" type="button">Post</button></div><div id="act-list"></div></div>
+<div id="why-bar" role="status" aria-live="polite"><span id="why-txt"></span><span id="why-chips"></span><input type="text" id="why-in" maxlength="80" placeholder="Or type a reason" aria-label="Reason for the date change"><button class="dp-mini" id="why-skip" type="button">Skip</button></div>
 
 <div id="color-bar"><span class="color-label">Category:</span></div>
 
@@ -1730,6 +1771,7 @@ let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected'
 let hideCompleted=false;
 let lightTheme=false;
 let bookmarks=[];
+let trackActivity=false; // per map: keep comments and change history (see Activity)
 let baselines=[],activeBaseline=0; // saved plans (see Baselines); activeBaseline is the one the Date Axis compares with
 let reportState={note:'',snap:null}; // report headline text and the snapshot the next report compares against
 let savedViews=[];
@@ -1772,7 +1814,7 @@ function toggleMinimap(){minimapVisible=!minimapVisible;$('#minimap').classList.
 function snapState(){return JSON.stringify({nodes,crossLinks,nextId,bookmarks,hiddenRoots:[...hiddenRoots]});}
 function restoreState(str){
   const s=JSON.parse(str);
-  nodes=s.nodes;crossLinks=s.crossLinks||[];nextId=s.nextId;
+  nodes=s.nodes;crossLinks=s.crossLinks||[];nextId=s.nextId;logSync();
   if(Array.isArray(s.bookmarks))bookmarks=s.bookmarks;
   if(Array.isArray(s.hiddenRoots))hiddenRoots=new Set(s.hiddenRoots);
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
@@ -1813,6 +1855,7 @@ function addToIso(iso,n,u){
 // Called after a node has just been marked Completed. Returns true when it was recurring and has been rolled on.
 function rollRecurring(n,prevStatus){
   const r=cleanRepeat(n.repeat);if(!r||n.status!=='completed')return false;
+  logAuto.add(n.id);
   const today=new Date(todayMs()).toISOString().slice(0,10);
   const base=normDate(n.due)||normDate(n.start)||today;
   let next=addToIso(base,r.n,r.u),guard=0;
@@ -1908,6 +1951,7 @@ function sanitizeNodes(raw){
       createdAt:r.createdAt||now,modifiedAt:r.modifiedAt||r.createdAt||now,
       doneAt:r.status==='completed'?(cleanIso(r.doneAt)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now):''
     });
+    {const lg=cleanLog(r.log);if(lg.length)out[out.length-1].log=lg;}
   }
   const byId=new Map(out.map(n=>[n.id,n]));
   out.forEach(n=>{if(n.parentId!==null&&(!byId.has(n.parentId)||n.parentId===n.id))n.parentId=null;});
@@ -1944,7 +1988,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=4,APP_VERSION='1.29.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.30.1';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2000,7 +2044,7 @@ function init(){
 function createDefault(){
   const cx=window.innerWidth/2,cy=(window.innerHeight-44)/2;
   nodes=[{id:1,text:'Central Idea',x:cx-70,y:cy-20,parentId:null,collapsed:false,colorId:'blue',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:new Date().toISOString(),modifiedAt:new Date().toISOString()}];
-  crossLinks=[];nextId=2;panX=0;panY=0;zoom=1;
+  crossLinks=[];nextId=2;panX=0;panY=0;zoom=1;logSync();
 }
 
 // ── Save/Load ──
@@ -2037,13 +2081,13 @@ let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline},null,compact?0:2);
+  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
 // "Dirty" means the map differs from the last file save (or, if never saved to a file, from how it was when the page opened).
 // It compares content, so panning and zooming never count as changes.
-const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines]);
+const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity]);
 function hashStr(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h+':'+t.length;}
 const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 function refreshDirty(){
@@ -2205,11 +2249,11 @@ function applyLoadedData(text,name){
     if(!fresh.length)throw new Error('No nodes in file');
     if(Number(d.version)>FORMAT_VERSION)toast('This file was saved by a newer MindLoom (v'+d.version+'). Some details may be ignored');
     hideDetail();pushBackup('before load',true);snap();
-    nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);
+    nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);logSync();
     // Reset per-map view state so stale IDs from the previous map cannot leak in
     hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));
     bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
-    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
+    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;updateActButtons();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
     multiSelected.clear();updateBulkBar();
     if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
     if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
@@ -2223,7 +2267,7 @@ function applyLoadedData(text,name){
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;updateActButtons();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2344,7 +2388,7 @@ function rectEdge(cx,cy,w,h,tx,ty){ // where the line from a rectangle's centre 
 let elMap=new Map();
 function elOf(id){const e=elMap.get(Number(id));return (e&&e.isConnected)?e:canvas.querySelector('[data-id="'+id+'"]');}
 function render(){
-  _dmHid=null;stampDone();
+  _dmHid=null;stampDone();logChanges();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
   applyDateLayout();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
@@ -2415,6 +2459,7 @@ function render(){
 
     // Checklist progress chip
     {const kc=ckCount(node);if(kc.total){const ck=document.createElement('span');ck.className='node-ck'+(kc.done===kc.total?' done':'');ck.textContent='\u2611 '+kc.done+'/'+kc.total;ck.title='Checklist: '+kc.done+' of '+kc.total+' done';el.appendChild(ck);}}
+    {const nn=trackActivity?(node.log||[]).filter(x=>x.t==='note').length:0;if(nn){const cm=document.createElement('span');cm.addEventListener('mousedown',ev=>ev.stopPropagation());cm.addEventListener('click',ev=>{ev.stopPropagation();openAct(node.id);});cm.className='node-ck node-cm';cm.textContent='\u270E '+nn;cm.title=nn+(nn===1?' comment':' comments');el.appendChild(cm);}}
 
     // Repeat chip
     {const rl=repeatLabel(node.repeat);if(rl){const rp=document.createElement('span');rp.className='node-rp';rp.textContent='\u21BB '+rl;rp.title='Recurring: '+rl.toLowerCase()+(node.lastDone?'. Last done '+fmtDay(node.lastDone,true):'');el.appendChild(rp);}}
@@ -2521,9 +2566,9 @@ let dmLanes=[];
 // Highlight selection: the selected node, its branch, its ancestors and anything it links to or depends on stay bright
 function setFocusSel(on,quiet){focusSel=!!on;const b=$('#focussel-toggle');if(b)b.textContent='Highlight Selection: '+(focusSel?'On':'Off');if(!quiet){applyFocus();drawConnectors();}}
 const LINKVIS_NAME={off:'Off',selected:'Selected',all:'All'};
-function setLinkVis(v,quiet){linkVis=LINKVIS_NAME[v]?v:'selected';const t='Lines: '+LINKVIS_NAME[linkVis];const a=$('#dm-lines-btn');if(a)a.textContent=t;const b=$('#linkvis-toggle');if(b)b.textContent='Date Axis Lines: '+LINKVIS_NAME[linkVis];if(!quiet)drawConnectors();}
+function setLinkVis(v,quiet){linkVis=LINKVIS_NAME[v]?v:'selected';const t='Lines: '+LINKVIS_NAME[linkVis];const a=$('#dm-lines-btn');if(a)a.textContent=t;const b=$('#linkvis-toggle');if(b)b.textContent='Lines: '+LINKVIS_NAME[linkVis];if(!quiet)drawConnectors();}
 function cycleLinkVis(){setLinkVis(linkVis==='selected'?'all':linkVis==='all'?'off':'selected');autoSave();toast('Date Axis lines: '+LINKVIS_NAME[linkVis].toLowerCase()+(dateMode?'':' (applies with the Date Axis)'));}
-function setBarColors(v,quiet){barColors=v==='node'?'node':'lane';const b=$('#barcol-toggle');if(b)b.textContent='Date Axis Bar Colours: '+(barColors==='lane'?'Workstream':'Node');if(!quiet)render();}
+function setBarColors(v,quiet){barColors=v==='node'?'node':'lane';const b=$('#barcol-toggle');if(b)b.textContent='Bar Colours: '+(barColors==='lane'?'Workstream':'Node');if(!quiet)render();}
 function toggleBarColors(){setBarColors(barColors==='lane'?'node':'lane');autoSave();toast('Date Axis bars coloured by '+(barColors==='lane'?'workstream':'node'));}
 // The workstream colour is that of the node directly under the root
 function dmLaneColor(n){if(!dateMode||barColors!=='lane')return null;let x=n;while(x&&x.parentId!==null){const p=gn(x.parentId);if(p&&p.parentId===null)return gc(x.colorId);x=p;}return null;}
@@ -2591,7 +2636,7 @@ function dmUpdateUndatedBtn(){
   b.style.display=(dateMode&&!critOnly&&!axSlide&&(showUndated||c))?'':'none';
   b.textContent=showUndated?'Hide undated':'Undated hidden: '+c;
   b.title=showUndated?'Hide the nodes that have no date':'Nodes with no date are hidden on the Date Axis. Click to show them.';
-  const m=$('#undated-toggle');if(m)m.textContent='Date Axis Undated Nodes: '+(showUndated?'Shown':'Hidden');
+  const m=$('#undated-toggle');if(m)m.textContent='Undated Nodes: '+(showUndated?'Shown':'Hidden');
 }
 function setShowUndated(on,quiet){
   showUndated=!!on;_dmHid=null;dmUpdateUndatedBtn();
@@ -2614,7 +2659,7 @@ function slideApply(){
 function setSlide(on,quiet){
   axSlide=!!on;_dmHid=null;
   const b=$('#dm-slide-btn');if(b)b.classList.toggle('on',axSlide);
-  const m=$('#slide-toggle');if(m)m.textContent='Date Axis Slide View: '+(axSlide?'On':'Off');
+  const m=$('#slide-toggle');if(m)m.textContent='Slide View: '+(axSlide?'On':'Off');
   dmUpdateUndatedBtn();
   if(!quiet&&dateMode){dateTidy('all',true);}
 }
@@ -2624,7 +2669,7 @@ function setCritOnly(on,quiet){
   if(on&&!quiet){const has=nodes.some(n=>n.status==='critical'&&dmInfo(n));if(!has){toast('No Critical Path items have a date yet');return;}}
   critOnly=on;_dmHid=null;
   const b=$('#dm-crit-btn');if(b){b.classList.toggle('on',critOnly);b.textContent=critOnly?'Critical path only':'Critical path';}
-  const m=$('#crit-toggle');if(m)m.textContent='Date Axis Critical Path Only: '+(critOnly?'On':'Off');
+  const m=$('#crit-toggle');if(m)m.textContent='Critical Path Only: '+(critOnly?'On':'Off');
   dmUpdateUndatedBtn();
   if(!quiet&&dateMode){dateTidy('all',true);}
 }
@@ -3133,7 +3178,7 @@ function showDetail(nid,anchorEl,pinned){
     let h='<div class="dp-label" style="margin-top:10px">Dependencies</div>';
     pre.forEach(pr=>{const dn=pr.status==='completed';h+='<div class="dp-dep-row"><span title="Must be finished first">'+(dn?'<span class="dep-done">\u2713</span>':'\u23F3')+'</span><span class="link-target" onclick="focusNode('+pr.id+')">Depends on: '+esc(pr.text)+'</span><span class="link-remove" title="Remove dependency" onclick="removeDependency('+nid+','+pr.id+')">&times;</span></div>';});
     nxt.forEach(nx=>{h+='<div class="dp-dep-row"><span title="Waiting on this node">\u2192</span><span class="link-target" onclick="focusNode('+nx.id+')">Needed by: '+esc(nx.text)+'</span><span class="link-remove" title="Remove dependency" onclick="removeDependency('+nx.id+','+nid+')">&times;</span></div>';});
-    h+='<div class="dp-dep-btns"><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'dep\')" title="Pick the node that must be finished before this one">+ Depends on&hellip;</button><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'need\')" title="Pick a node that cannot start until this one is finished">+ Needed by&hellip;</button></div>';
+    h+='<div class="dp-dep-btns"><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'dep\')" title="Pick the node that must be finished before this one">+ Depends on&hellip;</button><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'need\')" title="Pick a node that cannot start until this one is finished">+ Needed by&hellip;</button>'+(trackActivity?'<button class="dp-mini dp-act" type="button" onclick="openAct('+nid+')" title="Activity and comments for this item" aria-label="Activity and comments"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2 3h12v8H7l-3 2.5V11H2z"/></svg>'+((node.log||[]).length||'')+'</button>':'')+'</div>';
     dd.innerHTML=h;
   }
 
@@ -3971,6 +4016,181 @@ function boardMove(id,value,group){
 $('#bd-undo').addEventListener('click',()=>{undo();buildBoard(true);});
 $('#bd-redo').addEventListener('click',()=>{redo();buildBoard(true);});
 
+// ── Activity log and comments ──
+// Each node keeps a short history: automatic entries for changes to status, start, due date and owner, plus typed comments.
+//   node.log = [ { at, t:'due'|'start'|'status'|'owner'|'note', from, to, why, text, by } ]   (oldest first, newest 50 kept)
+// Changes are found by comparing each node with a remembered copy every time the map is redrawn, so every route
+// (details panel, Date Axis drag, Board, Timeline, bulk edit, date shift) is covered without touching each one.
+const LOG_MAX=50,LOG_TYPES=['due','start','status','owner','note'],LOG_MERGE_MS=10*60*1000;
+const LOG_ST={ongoing:'Ongoing',completed:'Completed',blocked:'Blocked',awaiting:'Awaiting',critical:'Critical path'};
+const LOG_WHY=['Dependency','Scope change','Resourcing','Client request'];
+let logShadow=new Map(),logAuto=new Set(),actNodeId=null,whyTarget=null,whyTimer=0,logAuthor=(storageGet('mindloom.author')||'').slice(0,40);
+
+function cleanLog(raw){
+  const out=[];
+  if(!Array.isArray(raw))return out;
+  for(const r of raw.slice(-LOG_MAX)){
+    if(!r||typeof r!=='object'||!LOG_TYPES.includes(r.t))continue;
+    const at=cleanIso(r.at);if(!at)continue;
+    const e={at,t:r.t};
+    if(r.t==='note'){const tx=String(r.text==null?'':r.text).slice(0,1000);if(!tx.trim())continue;e.text=tx;}
+    else if(r.t==='due'||r.t==='start'){e.from=normDate(r.from)||'';e.to=normDate(r.to)||'';}
+    else if(r.t==='status'){e.from=STATUSES.includes(r.from)?r.from:'';e.to=STATUSES.includes(r.to)?r.to:'';}
+    else{e.from=String(r.from==null?'':r.from).slice(0,80);e.to=String(r.to==null?'':r.to).slice(0,80);}
+    if(r.why)e.why=String(r.why).slice(0,80);
+    if(r.by)e.by=String(r.by).slice(0,40);
+    out.push(e);
+  }
+  return out;
+}
+// Forget the remembered copies without logging anything (used whenever the node list is replaced: load, undo, new map)
+function logSync(){if(actNodeId!==null){if(gn(actNodeId))renderAct();else closeAct();}logShadow=new Map(nodes.map(n=>[n.id,[n.status||'',n.start||'',n.due||'',n.owner||'']]));logAuto.clear();}
+function addLog(n,type,from,to,auto){
+  const L=n.log||(n.log=[]),now=new Date().toISOString(),last=L[L.length-1];
+  // Several quick edits of the same field (dragging a bar a few times) become one entry
+  if(last&&last.t===type&&!last.why&&Date.now()-Date.parse(last.at)<LOG_MERGE_MS){
+    last.to=to;last.at=now;
+    if(last.to===last.from){L.pop();return null;}
+    return last;
+  }
+  const e={at:now,t:type,from,to};
+  if(logAuthor)e.by=logAuthor;
+  if(auto)e.why='Recurring task';
+  L.push(e);
+  if(L.length>LOG_MAX)L.splice(0,L.length-LOG_MAX);
+  return e;
+}
+function logChanges(){
+  if(!trackActivity)return;
+  const F=['status','start','due','owner'],seen=new Set(),touched=new Set();
+  let nodesChanged=0,lone=null;
+  for(const n of nodes){
+    seen.add(n.id);
+    const cur=[n.status||'',n.start||'',n.due||'',n.owner||''],old=logShadow.get(n.id);
+    if(!old){logShadow.set(n.id,cur);continue;}
+    if(old[0]===cur[0]&&old[1]===cur[1]&&old[2]===cur[2]&&old[3]===cur[3])continue;
+    const auto=logAuto.has(n.id);nodesChanged++;touched.add(n.id);
+    for(let i=0;i<4;i++){
+      if(old[i]===cur[i])continue;
+      const e=addLog(n,F[i],old[i],cur[i],auto);
+      if(e&&F[i]==='due'&&e.from&&e.to&&!auto)lone={n,e};
+    }
+    logShadow.set(n.id,cur);
+  }
+  logAuto.clear();
+  if(logShadow.size>seen.size)for(const k of [...logShadow.keys()])if(!seen.has(k))logShadow.delete(k);
+  if(actNodeId!==null&&touched.has(actNodeId))renderAct();
+  // One person moving one date: ask why (anything else, such as a bulk shift, is not worth interrupting for)
+  if(nodesChanged===1&&lone)askWhy(lone.n,lone.e);
+}
+
+// ── Reason prompt ──
+function askWhy(n,e){
+  whyTarget={id:n.id,at:e.at};
+  const t=n.text.length>30?n.text.slice(0,29)+'…':n.text;
+  $('#why-txt').textContent='“'+t+'” due '+fmtDay(e.from)+' → '+fmtDay(e.to)+'. Why?';
+  $('#why-in').value='';$('#why-bar').classList.add('visible');
+  clearTimeout(whyTimer);whyTimer=setTimeout(()=>{if(document.activeElement!==$('#why-in'))hideWhy();},20000);
+}
+function hideWhy(){clearTimeout(whyTimer);whyTarget=null;$('#why-bar').classList.remove('visible');}
+function setWhy(text){
+  const tg=whyTarget;text=String(text||'').trim().slice(0,80);
+  if(tg&&text){
+    const n=gn(tg.id),e=n&&(n.log||[]).find(x=>x.at===tg.at&&x.t==='due');
+    if(e){e.why=text;autoSave();if(actNodeId===tg.id)renderAct();}
+  }
+  hideWhy();
+}
+(function(){
+  const box=$('#why-chips');
+  LOG_WHY.forEach(w=>{const b=document.createElement('button');b.type='button';b.className='dp-mini';b.textContent=w;b.addEventListener('click',()=>setWhy(w));box.appendChild(b);});
+  $('#why-skip').addEventListener('click',hideWhy);
+  $('#why-in').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();setWhy($('#why-in').value);}else if(e.key==='Escape'){hideWhy();}});
+})();
+
+// ── Activity panel (opened from the speech-bubble button beside Dependencies, or the ✎ chip on a node) ──
+function logDays(from,to){const d=Math.round((dayMs(to)-dayMs(from))/864e5);return (d>0?'+':'−')+Math.abs(d)+(Math.abs(d)===1?' day':' days');}
+function logText(e){
+  const dt=(w,x)=>{
+    if(e.from&&e.to)return w+' moved '+fmtDay(e.from,true)+' → '+fmtDay(e.to,true)+' ('+logDays(e.from,e.to)+')';
+    if(e.to)return w+' set to '+fmtDay(e.to,true);
+    return w+' cleared (was '+fmtDay(e.from,true)+')';
+  };
+  if(e.t==='due')return dt('Due date');
+  if(e.t==='start')return dt('Start date');
+  if(e.t==='status')return 'Status '+(LOG_ST[e.from]||'None')+' → '+(LOG_ST[e.to]||'None');
+  if(e.t==='owner')return 'Owner '+(e.from||'none')+' → '+(e.to||'none');
+  return e.text||'';
+}
+const logWhen=iso=>{const d=new Date(iso);return d.toLocaleDateString(undefined,{day:'numeric',month:'short'})+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});};
+function renderAct(){
+  const n=actNodeId!==null?gn(actNodeId):null,L=$('#act-list');if(!n||!L)return;
+  $('#act-title').textContent='Activity: '+n.text;
+  const log=n.log||[];
+  let h='';
+  for(let i=log.length-1;i>=0;i--){
+    const e=log[i];
+    h+='<div class="lg-row"><span class="lg-when">'+esc(logWhen(e.at))+(e.by?' · '+esc(e.by):'')+'</span>';
+    if(e.t==='note')h+='<button type="button" class="lg-x" data-i="'+i+'" title="Delete this comment" aria-label="Delete comment">&times;</button><div class="lg-note">'+esc(e.text)+'</div>';
+    else{
+      h+='<div>'+esc(logText(e))+'</div>';
+      if(e.why)h+='<div class="lg-why">Reason: '+esc(e.why)+'</div>';
+      else if(e.t==='due'&&e.from&&e.to)h+='<button type="button" class="lg-add" data-i="'+i+'">+ add a reason</button>';
+    }
+    h+='</div>';
+  }
+  if(n.createdAt)h+='<div class="lg-row"><span class="lg-when">'+esc(logWhen(n.createdAt))+'</span><div>Created</div></div>';
+  L.innerHTML=h;
+  const b=document.querySelector('#detail-panel .dp-act');if(b&&detailNodeId===n.id){const sv=b.querySelector('svg');b.textContent=log.length||'';b.insertBefore(sv,b.firstChild);}
+}
+const actOpen=()=>$('#act-panel').classList.contains('visible');
+function openAct(id){
+  if(!trackActivity||!gn(id))return;
+  actNodeId=id;$('#act-in').value='';renderAct();$('#act-panel').classList.add('visible');setTimeout(()=>$('#act-in').focus(),0);
+}
+function closeAct(){actNodeId=null;$('#act-panel').classList.remove('visible');}
+function postLogNote(){
+  const n=actNodeId!==null?gn(actNodeId):null,inp=$('#act-in');if(!n)return;
+  const text=inp.value.trim().slice(0,1000);if(!text)return;
+  snap();
+  const e={at:new Date().toISOString(),t:'note',text};if(logAuthor)e.by=logAuthor;
+  (n.log||(n.log=[])).push(e);if(n.log.length>LOG_MAX)n.log.splice(0,n.log.length-LOG_MAX);
+  n.modifiedAt=e.at;inp.value='';
+  autoSave();render();renderAct();
+}
+$('#act-post').addEventListener('click',postLogNote);
+$('#act-close').addEventListener('click',closeAct);
+$('#act-in').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();postLogNote();}else if(e.key==='Escape'){closeAct();}});
+$('#act-list').addEventListener('click',e=>{
+  const n=actNodeId!==null?gn(actNodeId):null;if(!n)return;
+  const x=e.target.closest('.lg-x'),a=e.target.closest('.lg-add');
+  if(x){const i=Number(x.dataset.i);if(n.log&&n.log[i]&&n.log[i].t==='note'){snap();n.log.splice(i,1);autoSave();render();renderAct();}}
+  else if(a){const i=Number(a.dataset.i),en=n.log&&n.log[i];if(en)askWhy(n,en);}
+});
+
+// ── Turning the feature on or off (per map, off by default) ──
+function updateActButtons(){
+  const t=$('#act-toggle');if(t)t.textContent='Activity & comments: '+(trackActivity?'On':'Off');
+  const a=$('#author-btn');if(a)a.style.display=trackActivity?'':'none';
+}
+function toggleActivity(){
+  trackActivity=!trackActivity;
+  logSync();hideWhy();closeAct();updateActButtons();
+  if(detailNodeId!==null)hideDetail();
+  render();autoSave();
+  toast(trackActivity?'Activity & comments on. Changes to status, dates and owner are now recorded for this map':'Activity & comments off. Existing history is kept in the file but hidden');
+}
+
+// ── Your name (kept in this browser, added to the entries you make) ──
+function updateAuthorBtn(){const b=$('#author-btn');if(b)b.textContent='Your name: '+(logAuthor||'not set');}
+function setAuthorName(){
+  const v=prompt('Your name, added to the comments and changes you make (leave empty for none)',logAuthor);
+  if(v===null)return;
+  logAuthor=v.trim().slice(0,40);storageSet('mindloom.author',logAuthor);updateAuthorBtn();
+  toast(logAuthor?'Entries will be signed “'+logAuthor+'”':'Entries will not carry a name');
+}
+updateAuthorBtn();updateActButtons();
+
 // ── Baselines ──
 // A baseline is a copy of every start and due date at one moment: { id, name, at, items: { nodeId: [start, due, text] } }.
 // It lives beside the nodes (not on them), so copying, pasting and undoing nodes never touch it. The Date Axis draws a dashed
@@ -4201,6 +4421,9 @@ function fillReportFilters(){
   fill($('#rp-owner'),'owner','All owners','Unassigned');
   fill($('#rp-proj'),'project','All projects','No project');
 }
+// The reason given when the current due date was set, and the latest comment, for the report
+function rpWhy(n){if(!trackActivity)return '';const L=n.log||[];for(let i=L.length-1;i>=0;i--){const x=L[i];if(x.t==='due'&&x.to===(n.due||'')&&x.why&&x.why!=='Recurring task')return x.why;}return '';}
+function rpNote(n){if(!trackActivity)return '';const L=n.log||[];for(let i=L.length-1;i>=0;i--){if(L[i].t==='note'){const t=L[i].text.replace(/\s+/g,' ').trim();return t.length>140?t.slice(0,139)+'\u2026':t;}}return '';}
 function reportData(){
   const {branch,set,scoped}=reportScope();
   const days=parseInt($('#rp-days').value,10)||7;
@@ -4230,7 +4453,8 @@ function reportData(){
     return {id:n.id,text:n.text,path:pathOf(n),owner:n.owner||'',project:n.project||'',due:n.due||'',status:n.status||'',
       dueDays:(open&&info.state!=='none')?info.days:null,prog,waiting:openDeps(n).map(x=>x.text),
       also:RP_PRI.includes(sec)?fl.filter(k=>k!==sec).map(k=>RP_LABEL[k]):[],
-      dup:(RP_PRI.includes(sec)&&primary&&primary!==sec)?RP_LABEL[primary]:''};
+      dup:(RP_PRI.includes(sec)&&primary&&primary!==sec)?RP_LABEL[primary]:'',
+      why:rpWhy(n),note:['overdue','blocked','awaiting','critical'].includes(sec)?rpNote(n):''};
   };
   // Completed work: the date it was marked Completed. Recurring tasks reset to open when done, so they are read from "last done".
   const doneRows=[];
@@ -4346,11 +4570,12 @@ function reportMeta(it,withPath){
   const b=[];
   if(it.owner)b.push(it.owner);
   if(it.doneOn)b.push('completed '+it.doneOn+(it.recurring?' (recurring)':''));
-  else if(it.moved)b.push((it.movedPre||'due ')+it.moved);
-  else if(it.due)b.push(rpDueText(it));
+  else if(it.moved){b.push((it.movedPre||'due ')+it.moved);if(it.why)b.push('reason: '+it.why);}
+  else if(it.due){b.push(rpDueText(it));if(it.why)b.push('date moved: '+it.why);}
   if(it.prog)b.push(it.prog);
   if(it.project)b.push(it.project);
   if(it.waiting&&it.waiting.length)b.push('waiting on '+it.waiting.join(', '));
+  if(it.note)b.push('latest note: \u201C'+it.note+'\u201D');
   let m=b.join(' · ');
   if(withPath&&it.path)m+=(m?' · ':'')+'in '+it.path;
   return m;
@@ -5023,7 +5248,7 @@ function doSearch(q){
   const res=$('#search-results');
   if(!q.trim()){res.innerHTML='';clearSearchDim();return;}
   const lq=q.toLowerCase();
-  const hits=nodes.filter(n=>(n.text.toLowerCase().includes(lq)||(n.notes&&n.notes.toLowerCase().includes(lq))||getNodeTags(n).some(t=>t.toLowerCase().includes(lq))||(n.due&&n.due.includes(lq))));
+  const hits=nodes.filter(n=>(n.text.toLowerCase().includes(lq)||(n.notes&&n.notes.toLowerCase().includes(lq))||getNodeTags(n).some(t=>t.toLowerCase().includes(lq))||(n.due&&n.due.includes(lq))||(trackActivity&&n.log&&n.log.some(x=>x.t==='note'&&x.text.toLowerCase().includes(lq)))));
   searchHits=new Set(hits.map(h=>h.id));
   canvas.querySelectorAll('.node').forEach(el=>{el.classList.toggle('search-dim',!searchHits.has(parseInt(el.dataset.id)));});
   res.innerHTML='';
@@ -5455,7 +5680,7 @@ document.addEventListener('keydown',e=>{
   else if(k==='F2'){e.preventDefault();editSelected();}
   else if(k===' '){e.preventDefault();toggleCollapse();}
   else if(k==='Home'){e.preventDefault();centreView();}
-  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();}
+  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
   else if(k==='i'){e.preventDefault();showDetailForSelected();}
   else if(k==='l'){e.preventDefault();startLinkMode();}
   else if(k==='g'){e.preventDefault();toggleFocusPanel();}
@@ -6669,6 +6894,13 @@ function selfTest(){
     ok('cleanBaselines keeps good entries and drops junk',bls.length===1&&Object.keys(bls[0].items).join()==='5'&&cleanBaselines(5).length===0);
     const cmpn=[{id:5,start:'2026-03-01',due:'2026-03-15'},{id:7,start:'',due:'2026-04-01'}],cmp=baselineCompare(bls[0],cmpn,false);
     ok('baselineCompare finds slips and new items',cmp.later.length===1&&cmp.later[0].dEnd===5&&cmp.added.length===1&&cmp.same.length===0);
+    const lgc=cleanLog([{at:'2026-03-01T10:00:00Z',t:'due',from:'2026-03-01',to:'2026-03-12',why:'Scope change'},{at:'bad',t:'due'},{at:'2026-03-02T10:00:00Z',t:'note',text:'  '},{at:'2026-03-02T10:00:00Z',t:'note',text:'hello',by:'Sam'},{at:'2026-03-03T10:00:00Z',t:'zzz'}]);
+    ok('cleanLog keeps good entries and drops junk',lgc.length===2&&lgc[0].to==='2026-03-12'&&lgc[1].text==='hello'&&cleanLog('x').length===0&&cleanLog(new Array(80).fill({at:'2026-03-01T10:00:00Z',t:'owner',from:'a',to:'b'})).length===LOG_MAX);
+    const lgn={id:99,log:[]};addLog(lgn,'due','2026-03-01','2026-03-05');addLog(lgn,'due','2026-03-05','2026-03-09');
+    ok('addLog merges quick repeat edits into one entry',lgn.log.length===1&&lgn.log[0].from==='2026-03-01'&&lgn.log[0].to==='2026-03-09');
+    addLog(lgn,'due','2026-03-09','2026-03-01');
+    ok('addLog drops an edit that was put back',lgn.log.length===0);
+    ok('logText wording',logText({t:'due',from:'2026-03-01',to:'2026-03-13'}).includes('+12 days')&&logText({t:'status',from:'',to:'blocked'})==='Status None \u2192 Blocked');
     ok('cleanRepeat',cleanRepeat({n:2,u:'w'}).n===2&&cleanRepeat({n:0,u:'w'})===null&&cleanRepeat({n:1,u:'x'})===null);
   }catch(e){ok('self-test crashed: '+e.message,false);}
   const bad=res.filter(r=>!r[1]);

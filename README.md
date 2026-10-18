@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.29.0)
+# MINDLOOM FEATURES (v1.30.1)
 
 MAPPING AND EDITING
 
@@ -25,6 +25,7 @@ Optional sections, opened with buttons in the details panel (open by default whe
   Progress: % complete, shown as a bar on the node
   Repeat: recurring tasks (every n days, weeks, months or years). Completing one rolls its dates forward, ticks the checklist off and resets progress
 Bookmarks, with quick jump
+Activity and comments (optional, off by default; Settings > Editing > Activity & comments, saved per map). When on, each item keeps a history of changes to status, start date, due date and owner, plus typed comments. Moving a single due date asks for a reason (Dependency, Scope change, Resourcing, Client request, or your own). Open it with the speech-bubble button next to Dependencies in the details panel, or the comment chip on a node. Quick repeat edits merge into one entry, the newest 50 are kept per node, and the status report shows the reason for a moved date and the latest note. Settings > Editing > Your name signs entries (kept in the browser). Turning it off hides the history but keeps it in the file
 
 LAYOUT AND VIEWS
 
@@ -83,7 +84,7 @@ FILES AND SAVING
 
 Saved automatically in the browser (localStorage), with rolling backups and a Restore backup option
 The app always opens on a fresh map; your previous map is kept under File > Restore backup ("last session")
-Save, Save As and Load as a JSON file. The file records its format and version (currently 4), and keeps baselines and the report snapshot. Older files open normally; older versions of MindLoom ignore the new parts and would drop them if they saved the file
+Save, Save As and Load as a JSON file. The file records its format and version (currently 5), and keeps baselines, the report snapshot and the activity history. Older files open normally; older versions of MindLoom ignore the new parts and would drop them if they saved the file
 Auto-save to your file, using the File System Access API, with the save status shown
 Export to CSV, Markdown and PNG
 Import from CSV and Markdown
@@ -94,7 +95,7 @@ SETTINGS AND INTERFACE
 Light and dark theme
 Hover popups on or off (off by default)
 Highlight Selection: fade everything unrelated to the selected node and show only its own links and dependencies
-Grouped toolbar with menus: File, Edit, View, Link, Tidy, Settings
+Grouped toolbar with menus: File, Edit, View, Link, Tidy, Settings (grouped into Appearance, Editing and Planning, with the Date Axis options in their own submenu)
 Close (×) buttons on every panel
 Phone layout: quick-action bar at the bottom (add, child, sibling, link, views)
 Works fully offline as a single HTML file with no dependencies
