@@ -152,6 +152,14 @@
   .dm-line { position:absolute; top:0; bottom:0; width:1px; background:var(--dm-line,rgba(255,255,255,0.15)); }
   .dm-line.q { background:var(--dm-line-q,rgba(255,255,255,0.34)); }
   .dm-band { position:absolute; top:0; bottom:0; background:var(--dm-band,rgba(255,255,255,0.05)); }
+  .dm-ghost { position:absolute; box-sizing:border-box; border:1.5px dashed var(--text-muted); background:rgba(128,128,128,0.16); border-radius:6px; }
+  .dm-ghostln { position:absolute; height:0; border-top:1.5px dashed var(--text-muted); opacity:0.85; }
+  .dm-slip { position:absolute; font-size:11px; font-weight:700; line-height:16px; padding:0 6px; border-radius:8px; color:#fff; white-space:nowrap; }
+  .dm-slip.late { background:#c0392b; } .dm-slip.early { background:#2e8b57; } .dm-slip.chg { background:#6b7280; }
+  #bl-panel { position:fixed; top:90px; right:12px; z-index:130; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; width:310px; max-height:70vh; overflow-y:auto; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; }
+  #bl-panel.visible { display:block; }
+  #bl-panel .vw-row .vw-go { white-space:normal; }
+  #bl-sum { color:var(--text); font-size:12px; margin-top:10px; line-height:1.45; padding-top:8px; border-top:1px solid var(--border); }
   .dm-today { position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; background:rgba(235,80,80,0.75); }
   .dm-todaytag { position:absolute; top:30px; transform:translateX(-50%); background:#e5484d; color:#fff; font-size:10px; line-height:16px; padding:0 6px; border-radius:8px; }
   #date-lbls { position:absolute; left:0; right:0; top:0; bottom:0; pointer-events:none; overflow:hidden; z-index:15; display:none; }
@@ -198,6 +206,7 @@
   .node .dm-h { position:absolute; top:0; bottom:0; width:7px; cursor:ew-resize; z-index:2; }
   .node .dm-h.l { left:0; } .node .dm-h.r { right:0; }
   .node .dm-h:hover { background:rgba(255,255,255,0.28); }
+  @media (hover:none) { .node .dm-h { width:16px; } }
 
   /* ── Nodes ── */
   .node {
@@ -333,7 +342,7 @@
 
   .node .node-tags { display:flex; gap:3px; flex-wrap:wrap; margin-top:2px; }
   .node .node-tag {
-    font-size:9px; padding:1px 5px; border-radius:3px;
+    font-size:10px; padding:1px 5px; border-radius:3px;
     background:rgba(107,158,255,0.1); color:rgba(107,158,255,0.7);
     border:1px solid rgba(107,158,255,0.15);
   }
@@ -364,7 +373,7 @@
   .color-swatch.active { border-color:#fff; }
   .color-swatch .swatch-label {
     position:absolute; bottom:-15px; left:50%; transform:translateX(-50%);
-    font-size:9px; color:var(--text-muted); white-space:nowrap; display:none; pointer-events:none;
+    font-size:10px; color:var(--text-muted); white-space:nowrap; display:none; pointer-events:none;
   }
   .color-swatch:hover .swatch-label { display:block; }
 
@@ -503,7 +512,7 @@
   .panel-x { font-size:15px; line-height:1; padding:1px 7px; }
   .dp-mini:hover { color:var(--text); border-color:var(--text-muted); }
   .dp-due-quick { grid-column:2; display:flex; gap:3px; flex-wrap:wrap; }
-  .dp-due-quick .dp-mini { font-size:9px; padding:1px 5px; }
+  .dp-due-quick .dp-mini { font-size:10px; padding:1px 5px; }
   .dp-due-quick .dp-mini:disabled { opacity:.35; cursor:default; }
   .dp-due-quick.on .dp-mini { border-color:var(--accent); color:var(--accent); }
   .dp-due-row input.dp-pick { border-color:var(--accent); }
@@ -529,12 +538,17 @@
   .node .node-ck { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(255,255,255,0.07); color:#aab2c0; border:1px solid rgba(255,255,255,0.12); }
   .node .node-ck.done { background:rgba(63,179,107,0.18); color:#7fd6a0; border-color:rgba(63,179,107,0.5); }
   .node .node-rp { align-self:flex-start; font-size:10px; line-height:1.4; padding:1px 6px; border-radius:3px; margin-top:2px; white-space:nowrap; background:rgba(120,170,255,0.12); color:#9dbcff; border:1px solid rgba(120,170,255,0.3); }
-  #dp-rp-sec { display:none; align-items:center; gap:6px; margin:2px 0 6px; flex-wrap:wrap; }
+  #dp-rp-sec { display:none; align-items:center; gap:8px; margin:8px 0 12px; flex-wrap:wrap; }
   #dp-rp-sec > span { font-size:12px; color:var(--text-muted); }
-  #dp-rp-sec input[type=number] { width:56px; }
-  #dp-rp-sec select { width:auto; }
-  #dp-rp-sec .dp-rp-quick { display:flex; gap:4px; flex-wrap:wrap; width:100%; }
-  #dp-rp-note { width:100%; font-size:11px; color:var(--text-muted); }
+  #dp-rp-sec input[type=number], #dp-rp-sec select { box-sizing:border-box; height:28px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-family:var(--font); font-size:12px; font-weight:400; line-height:1.2; padding:0 8px; outline:none; }
+  #dp-rp-sec input[type=number] { width:64px; }
+  #dp-rp-sec select { width:auto; min-width:92px; padding-right:4px; cursor:pointer; }
+  #dp-rp-sec input[type=number]:focus, #dp-rp-sec select:focus { border-color:var(--accent); }
+  #dp-rp-sec select option { background:var(--surface); color:var(--text); }
+  #dp-rp-sec .dp-rp-quick { display:flex; gap:6px; flex-wrap:wrap; width:100%; margin-top:2px; }
+  #dp-rp-sec .dp-mini, #dp-pg-sec .dp-mini { font-size:11.5px; line-height:1.2; padding:4px 10px; border-radius:5px; }
+  #dp-rp-sec #dp-rp-stop { height:28px; padding:0 12px; }
+  #dp-rp-note { width:100%; font-size:11.5px; line-height:1.5; color:var(--text-muted); margin-top:2px; }
   .node .node-pg { position:absolute; left:4px; right:4px; bottom:2px; height:3px; border-radius:2px; background:rgba(255,255,255,0.16); overflow:hidden; pointer-events:none; }
   .node .node-pg i { display:block; height:100%; background:#4a9bff; }
   .node .node-pg.full i { background:#3fb36b; }
@@ -543,7 +557,7 @@
   #dp-pg-sec { display:none; align-items:center; gap:8px; margin:2px 0 6px; flex-wrap:wrap; }
   #dp-pg-sec input[type=range] { flex:1; min-width:120px; accent-color:var(--accent); }
   #dp-pg-sec input[type=number] { width:56px; }
-  #dp-pg-sec .dp-pg-quick { display:flex; gap:4px; width:100%; }
+  #dp-pg-sec .dp-pg-quick { display:flex; gap:6px; flex-wrap:wrap; width:100%; }
   .dp-togs { display:flex; gap:6px; margin:8px 0 4px; flex-wrap:wrap; }
   .dp-tog { background:none; border:1px solid var(--border); border-radius:6px; color:var(--text-muted); font:inherit; font-size:12px; padding:3px 10px; cursor:pointer; display:inline-flex; align-items:center; gap:5px; }
   .dp-tog::before { content:'+'; font-weight:700; }
@@ -644,7 +658,10 @@
   .tl-ms { cursor:grab; }
   #board-overlay, #report-overlay { position:fixed; top:48px; left:16px; right:16px; bottom:16px; z-index:140; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,0.55); display:none; flex-direction:column; }
   #board-overlay.visible, #report-overlay.visible { display:flex; }
-  #report-overlay { left:50%; right:auto; width:min(860px,calc(100vw - 32px)); transform:translateX(-50%); }
+  #report-overlay { left:50%; right:auto; width:min(960px,calc(100vw - 32px)); transform:translateX(-50%); }
+  #report-overlay .tl-head-bar { flex-wrap:wrap; row-gap:6px; }
+  .rp-controls { padding:10px 24px 0; }
+  .rp-controls textarea { width:100%; box-sizing:border-box; resize:vertical; min-height:38px; max-height:140px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:6px 8px; font-family:var(--font); font-size:12.5px; line-height:1.4; }
   .bd-lbl { font-size:11px; color:var(--text-muted); display:flex; gap:6px; align-items:center; }
   #board-overlay .tl-head-bar select, #report-overlay .tl-head-bar select { background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; padding:3px 6px; font-family:var(--font); font-size:12px; }
   #board-body { flex:1; overflow:auto; display:flex; gap:12px; padding:14px; align-items:flex-start; }
@@ -682,6 +699,15 @@
   #rp-body th, #rp-body td { text-align:left; padding:4px 8px; border-bottom:1px solid var(--border); }
   #rp-body th { color:var(--text-muted); font-weight:600; }
   #rp-body .rp-none { color:var(--text-muted); font-style:italic; }
+  #rp-body h4 { font-size:12.5px; margin:12px 0 2px; }
+  #rp-body .rp-sub { color:var(--text-muted); font-size:12px; font-weight:400; text-transform:none; letter-spacing:0; }
+  #rp-body .rp-note { border-left:3px solid var(--accent); padding:6px 12px; margin:8px 0 10px; white-space:pre-wrap; background:var(--bg); border-radius:0 6px 6px 0; font-size:13.5px; }
+  #rp-body .rp-health { display:inline-block; padding:4px 12px; border-radius:14px; font-weight:600; font-size:12.5px; margin:2px 0 6px; border:1px solid; cursor:help; }
+  #rp-body .rp-health.green { color:#4caf50; border-color:#4caf50; }
+  #rp-body .rp-health.amber { color:#f0a030; border-color:#f0a030; }
+  #rp-body .rp-health.red { color:#e57373; border-color:#e57373; }
+  #rp-body .rp-chip { display:inline-block; font-size:10.5px; line-height:16px; padding:0 7px; margin-left:5px; border:1px solid var(--border); border-radius:8px; color:var(--text-muted); white-space:nowrap; }
+  #rp-body .rp-t.gone { color:var(--text-muted); cursor:default; text-decoration:line-through; }
   #cmd-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.35); display:none; align-items:flex-start; justify-content:center; padding-top:12vh; }
   #cmd-overlay.visible { display:flex; }
   #cmd-box { width:min(580px,calc(100vw - 24px)); background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 16px 48px rgba(0,0,0,0.55); overflow:hidden; display:flex; flex-direction:column; max-height:70vh; }
@@ -904,11 +930,16 @@
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
-    #bookmarks-panel, #views-panel, #pres-overlay, #due-badge, #dm-tip,
+    #bookmarks-panel, #views-panel, #bl-panel, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
     body.print-report > *:not(#report-overlay) { display:none !important; }
     body.print-report #report-overlay { display:block !important; position:static !important; transform:none !important; width:auto !important; box-shadow:none !important; border:0 !important; background:#fff !important; }
-    body.print-report #report-overlay .tl-head-bar { display:none !important; }
+    body.print-report #report-overlay .tl-head-bar, body.print-report #report-overlay .rp-controls { display:none !important; }
+    body.print-report #rp-body .rp-health { color:#000 !important; border-color:#000 !important; }
+    body.print-report #rp-body .rp-note { background:#fff !important; border-left-color:#000 !important; }
+    body.print-report #rp-body .rp-chip, body.print-report #rp-body .rp-sub { color:#333 !important; border-color:#888 !important; }
+    body.print-report #rp-body h3, body.print-report #rp-body h4 { break-after:avoid; }
+    body.print-report #rp-body li, body.print-report #rp-body tr { break-inside:avoid; }
     body.print-report #rp-body { overflow:visible !important; color:#000 !important; padding:0 !important; }
     body.print-report #rp-body h3, body.print-report #rp-body .rp-date, body.print-report #rp-body li .rp-m, body.print-report #rp-body .rp-kpi span, body.print-report #rp-body th { color:#333 !important; }
     body.print-report #rp-body .rp-t { color:#000 !important; }
@@ -980,8 +1011,8 @@
         <button class="dd-item" title="Save the map as a picture or as text and spreadsheet files">Export</button>
         <div class="dd-submenu-items">
           <button class="dd-item" onclick="exportPNG();closeDD()" title="Save the whole map as a picture">Export PNG</button>
-          <button class="dd-item" onclick="exportMarkdown();closeDD()" title="Export the map as an indented Markdown outline">Export Markdown</button>
-          <button class="dd-item" onclick="exportCSV();closeDD()" title="Export every node and its fields as a CSV spreadsheet">Export CSV</button>
+          <button class="dd-item" onclick="exportMarkdown();closeDD()" title="Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)">Export Markdown</button>
+          <button class="dd-item" onclick="exportCSV();closeDD()" title="Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)">Export CSV</button>
         </div>
       </div>
       <div class="dd-sep"></div>
@@ -997,7 +1028,7 @@
   <div class="dropdown" id="dd-edit">
     <button class="tb-btn" onclick="toggleDD('dd-edit')" title="Undo, redo, edit, copy and paste branches, duplicate, shift dates and delete">Edit &#9662;</button>
     <div class="dropdown-menu" id="ddm-edit">
-      <button class="dd-item" onclick="undo();closeDD()" title="Undo the last change">Undo <span class="shortcut">Ctrl+Z</span></button>
+      <button class="dd-item" onclick="undo();closeDD()" title="Undo the last change to the map: nodes, links, bookmarks and hidden trees (not saved views or display settings)">Undo <span class="shortcut">Ctrl+Z</span></button>
       <button class="dd-item" onclick="redo();closeDD()" title="Redo the change you just undid">Redo <span class="shortcut">Ctrl+Y</span></button>
       <div class="dd-sep"></div>
       <button class="dd-item" onclick="editSelected();closeDD()" title="Rename the selected node">Edit node <span class="shortcut">F2</span></button>
@@ -1057,6 +1088,7 @@
     <div class="dropdown-menu" id="ddm-settings">
       <div class="dd-label">Display</div>
       <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
+      <button class="dd-item" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines…</button>
       <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names on the Date Axis">Lane Bands: On</button>
       <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
       <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Date Axis only: show no lines, only the selected node's lines, or every line">Date Axis Lines: Selected</button>
@@ -1204,7 +1236,6 @@
   <div class="md-sum" id="md-sum"></div>
   <div id="agenda-content"></div>
 </div>
-</div>
 
 <div id="timeline-overlay" role="dialog" aria-label="Timeline">
   <div class="tl-head-bar">
@@ -1245,12 +1276,16 @@
     <div class="stats-title">Status report</div>
     <select id="rp-scope" title="What to report on"><option value="all">Whole map</option><option value="branch">Selected branch</option></select>
     <select id="rp-days" title="How far back to look for completed work, and how far ahead for upcoming dates"><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option></select>
+    <select id="rp-owner" title="Report on one person's items only"><option value="">All owners</option></select>
+    <select id="rp-proj" title="Report on one project only"><option value="">All projects</option></select>
     <span class="spacer"></span>
-    <button class="dp-mini" id="rp-copy" type="button" title="Copy the report as Markdown (paste into an email, Slack or Teams)">Copy</button>
+    <button class="dp-mini" id="rp-copyrich" type="button" title="Copy with formatting, so headings and bullets paste properly into Outlook, Teams, Gmail or Word">Copy formatted</button>
+    <button class="dp-mini" id="rp-copy" type="button" title="Copy the report as Markdown text (Slack, GitHub, notes apps)">Copy Markdown</button>
     <button class="dp-mini" id="rp-dl" type="button" title="Download the report as a Markdown file">Download .md</button>
     <button class="dp-mini" id="rp-print" type="button" title="Print the report">Print</button>
     <button class="dp-mini panel-x" type="button" onclick="toggleReport()" title="Close (Esc)" aria-label="Close">&times;</button>
   </div>
+  <div class="rp-controls"><textarea id="rp-note" rows="2" maxlength="2000" placeholder="Headline for this report (optional): the key message this week. It appears at the top of the copy, download and print." aria-label="Report headline"></textarea></div>
   <div id="rp-body"></div>
 </div>
 
@@ -1287,7 +1322,7 @@
     </svg>
   </div>
   <div id="date-axis"></div>
-  <div id="dm-tools"><span id="dm-zoom"><button onclick="dmZoomQ(1)" title="Zoom to Q1">Q1</button><button onclick="dmZoomQ(2)" title="Zoom to Q2">Q2</button><button onclick="dmZoomQ(3)" title="Zoom to Q3">Q3</button><button onclick="dmZoomQ(4)" title="Zoom to Q4">Q4</button><button onclick="dmZoomQ(0)" title="Zoom to the whole year">Year</button><button onclick="dmJumpToday()" title="Centre the view on today">Today</button></span><button id="dm-undated-btn" onclick="toggleShowUndated()" style="display:none">Undated hidden: 0</button><button id="dm-lines-btn" onclick="cycleLinkVis()" title="Lines on the Date Axis: Off, Selected or All">Lines: Selected</button><button id="dm-slide-btn" onclick="toggleSlide()" title="Clean view for slides: no headings or clutter, workstreams labelled, Critical Path items stand out with their dependency chain. Export PNG then includes a title and legend.">Slide view</button><button id="dm-crit-btn" onclick="toggleCritOnly()" title="Show only Critical Path items, their workstreams and the dependencies between them. Export PNG then gives a clean picture for slides.">Critical path</button><button id="dm-fold-btn" onclick="dmFoldAll()" title="Fold or unfold every workstream lane">Fold lanes</button></div>
+  <div id="dm-tools"><span id="dm-zoom"><button onclick="dmZoomQ(1)" title="Zoom to Q1">Q1</button><button onclick="dmZoomQ(2)" title="Zoom to Q2">Q2</button><button onclick="dmZoomQ(3)" title="Zoom to Q3">Q3</button><button onclick="dmZoomQ(4)" title="Zoom to Q4">Q4</button><button onclick="dmZoomQ(0)" title="Zoom to the whole year">Year</button><button onclick="dmJumpToday()" title="Centre the view on today">Today</button></span><button id="dm-undated-btn" onclick="toggleShowUndated()" style="display:none">Undated hidden: 0</button><button id="dm-lines-btn" onclick="cycleLinkVis()" title="Lines on the Date Axis: Off, Selected or All">Lines: Selected</button><button id="dm-bl-btn" onclick="toggleBaselines()" title="Baselines: save the planned dates, then see where each bar has slipped to">Baseline</button><button id="dm-slide-btn" onclick="toggleSlide()" title="Clean view for slides: no headings or clutter, workstreams labelled, Critical Path items stand out with their dependency chain. Export PNG then includes a title and legend.">Slide view</button><button id="dm-crit-btn" onclick="toggleCritOnly()" title="Show only Critical Path items, their workstreams and the dependencies between them. Export PNG then gives a clean picture for slides.">Critical path</button><button id="dm-fold-btn" onclick="dmFoldAll()" title="Fold or unfold every workstream lane">Fold lanes</button></div>
   <div id="date-lbls"></div>
 </div>
 <div id="slide-legend"><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1.5 21,19.5 1,19.5" fill="#f5c518" stroke="rgba(0,0,0,.45)"/></svg>Critical path</span><span><svg width="16" height="16" viewBox="0 0 22 22"><polygon points="11,1 14,8 21.5,8.5 15.8,13.4 17.6,20.8 11,16.8 4.4,20.8 6.2,13.4 0.5,8.5 8,8" fill="#9aa3b2"/></svg>Key milestone</span><span><svg width="14" height="14" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.5" fill="#9aa3b2"/></svg>Milestone</span><span><svg width="22" height="10"><rect x="0" y="1" width="22" height="8" rx="2" fill="#9aa3b2"/></svg>Activity</span><span><svg width="26" height="10"><path d="M1,5 L21,5" stroke="#f5c518" stroke-width="3"/><polygon points="26,5 19,1 19,9" fill="#f5c518"/></svg>Critical dependency</span></div>
@@ -1341,7 +1376,7 @@
     <button type="button" class="dp-tog" id="dp-tog-tags" aria-expanded="false" title="Show or hide the tags">Tags<i id="dp-tog-tags-n"></i></button>
     <button type="button" class="dp-tog" id="dp-tog-ck" aria-expanded="false" title="Show or hide the checklist">Checklist<i id="dp-tog-ck-n"></i></button>
     <button type="button" class="dp-tog" id="dp-tog-pg" aria-expanded="false" title="Show or hide the progress (% complete)">Progress<i id="dp-tog-pg-n"></i></button>
-    <button type="button" class="dp-tog" id="dp-tog-rp" aria-expanded="false" title="Show or hide the repeat setting (recurring task)">Repeat<i id="dp-tog-rp-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-rp" aria-expanded="false" title="Show or hide the recurring setting (repeat this task on a schedule)">Recurring<i id="dp-tog-rp-n"></i></button>
   </div>
   <div id="dp-tags-sec" style="display:none">
     <div id="dp-tags" class="tag-chips"></div>
@@ -1359,9 +1394,9 @@
     <div class="dp-pg-quick"><button class="dp-mini" type="button" data-v="0">0%</button><button class="dp-mini" type="button" data-v="25">25%</button><button class="dp-mini" type="button" data-v="50">50%</button><button class="dp-mini" type="button" data-v="75">75%</button><button class="dp-mini" type="button" data-v="100">100%</button></div>
   </div>
   <div id="dp-rp-sec">
-    <span>Every</span><input type="number" id="dp-rp-num" min="1" max="99" value="1" aria-label="Repeat every">
-    <select id="dp-rp-unit" aria-label="Repeat unit"><option value="d">days</option><option value="w">weeks</option><option value="m">months</option><option value="y">years</option></select>
-    <button class="dp-mini" type="button" id="dp-rp-stop" title="Stop repeating">Stop</button>
+    <span>Every</span><input type="number" id="dp-rp-num" min="1" max="99" value="1" aria-label="Recur every">
+    <select id="dp-rp-unit" aria-label="Recurrence unit"><option value="d">days</option><option value="w">weeks</option><option value="m">months</option><option value="y">years</option></select>
+    <button class="dp-mini" type="button" id="dp-rp-stop" title="Stop this task recurring">Stop</button>
     <div class="dp-rp-quick"><button class="dp-mini" type="button" data-n="1" data-u="d">Daily</button><button class="dp-mini" type="button" data-n="1" data-u="w">Weekly</button><button class="dp-mini" type="button" data-n="2" data-u="w">Fortnightly</button><button class="dp-mini" type="button" data-n="1" data-u="m">Monthly</button><button class="dp-mini" type="button" data-n="3" data-u="m">Quarterly</button><button class="dp-mini" type="button" data-n="1" data-u="y">Yearly</button></div>
     <div id="dp-rp-note"></div>
   </div>
@@ -1422,13 +1457,14 @@
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <h2>MindLoom</h2>
-    <div class="about-ver" id="about-ver">Version 1.26.0</div>
+    <div class="about-ver" id="about-ver">Version</div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
     <div id="demo-section">
       <div class="about-section" style="margin-top:0">Demo data</div>
       <p>Loads a made-up map for demonstrations. Dates are set relative to today, so overdue and due-today flags always show. Your current map is backed up first (File &gt; Restore backup) and Undo brings it back.</p>
+      <button class="demo-btn" type="button" id="selftest-btn"><b>Run self-test</b><span>Checks date parsing, data cleaning, CSV parsing, pasted outlines, links and the save format. Shows the result in a message and in the browser console</span></button>
       <button class="demo-btn" type="button" data-demo="simple"><b>1. Team Away Day</b><span>Simple &middot; about 15 nodes &middot; one tree, a few statuses, due dates and one cross-link</span></button>
       <button class="demo-btn" type="button" data-demo="medium"><b>2. Product Launch Plan</b><span>Medium &middot; about 45 nodes &middot; six workstreams with owners, tags, a blocker and cross-links</span></button>
       <button class="demo-btn" type="button" data-demo="complex"><b>3. Customer Portal Programme</b><span>Complex &middot; about 110 nodes &middot; three linked trees (delivery, risks, governance), collapsed branch, bookmarks, many cross-links</span></button>
@@ -1494,17 +1530,17 @@
           &bull; Blue dot means the node has metadata or notes<br>
           &bull; Status icons appear top-right on nodes<br>
           &bull; Tags are comma-separated — press Enter to add<br>
-          &bull; Data auto-saves to browser localStorage<br>
-          &bull; Use Save JSON to back up or move between machines<br>
+          &bull; Each visit opens a fresh map. Your previous map is kept under File &gt; Restore backup, and a copy is also auto-saved in this browser<br>
+          &bull; Use File &gt; Save to keep a file copy, or to move a map between machines. Save is the only format that keeps everything<br>
           &bull; Shift+click to multi-select, then bulk-change colour, status or owner<br>
           &bull; Ctrl+drag a node onto another to reparent it<br>
           &bull; Use Focus to show/hide entire root trees<br>
           &bull; Collapse All / Expand All in the View menu<br>
-          &bull; Snap to Grid in View for tidy alignment<br>
+          &bull; Snap to Grid (Settings menu) for tidy alignment<br>
           &bull; Import CSV or Markdown from File &gt; Import<br>
           &bull; Right-click a node to bookmark or duplicate subtree<br>
           &bull; Press P for presentation mode (arrows to navigate)<br>
-          &bull; Toggle dark/light theme from the View menu<br>
+          &bull; Switch between the dark and light theme from the Settings menu<br>
           &bull; Set a due date in the details panel (press I); overdue and due-today nodes are flagged and counted in the toolbar<br>
           &bull; Touch: drag to move or pan, pinch to zoom, long-press for the menu, double-tap to edit or add
         </p>
@@ -1529,6 +1565,14 @@
   <div class="vw-hint">A view remembers filters, hidden trees, collapsed branches, completed and date-axis settings, and where you were looking.</div>
 </div>
 
+<div id="bl-panel" role="dialog" aria-label="Baselines">
+  <div class="agenda-head"><div class="bm-title" style="margin:0;flex:1">Baselines <span id="bl-count" class="vw-sub"></span></div><button class="dp-mini panel-x" type="button" onclick="toggleBaselines()" title="Close (Esc)" aria-label="Close">&times;</button></div>
+  <div class="vw-new"><input type="text" id="bl-name" maxlength="40" placeholder="Name it, e.g. Agreed plan" aria-label="Name for the new baseline"><button class="tb-btn" onclick="setBaselineNow()" title="Copy every start and due date as the planned dates">Set now</button></div>
+  <div id="bl-list"></div>
+  <div id="bl-sum"></div>
+  <div class="vw-hint">A baseline is a copy of every start and due date at one moment. The Date Axis then draws a dashed ghost where each bar was planned, with the slip in days. It is saved in your file.</div>
+</div>
+
 <div id="pres-overlay">
   <div id="pres-bar">
     <span class="pres-title">Presentation Mode</span>
@@ -1549,7 +1593,7 @@
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 
 // ── Filename helper: MindLoom-DDMMYYYY.ext ──
-function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindLoom-'+dd+mm+yyyy+'.'+ext;}
+function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindLoom-'+yyyy+mm+dd+'.'+ext;}
 
 // ── Background presets ──
 const BG_COLORS = [
@@ -1686,6 +1730,8 @@ let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected'
 let hideCompleted=false;
 let lightTheme=false;
 let bookmarks=[];
+let baselines=[],activeBaseline=0; // saved plans (see Baselines); activeBaseline is the one the Date Axis compares with
+let reportState={note:'',snap:null}; // report headline text and the snapshot the next report compares against
 let savedViews=[];
 let presMode=false, presNodes=[], presIdx=0;
 
@@ -1750,6 +1796,8 @@ function normDate(v){
   if(y<1000||dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==d)return '';
   return y+'-'+pad2(mo)+'-'+pad2(d);
 }
+// A date such as 03/04/2026 could be 3 April or 4 March; MindLoom reads it day first. Used to warn on import.
+function isAmbiguousDate(v){const m=/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-]\d{4}$/.exec(String(v==null?'':v).trim());return !!m&&+m[1]<=12&&+m[2]<=12&&m[1]!==m[2];}
 // Checklist items inside a node: [{t:'text',d:true|false}]
 function cleanChecks(a){return Array.isArray(a)?a.filter(c=>c&&typeof c==='object'&&String(c.t||'').trim()).slice(0,200).map(c=>({t:String(c.t).slice(0,300),d:!!c.d})):[];}
 // Recurring tasks: repeat={n:1..99,u:'d'|'w'|'m'|'y'}. Completing the node moves its dates on and resets it.
@@ -1775,7 +1823,7 @@ function rollRecurring(n,prevStatus){
   if(n.checks)n.checks.forEach(c=>{c.d=false;});n.progress=0;n.modifiedAt=new Date().toISOString();
   return next;
 }
-function rollToast(n,next){toast('\u201C'+n.text+'\u201D done. It repeats: next due '+fmtDay(next,true)+' (Ctrl+Z to undo)');}
+function rollToast(n,next){toast('\u201C'+n.text+'\u201D done. It recurs: next due '+fmtDay(next,true)+' (Ctrl+Z to undo)');}
 function cleanPct(v){v=Math.round(Number(v));return isFinite(v)?Math.max(0,Math.min(100,v)):0;}
 function pgBarEl(v){const w=document.createElement('span');w.className='node-pg'+(v>=100?' full':'');w.title=v+'% complete';const i=document.createElement('i');i.style.width=v+'%';w.appendChild(i);return w;}
 function ckCount(n){const a=n&&n.checks?n.checks:[];return{done:a.filter(c=>c.d).length,total:a.length};}
@@ -1829,6 +1877,12 @@ function cleanTags(raw){
 function finiteOr(v,d){v=Number(v);return Number.isFinite(v)?v:d;}
 function nextIdFor(list,hint){return list.reduce((m,n)=>Math.max(m,n.id+1),Math.max(1,Math.floor(Number(hint))||1));}
 const STATUSES=['ongoing','completed','blocked','awaiting','critical'];
+function cleanIso(v){if(typeof v!=='string')return '';const t=Date.parse(v);return isFinite(t)?new Date(t).toISOString():'';}
+// When each node was marked Completed. Stamped here so every route (detail panel, board, agenda tick, bulk edit, import) is covered.
+function stampDone(arr){
+  const now=new Date().toISOString();
+  for(const n of (arr||nodes)){if(n.status==='completed'){if(!n.doneAt)n.doneAt=now;}else if(n.doneAt)n.doneAt='';}
+}
 // Returns a clean copy of the node list: unique integer ids, typed fields, parents that exist, no cycles
 function sanitizeNodes(raw){
   if(!Array.isArray(raw))return [];
@@ -1851,7 +1905,8 @@ function sanitizeNodes(raw){
       py:(r.py!==undefined&&r.py!==null&&Number.isFinite(Number(r.py)))?Number(r.py):undefined,
       tags:cleanTags(r.tags),due:normDate(r.due),start:normDate(r.start),
       deps:[...new Set((Array.isArray(r.deps)?r.deps:[]).map(Number).filter(Number.isInteger))],
-      createdAt:r.createdAt||now,modifiedAt:r.modifiedAt||r.createdAt||now
+      createdAt:r.createdAt||now,modifiedAt:r.modifiedAt||r.createdAt||now,
+      doneAt:r.status==='completed'?(cleanIso(r.doneAt)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now):''
     });
   }
   const byId=new Map(out.map(n=>[n.id,n]));
@@ -1889,7 +1944,8 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=3;
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=4,APP_VERSION='1.29.0';
+const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function storageSet(k,v){
@@ -1962,9 +2018,16 @@ function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews}));
+  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews,reportState,baselines,activeBaseline}));
   updateSaveBadge();pushBackup('auto',false);
 }
+// Two tabs of the same file share one browser store: warn instead of silently overwriting each other
+let lastTabWarn=0;
+window.addEventListener('storage',e=>{
+  if(e.key!==STORE_KEY||e.newValue===null)return;
+  const now=Date.now();if(now-lastTabWarn<60000)return;lastTabWarn=now;
+  toast('This map was changed in another tab. Saving here will overwrite that tab\u2019s version');
+});
 window.addEventListener('beforeunload',flushSave);
 window.addEventListener('pagehide',flushSave);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave();});
@@ -1974,13 +2037,13 @@ let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews},null,compact?0:2);
+  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
 // "Dirty" means the map differs from the last file save (or, if never saved to a file, from how it was when the page opened).
 // It compares content, so panning and zooming never count as changes.
-const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews]);
+const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines]);
 function hashStr(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h+':'+t.length;}
 const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 function refreshDirty(){
@@ -2027,9 +2090,16 @@ function pushBackup(label,force){
   if(h===lastBackupSig)return;
   const list=readBackups();
   list.unshift({t:Date.now(),label:label||'auto',count:nodes.length,h,data:getSaveData(true)});
-  while(list.length>BACKUP_KEEP)list.pop();
-  // if storage is full, drop the oldest copies until it fits - never let this break editing
-  while(list.length){try{localStorage.setItem(BK_KEY,JSON.stringify(list));lastBackupAt=Date.now();lastBackupSig=h;return;}catch(e){list.pop();}}
+  // Copies made before something destructive ("last session", "before load" ...) have their own slots, so a run of
+  // routine auto-backups can never push them out
+  const isProt=b=>PROTECTED_LABELS.includes(b.label);
+  let na=0,np=0;
+  let kept=list.filter(b=>isProt(b)?(++np<=PROTECTED_KEEP):(++na<=BACKUP_KEEP));
+  // if storage is full, drop the oldest routine copy first, then the oldest protected one - never let this break editing
+  while(kept.length){
+    try{localStorage.setItem(BK_KEY,JSON.stringify(kept));lastBackupAt=Date.now();lastBackupSig=h;return;}
+    catch(e){let i=-1;for(let k=kept.length-1;k>=0;k--){if(!isProt(kept[k])){i=k;break;}}kept.splice(i<0?kept.length-1:i,1);}
+  }
 }
 function buildBackupMenu(){
   const box=document.getElementById('backup-list');if(!box)return;
@@ -2108,29 +2178,38 @@ async function loadWithFilePicker(){
     const file=await handle.getFile();
     const text=await file.text();
     const okLoad=applyLoadedData(text,file.name);
-    stopAutoFile(true);currentFileHandle=handle;
-    lastSaveDate=todayStr();
-    if(okLoad)markSaved(file.name);
+    // Only bind Ctrl+S to this file when it really was a MindLoom map; a failed load changes nothing
+    if(okLoad){currentFileHandle=handle;lastSaveDate=todayStr();markSaved(file.name);}
   }catch(err){if(err.name!=='AbortError')toast('Error loading file');}
 }
 
 $('#file-input').addEventListener('change',e=>{
   const f=e.target.files[0];if(!f)return;
   const r=new FileReader();
-  r.onload=ev=>{if(applyLoadedData(ev.target.result,f.name)){stopAutoFile(true);markSaved(f.name);}};
+  r.onload=ev=>{if(applyLoadedData(ev.target.result,f.name))markSaved(f.name);};
   r.readAsText(f);e.target.value='';
 });
 
+// Forget which file the map came from, so Ctrl+S / auto-save can never overwrite a file with a map that replaced it
+function detachFile(){
+  stopAutoFile(true);currentFileHandle=null;lastFileSig=null;lastFileSavedAt=0;lastFileName='';lastSaveDate=null;dirtySince=null;lastNudge=0;
+  initSig=sigOf();updateSaveBadge();
+}
 function applyLoadedData(text,name){
   try{
     const d=JSON.parse(text);
-    if(!d||!Array.isArray(d.nodes))throw new Error('Not a mind map file');
+    if(!d||typeof d!=='object'||!Array.isArray(d.nodes))throw new Error('Not a mind map file');
+    if(d.format!==undefined&&d.format!==FORMAT_NAME)throw new Error('Not a MindLoom file');
+    // Validate before touching anything, so a bad file leaves the current map exactly as it was
+    const fresh=sanitizeNodes(d.nodes);
+    if(!fresh.length)throw new Error('No nodes in file');
+    if(Number(d.version)>FORMAT_VERSION)toast('This file was saved by a newer MindLoom (v'+d.version+'). Some details may be ignored');
     hideDetail();pushBackup('before load',true);snap();
-    nodes=sanitizeNodes(d.nodes);crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);
+    nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);
     // Reset per-map view state so stale IDs from the previous map cannot leak in
     hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));
     bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
-    savedViews=sanitizeViews(d.savedViews);buildViewList();
+    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
     multiSelected.clear();updateBulkBar();
     if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
     if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
@@ -2140,11 +2219,11 @@ function applyLoadedData(text,name){
     if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}
     if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
     if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
-    selectedId=null;centreView();render();autoSave();toast('Loaded '+name);
+    selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];buildViewList();stopAutoFile();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2160,6 +2239,8 @@ function gn(id){
 function buildKids(){const m=new Map();for(const n of nodes){if(n.parentId===null)continue;let a=m.get(n.parentId);if(!a){a=[];m.set(n.parentId,a);}a.push(n);}return m;}
 // Children index, rebuilt only when the node list is replaced, changes length, or a node is re-parented in place
 let _kcArr=null,_kcLen=-1,_kcSeen=-1,_kcVer=0,_kcMap=null;
+// Any in-place change of a node's parent must go through setParentId so the children index is rebuilt
+function setParentId(n,pid){n.parentId=pid;_kcVer++;}
 function kidsMap(){
   if(_kcArr!==nodes||_kcLen!==nodes.length||_kcSeen!==_kcVer){_kcMap=buildKids();_kcArr=nodes;_kcLen=nodes.length;_kcSeen=_kcVer;}
   return _kcMap;
@@ -2195,7 +2276,7 @@ function updateColorBarActive(){const n=selectedId?gn(selectedId):null;colorBar.
 function updateStats(){
   const roots=getRoots().length,total=nodes.length,links=crossLinks.length,wn=nodes.filter(n=>n.notes&&n.notes.trim()).length;
   statsEl.innerHTML='<span>'+roots+' root'+(roots!==1?'s':'')+'</span><span>'+total+' nodes</span><span>'+links+' link'+(links!==1?'s':'')+'</span><span>'+wn+' noted</span>';
-  updateDueBadge();refreshAgenda();
+  updateDueBadge();refreshAgenda();if(blPanelOpen())buildBaselineList();
 }
 
 // ── Due-date monitoring ──
@@ -2263,7 +2344,7 @@ function rectEdge(cx,cy,w,h,tx,ty){ // where the line from a rectangle's centre 
 let elMap=new Map();
 function elOf(id){const e=elMap.get(Number(id));return (e&&e.isConnected)?e:canvas.querySelector('[data-id="'+id+'"]');}
 function render(){
-  _dmHid=null;
+  _dmHid=null;stampDone();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
   applyDateLayout();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
@@ -2272,12 +2353,14 @@ function render(){
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
 
   const _par=new Set();for(const n of nodes)if(n.parentId!==null)_par.add(n.parentId);
+  const rootList=nodes.filter(n=>n.parentId===null);
   for(const node of nodes){
     if(isHidden(node))continue;
     const c=gc(node.colorId),depth=gdepth(node);
     const el=document.createElement('div');
     el.className='node';el.dataset.id=node.id;
     el.setAttribute('role','treeitem');el.setAttribute('aria-level',String(depth+1));
+    {const sb=node.parentId===null?rootList:(kids.get(node.parentId)||[]);el.setAttribute('aria-setsize',String(sb.length));el.setAttribute('aria-posinset',String(sb.indexOf(node)+1));}
     el.setAttribute('aria-selected',node.id===selectedId?'true':'false');el.tabIndex=node.id===selectedId?0:-1;
     {const _di=dueInfo(node);el.setAttribute('aria-label',node.text+(node.status?', '+(node.status==='critical'?'critical path':node.status):'')+(_di.state==='overdue'?', overdue':_di.state==='today'?', due today':'')+(openDeps(node).length?', waiting on '+openDeps(node).length+' prerequisite'+(openDeps(node).length===1?'':'s'):''));}
     {const _lc=dmLaneColor(node)||c;el.style.background=_lc.bg;el.style.borderColor=_lc.border;}
@@ -2334,7 +2417,7 @@ function render(){
     {const kc=ckCount(node);if(kc.total){const ck=document.createElement('span');ck.className='node-ck'+(kc.done===kc.total?' done':'');ck.textContent='\u2611 '+kc.done+'/'+kc.total;ck.title='Checklist: '+kc.done+' of '+kc.total+' done';el.appendChild(ck);}}
 
     // Repeat chip
-    {const rl=repeatLabel(node.repeat);if(rl){const rp=document.createElement('span');rp.className='node-rp';rp.textContent='\u21BB '+rl;rp.title='Repeats: '+rl.toLowerCase()+(node.lastDone?'. Last done '+fmtDay(node.lastDone,true):'');el.appendChild(rp);}}
+    {const rl=repeatLabel(node.repeat);if(rl){const rp=document.createElement('span');rp.className='node-rp';rp.textContent='\u21BB '+rl;rp.title='Recurring: '+rl.toLowerCase()+(node.lastDone?'. Last done '+fmtDay(node.lastDone,true):'');el.appendChild(rp);}}
 
     // Progress bar along the bottom edge
     {const pv=cleanPct(node.progress);if(pv>0)el.appendChild(pgBarEl(pv));}
@@ -2403,12 +2486,13 @@ function dmDays(v){const c=normDate(v);if(!c)return null;const p=c.split('-').ma
 function dmStr(d){return new Date(d*864e5).toISOString().slice(0,10);}
 function dmOrigin(){const o=dmDays(dateOrigin);return o===null?Math.floor(todayMs()/864e5):o;}
 // Single-date items become markers, items with start and due become bars, undated items are not placed by date
-function dmInfo(n){
-  const ds=dmDays(n.due),ss=dmDays(n.start);
+function dmSpan(start,due){
+  const ds=dmDays(due),ss=dmDays(start);
   if(ds===null&&ss===null)return null;
   if(ds!==null&&ss!==null&&ss<ds)return{bar:true,s:ss,e:ds,w:(ds-ss+1)*DM_PX};
   return{bar:false,d:ds!==null?ds:ss};
 }
+function dmInfo(n){return dmSpan(n.start,n.due);}
 const dmMarkX=days=>(days-dmOrigin())*DM_PX+DM_PX/2-DM_MARK/2;
 function dmShape(n){return n.marker||(n.status==='critical'?'triangle':'diamond');}
 function dmMarkerSvg(n){
@@ -2676,8 +2760,9 @@ function drawDateAxis(){
     // pinned caption, shown once the lane's own heading card has scrolled off to the left
     if(panX+L.edge*zoom<135&&h>=18)lbls+='<div class="dm-lanelbl" style="top:'+top+'px;height:'+Math.max(h,28)+'px;border-left-color:'+L.color+'">'+esc(L.text)+'</div>';
   }
-  gr.innerHTML=lanes+bands+lines+today;
-  lb.innerHTML=lbls;dmPinnedShown=PM?false:!!lbls;
+  const gh=dmGhostHtml(W,H);
+  gr.innerHTML=lanes+bands+lines+today+gh.g;
+  lb.innerHTML=lbls+gh.l;dmPinnedShown=PM?false:!!lbls;
   ax.innerHTML=hq+hm+tag;
 }
 window.addEventListener('resize',()=>{if(dateMode)drawDateAxis();});
@@ -2700,7 +2785,7 @@ function dmCommitDrag(id){
   }
 }
 // Drag either end of a bar to change its start or due date
-function dmBeginResize(e,node,side){
+function dmBeginResize(e,node,side,touch){
   if(e.button!==0)return;
   e.stopPropagation();e.preventDefault();
   const el=elOf(node.id),i=dmInfo(node);if(!el||!i||!i.bar)return;
@@ -2716,10 +2801,13 @@ function dmBeginResize(e,node,side){
     drawConnectors();
   };
   const up=()=>{
-    window.removeEventListener('mousemove',mv);window.removeEventListener('mouseup',up);dmTip(0,0,null);
+    window.removeEventListener('mousemove',mv);window.removeEventListener('mouseup',up);
+    window.removeEventListener('touchmove',tmv);window.removeEventListener('touchend',up);window.removeEventListener('touchcancel',up);dmTip(0,0,null);
     if(moved){node.start=dmStr(ns);node.due=dmStr(ne);node.modifiedAt=new Date().toISOString();render();autoSave();}
   };
-  window.addEventListener('mousemove',mv);window.addEventListener('mouseup',up);
+  const tmv=ev=>{if(ev.touches&&ev.touches[0]){ev.preventDefault();mv(ev.touches[0]);}};
+  if(touch){window.addEventListener('touchmove',tmv,{passive:false});window.addEventListener('touchend',up);window.addEventListener('touchcancel',up);}
+  else{window.addEventListener('mousemove',mv);window.addEventListener('mouseup',up);}
 }
 // Tidy for the date axis: each workstream becomes a swimlane; its dated items are packed into as few rows as fit
 function dateTidy(scope,quiet){
@@ -2861,9 +2949,11 @@ function linkPts(nA,nB,rects){
   return orthoRoute(sa,sd,ta,td,rects);
 }
 
+let connDragFast=false,connRaf=0;
+function drawConnectorsSoon(){if(connRaf)return;connRaf=requestAnimationFrame(()=>{connRaf=0;drawConnectors();});}
 function drawConnectors(){
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
-  const sq=connStyle==='squared',rects=sq?nodeRects():null;
+  const sq=connStyle==='squared'&&!connDragFast,rects=sq?nodeRects():null;
   const critView=dateMode&&(critOnly||axSlide);
   const lvm=dateMode?linkVis:'all',FS=focusSets(dateMode&&lvm==='selected'),quietDM=focusSel&&dateMode&&lvm==='all'&&!FS;
   const fw=(n)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
@@ -3076,7 +3166,7 @@ function renderDetailRepeat(){
   const n=detailNodeId?gn(detailNodeId):null,r=n?cleanRepeat(n.repeat):null;
   $('#dp-tog-rp-n').textContent=r?repeatLabel(r):'';
   if(r){$('#dp-rp-num').value=r.n;$('#dp-rp-unit').value=r.u;}else{$('#dp-rp-num').value=1;$('#dp-rp-unit').value='w';}
-  $('#dp-rp-note').textContent=r?(repeatLabel(r)+'. When you mark it Completed its dates move on, the checklist and progress reset and it stays open.'+(n.lastDone?' Last done '+fmtDay(n.lastDone,true)+'.':'')):'Not repeating. Pick a pattern, or set a number and unit.';
+  $('#dp-rp-note').textContent=r?(repeatLabel(r)+'. When you mark it Completed its dates move on, the checklist and progress reset and it stays open.'+(n.lastDone?' Last done '+fmtDay(n.lastDone,true)+'.':'')):'Not recurring. Pick a pattern, or set a number and unit.';
 }
 function setRepeat(raw){
   const n=detailNodeId?gn(detailNodeId):null;if(!n)return;
@@ -3234,7 +3324,7 @@ detailPanel.querySelector('.notes-area').addEventListener('input',()=>{saveDetai
 // ── Links in notes ──
 // Web addresses and e-mail addresses open normally. Windows drive/network paths cannot be opened by a web page,
 // so clicking one copies it to the clipboard instead. Only http, https, mailto and file links are ever created.
-const LINK_RE=/(?:https?:\/\/|file:\/\/\/?|www\.)[^\s<>"'`]+|\\\\[A-Za-z0-9._$-]+\\[^\s<>"'|?*`]+|\b[A-Za-z]:\\[^\s<>"'|?*`]+|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const LINK_RE=/(?:https?:\/\/|file:\/\/\/?|www\.)[^\s<>"'`]+|\\\\[A-Za-z0-9._$-]+\\[^\s<>"'|?*`]+|\b[A-Za-z]:\\[^\s<>"'|?*`]+|[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9-]{1,63}(?:\.[A-Za-z0-9-]{1,63})*\.[A-Za-z]{2,}/g;
 function trimLink(t){
   for(;;){
     const c=t.slice(-1);
@@ -3261,6 +3351,7 @@ function scanLinks(text){
   return out;
 }
 function extractLinks(text){
+  text=String(text==null?'':text).slice(0,50000); // keep per-keystroke scanning cheap on huge notes
   const seen=new Set(),res=[];
   for(const l of scanLinks(text)){if(seen.has(l.href))continue;seen.add(l.href);res.push(l);if(res.length>=25)break;}
   return res;
@@ -3397,7 +3488,7 @@ function duplicateSelected(){
   snap();const idMap={};const dnow=new Date().toISOString();
   function dup(n,pid,top){
     const nid=nextId++;idMap[n.id]=nid;
-    nodes.push({id:nid,text:top?n.text+' (copy)':n.text,x:n.x+40,y:n.y+40,parentId:pid,collapsed:n.collapsed,colorId:n.colorId,notes:n.notes,project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',createdAt:dnow,modifiedAt:dnow});
+    nodes.push({id:nid,text:top?n.text+' (copy)':n.text,x:n.x+40,y:n.y+40,parentId:pid,collapsed:n.collapsed,colorId:n.colorId,notes:n.notes,project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',doneAt:n.doneAt||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',createdAt:dnow,modifiedAt:dnow});
     for(const ch of gch(n.id))dup(ch,nid,false);
   }
   dup(orig,orig.parentId,true);
@@ -3414,7 +3505,7 @@ function convertToRoot(){
   if(!selectedId)return;
   const n=gn(selectedId);if(!n||n.parentId===null){toast('Already a root node');return;}
   snap();
-  n.parentId=null;_kcVer++;
+  setParentId(n,null);
   n.modifiedAt=new Date().toISOString();
   render();autoSave();toast('Detached as root node');
 }
@@ -3880,71 +3971,425 @@ function boardMove(id,value,group){
 $('#bd-undo').addEventListener('click',()=>{undo();buildBoard(true);});
 $('#bd-redo').addEventListener('click',()=>{redo();buildBoard(true);});
 
+// ── Baselines ──
+// A baseline is a copy of every start and due date at one moment: { id, name, at, items: { nodeId: [start, due, text] } }.
+// It lives beside the nodes (not on them), so copying, pasting and undoing nodes never touch it. The Date Axis draws a dashed
+// "ghost" where each bar was planned, with the slip in days; the report lists what has slipped.
+const BL_MAX=5;
+function blActive(){return baselines.find(b=>b.id===activeBaseline)||null;}
+function nextBlId(){return baselines.reduce((m,b)=>Math.max(m,b.id),0)+1;}
+function cleanBaselines(raw){
+  const out=[],seen=new Set();
+  if(!Array.isArray(raw))return out;
+  for(const r of raw){
+    if(out.length>=BL_MAX)break;
+    if(!r||typeof r!=='object')continue;
+    const id=Number(r.id);if(!Number.isInteger(id)||id<1||seen.has(id))continue;
+    if(!r.items||typeof r.items!=='object'||Array.isArray(r.items))continue;
+    const items={};let c=0;
+    for(const k of Object.keys(r.items)){
+      if(c>=20000)break;
+      const nid=Number(k),v=r.items[k];
+      if(!Number.isInteger(nid)||nid<1||!Array.isArray(v))continue;
+      const s=normDate(v[0])||'',d=normDate(v[1])||'';
+      if(!s&&!d)continue;
+      items[nid]=[s,d,String(v[2]==null?'':v[2]).slice(0,80)];c++;
+    }
+    if(!c)continue;
+    seen.add(id);
+    out.push({id,name:String(r.name||'Baseline').slice(0,40),at:cleanIso(r.at)||new Date().toISOString(),items});
+  }
+  return out;
+}
+// Days a baseline entry (or a node's current dates) cover. Same rule as the Date Axis: start+due = bar, one date = marker.
+function baselineCompare(b,arr,all){
+  const out={later:[],earlier:[],resized:[],same:[],added:[],removed:[]};
+  for(const n of arr){
+    const cur=dmSpan(n.start,n.due),bi=b.items[n.id];
+    if(!bi){if(cur)out.added.push(n);continue;}
+    const old=dmSpan(bi[0],bi[1]);
+    if(!cur||!old)continue;
+    const eC=cur.bar?cur.e:cur.d,eO=old.bar?old.e:old.d,sC=cur.bar?cur.s:cur.d,sO=old.bar?old.s:old.d;
+    const row={n,old,cur,dEnd:eC-eO,dSt:sC-sO,oldEnd:eO,curEnd:eC};
+    if(row.dEnd>0)out.later.push(row);else if(row.dEnd<0)out.earlier.push(row);else if(row.dSt!==0)out.resized.push(row);else out.same.push(row);
+  }
+  if(all){for(const k of Object.keys(b.items)){const n=gn(Number(k));if(!n||!dmSpan(n.start,n.due))out.removed.push({id:Number(k),text:b.items[k][2]||'(untitled)'});}}
+  return out;
+}
+const blDays=(n,w)=>(n<0?'−':'+')+Math.abs(n)+(w||'d');
+function blSlipLabel(g){return g.dEnd!==0?blDays(g.dEnd):'start '+blDays(g.dSt);}
+// Rows to draw on the Date Axis: visible items whose dates differ from the active baseline, in canvas coordinates
+function dmGhostRows(){
+  const b=blActive();if(!dateMode||!b)return [];
+  const o=dmOrigin(),cmp=baselineCompare(b,nodes,false),rows=[];
+  for(const r of cmp.later.concat(cmp.earlier,cmp.resized)){
+    const n=r.n;if(isHidden(n)||(axSlide&&slideHides(n)))continue;
+    const el=elOf(n.id);if(!el)continue;
+    const bar=r.old.bar;
+    rows.push({n,y:n.y,h:el.offsetHeight,x:n.x,w:r.cur.bar?el.offsetWidth:DM_MARK,curBar:r.cur.bar,bar,
+      gx:bar?(r.old.s-o)*DM_PX:dmMarkX(r.old.d),gw:bar?(r.old.e-r.old.s+1)*DM_PX:DM_MARK,dEnd:r.dEnd,dSt:r.dSt});
+  }
+  return rows;
+}
+// Screen-space HTML for the ghosts (behind the bars) and their slip labels (above). A slip later is labelled left of the ghost, an earlier one to its right, so the label sits beside the part you can see.
+function dmGhostHtml(W,H){
+  let g='',l='';
+  for(const r of dmGhostRows()){
+    const gx=Math.round(panX+r.gx*zoom),gw=Math.max(3,Math.round(r.gw*zoom)),gy=Math.round(panY+r.y*zoom),gh=Math.max(4,Math.round(r.h*zoom));
+    const rx=Math.round(panX+r.x*zoom),rw=Math.max(3,Math.round(r.w*zoom));
+    if(Math.max(gx+gw,rx+rw)<-40||Math.min(gx,rx)>W+40||gy>H||gy+gh<52)continue;
+    const gEnd=r.bar?gx+gw:gx+gw/2,rEnd=r.curBar?rx+rw:rx+rw/2,mid=gy+Math.round(gh/2);
+    g+='<div class="dm-ghost" style="left:'+gx+'px;top:'+gy+'px;width:'+gw+'px;height:'+gh+'px"></div>';
+    if(Math.abs(gEnd-rEnd)>2)g+='<div class="dm-ghostln" style="left:'+Math.round(Math.min(gEnd,rEnd))+'px;top:'+mid+'px;width:'+Math.round(Math.abs(gEnd-rEnd))+'px"></div>';
+    const cls=r.dEnd>0?'late':r.dEnd<0?'early':'chg',txt=blSlipLabel(r);
+    if((r.curBar||r.bar)&&r.dEnd<=0)l+='<div class="dm-slip '+cls+'" style="left:'+Math.round(Math.max(gx+gw,rx+rw)+5)+'px;top:'+(mid-8)+'px">'+txt+'</div>';
+    else l+='<div class="dm-slip '+cls+'" style="right:'+Math.round(W-Math.min(gx,rx)+5)+'px;top:'+(mid-8)+'px">'+txt+'</div>';
+  }
+  return {g,l};
+}
+function dmExportGhosts(ctx,x1,y1,pad){
+  for(const r of dmGhostRows()){
+    const gx=r.gx-x1+pad,gy=r.y-y1+pad,rx=r.x-x1+pad;
+    ctx.save();
+    ctx.fillStyle='rgba(150,155,165,0.22)';ctx.strokeStyle='rgba(170,175,185,0.9)';ctx.lineWidth=1.5;ctx.setLineDash([5,3]);
+    ctx.beginPath();if(ctx.roundRect)ctx.roundRect(gx,gy,r.gw,r.h,6);else ctx.rect(gx,gy,r.gw,r.h);ctx.fill();ctx.stroke();
+    const gEnd=r.bar?gx+r.gw:gx+r.gw/2,rEnd=r.curBar?rx+r.w:rx+r.w/2,mid=gy+r.h/2;
+    if(Math.abs(gEnd-rEnd)>2){ctx.beginPath();ctx.moveTo(gEnd,mid);ctx.lineTo(rEnd,mid);ctx.stroke();}
+    ctx.setLineDash([]);
+    const txt=blSlipLabel(r);ctx.font='700 11px system-ui,sans-serif';ctx.textBaseline='middle';
+    const tw=ctx.measureText(txt).width+12,onRight=(r.curBar||r.bar)&&r.dEnd<=0,lx=onRight?Math.max(gx+r.gw,rx+r.w)+5:Math.min(gx,rx)-5-tw;
+    ctx.fillStyle=r.dEnd>0?'#c0392b':r.dEnd<0?'#2e8b57':'#6b7280';
+    ctx.beginPath();if(ctx.roundRect)ctx.roundRect(lx,mid-8,tw,16,8);else ctx.rect(lx,mid-8,tw,16);ctx.fill();
+    ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText(txt,lx+6,mid+0.5);
+    ctx.restore();
+  }
+}
+
+// ── Baseline panel ──
+function blPanelOpen(){return $('#bl-panel').classList.contains('visible');}
+function toggleBaselines(){
+  const p=$('#bl-panel');
+  if(!p.classList.contains('visible')){if($('#views-panel').classList.contains('visible'))toggleViews();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();}
+  p.classList.toggle('visible');
+  if(p.classList.contains('visible')){buildBaselineList();setTimeout(()=>{try{$('#bl-name').focus();}catch(e){}},0);}
+}
+function blRefresh(){updateBlButton();if(blPanelOpen())buildBaselineList();drawDateAxis();}
+function updateBlButton(){
+  const b=$('#dm-bl-btn');if(!b)return;const a=blActive();
+  b.textContent=a?'Baseline: '+(a.name.length>16?a.name.slice(0,15)+'…':a.name):'Baseline';
+  b.classList.toggle('on',!!a);
+}
+function setBaselineNow(){
+  const inp=$('#bl-name');let name=inp.value.trim().slice(0,40);
+  const items={};let c=0;
+  for(const n of nodes){const s=normDate(n.start),d=normDate(n.due);if(!s&&!d)continue;items[n.id]=[s||'',d||'',String(n.text||'').slice(0,80)];c++;}
+  if(!c){toast('Give some nodes start or due dates first');return;}
+  if(baselines.length>=BL_MAX){toast('You can keep up to '+BL_MAX+' baselines. Delete one first');return;}
+  const at=new Date().toISOString();
+  if(!name)name='Baseline '+nextBlId();
+  const b={id:nextBlId(),name,at,items};
+  baselines.push(b);activeBaseline=b.id;inp.value='';
+  blRefresh();autoSave();
+  toast('Baseline “'+name+'” saved from '+c+' dated items'+(dateMode?'':'. Switch on the Date Axis to see it'));
+}
+function blSelect(id){activeBaseline=baselines.some(b=>b.id===id)?id:0;blRefresh();autoSave();}
+function blRename(id){
+  const b=baselines.find(x=>x.id===id);if(!b)return;
+  const v=prompt('Rename baseline',b.name);if(v===null)return;
+  b.name=v.trim().slice(0,40)||b.name;blRefresh();autoSave();
+}
+function blDelete(id){
+  const b=baselines.find(x=>x.id===id);if(!b)return;
+  if(!confirm('Delete the baseline “'+b.name+'”?\nThis cannot be undone.'))return;
+  baselines=baselines.filter(x=>x.id!==id);if(activeBaseline===id)activeBaseline=0;
+  blRefresh();autoSave();
+}
+function blSummaryText(a){
+  const c=baselineCompare(a,nodes,true),bits=[];
+  bits.push(c.later.length+' later');bits.push(c.earlier.length+' earlier');
+  if(c.resized.length)bits.push(c.resized.length+' start moved');
+  bits.push(c.same.length+' on plan');
+  if(c.added.length)bits.push(c.added.length+' new');
+  if(c.removed.length)bits.push(c.removed.length+' removed or undated');
+  return bits.join(' · ');
+}
+function buildBaselineList(){
+  const L=$('#bl-list');L.innerHTML='';
+  const fmt=iso=>new Date(iso).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+  const none=document.createElement('div');none.className='vw-row';
+  none.innerHTML='<button class="vw-go" type="button" data-act="show" data-id="0">'+(activeBaseline===0?'● ':'○ ')+'Hide ghost bars</button>';
+  L.appendChild(none);
+  baselines.forEach(b=>{
+    const row=document.createElement('div');row.className='vw-row';
+    const n=Object.keys(b.items).length;
+    row.innerHTML='<button class="vw-go" type="button" data-act="show" data-id="'+b.id+'" title="Show this baseline on the Date Axis">'+(activeBaseline===b.id?'● ':'○ ')+esc(b.name)+'<span class="vw-sub">'+esc(fmt(b.at))+' · '+n+' items</span></button>'
+      +'<button class="vw-ico" type="button" data-act="rename" data-id="'+b.id+'" title="Rename" aria-label="Rename baseline">✎</button>'
+      +'<button class="vw-ico" type="button" data-act="del" data-id="'+b.id+'" title="Delete" aria-label="Delete baseline">×</button>';
+    L.appendChild(row);
+  });
+  const a=blActive();
+  $('#bl-sum').textContent=a?'Now compared with “'+a.name+'”: '+blSummaryText(a):(baselines.length?'Choose a baseline to see where each bar was planned.':'No baselines yet. Set one when the plan is agreed.');
+  $('#bl-count').textContent=baselines.length+' of '+BL_MAX;
+}
+$('#bl-list').addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;const id=Number(t.dataset.id);
+  if(t.dataset.act==='show')blSelect(id);else if(t.dataset.act==='rename')blRename(id);else if(t.dataset.act==='del')blDelete(id);
+});
+$('#bl-name').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();setBaselineNow();}if(e.key==='Escape')toggleBaselines();});
+
 // ── Status report ──
-// Built from one data object so the on-screen version, the Markdown copy and the download always agree.
-let reportVisible=false;
+// Built from one data object so the on-screen version, the Markdown copy, the formatted copy and the download always agree.
+let reportVisible=false,reportBase=null; // reportBase: the snapshot this open report compares against (frozen while the report is open)
+const RP_LABEL={overdue:'Overdue',blocked:'Blocked',awaiting:'Awaiting',waiting:'Waiting on prerequisites',critical:'Critical path',upcoming:'Due soon'};
+const RP_PRI=['overdue','blocked','awaiting','waiting','critical','upcoming']; // an item is shown in full under the first of these it belongs to
+const rpPlural=(n,w)=>n+' '+w+(n===1?'':'s');
+const rpStamp=iso=>new Date(iso).toLocaleString(undefined,{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+
+// The saved comparison point: tracked items only, as id -> [text, status, due, overdue?]
+function reportSnapshot(){
+  const items={};
+  for(const n of nodes){if(!(n.status||n.due))continue;items[n.id]=[String(n.text||'').slice(0,160),n.status||'',n.due||'',dueInfo(n).state==='overdue'?1:0];}
+  return {at:new Date().toISOString(),items};
+}
+function cleanReportState(x){
+  const out={note:'',snap:null};
+  if(!x||typeof x!=='object')return out;
+  out.note=String(x.note||'').slice(0,2000);
+  const s=x.snap;
+  if(s&&typeof s==='object'&&typeof s.at==='string'&&isFinite(Date.parse(s.at))&&s.items&&typeof s.items==='object'&&!Array.isArray(s.items)){
+    const items={};let c=0;
+    for(const k of Object.keys(s.items)){
+      if(c>=20000)break;
+      const id=Number(k),v=s.items[k];
+      if(!Number.isInteger(id)||id<1||!Array.isArray(v))continue;
+      items[id]=[String(v[0]==null?'':v[0]).slice(0,160),STATUSES.includes(v[1])?v[1]:'',normDate(v[2])||'',v[3]?1:0];c++;
+    }
+    out.snap={at:new Date(Date.parse(s.at)).toISOString(),items};
+  }
+  return out;
+}
+
 function toggleReport(){
   if(!reportVisible)closeBigOverlays('report');
   reportVisible=!reportVisible;
   document.body.classList.remove('print-report');
   $('#report-overlay').classList.toggle('visible',reportVisible);
-  if(reportVisible){hideDetail();const sel=selectedId!==null?gn(selectedId):null;$('#rp-scope').querySelector('option[value="branch"]').disabled=!sel;if(!sel)$('#rp-scope').value='all';buildReport();}
+  if(reportVisible){
+    hideDetail();const sel=selectedId!==null?gn(selectedId):null;
+    $('#rp-scope').querySelector('option[value="branch"]').disabled=!sel;if(!sel)$('#rp-scope').value='all';
+    reportBase=reportState.snap;$('#rp-note').value=reportState.note;
+    fillReportFilters();buildReport();
+  }
   syncToolbarState();
 }
+// What the scope selector covers. Root trees hidden with Focus are left out, as on the Board.
+function reportScope(){
+  const sel=selectedId!==null?gn(selectedId):null;
+  const branch=($('#rp-scope').value==='branch'&&sel)?sel:null;
+  const set=branch?new Set([branch.id,...gdesc(branch.id)]):null;
+  const scoped=nodes.filter(n=>(!set||set.has(n.id))&&!hiddenRoots.has(rootOfNode(n).id));
+  return {branch,set,scoped};
+}
+function fillReportFilters(){
+  const {scoped}=reportScope(),tr=scoped.filter(n=>n.status||n.due);
+  const fill=(el,key,all,none)=>{
+    const cur=el.value,names=new Set();let hasNone=false;
+    tr.forEach(n=>{const v=(n[key]||'').trim();if(v)names.add(v);else hasNone=true;});
+    el.innerHTML='<option value="">'+all+'</option>'+[...names].sort((a,b)=>a.localeCompare(b)).map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('')+(hasNone&&names.size?'<option value="__none">'+none+'</option>':'');
+    el.value=[...el.options].some(o=>o.value===cur)?cur:'';
+  };
+  fill($('#rp-owner'),'owner','All owners','Unassigned');
+  fill($('#rp-proj'),'project','All projects','No project');
+}
 function reportData(){
-  const sel=selectedId!==null?gn(selectedId):null,rs=$('#rp-scope');
-  const branch=rs.value==='branch'&&sel,days=parseInt($('#rp-days').value,10)||7;
-  const set=branch?new Set([sel.id,...gdesc(sel.id)]):null;
-  const list=nodes.filter(n=>!set||set.has(n.id)),tracked=list.filter(n=>n.status||n.due);
-  const today=todayMs(),horizon=today+days*86400000,cutoff=Date.now()-days*86400000;
+  const {branch,set,scoped}=reportScope();
+  const days=parseInt($('#rp-days').value,10)||7;
+  const fo=$('#rp-owner').value,fp=$('#rp-proj').value,key=v=>(v||'').trim()||'__none';
+  const list=scoped.filter(n=>(!fo||key(n.owner)===fo)&&(!fp||key(n.project)===fp));
+  const tracked=list.filter(n=>n.status||n.due);
+  const today=todayMs(),horizon=today+days*86400000,cutoff=Date.now()-days*86400000,cutDay=isoFromToday(-days);
   const dueOf=n=>{const t=dayMs(n.due);return t===null?Infinity:t;};
   const byDue=(a,b)=>dueOf(a)-dueOf(b)||a.text.localeCompare(b.text);
-  const item=n=>({id:n.id,text:n.text,path:pathOf(n),owner:n.owner||'',project:n.project||'',due:n.due||'',status:n.status||'',waiting:openDeps(n).map(x=>x.text)});
-  const overdue=tracked.filter(n=>dueInfo(n).state==='overdue').sort(byDue);
-  const blocked=tracked.filter(n=>n.status==='blocked').sort(byDue);
-  const waiting=list.filter(n=>openDeps(n).length).sort(byDue);
-  const critical=tracked.filter(n=>n.status==='critical').sort(byDue);
-  const upcoming=tracked.filter(n=>{const t=dayMs(n.due);return n.status!=='completed'&&t!==null&&t>=today&&t<=horizon;}).sort(byDue);
-  const done=list.filter(n=>n.status==='completed'&&Date.parse(n.modifiedAt)>=cutoff).sort((a,b)=>Date.parse(b.modifiedAt)-Date.parse(a.modifiedAt));
+  const lists={
+    overdue:tracked.filter(n=>dueInfo(n).state==='overdue').sort(byDue),
+    blocked:tracked.filter(n=>n.status==='blocked').sort(byDue),
+    awaiting:tracked.filter(n=>n.status==='awaiting').sort(byDue),
+    waiting:list.filter(n=>openDeps(n).length).sort(byDue),
+    critical:tracked.filter(n=>n.status==='critical').sort(byDue),
+    upcoming:tracked.filter(n=>{const t=dayMs(n.due);return n.status!=='completed'&&t!==null&&t>=today&&t<=horizon;}).sort(byDue)
+  };
+  // Which sections each item belongs to, so an item that is overdue AND blocked AND critical is written out once
+  const flags=new Map();
+  RP_PRI.forEach(k=>lists[k].forEach(n=>{let f=flags.get(n.id);if(!f)flags.set(n.id,f=[]);f.push(k);}));
+  const shortDay=iso=>new Date(iso).toLocaleDateString(undefined,{day:'numeric',month:'short'});
+  const item=(n,sec)=>{
+    const fl=flags.get(n.id)||[],info=dueInfo(n),ck=ckCount(n),open=n.status!=='completed';
+    const primary=RP_PRI.find(k=>fl.includes(k));
+    let prog='';
+    if(open){if(ck.total)prog='checklist '+ck.done+'/'+ck.total+(ck.done?' ('+Math.round(ck.done/ck.total*100)+'%)':'');else if(n.progress>0)prog='progress '+n.progress+'%';}
+    return {id:n.id,text:n.text,path:pathOf(n),owner:n.owner||'',project:n.project||'',due:n.due||'',status:n.status||'',
+      dueDays:(open&&info.state!=='none')?info.days:null,prog,waiting:openDeps(n).map(x=>x.text),
+      also:RP_PRI.includes(sec)?fl.filter(k=>k!==sec).map(k=>RP_LABEL[k]):[],
+      dup:(RP_PRI.includes(sec)&&primary&&primary!==sec)?RP_LABEL[primary]:''};
+  };
+  // Completed work: the date it was marked Completed. Recurring tasks reset to open when done, so they are read from "last done".
+  const doneRows=[];
+  list.forEach(n=>{
+    if(n.status==='completed'){const t=Date.parse(n.doneAt||n.modifiedAt);if(t>=cutoff)doneRows.push({n,t,doneOn:shortDay(new Date(t).toISOString()),est:n.doneAt===n.modifiedAt,rec:false});}
+    else if(n.lastDone&&n.lastDone>=cutDay&&cleanRepeat(n.repeat)){const t=Date.parse(n.lastDone+'T12:00:00');doneRows.push({n,t,doneOn:fmtDay(n.lastDone),est:false,rec:true});}
+  });
+  doneRows.sort((a,b)=>b.t-a.t);
+  const doneItems=doneRows.map(r=>{const it=item(r.n,'done');it.doneOn=r.doneOn;it.recurring=r.rec;it.dueDays=null;return it;});
+  const anyEst=doneRows.some(r=>r.est);
+
+  // Completion figures count work items (tracked items with nothing tracked beneath them); group headings are not counted as tasks
+  const tIds=new Set(tracked.map(n=>n.id)),roll=new Set();
+  for(const n of tracked){let p=n.parentId,g=0;while(p!==null&&g++<10000){if(tIds.has(p))roll.add(p);const pn=gn(p);if(!pn)break;p=pn.parentId;}}
+  const leaves=tracked.filter(n=>!roll.has(n.id));
+  const isDone=n=>n.status==='completed';
+  const workDone=n=>{if(isDone(n))return 1;const c=ckCount(n);return c.total?c.done/c.total:cleanPct(n.progress)/100;};
+  const lDone=leaves.filter(isDone).length;
+  const pct=leaves.length?Math.round(lDone/leaves.length*100):0;
+  const weighted=leaves.length?Math.round(leaves.reduce((s,n)=>s+workDone(n),0)/leaves.length*100):0;
   const cnt=st=>tracked.filter(n=>n.status===st).length;
-  const completed=cnt('completed');
+
   const owners=new Map();
   tracked.forEach(n=>{const o=(n.owner||'').trim()||'Unassigned';let r=owners.get(o);if(!r)owners.set(o,r={owner:o,open:0,overdue:0,blocked:0,done:0});
     if(n.status==='completed')r.done++;else{r.open++;if(dueInfo(n).state==='overdue')r.overdue++;if(n.status==='blocked')r.blocked++;}});
-  const _r=getRoots();let title=branch?sel.text:(_r.length&&_r.length<=3?_r.map(r=>r.text).join(' \u00B7 '):'MindLoom');
-  return {title,days,branch:!!branch,generated:new Date(),
-    kpis:{items:tracked.length,completed,pct:tracked.length?Math.round(completed/tracked.length*100):0,ongoing:cnt('ongoing'),awaiting:cnt('awaiting'),blocked:cnt('blocked'),overdue:overdue.length,waiting:waiting.length},
-    sections:[
-      {key:'overdue',title:'Overdue',items:overdue.map(item)},
-      {key:'blocked',title:'Blocked',items:blocked.map(item)},
-      {key:'waiting',title:'Waiting on prerequisites',items:waiting.map(item)},
-      {key:'critical',title:'Critical path',items:critical.map(item)},
-      {key:'upcoming',title:'Due in the next '+days+' days',items:upcoming.map(item)},
-      {key:'done',title:'Completed in the last '+days+' days',items:done.map(item),note:'based on when each node was last changed'}
-    ],
-    owners:[...owners.values()].sort((a,b)=>b.open-a.open||a.owner.localeCompare(b.owner))};
+
+  // One-line health from simple thresholds (shown on the report so the reader can see what drove it)
+  const openT=tracked.filter(n=>n.status!=='completed').length;
+  const critSoon=lists.critical.filter(n=>{const t=dayMs(n.due);return t!==null&&t<=horizon;}).length;
+  const critOver=lists.overdue.filter(n=>n.status==='critical').length;
+  const ov=lists.overdue.length,bl=lists.blocked.length;
+  let level='green';
+  if(ov||bl||critSoon)level='amber';
+  if(critOver||ov>=3||bl>=3||(openT>=4&&ov/openT>=0.25))level='red';
+  const bits=[];
+  if(ov)bits.push(ov+' overdue');
+  if(bl)bits.push(bl+' blocked');
+  if(critSoon)bits.push(rpPlural(critSoon,'critical item')+' due within '+days+' days or overdue');
+  const health={level,label:level.charAt(0).toUpperCase()+level.slice(1),text:bits.length?bits.join(', '):'nothing overdue or blocked'};
+
+  // Changes since the saved snapshot (only for items inside this report's scope and filters)
+  let changes=null;
+  if(reportBase){
+    const bi=reportBase.items,G={completed:[],reopened:[],overdue:[],blocked:[],moved:[],added:[],removed:[]};
+    for(const n of list){
+      const b=bi[n.id];
+      if(!b){if(n.status||n.due)G.added.push(item(n,'chg'));continue;}
+      if(n.status==='completed'&&b[1]!=='completed'){G.completed.push(item(n,'chg'));continue;}
+      if(n.status!=='completed'&&b[1]==='completed')G.reopened.push(item(n,'chg'));
+      if(n.status!=='completed'){
+        if(dueInfo(n).state==='overdue'&&!b[3])G.overdue.push(item(n,'chg'));
+        if(n.status==='blocked'&&b[1]!=='blocked')G.blocked.push(item(n,'chg'));
+      }
+      if(n.due&&b[2]&&n.due!==b[2]){
+        const d=Math.round((dayMs(n.due)-dayMs(b[2]))/864e5),it=item(n,'chg');
+        it.moved=fmtDay(b[2])+' → '+fmtDay(n.due)+' ('+(d>0?rpPlural(d,'day')+' later':rpPlural(-d,'day')+' earlier')+')';
+        G.moved.push(it);
+      }
+    }
+    if(!set&&!fo&&!fp){const alive=new Set(nodes.map(n=>n.id));for(const k of Object.keys(bi)){if(!alive.has(Number(k)))G.removed.push({id:null,text:bi[k][0],path:'',owner:'',project:'',due:'',status:bi[k][1],dueDays:null,prog:'',waiting:[],also:[],dup:''});}}
+    const T={completed:'Newly completed',reopened:'Reopened',overdue:'Newly overdue',blocked:'Newly blocked',moved:'Due date changed',added:'New tracked items',removed:'Removed from the map'};
+    const groups=Object.keys(T).filter(k=>G[k].length).map(k=>({key:k,title:T[k],items:G[k]}));
+    changes={since:reportBase.at,groups,total:groups.reduce((s,g)=>s+g.items.length,0)};
+  }
+
+  // Against the baseline chosen on the Date Axis
+  let baseline=null;const bse=blActive();
+  if(bse){
+    const cmp=baselineCompare(bse,list,!set&&!fo&&!fp);
+    const mk=(r,useStart)=>{
+      const it=item(r.n,'chg'),a=useStart?(r.old.bar?r.old.s:r.old.d):r.oldEnd,b=useStart?(r.cur.bar?r.cur.s:r.cur.d):r.curEnd,dd=b-a;
+      it.movedPre=useStart?'start ':'due ';
+      it.moved=fmtDay(dmStr(a))+' \u2192 '+fmtDay(dmStr(b))+' ('+rpPlural(Math.abs(dd),'day')+(dd>0?' later':' earlier')+')';
+      return it;
+    };
+    const groups=[],G=(key,title,arr)=>{if(arr.length)groups.push({key,title,items:arr});};
+    G('later','Later than the baseline',cmp.later.slice().sort((x,y)=>y.dEnd-x.dEnd).map(r=>mk(r,false)));
+    G('earlier','Earlier than the baseline',cmp.earlier.slice().sort((x,y)=>x.dEnd-y.dEnd).map(r=>mk(r,false)));
+    G('resized','Start date moved, due date unchanged',cmp.resized.map(r=>mk(r,true)));
+    G('removed','Deleted or no longer dated',cmp.removed.map(r=>({id:null,text:r.text,path:'',owner:'',project:'',due:'',status:'',dueDays:null,prog:'',waiting:[],also:[],dup:''})));
+    const sum=[cmp.later.length+' later',cmp.earlier.length+' earlier'];
+    if(cmp.resized.length)sum.push(cmp.resized.length+' start moved');
+    sum.push(cmp.same.length+' on plan');
+    if(cmp.added.length)sum.push(cmp.added.length+' new');
+    baseline={name:bse.name,at:bse.at,groups,summary:sum.join(' \u00B7 ')};
+  }
+
+  const _r=getRoots().filter(r=>!hiddenRoots.has(r.id));
+  const title=branch?branch.text:(_r.length&&_r.length<=3?_r.map(r=>r.text).join(' · '):'MindLoom');
+  const scopeBits=[];
+  if(branch)scopeBits.push('selected branch');
+  if(fo)scopeBits.push('owner: '+(fo==='__none'?'unassigned':fo));
+  if(fp)scopeBits.push('project: '+(fp==='__none'?'none':fp));
+  const notes=[],hid=[...hiddenRoots].filter(r=>gn(r)).length;
+  if(hid&&!branch)notes.push(rpPlural(hid,'root tree')+' hidden with Focus '+(hid===1?'is':'are')+' left out of this report');
+  const sections=RP_PRI.map(k=>({key:k,title:k==='upcoming'?'Due in the next '+days+' days':RP_LABEL[k],items:lists[k].map(n=>item(n,k))}));
+  sections.push({key:'done',title:'Completed in the last '+days+' days',items:doneItems,
+    note:anyEst?'Some completions pre-date date tracking, so they use the date the item was last changed.':''});
+  return {title,scope:scopeBits.join(' · '),days,branch:!!branch,generated:new Date(),note:(reportState.note||'').trim(),notes,health,changes,baseline,
+    kpis:{tasks:leaves.length,done:lDone,pct,weighted,groups:roll.size,ongoing:cnt('ongoing'),awaiting:cnt('awaiting'),blocked:bl,overdue:ov,waiting:lists.waiting.length,upcoming:lists.upcoming.length},
+    sections,owners:[...owners.values()].sort((a,b)=>b.open-a.open||a.owner.localeCompare(b.owner))};
+}
+function rpDueText(it){
+  if(!it.due)return '';
+  const f=fmtDay(it.due,true),d=it.dueDays;
+  if(d===null)return 'due '+f;
+  if(d<0)return 'due '+f+' ('+rpPlural(-d,'day')+' overdue)';
+  if(d===0)return 'due today';
+  if(d<=14)return 'due '+f+' (in '+rpPlural(d,'day')+')';
+  return 'due '+f;
 }
 function reportMeta(it,withPath){
   const b=[];
   if(it.owner)b.push(it.owner);
-  if(it.due)b.push('due '+fmtDay(it.due,true));
+  if(it.doneOn)b.push('completed '+it.doneOn+(it.recurring?' (recurring)':''));
+  else if(it.moved)b.push((it.movedPre||'due ')+it.moved);
+  else if(it.due)b.push(rpDueText(it));
+  if(it.prog)b.push(it.prog);
   if(it.project)b.push(it.project);
   if(it.waiting&&it.waiting.length)b.push('waiting on '+it.waiting.join(', '));
   let m=b.join(' · ');
   if(withPath&&it.path)m+=(m?' · ':'')+'in '+it.path;
   return m;
 }
-function reportMarkdown(d){
+function rpSummaryLines(d){
   const k=d.kpis,L=[];
+  L.push(k.done+' of '+rpPlural(k.tasks,'task')+' completed ('+k.pct+'%)'+(k.weighted!==k.pct?' · '+k.weighted+'% allowing for checklists and progress':''));
+  L.push('Ongoing '+k.ongoing+' · Awaiting '+k.awaiting+' · Blocked '+k.blocked+' · Overdue '+k.overdue+' · Waiting on prerequisites '+k.waiting+' · Due in the next '+d.days+' days '+k.upcoming);
+  return L;
+}
+function reportMarkdown(d){
+  const L=[],dateStr=d.generated.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const line=it=>{
+    if(it.dup)return '- **'+it.text+'** — _shown under '+it.dup+'_';
+    const parts=[reportMeta(it,true),it.also.length?'also: '+it.also.join(', '):''].filter(Boolean).join(' · ');
+    return '- **'+it.text+'**'+(parts?' — '+parts:'');
+  };
   L.push('# Status report — '+d.title);
-  L.push('_'+d.generated.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'})+(d.branch?' · selected branch':'')+'_','');
-  L.push('## Summary');
-  L.push('- '+k.completed+' of '+k.items+' tracked items completed ('+k.pct+'%)');
-  L.push('- Ongoing '+k.ongoing+' · Awaiting '+k.awaiting+' · Blocked '+k.blocked+' · Overdue '+k.overdue+' · Waiting on prerequisites '+k.waiting,'');
+  L.push('_'+dateStr+(d.scope?' · '+d.scope:'')+'_','');
+  if(d.note)L.push(d.note.split(/\r?\n/).map(x=>'> '+x).join('\n'),'');
+  L.push('**Status: '+d.health.label+'** — '+d.health.text,'');
+  d.notes.forEach(x=>L.push('_'+x+'_'));if(d.notes.length)L.push('');
+  L.push('## Summary');rpSummaryLines(d).forEach(x=>L.push('- '+x));L.push('');
+  if(d.changes){
+    L.push('## Changes since last report ('+rpStamp(d.changes.since)+')');
+    if(!d.changes.total)L.push('- No changes');
+    d.changes.groups.forEach(g=>{L.push('','### '+g.title+' ('+g.items.length+')');g.items.forEach(it=>{const m=reportMeta(it,false);L.push('- **'+it.text+'**'+(m?' — '+m:''));});});
+    L.push('');
+  }else L.push('_First report: there is nothing to compare with yet._','');
+  if(d.baseline){
+    L.push('## Against baseline \u201C'+d.baseline.name+'\u201D (set '+rpStamp(d.baseline.at)+')','- '+d.baseline.summary);
+    if(!d.baseline.groups.length)L.push('- Nothing has moved');
+    d.baseline.groups.forEach(g=>{L.push('','### '+g.title+' ('+g.items.length+')');g.items.forEach(it=>{const m=reportMeta(it,false);L.push('- **'+it.text+'**'+(m?' \u2014 '+m:''));});});
+    L.push('');
+  }
   d.sections.forEach(sec=>{
     L.push('## '+sec.title+' ('+sec.items.length+')');
     if(!sec.items.length)L.push('- None');
-    sec.items.forEach(it=>{const m=reportMeta(it,true);L.push('- **'+it.text+'**'+(m?' — '+m:''));});
+    sec.items.forEach(it=>L.push(line(it)));
     if(sec.note&&sec.items.length)L.push('','_'+sec.note+'_');
     L.push('');
   });
@@ -3957,37 +4402,116 @@ function reportMarkdown(d){
 }
 function reportHtml(d){
   const k=d.kpis,kp=(n,l,bad)=>'<div class="rp-kpi'+(bad&&n?' bad':'')+'"><b>'+n+'</b><span>'+l+'</span></div>';
-  let h='<h2>'+esc(d.title)+'</h2><div class="rp-date">'+esc(d.generated.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))+(d.branch?' · selected branch':'')+'</div>';
-  h+='<div class="rp-kpis">'+kp(k.pct+'%','complete ('+k.completed+' of '+k.items+')')+kp(k.ongoing,'ongoing')+kp(k.awaiting,'awaiting')+kp(k.blocked,'blocked',1)+kp(k.overdue,'overdue',1)+kp(k.waiting,'waiting on prerequisites')+'</div>';
+  const dateStr=d.generated.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const li=(it,full)=>{
+    const t=it.id?'<span class="rp-t" data-jump="'+it.id+'">'+esc(it.text)+'</span>':'<span class="rp-t gone">'+esc(it.text)+'</span>';
+    if(it.dup)return '<li>'+t+' <span class="rp-m">— shown under '+esc(it.dup)+'</span></li>';
+    const m=reportMeta(it,full);
+    return '<li>'+t+(m?' <span class="rp-m">— '+esc(m)+'</span>':'')+it.also.map(a=>'<span class="rp-chip">'+esc(a)+'</span>').join('')+'</li>';
+  };
+  let h='<h2>'+esc(d.title)+'</h2><div class="rp-date">'+esc(dateStr)+(d.scope?' · '+esc(d.scope):'')+'</div>';
+  if(d.note)h+='<div class="rp-note">'+esc(d.note)+'</div>';
+  h+='<div class="rp-health '+d.health.level+'" title="Red: 3+ overdue or blocked, a critical item overdue, or a quarter of open items overdue. Amber: anything overdue or blocked, or a critical item due soon.">Status: '+esc(d.health.label)+' — '+esc(d.health.text)+'</div>';
+  h+='<div class="rp-kpis">'+kp(k.pct+'%','complete ('+k.done+' of '+rpPlural(k.tasks,'task')+')')+(k.weighted!==k.pct?kp(k.weighted+'%','incl. checklists and progress'):'')+kp(k.ongoing,'ongoing')+kp(k.awaiting,'awaiting')+kp(k.blocked,'blocked',1)+kp(k.overdue,'overdue',1)+kp(k.waiting,'waiting on prerequisites')+kp(k.upcoming,'due in '+d.days+' days')+'</div>';
+  d.notes.forEach(x=>{h+='<div class="rp-sub">'+esc(x)+'</div>';});
+  if(d.changes){
+    h+='<h3>Changes since last report <span class="rp-sub">('+esc(rpStamp(d.changes.since))+')</span></h3>';
+    if(!d.changes.total)h+='<div class="rp-none">No changes</div>';
+    d.changes.groups.forEach(g=>{h+='<h4>'+esc(g.title)+' ('+g.items.length+')</h4><ul>'+g.items.map(it=>li(it,false)).join('')+'</ul>';});
+  }else h+='<div class="rp-sub" style="margin-top:12px">First report: there is nothing to compare with yet. A snapshot is saved when you copy, download or print, and the next report shows what changed.</div>';
+  if(d.baseline){
+    h+='<h3>Against baseline \u201C'+esc(d.baseline.name)+'\u201D <span class="rp-sub">(set '+esc(rpStamp(d.baseline.at))+')</span></h3><div class="rp-sub">'+esc(d.baseline.summary)+'</div>';
+    if(!d.baseline.groups.length)h+='<div class="rp-none">Nothing has moved</div>';
+    d.baseline.groups.forEach(g=>{h+='<h4>'+esc(g.title)+' ('+g.items.length+')</h4><ul>'+g.items.map(it=>li(it,false)).join('')+'</ul>';});
+  }
   d.sections.forEach(sec=>{
     h+='<h3>'+esc(sec.title)+' ('+sec.items.length+')</h3>';
     if(!sec.items.length){h+='<div class="rp-none">None</div>';return;}
-    h+='<ul>'+sec.items.map(it=>{const m=reportMeta(it,true);return '<li><span class="rp-t" data-jump="'+it.id+'">'+esc(it.text)+'</span>'+(m?' <span class="rp-m">— '+esc(m)+'</span>':'')+'</li>';}).join('')+'</ul>';
-    if(sec.note)h+='<div class="rp-m" style="font-size:11px;color:var(--text-muted);margin-top:4px">'+esc(sec.note)+'</div>';
+    h+='<ul>'+sec.items.map(it=>li(it,true)).join('')+'</ul>';
+    if(sec.note)h+='<div class="rp-sub" style="margin-top:4px">'+esc(sec.note)+'</div>';
   });
   if(d.owners.length){
     h+='<h3>Workload by owner</h3><table><tr><th>Owner</th><th>Open</th><th>Overdue</th><th>Blocked</th><th>Completed</th></tr>'+d.owners.map(o=>'<tr><td>'+esc(o.owner)+'</td><td>'+o.open+'</td><td>'+o.overdue+'</td><td>'+o.blocked+'</td><td>'+o.done+'</td></tr>').join('')+'</table>';
   }
   return h;
 }
+// Self-contained HTML with inline styles, so it pastes into Outlook, Teams, Gmail or Word as real headings and bullets
+function reportClipHtml(d){
+  const e=esc,F='font-family:Calibri,Arial,sans-serif;color:#222;',dateStr=d.generated.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const col={green:'#2e7d32',amber:'#b26a00',red:'#c62828'}[d.health.level];
+  const li=it=>{
+    if(it.dup)return '<li>'+e(it.text)+' <span style="color:#777">— shown under '+e(it.dup)+'</span></li>';
+    const parts=[reportMeta(it,true),it.also.length?'also: '+it.also.join(', '):''].filter(Boolean).join(' · ');
+    return '<li><b>'+e(it.text)+'</b>'+(parts?' <span style="color:#555">— '+e(parts)+'</span>':'')+'</li>';
+  };
+  const H=t=>'<h3 style="'+F+'font-size:14px;margin:16px 0 4px;border-bottom:1px solid #ccc;padding-bottom:2px">'+e(t)+'</h3>';
+  const UL=a=>'<ul style="'+F+'margin:0 0 0 18px;padding:0;font-size:13px">'+a.join('')+'</ul>';
+  let h='<div style="'+F+'"><h2 style="'+F+'font-size:20px;margin:0">Status report — '+e(d.title)+'</h2><p style="'+F+'color:#666;font-size:12px;margin:2px 0 10px">'+e(dateStr+(d.scope?' · '+d.scope:''))+'</p>';
+  if(d.note)h+='<blockquote style="'+F+'margin:0 0 10px;padding:4px 12px;border-left:3px solid #888;font-size:13px">'+e(d.note).replace(/\r?\n/g,'<br>')+'</blockquote>';
+  h+='<p style="'+F+'font-size:13px;margin:0 0 6px"><b style="color:'+col+'">Status: '+e(d.health.label)+'</b> — '+e(d.health.text)+'</p>';
+  d.notes.forEach(x=>{h+='<p style="'+F+'font-size:11px;color:#777;margin:0 0 4px"><i>'+e(x)+'</i></p>';});
+  h+=H('Summary')+UL(rpSummaryLines(d).map(x=>'<li>'+e(x)+'</li>'));
+  if(d.changes){
+    h+=H('Changes since last report ('+rpStamp(d.changes.since)+')');
+    if(!d.changes.total)h+=UL(['<li>No changes</li>']);
+    d.changes.groups.forEach(g=>{h+='<p style="'+F+'font-size:13px;margin:8px 0 2px"><b>'+e(g.title)+' ('+g.items.length+')</b></p>'+UL(g.items.map(li));});
+  }
+  if(d.baseline){
+    h+=H('Against baseline \u201C'+d.baseline.name+'\u201D (set '+rpStamp(d.baseline.at)+')')+UL(['<li>'+e(d.baseline.summary)+'</li>']);
+    d.baseline.groups.forEach(g=>{h+='<p style="'+F+'font-size:13px;margin:8px 0 2px"><b>'+e(g.title)+' ('+g.items.length+')</b></p>'+UL(g.items.map(li));});
+  }
+  d.sections.forEach(sec=>{
+    h+=H(sec.title+' ('+sec.items.length+')');
+    h+=sec.items.length?UL(sec.items.map(li)):UL(['<li><i>None</i></li>']);
+    if(sec.note&&sec.items.length)h+='<p style="'+F+'font-size:11px;color:#777;margin:2px 0 0"><i>'+e(sec.note)+'</i></p>';
+  });
+  if(d.owners.length){
+    const td='style="'+F+'font-size:12px;border:1px solid #ccc;padding:3px 8px;text-align:left"';
+    h+=H('Workload by owner')+'<table style="border-collapse:collapse"><tr>'+['Owner','Open','Overdue','Blocked','Completed'].map(x=>'<th '+td+'>'+x+'</th>').join('')+'</tr>'+d.owners.map(o=>'<tr><td '+td+'>'+e(o.owner)+'</td><td '+td+'>'+o.open+'</td><td '+td+'>'+o.overdue+'</td><td '+td+'>'+o.blocked+'</td><td '+td+'>'+o.done+'</td></tr>').join('')+'</table>';
+  }
+  return h+'</div>';
+}
+function legacyRichCopy(html){
+  return new Promise((res,rej)=>{
+    const box=document.createElement('div');box.contentEditable='true';box.setAttribute('aria-hidden','true');
+    box.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;white-space:normal';box.innerHTML=html;document.body.appendChild(box);
+    const sel=window.getSelection(),r=document.createRange();r.selectNodeContents(box);sel.removeAllRanges();sel.addRange(r);
+    let ok=false;try{ok=document.execCommand('copy');}catch(x){}
+    sel.removeAllRanges();box.remove();ok?res():rej(new Error('copy failed'));
+  });
+}
+function writeRichClipboard(html,text){
+  if(navigator.clipboard&&navigator.clipboard.write&&window.ClipboardItem){
+    try{
+      return navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]).catch(()=>legacyRichCopy(html));
+    }catch(x){}
+  }
+  return legacyRichCopy(html);
+}
 function buildReport(){
   const d=reportData();
   $('#rp-body').innerHTML=reportHtml(d);
   return d;
 }
+// Sending a report (copy, download or print) saves a snapshot, so the next report can say what changed since this one
+function reportSent(msg){reportState.snap=reportSnapshot();autoSave();toast(msg+'. Snapshot saved, so the next report shows what changed');}
 $('#rp-body').addEventListener('click',e=>{const t=e.target.closest('[data-jump]');if(t){const id=parseInt(t.dataset.jump,10);toggleReport();jumpToNode(id);}});
-['#rp-scope','#rp-days'].forEach(sel=>$(sel).addEventListener('change',buildReport));
-$('#rp-copy').addEventListener('click',()=>{const t=reportMarkdown(reportData());writeClipboard(t).then(()=>toast('Report copied as Markdown'),()=>toast('Could not copy. Use Download instead'));});
+['#rp-scope','#rp-days'].forEach(sel=>$(sel).addEventListener('change',()=>{fillReportFilters();buildReport();}));
+['#rp-owner','#rp-proj'].forEach(sel=>$(sel).addEventListener('change',buildReport));
+$('#rp-note').addEventListener('input',()=>{reportState.note=$('#rp-note').value.slice(0,2000);buildReport();autoSave();});
+$('#rp-copy').addEventListener('click',()=>{const t=reportMarkdown(reportData());writeClipboard(t).then(()=>reportSent('Report copied as Markdown'),()=>toast('Could not copy. Use Download instead'));});
+$('#rp-copyrich').addEventListener('click',()=>{const d=reportData();writeRichClipboard(reportClipHtml(d),reportMarkdown(d)).then(()=>reportSent('Report copied, ready to paste into an email or chat'),()=>toast('Could not copy. Use Download instead'));});
 $('#rp-dl').addEventListener('click',()=>{
   const blob=new Blob([reportMarkdown(reportData())],{type:'text/markdown'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('md').replace('MindLoom-','Status-report-');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-  toast('Report downloaded');
+  reportSent('Report downloaded');
 });
 $('#rp-print').addEventListener('click',()=>{
   buildReport();document.body.classList.add('print-report');
   const done=()=>document.body.classList.remove('print-report');
   window.addEventListener('afterprint',done,{once:true});
   window.print();
+  reportSent('Report sent to print');
 });
 
 // ── Command palette ──
@@ -4144,9 +4668,11 @@ function handleCSVImport(file){
     const get=(cols,c)=>{if(c<0)return '';let v=(cols[c]||'').trim();if(/^'[=+\-@\t\r]/.test(v))v=v.slice(1);return v;};
     snap();
     const now=new Date().toISOString();
+    let ambiguousDates=0;
     const made=[],byCsvId=Object.create(null),byName=Object.create(null);
     for(let i=1;i<rows.length;i++){
       const cols=rows[i];
+      [dueCol,startCol].forEach(c=>{if(isAmbiguousDate(get(cols,c)))ambiguousDates++;});
       const text=get(cols,textCol)||'Untitled';
       const cat=get(cols,categoryCol).toLowerCase();
       const colour=COLORS.find(c=>c.id===cat||c.label.toLowerCase()===cat);
@@ -4173,7 +4699,7 @@ function handleCSVImport(file){
     made.forEach(({n},i)=>{n.x=org.x+depthOf(n)*220;n.y=org.y+i*54;nodes.push(n);});
     render();
     if(!dateMode)tidyLayout('h','branch',{tops:made.filter(m=>m.n.parentId===null).map(m=>m.n),noSnap:true,quiet:true});
-    autoSave();toast(made.length+' nodes imported from CSV');
+    autoSave();toast(made.length+' nodes imported from CSV'+(ambiguousDates?'. '+ambiguousDates+' date'+(ambiguousDates===1?'':'s')+' like 03/04/2026 were read as day/month/year (3 April). Check them if your file uses month/day':''));
   };
   reader.readAsText(file);
 }
@@ -4596,9 +5122,10 @@ function pngChips(ctx,el,x,y,bw){
   });
 }
 function exportPNG(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return;}const slideX=dateMode&&axSlide;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n)||(slideX&&slideHides(n)))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
+  if(dateMode)for(const g of dmGhostRows()){x1=Math.min(x1,g.gx);x2=Math.max(x2,g.gx+g.gw);}
   const pad=dateMode?(slideX?150:110):50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;const cv=document.createElement('canvas');const dpr=2;cv.width=cw*dpr;cv.height=ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
   const bgc=BG_COLORS.find(b=>b.id===bgColorId);ctx.fillStyle=bgc?bgc.color:'#1a1d23';ctx.fillRect(0,0,cw,ch);
-  if(dateMode)dmExportAxis(ctx,x1,y1,pad,cw,ch);
+  if(dateMode){dmExportAxis(ctx,x1,y1,pad,cw,ch);dmExportGhosts(ctx,x1,y1,pad);}
   // Wires
   const sqx=connStyle==='squared',rcs=sqx?nodeRects():null;
   const critX=dateMode&&(critOnly||axSlide);
@@ -4700,7 +5227,7 @@ function onPointerMove(e){
       const de=elOf(did);
       if(de){de.style.left=dn.x+'px';de.style.top=dn.y+'px';}
     }
-    drawConnectors();
+    connDragFast=true;drawConnectorsSoon();
     // Reparent: highlight drop target
     canvas.querySelectorAll('.node.drop-target').forEach(x=>x.classList.remove('drop-target'));
     if(ctrlDragging){
@@ -4720,6 +5247,7 @@ function onPointerUp(e){
       if(target) reparentNode(dragNode,target,true);
     }
     elOf(dragNode)?.classList.remove('dragging');
+    if(connDragFast){connDragFast=false;if(connRaf){cancelAnimationFrame(connRaf);connRaf=0;}drawConnectors();}
     const _dmId=dragNode,_dmMoved=dragMoved&&dateMode&&!ctrlDragging;
     dragNode=null;ctrlDragging=false;dragMoved=false;dragDescOffsets={};
     dmTip(0,0,null);
@@ -4753,7 +5281,7 @@ wrap.addEventListener('dblclick',e=>{if(e.target!==wrap&&e.target!==canvas&&e.ta
   const isCanvas=t=>t===wrap||t===canvas||t===svgEl;
   const clearLP=()=>{if(g&&g.lp){clearTimeout(g.lp);g.lp=null;}};
   function cancelDrag(){
-    clearLP();
+    clearLP();connDragFast=false;
     if(dragNode){const el=elOf(dragNode);if(el)el.classList.remove('dragging');dragNode=null;ctrlDragging=false;dragMoved=false;dragDescOffsets={};}
     if(isPanning){isPanning=false;wrap.classList.remove('grabbing');}
   }
@@ -4761,6 +5289,12 @@ wrap.addEventListener('dblclick',e=>{if(e.target!==wrap&&e.target!==canvas&&e.ta
     const tg=e.target;
     if(tg.closest&&tg.closest('.more-btn,.collapse-btn'))return;                 // behave like ordinary buttons
     if(editingId&&tg.closest&&tg.closest('.label[contenteditable="true"]'))return; // let the caret work while renaming
+    if(tg.classList&&tg.classList.contains('dm-h')&&e.touches.length===1){ // drag a Date Axis bar end by touch
+      e.preventDefault();
+      const host=tg.closest('.node'),nd=host?gn(parseInt(host.dataset.id)):null,t0=e.touches[0];
+      if(nd)dmBeginResize({button:0,clientX:t0.clientX,clientY:t0.clientY,stopPropagation(){},preventDefault(){}},nd,tg.classList.contains('l')?'l':'r',true);
+      return;
+    }
     e.preventDefault();
     if(e.touches.length>=2){
       cancelDrag();g=null;
@@ -4921,7 +5455,7 @@ document.addEventListener('keydown',e=>{
   else if(k==='F2'){e.preventDefault();editSelected();}
   else if(k===' '){e.preventDefault();toggleCollapse();}
   else if(k==='Home'){e.preventDefault();centreView();}
-  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();}
+  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();}
   else if(k==='i'){e.preventDefault();showDetailForSelected();}
   else if(k==='l'){e.preventDefault();startLinkMode();}
   else if(k==='g'){e.preventDefault();toggleFocusPanel();}
@@ -5515,7 +6049,7 @@ function reparentNode(nodeId,newParentId,alreadySnapped){
   const desc=gdesc(nodeId);
   if(desc.includes(newParentId)){toast('Cannot reparent under own child');return;}
   if(!alreadySnapped)snap();
-  n.parentId=newParentId;_kcVer++;
+  setParentId(n,newParentId);
   // If the new parent is null (making it a root), that's fine too
   render();autoSave();
   toast('Moved under "'+(gn(newParentId)?.text||'root')+'"');
@@ -6093,6 +6627,57 @@ function buildMdNode(node,depth){
 $('#csv-input').addEventListener('change',e=>{if(e.target.files[0])handleCSVImport(e.target.files[0]);e.target.value='';});
 $('#md-input').addEventListener('change',e=>{if(e.target.files[0])handleMarkdownImport(e.target.files[0]);e.target.value='';});
 
+// ── Self-test (hidden: About page, click the version number 5 times) ──
+function selfTest(){
+  const res=[];const ok=(name,cond)=>res.push([name,!!cond]);
+  try{
+    ok('normDate ISO',normDate('2026-03-04')==='2026-03-04');
+    ok('normDate UK',normDate('4/3/2026')==='2026-03-04');
+    ok('normDate rejects 31 Feb',normDate('31/02/2026')==='');
+    ok('normDate rejects junk',normDate('soon')==='');
+    ok('isAmbiguousDate',isAmbiguousDate('03/04/2026')&&!isAmbiguousDate('13/04/2026')&&!isAmbiguousDate('05/05/2026'));
+    ok('addToIso clamps month end',addToIso('2026-01-31',1,'m')==='2026-02-28');
+    ok('addToIso week',addToIso('2026-10-18',1,'w')==='2026-10-25');
+    const raw=[{id:1,text:'A',parentId:2},{id:2,text:'B',parentId:1},{id:2,text:'dup'},{id:3,text:'C',parentId:99,deps:[3,1,77]},{id:'x'},null,{id:4,text:'D',deps:[1]}];
+    const cl=sanitizeNodes(raw),by=new Map(cl.map(n=>[n.id,n]));
+    ok('sanitize drops bad and duplicate ids',cl.length===4&&by.has(1)&&by.has(2)&&by.has(3)&&by.has(4));
+    ok('sanitize breaks parent cycle',!(by.get(1).parentId===2&&by.get(2).parentId===1));
+    ok('sanitize fixes missing parent',by.get(3).parentId===null);
+    ok('sanitize cleans deps',by.get(3).deps.join()==='1'&&by.get(4).deps.join()==='1');
+    ok('sanitize rejects non-array',sanitizeNodes('x').length===0);
+    const rows=parseCSV('a,b\r\n"x, y","he said ""hi"""\n"multi\nline",z');
+    ok('parseCSV quotes and newlines',rows.length===3&&rows[1][0]==='x, y'&&rows[1][1]==='he said "hi"'&&rows[2][0]==='multi\nline');
+    const ol=parseTextOutline('Root\n  - Child one\n  - Child two\n    1. Grandchild');
+    ok('parseTextOutline nesting',ol&&ol.nodes.length===4&&ol.nodes[1].parent===0&&ol.nodes[3].parent===2);
+    ok('parseClip rejects junk',parseClip('hello')===null&&parseClip('{"a":1}')===null);
+    const lk=scanLinks('see https://example.com/x). or mail bob@example.com.');
+    ok('scanLinks trims punctuation',lk.length===2&&lk[0].text==='https://example.com/x'&&lk[1].kind==='mail');
+    ok('scanLinks ignores javascript:',scanLinks('javascript:alert(1)').length===0);
+    const t0=performance.now();scanLinks('a'.repeat(20000)+'.'.repeat(500));ok('scanLinks stays fast on long input',performance.now()-t0<500);
+    const saved=JSON.parse(getSaveData(true));
+    ok('save format is tagged',saved.format===FORMAT_NAME&&saved.version===FORMAT_VERSION);
+    ok('save round-trips the node list',sanitizeNodes(saved.nodes).length===nodes.length);
+    const st=[{status:'completed',doneAt:''},{status:'ongoing',doneAt:'2026-01-01T00:00:00.000Z'},{status:'completed',doneAt:'2026-02-02T00:00:00.000Z'}];stampDone(st);
+    ok('stampDone stamps new completions, clears reopened, keeps existing',!!st[0].doneAt&&st[1].doneAt===''&&st[2].doneAt==='2026-02-02T00:00:00.000Z');
+    const lg=sanitizeNodes([{id:1,text:'x',status:'completed',modifiedAt:'2026-03-01T10:00:00.000Z'},{id:2,text:'y',status:'ongoing',doneAt:'2026-03-01T10:00:00.000Z'}]);
+    ok('older completed nodes keep an estimated done date',lg[0].doneAt==='2026-03-01T10:00:00.000Z'&&lg[1].doneAt==='');
+    const rs=cleanReportState({note:'hi',snap:{at:'2026-03-01T10:00:00Z',items:{'5':['t','blocked','2026-03-02',1],'x':[1],'6':'bad'}}});
+    ok('cleanReportState keeps good items and drops junk',rs.note==='hi'&&rs.snap&&Object.keys(rs.snap.items).join()==='5'&&cleanReportState({snap:{at:'nope',items:{}}}).snap===null&&cleanReportState(5).snap===null);
+    const sp=dmSpan('2026-03-01','2026-03-10'),sm=dmSpan('','2026-03-10');
+    ok('dmSpan bar and marker',sp.bar&&sp.e-sp.s===9&&!sm.bar&&sm.d===sp.e&&dmSpan('','')===null);
+    const bls=cleanBaselines([{id:1,name:'Plan',at:'2026-03-01T00:00:00Z',items:{'5':['2026-03-01','2026-03-10','T'],'x':['2026-03-01','2026-03-02'],'6':['junk','']}},{id:1,items:{}},{id:2,items:{}},'bad']);
+    ok('cleanBaselines keeps good entries and drops junk',bls.length===1&&Object.keys(bls[0].items).join()==='5'&&cleanBaselines(5).length===0);
+    const cmpn=[{id:5,start:'2026-03-01',due:'2026-03-15'},{id:7,start:'',due:'2026-04-01'}],cmp=baselineCompare(bls[0],cmpn,false);
+    ok('baselineCompare finds slips and new items',cmp.later.length===1&&cmp.later[0].dEnd===5&&cmp.added.length===1&&cmp.same.length===0);
+    ok('cleanRepeat',cleanRepeat({n:2,u:'w'}).n===2&&cleanRepeat({n:0,u:'w'})===null&&cleanRepeat({n:1,u:'x'})===null);
+  }catch(e){ok('self-test crashed: '+e.message,false);}
+  const bad=res.filter(r=>!r[1]);
+  console.log('MindLoom self-test\n'+res.map(r=>(r[1]?'PASS ':'FAIL ')+r[0]).join('\n'));
+  toast(bad.length?'Self-test: '+bad.length+' of '+res.length+' FAILED: '+bad.map(r=>r[0]).join('; '):'Self-test: all '+res.length+' checks passed');
+  return bad.length===0;
+}
+$('#selftest-btn').addEventListener('click',selfTest);
+$('#about-ver').textContent='Version '+APP_VERSION;
 init();
 </script>
 </body>
