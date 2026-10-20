@@ -6382,7 +6382,7 @@ function focusFitVisible(){
 }
 
 // ── About ──
-const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/HEAD/version.json',REPO_URL='https://github.com/healeychris/mindloom';
+const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/main/version.json',REPO_URL='https://github.com/healeychris/mindloom';
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1;}return 0;}
 async function checkForUpdate(){
   const btn=$('#upd-btn'),msg=$('#upd-msg');
