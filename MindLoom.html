@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src https://raw.githubusercontent.com; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
 <title>MindLoom — Offline Mind Mapping and Planning</title>
 <style>
   :root {
@@ -380,7 +380,7 @@
   /* ── Context Menu ── */
   #ctx-menu {
     position:fixed; background:var(--surface); border:1px solid var(--border);
-    border-radius:8px; padding:4px; min-width:200px;
+    border-radius:8px; padding:4px; min-width:240px;
     box-shadow:0 8px 32px rgba(0,0,0,0.4); z-index:200; display:none;
   }
   #ctx-menu.visible { display:block; }
@@ -886,6 +886,9 @@
     background:var(--bg); border:1px solid var(--border); border-radius:3px;
     padding:1px 5px; text-align:center; justify-self:end;
   }
+  .upd-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--text-muted); }
+  #upd-msg a { color:var(--accent); }
+  #upd-msg.ok { color:var(--text); }
   #about-box .about-footer { margin-top:14px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted); }
 
   /* ── Stats dashboard ── */
@@ -1451,22 +1454,26 @@
 
 <div id="ctx-menu">
   <button class="dd-item" onclick="showDetailForSelected();hideCtx()" title="Open the details panel (notes, owner, status, dates, tags) for the selected node">Edit details&hellip; <span class="shortcut">I</span></button>
+  <button class="dd-item" onclick="editSelected();hideCtx()" title="Rename the selected node">Rename <span class="shortcut">F2</span></button>
+  <button class="dd-item" id="cx-bm" onclick="toggleBookmarkSelected();hideCtx()" title="Add or remove the selected node from your bookmarks">Bookmark</button>
   <div class="dd-sep"></div>
-  <button class="dd-item" onclick="addChild();hideCtx()" title="Add a new node beneath the selected one">Add child <span class="shortcut">Tab</span></button>
-  <button class="dd-item" onclick="addSibling();hideCtx()" title="Add a new node beside the selected one, under the same parent">Add sibling <span class="shortcut">Enter</span></button>
+  <div class="dd-label">Add</div>
+  <button class="dd-item" onclick="addChild();hideCtx()" title="Add a new node beneath the selected one">Child node <span class="shortcut">Tab</span></button>
+  <button class="dd-item" onclick="addSibling();hideCtx()" title="Add a new node beside the selected one, under the same parent">Sibling node <span class="shortcut">Enter</span></button>
   <div class="dd-sep"></div>
-  <button class="dd-item" onclick="startLinkMode();hideCtx()" title="Draw a dashed cross-link from the selected node to another node">Cross-link from here <span class="shortcut">L</span></button>
+  <div class="dd-label">Connect</div>
   <button class="dd-item" onclick="startDependency('dep');hideCtx()" title="Choose a node that must be finished before this one can start">Depends on&hellip;</button>
   <button class="dd-item" onclick="startDependency('need');hideCtx()" title="Choose a node that cannot start until this one is finished">Needed by&hellip;</button>
-  <button class="dd-item" onclick="editSelected();hideCtx()" title="Rename the selected node">Edit <span class="shortcut">F2</span></button>
-  <button class="dd-item" onclick="toggleCollapse();hideCtx()" title="Hide or show the children of the selected node">Collapse / Expand <span class="shortcut">Space</span></button>
-  <button class="dd-item" onclick="copySelection();hideCtx()" title="Copy this node and everything beneath it">Copy branch <span class="shortcut">Ctrl+C</span></button>
-  <button class="dd-item" onclick="cutSelection();hideCtx()" title="Copy this node and everything beneath it, then remove it">Cut branch <span class="shortcut">Ctrl+X</span></button>
-  <button class="dd-item" onclick="pasteSelection();hideCtx()" title="Paste a copied branch (or plain text) under this node">Paste under this node <span class="shortcut">Ctrl+V</span></button>
-  <button class="dd-item" onclick="duplicateSelected();hideCtx()" title="Copy the selected node together with everything beneath it">Duplicate subtree</button>
+  <button class="dd-item" onclick="startLinkMode();hideCtx()" title="Draw a dashed cross-link from the selected node to another node">Cross-link from here <span class="shortcut">L</span></button>
+  <div class="dd-sep"></div>
+  <div class="dd-label">Branch</div>
+  <button class="dd-item" id="cx-col" onclick="toggleCollapse();hideCtx()" title="Hide or show the children of the selected node">Collapse / Expand <span class="shortcut">Space</span></button>
+  <button class="dd-item" onclick="copySelection();hideCtx()" title="Copy this node and everything beneath it">Copy <span class="shortcut">Ctrl+C</span></button>
+  <button class="dd-item" onclick="cutSelection();hideCtx()" title="Copy this node and everything beneath it, then remove it">Cut <span class="shortcut">Ctrl+X</span></button>
+  <button class="dd-item" onclick="pasteSelection();hideCtx()" title="Paste a copied branch (or plain text) under this node">Paste as child <span class="shortcut">Ctrl+V</span></button>
+  <button class="dd-item" onclick="duplicateSelected();hideCtx()" title="Copy the selected node together with everything beneath it">Duplicate</button>
   <button class="dd-item" onclick="openShiftDates();hideCtx()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates&hellip;</button>
   <button class="dd-item" onclick="convertToRoot();hideCtx()" title="Detach this node and its branch from its parent so it becomes its own top-level idea">Detach as root</button>
-  <button class="dd-item" onclick="toggleBookmarkSelected();hideCtx()" title="Add or remove the selected node from your bookmarks">Bookmark</button>
   <div class="dd-sep"></div>
   <button class="dd-item danger" onclick="deleteSelected();hideCtx()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
 </div>
@@ -1499,6 +1506,11 @@
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <h2>MindLoom</h2>
     <div class="about-ver" id="about-ver">Version</div>
+        <div class="upd-row" style="margin-bottom:12px">
+      <button class="dp-mini" type="button" id="upd-btn" onclick="checkForUpdate()" title="Look up the latest version on GitHub. Only runs when you click, nothing is sent from your map.">Check for updates</button>
+      <span id="upd-msg" role="status" aria-live="polite">Not checked. Needs an internet connection; nothing is checked automatically.</span>
+    </div>
+
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1988,7 +2000,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.30.1';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.31.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -5603,6 +5615,9 @@ function onNodeMouseDown(e,node){
 }
 function onNodeContext(e,node){
   e.preventDefault();e.stopPropagation();selectNode(node.id);
+  {const bm=$('#cx-bm'),cl=$('#cx-col'),hasKids=gch(node.id).length>0;
+   bm.textContent=bookmarks.includes(node.id)?'Remove bookmark':'Bookmark';
+   cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';}
   ctxMenu.style.left=e.clientX+'px';ctxMenu.style.top=e.clientY+'px';ctxMenu.classList.add('visible');
   // keep the whole menu on screen
   const w=ctxMenu.offsetWidth,h=ctxMenu.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
@@ -6367,6 +6382,25 @@ function focusFitVisible(){
 }
 
 // ── About ──
+const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/HEAD/version.json',REPO_URL='https://github.com/healeychris/mindloom';
+function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1;}return 0;}
+async function checkForUpdate(){
+  const btn=$('#upd-btn'),msg=$('#upd-msg');
+  const say=(t,cls,link)=>{msg.className=cls||'';msg.textContent=t;if(link){const a=document.createElement('a');a.href=REPO_URL;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Open on GitHub';msg.append(' ',a);}};
+  btn.disabled=true;say('Checking\u2026');
+  const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),8000);
+  try{
+    const r=await fetch(UPDATE_URL+'?t='+Date.now(),{cache:'no-store',signal:ctl.signal});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const j=await r.json(),v=String(j&&j.version||'');
+    if(!/^\d+\.\d+\.\d+$/.test(v))throw new Error('bad version');
+    const c=verCmp(v,APP_VERSION);
+    if(c>0)say('Version '+v+' is available (you have '+APP_VERSION+').'+(j.notes?' '+String(j.notes).slice(0,200):''),'ok',true);
+    else if(c===0)say('You are on the latest version ('+APP_VERSION+').','ok');
+    else say('This copy ('+APP_VERSION+') is newer than the published version ('+v+').','ok');
+  }catch(e){say('Could not reach GitHub. Check your internet connection and try again.');}
+  finally{clearTimeout(tm);btn.disabled=false;}
+}
 function showAbout(){$('#about-overlay').classList.add('visible');}
 function closeAbout(){$('#about-overlay').classList.remove('visible');$('#demo-section').classList.remove('show');}
 

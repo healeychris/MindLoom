@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.30.1)
+# MINDLOOM FEATURES (v1.31.0)
 
 MAPPING AND EDITING
 
@@ -103,3 +103,9 @@ Works fully offline as a single HTML file with no dependencies
 DEMO DATA
 
 Five built-in demos, including the Annual Roadmap, which uses the Date Axis. Open About, click the version number 5 times, then choose Demo data.
+
+UPDATES
+About > "Check for updates" looks up the latest version on GitHub (reads version.json in this repo). It runs only when you click it; the app never checks by itself, so it stays fully offline otherwise. Maintainers: bump version.json when publishing a release.
+
+RIGHT-CLICK MENU
+Grouped as Edit details / Rename / Bookmark, then Add, Connect, Branch (collapse, copy, cut, paste, duplicate, shift dates, detach) and Delete.
