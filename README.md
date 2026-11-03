@@ -1,9 +1,11 @@
-# MINDLOOM FEATURES (v1.31.0)
+# MINDLOOM FEATURES (v1.32.0)
 
 MAPPING AND EDITING
 
 Mind map canvas with unlimited nodes, add child (Tab) and add sibling (Enter)
 Edit in place (F2), delete, duplicate subtree, detach a branch as its own root
+Add several nodes at once (Edit menu or right-click): paste or type a list, one node per line,
+  indent to nest, then add as separate roots or under the selected node
 Copy, cut and paste whole branches (Ctrl+C, Ctrl+X, Ctrl+V), including between maps
 Undo and redo
 Collapse and expand branches, collapse all, expand all

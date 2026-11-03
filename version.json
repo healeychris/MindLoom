@@ -1,5 +1,1 @@
-{
-  "version": "1.31.0",
-  "date": "2026-10-20",
-  "notes": "Reorganised right-click menu and a manual update check in About."
-}
+{"version":"1.32.0","date":"2026-11-02","notes":"New Add several nodes dialog: paste a list of names to create root or child nodes."}

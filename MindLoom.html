@@ -835,6 +835,22 @@
   .dp-timestamps { font-size:10px; color:var(--text-muted); margin-top:6px; padding-top:4px; border-top:1px solid var(--border); display:flex; gap:12px; }
 
   /* ── Shift dates dialog ── */
+  #bulk-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
+  #bulk-overlay.visible { display:flex; }
+  #bulk-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:520px; max-width:94vw; max-height:92vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
+  #bulk-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
+  #bulk-box .bk-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; }
+  #bulk-box .bk-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
+  #bulk-box textarea { width:100%; height:200px; resize:vertical; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:var(--font); font-size:12.5px; padding:8px; outline:none; line-height:1.5; white-space:pre; overflow:auto; }
+  #bulk-box textarea:focus { border-color:var(--accent); }
+  #bulk-box .bk-row { display:flex; align-items:center; gap:14px; margin:10px 0 4px; flex-wrap:wrap; }
+  #bulk-box label.bk-opt { display:flex; align-items:center; gap:5px; cursor:pointer; }
+  #bulk-box label.bk-opt.off { opacity:0.45; cursor:default; }
+  #bulk-box .bk-sum { font-weight:600; min-height:16px; margin-top:6px; }
+  #bulk-box .bk-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+  #bulk-box .bk-btn { background:none; border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; padding:5px 14px; border-radius:6px; cursor:pointer; }
+  #bulk-box .bk-btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  #bulk-box .bk-btn:disabled { opacity:0.4; cursor:default; }
   #shift-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
   #shift-overlay.visible { display:flex; }
   #shift-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:460px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
@@ -958,7 +974,7 @@
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
-    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #search-box, #focus-panel,
+    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
@@ -1068,6 +1084,7 @@
       <button class="dd-item" onclick="cutSelection();closeDD()" title="Copy the selected node and everything beneath it, then remove it from this map">Cut branch <span class="shortcut">Ctrl+X</span></button>
       <button class="dd-item" onclick="pasteSelection();closeDD()" title="Paste a copied branch under the selected node (or as a new tree if nothing is selected). Plain text becomes nodes, one per line">Paste <span class="shortcut">Ctrl+V</span></button>
       <button class="dd-item" onclick="duplicateSelected();closeDD()" title="Copy the selected node together with everything beneath it">Duplicate subtree</button>
+      <button class="dd-item" onclick="openBulkAdd();closeDD()" title="Type or paste a list of names and create them all at once, as top-level nodes or under the selected node">Add several nodes&hellip;</button>
       <div class="dd-sep"></div>
       <button class="dd-item" onclick="openShiftDates();closeDD()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates (branch + links)&hellip;</button>
       <div class="dd-sep"></div>
@@ -1460,6 +1477,7 @@
   <div class="dd-label">Add</div>
   <button class="dd-item" onclick="addChild();hideCtx()" title="Add a new node beneath the selected one">Child node <span class="shortcut">Tab</span></button>
   <button class="dd-item" onclick="addSibling();hideCtx()" title="Add a new node beside the selected one, under the same parent">Sibling node <span class="shortcut">Enter</span></button>
+  <button class="dd-item" onclick="openBulkAdd();hideCtx()" title="Paste a list of names and create them all under this node. Indent a line to nest it">Several child nodes&hellip;</button>
   <div class="dd-sep"></div>
   <div class="dd-label">Connect</div>
   <button class="dd-item" onclick="startDependency('dep');hideCtx()" title="Choose a node that must be finished before this one can start">Depends on&hellip;</button>
@@ -1476,6 +1494,21 @@
   <button class="dd-item" onclick="convertToRoot();hideCtx()" title="Detach this node and its branch from its parent so it becomes its own top-level idea">Detach as root</button>
   <div class="dd-sep"></div>
   <button class="dd-item danger" onclick="deleteSelected();hideCtx()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
+</div>
+
+<div id="bulk-overlay" onclick="if(event.target===this)closeBulkAdd()">
+  <div id="bulk-box" role="dialog" aria-label="Add several nodes">
+    <button class="bk-close" onclick="closeBulkAdd()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>Add several nodes</h2>
+    <div class="bk-sub">One node per line. Indent a line (spaces or Tab) to make it a child of the line above. Bullets, numbers and # headings are tidied away.</div>
+    <textarea id="bk-text" spellcheck="false" placeholder="Planning&#10;  Scope&#10;  Budget&#10;Delivery&#10;  Build&#10;  Test"></textarea>
+    <div class="bk-row">
+      <label class="bk-opt"><input type="radio" name="bk-dest" id="bk-dest-root" value="root" checked> As separate root nodes</label>
+      <label class="bk-opt" id="bk-under-lbl"><input type="radio" name="bk-dest" id="bk-dest-sel" value="sel"> Under: <span id="bk-sel-name"></span></label>
+    </div>
+    <div class="bk-sum" id="bk-sum"></div>
+    <div class="bk-actions"><button class="bk-btn" onclick="closeBulkAdd()">Cancel</button><button class="bk-btn primary" id="bk-apply" onclick="applyBulkAdd()">Add nodes</button></div>
+  </div>
 </div>
 
 <div id="shift-overlay" onclick="if(event.target===this)closeShiftDates()">
@@ -2000,7 +2033,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.31.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.32.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -3643,8 +3676,8 @@ function parseTextOutline(text){
   return items.length?{nodes:items,links:[]}:null;
 }
 // Pasted nodes go under the selected node; with nothing selected they become top-level trees
-function pasteClip(clip){
-  const target=selectedId!==null?gn(selectedId):null;
+function pasteClip(clip,forceRoot){
+  const target=(!forceRoot&&selectedId!==null)?gn(selectedId):null;
   hideDetail();snap();
   const now=new Date().toISOString(),ids=clip.nodes.map(()=>nextId++);
   const bw=Math.max(...clip.nodes.map(r=>r.rx))+170,bh=Math.max(...clip.nodes.map(r=>r.ry))+44;
@@ -3674,6 +3707,47 @@ function pasteText(text){
   toast('Pasted '+n+' node'+(n===1?'':'s')+(fromText?' from text':'')+' (Ctrl+Z to undo)');
   return true;
 }
+// ── Add several nodes (type or paste a list) ──
+let bulkSel=null;
+function bulkClip(){return parseTextOutline($('#bk-text').value);}
+function updateBulkPreview(){
+  const c=bulkClip(),raw=$('#bk-text').value;
+  const tooMany=raw.split(/\r?\n/).filter(l=>l.trim()).length>2000;
+  const top=c?c.nodes.filter(r=>r.parent<0).length:0;
+  const rootRadio=$('#bk-dest-root').checked;
+  $('#bk-sum').textContent=tooMany?'Too many lines (limit 2000)':!c?'':c.nodes.length+' node'+(c.nodes.length===1?'':'s')+' ('+top+' at the top level'+(c.nodes.length>top?', '+(c.nodes.length-top)+' nested':'')+') '+(rootRadio||bulkSel===null?'will become new root nodes':'will go under \u201c'+gn(bulkSel).text+'\u201d');
+  $('#bk-apply').disabled=!c;
+}
+function openBulkAdd(){
+  hideDetail();
+  bulkSel=(selectedId!==null&&gn(selectedId))?selectedId:null;
+  const has=bulkSel!==null;
+  $('#bk-under-lbl').classList.toggle('off',!has);
+  $('#bk-dest-sel').disabled=!has;
+  $('#bk-sel-name').textContent=has?gn(bulkSel).text.slice(0,40):'(select a node first)';
+  (has?$('#bk-dest-sel'):$('#bk-dest-root')).checked=true;
+  $('#bulk-overlay').classList.add('visible');
+  updateBulkPreview();
+  $('#bk-text').focus();
+}
+function closeBulkAdd(){$('#bulk-overlay').classList.remove('visible');}
+function applyBulkAdd(){
+  const c=bulkClip();if(!c)return;
+  const asRoot=$('#bk-dest-root').checked||bulkSel===null||!gn(bulkSel);
+  if(!asRoot)selectedId=bulkSel;
+  closeBulkAdd();
+  pasteClip(c,asRoot);
+  const n=c.nodes.length;
+  toast('Added '+n+' node'+(n===1?'':'s')+' (Ctrl+Z to undo)');
+}
+$('#bk-text').addEventListener('input',updateBulkPreview);
+$('#bk-dest-root').addEventListener('change',updateBulkPreview);
+$('#bk-dest-sel').addEventListener('change',updateBulkPreview);
+$('#bulk-overlay').addEventListener('keydown',e=>{
+  e.stopPropagation();
+  if(e.key==='Escape'){e.preventDefault();closeBulkAdd();}
+  else if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();if(!$('#bk-apply').disabled)applyBulkAdd();}
+});
 function legacyCopy(text){
   return new Promise((res,rej)=>{
     const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-999px;top:0';document.body.appendChild(ta);ta.select();
