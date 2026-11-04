@@ -835,6 +835,66 @@
   .dp-timestamps { font-size:10px; color:var(--text-muted); margin-top:6px; padding-top:4px; border-top:1px solid var(--border); display:flex; gap:12px; }
 
   /* ── Shift dates dialog ── */
+  /* Dependency mapping (opt-in) */
+  .node.imp-dim { opacity:0.22; }
+  .node.imp-src { border-color:#6ea8ff !important; box-shadow:0 0 0 3px rgba(110,168,255,0.3), 0 0 22px rgba(110,168,255,0.35); }
+  .node.imp-up { border-color:#ff8a3d !important; box-shadow:0 0 0 2px rgba(255,138,61,0.35); }
+  .node.imp-up.imp-far { border-color:#e8cf7a !important; box-shadow:0 0 0 2px rgba(232,207,122,0.3); }
+  .node.imp-dn { border-color:#3ec9c0 !important; box-shadow:0 0 0 2px rgba(62,201,192,0.35); }
+  .node.imp-dn.imp-far { border-color:#8fe3dc !important; box-shadow:0 0 0 2px rgba(143,227,220,0.3); }
+  .imp-badge { position:absolute; top:-9px; right:-8px; font-size:10px; font-weight:700; line-height:1; border-radius:9px; padding:2px 6px; color:#0f1117; background:#ff8a3d; pointer-events:none; }
+  .node.imp-far .imp-badge { background:#e8cf7a; }
+  .node.imp-dn .imp-badge { background:#3ec9c0; }
+  #impact-bar { position:fixed; top:70px; left:12px; z-index:140; display:none; background:var(--surface); border:1px solid #6ea8ff; border-radius:8px; padding:6px 10px; font-size:12px; box-shadow:0 6px 20px rgba(0,0,0,0.4); align-items:center; gap:10px; max-width:calc(100vw - 380px); }
+  #impact-bar.visible { display:flex; }
+  #impact-bar b { color:var(--accent); }
+  #impact-bar button { background:none; border:1px solid var(--border); color:var(--text); border-radius:5px; font-family:var(--font); font-size:11px; padding:2px 8px; cursor:pointer; }
+  #impact-panel { position:fixed; top:54px; right:12px; z-index:140; width:310px; max-width:calc(100vw - 24px); max-height:calc(100vh - 80px); overflow-y:auto; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; font-size:12px; }
+  #impact-panel.visible { display:block; }
+  #impact-panel h3 { font-size:14px; color:var(--accent); margin:0; word-break:break-word; }
+  #impact-panel .ip-sub { color:var(--text-muted); margin:2px 0 10px; }
+  #impact-panel .ip-x { position:absolute; top:8px; right:12px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
+  #impact-panel .ip-cnt { display:flex; gap:6px; margin-bottom:8px; }
+  #impact-panel .ip-cnt div { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:7px; padding:5px 4px; text-align:center; }
+  #impact-panel .ip-cnt b { display:block; font-size:18px; }
+  #impact-panel .ip-cnt span { font-size:10.5px; color:var(--text-muted); }
+  #impact-panel .ip-tabs { display:flex; gap:4px; margin-bottom:6px; }
+  #impact-panel .ip-tabs button { flex:1; background:var(--bg); border:1px solid var(--border); color:var(--text-muted); border-radius:6px; font-family:var(--font); font-size:11px; padding:4px 2px; cursor:pointer; }
+  #impact-panel .ip-tabs button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  #impact-panel .ip-lbl { font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin:10px 0 4px; }
+  #impact-panel .ip-row { display:flex; align-items:center; gap:7px; padding:4px 2px; border-bottom:1px solid var(--border); cursor:pointer; }
+  #impact-panel .ip-row:hover { background:var(--bg); }
+  #impact-panel .ip-row .dot { width:9px; height:9px; border-radius:50%; flex:none; }
+  #impact-panel .ip-row .nm { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #impact-panel .ip-row .rl { margin-left:auto; color:var(--text-muted); font-size:10.5px; white-space:nowrap; padding-left:6px; }
+  #impact-panel .ip-warn { background:rgba(255,107,87,0.1); border:1px solid rgba(255,107,87,0.4); border-radius:6px; padding:5px 8px; margin-bottom:5px; line-height:1.4; }
+  #impact-panel .ip-ok { color:var(--text-muted); }
+  #impact-panel .ip-link { background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font); font-size:11.5px; padding:0; text-decoration:underline; }
+  #lt-overlay, #dc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
+  #lt-overlay.visible, #dc-overlay.visible { display:flex; }
+  #lt-box, #dc-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:480px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
+  #lt-box h2, #dc-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
+  #lt-box .lt-sub, #dc-box .dc-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; word-break:break-word; }
+  #lt-box .lt-close, #dc-box .dc-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
+  #lt-types { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  #lt-types button { background:var(--bg); border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; border-radius:14px; padding:3px 10px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  #lt-types button i { width:9px; height:9px; border-radius:50%; display:inline-block; }
+  #lt-types button.on { border-color:var(--accent); background:rgba(110,168,255,0.15); }
+  #lt-box input[type=text] { width:100%; box-sizing:border-box; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:var(--font); font-size:12.5px; padding:6px 8px; outline:none; margin-bottom:8px; }
+  #lt-box input[type=text]:focus { border-color:var(--accent); }
+  .lt-actions { display:flex; justify-content:space-between; gap:8px; margin-top:8px; }
+  .lt-actions .r { display:flex; gap:8px; }
+  .lt-btn { background:none; border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; padding:5px 14px; border-radius:6px; cursor:pointer; }
+  .lt-btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  #dc-box .dc-sec { margin-top:12px; }
+  #dc-box .dc-sec h4 { font-size:12px; margin:0 0 4px; }
+  #dc-box .dc-sec h4 span { color:var(--text-muted); font-weight:400; }
+  #dc-box .dc-row { padding:3px 4px; border-bottom:1px solid var(--border); cursor:pointer; line-height:1.4; }
+  #dc-box .dc-row:hover { background:var(--bg); }
+  #dc-box .dc-ok { color:var(--text-muted); margin-top:10px; }
+  .dp-wave { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .dp-wave select { background:var(--bg); border:1px solid var(--border); border-radius:5px; color:var(--text); font-family:var(--font); font-size:12px; padding:2px 6px; }
+  .dp-link-row .link-edit { margin-left:6px; cursor:pointer; color:var(--text-muted); }
   #bulk-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
   #bulk-overlay.visible { display:flex; }
   #bulk-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:520px; max-width:94vw; max-height:92vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
@@ -974,7 +1034,7 @@
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
-    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #search-box, #focus-panel,
+    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
@@ -1125,6 +1185,13 @@
       <div class="dd-sep"></div>
       <button class="dd-item" onclick="toggleBookmarks();closeDD()" title="Show your bookmarked nodes and jump to them">Bookmarks <span class="shortcut">B</span></button>
       <button class="dd-item" onclick="toggleViews();closeDD()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position">Saved Views <span class="shortcut">V</span></button>
+      <div id="dep-menu-block" style="display:none">
+        <div class="dd-sep"></div>
+        <div class="dd-label">Dependencies</div>
+        <button class="dd-item" onclick="showImpactSelected();closeDD()" title="Highlight everything that relies on the selected node, and what it relies on">Show impact of selected</button>
+        <button class="dd-item" onclick="openDepCheck();closeDD()" title="List nodes with no links, no owner or no wave, and waves that look out of order">Dependency check&hellip;</button>
+      </div>
+      <div class="dd-sep"></div>
       <button class="dd-item" onclick="startPresentation();closeDD()" title="Present the map full screen">Presentation Mode <span class="shortcut">P</span></button>
     </div>
   </div>
@@ -1142,8 +1209,9 @@
       <div class="bg-row" id="bg-patterns"></div>
       <div class="dd-sep"></div>
       <div class="dd-label">Editing</div>
-      <button class="dd-item" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Activity &amp; comments: Off</button>
+      <button class="dd-item" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Advanced Activity &amp; Comments: Off</button>
       <button class="dd-item" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
+      <button class="dd-item" id="dep-toggle" onclick="toggleDepMap();closeDD()" title="Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map">Application Mapping Structures: Off</button>
       <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
       <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
       <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
@@ -1483,6 +1551,7 @@
   <button class="dd-item" onclick="startDependency('dep');hideCtx()" title="Choose a node that must be finished before this one can start">Depends on&hellip;</button>
   <button class="dd-item" onclick="startDependency('need');hideCtx()" title="Choose a node that cannot start until this one is finished">Needed by&hellip;</button>
   <button class="dd-item" onclick="startLinkMode();hideCtx()" title="Draw a dashed cross-link from the selected node to another node">Cross-link from here <span class="shortcut">L</span></button>
+  <button class="dd-item" id="cx-impact" style="display:none" onclick="showImpactSelected();hideCtx()" title="Highlight everything that relies on this node">Show impact</button>
   <div class="dd-sep"></div>
   <div class="dd-label">Branch</div>
   <button class="dd-item" id="cx-col" onclick="toggleCollapse();hideCtx()" title="Hide or show the children of the selected node">Collapse / Expand <span class="shortcut">Space</span></button>
@@ -1494,6 +1563,30 @@
   <button class="dd-item" onclick="convertToRoot();hideCtx()" title="Detach this node and its branch from its parent so it becomes its own top-level idea">Detach as root</button>
   <div class="dd-sep"></div>
   <button class="dd-item danger" onclick="deleteSelected();hideCtx()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
+</div>
+
+<div id="impact-bar"><span>Impact view: <b id="ib-name"></b></span><button type="button" onclick="clearImpact()" title="Back to the normal map (Esc)">Clear</button></div>
+<div id="impact-panel" role="complementary" aria-label="Impact of the selected node"></div>
+
+<div id="lt-overlay" onclick="if(event.target===this)closeLinkType()">
+  <div id="lt-box" role="dialog" aria-label="Link type">
+    <button class="lt-close" onclick="closeLinkType()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>Link type</h2>
+    <div class="lt-sub" id="lt-sub"></div>
+    <div id="lt-types"></div>
+    <input type="text" id="lt-custom" maxlength="40" placeholder="Or type your own, e.g. replicates to">
+    <input type="text" id="lt-note" maxlength="120" placeholder="Note (optional), e.g. service account, token expiry">
+    <div class="lt-actions"><button class="lt-btn" id="lt-swap" type="button" onclick="swapLinkType()" title="Reverse which one relies on the other">Swap direction</button><div class="r"><button class="lt-btn" type="button" onclick="closeLinkType()">Cancel</button><button class="lt-btn primary" id="lt-save" type="button" onclick="saveLinkType()">Save link</button></div></div>
+  </div>
+</div>
+
+<div id="dc-overlay" onclick="if(event.target===this)closeDepCheck()">
+  <div id="dc-box" role="dialog" aria-label="Dependency check">
+    <button class="dc-close" onclick="closeDepCheck()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>Dependency check</h2>
+    <div class="dc-sub">Looks at nodes with no sub-nodes. Click a row to go to that node.</div>
+    <div id="dc-body"></div>
+  </div>
 </div>
 
 <div id="bulk-overlay" onclick="if(event.target===this)closeBulkAdd()">
@@ -1816,6 +1909,7 @@ let dateMode=false,dateOrigin='',laneBands=true,focusSel=true,linkVis='selected'
 let hideCompleted=false;
 let lightTheme=false;
 let bookmarks=[];
+let depMap=false,impactId=null,impactMode='up',impactMap=null,impactVia=null; // depMap: per map, opt-in dependency mapping (see Dependency mapping)
 let trackActivity=false; // per map: keep comments and change history (see Activity)
 let baselines=[],activeBaseline=0; // saved plans (see Baselines); activeBaseline is the one the Date Axis compares with
 let reportState={note:'',snap:null}; // report headline text and the snapshot the next report compares against
@@ -2023,7 +2117,7 @@ function sanitizeLinks(raw,list){
     const f=Number(l.from),t=Number(l.to);
     if(!ids.has(f)||!ids.has(t)||f===t||seen.has(f+'>'+t))continue;
     seen.add(f+'>'+t);
-    out.push({from:f,to:t,label:String(l.label||'')});
+    out.push({from:f,to:t,label:String(l.label||''),type:String(l.type||'').slice(0,40)});
   }
   return out;
 }
@@ -2033,7 +2127,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.32.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.33.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2126,13 +2220,13 @@ let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity},null,compact?0:2);
+  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
 // "Dirty" means the map differs from the last file save (or, if never saved to a file, from how it was when the page opened).
 // It compares content, so panning and zooming never count as changes.
-const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity]);
+const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity,depMap]);
 function hashStr(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h+':'+t.length;}
 const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 function refreshDirty(){
@@ -2298,7 +2392,7 @@ function applyLoadedData(text,name){
     // Reset per-map view state so stale IDs from the previous map cannot leak in
     hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));
     bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
-    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;updateActButtons();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
+    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;depMap=d.depMap===true;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
     multiSelected.clear();updateBulkBar();
     if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
     if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
@@ -2312,7 +2406,7 @@ function applyLoadedData(text,name){
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;updateActButtons();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2434,6 +2528,7 @@ let elMap=new Map();
 function elOf(id){const e=elMap.get(Number(id));return (e&&e.isConnected)?e:canvas.querySelector('[data-id="'+id+'"]');}
 function render(){
   _dmHid=null;stampDone();logChanges();
+  impactMap=(depMap&&impactId!==null&&gn(impactId))?computeImpact():null;if(!impactMap&&impactId!==null){impactId=null;}updateImpactUI();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
   applyDateLayout();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
@@ -2460,6 +2555,7 @@ function render(){
     if(node.id===selectedId)el.classList.add('selected');
     if(linkMode&&node.id===linkSourceId)el.classList.add('link-source');
     if(multiSelected.has(node.id))el.classList.add('multi-selected');
+    if(impactMap)impactClasses(el,node);
     el.style.left=node.x+'px';el.style.top=node.y+'px';
     const dmi=dateMode?dmInfo(node):null;
     if(dmi){
@@ -3056,7 +3152,7 @@ function drawConnectors(){
     const pEl=elOf(parent.id);
     const cEl=elOf(node.id);
     if(!pEl||!cEl)continue;
-    const _fw=fw(node);if(_fw===0)continue;
+    const _fw=(()=>{const f=fw(node);return (impactMap&&f>0&&!(impactMap.has(node.id)&&impactMap.has(parent.id)))?Math.min(f,0.12):f;})();if(_fw===0)continue;
 
     const px=parent.x+pEl.offsetWidth,py=parent.y+pEl.offsetHeight/2;
     const cx=node.x,cy=node.y+cEl.offsetHeight/2;
@@ -3085,7 +3181,7 @@ function drawConnectors(){
     for(const pid of depsOf(dn)){
       const pn=gn(pid);if(!pn||isHidden(pn))continue;
       if(critView&&(pn.status!=='critical'||dn.status!=='critical'))continue;
-      const _fd=critView?1:fx(pn.id,dn.id);if(_fd===0)continue;
+      const ie=impEdge(dn.id,pn.id);const _fd=impactMap?(ie?1:0.1):(critView?1:fx(pn.id,dn.id));if(_fd===0)continue;
       const pe=elOf(pn.id),de=elOf(dn.id);if(!pe||!de)continue;
       const pcx=pn.x+pe.offsetWidth/2,pcy=pn.y+pe.offsetHeight/2,dcx=dn.x+de.offsetWidth/2,dcy=dn.y+de.offsetHeight/2;
       const a=rectEdge(pcx,pcy,pe.offsetWidth+6,pe.offsetHeight+6,dcx,dcy),b=rectEdge(dcx,dcy,de.offsetWidth+10,de.offsetHeight+10,pcx,pcy);
@@ -3096,6 +3192,7 @@ function drawConnectors(){
       path.setAttribute('stroke',critView?'#f5c518':done?'rgba(110,190,140,0.55)':'#ff8a3d');
       path.setAttribute('stroke-width',critView?'4':done?'2':'2.5');
       if(done)path.setAttribute('stroke-dasharray','2 5');
+      if(ie){path.setAttribute('stroke',ie==='up'?'#ff8a3d':'#3ec9c0');path.setAttribute('stroke-width','4');path.removeAttribute('stroke-dasharray');}
       path.setAttribute('fill','none');path.setAttribute('stroke-linecap','round');
       path.setAttribute('marker-end','url(#'+(done?'arrowdone':'arrowdep')+')');if(_fd<1)path.setAttribute('opacity',_fd);
       const tt=document.createElementNS('http://www.w3.org/2000/svg','title');tt.textContent=pn.text+' \u2192 '+dn.text+' (must be finished first)';path.appendChild(tt);
@@ -3108,7 +3205,7 @@ function drawConnectors(){
     const nA=gn(link.from),nB=gn(link.to);
     if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;
     if(critView&&(nA.status!=='critical'||nB.status!=='critical'))continue;
-    const _fl=critView?1:fx(nA.id,nB.id);if(_fl===0)continue;
+    const ie=impEdge(nA.id,nB.id);const _fl=impactMap?(ie?1:0.1):(critView?1:fx(nA.id,nB.id));if(_fl===0)continue;
     const _g0=svgEl.childNodes.length;
     const eA=elOf(nA.id);
     const eB=elOf(nB.id);
@@ -3124,9 +3221,10 @@ function drawConnectors(){
     const lp=sq?linkPts(nA,nB,rects):null;
     if(lp){ax=lp[0].x;ay=lp[0].y;bx=lp[lp.length-1].x;by=lp[lp.length-1].y;}
     path.setAttribute('d',lp?cmdsToSvg(polyCmds(lp,10)):'M'+ax+','+ay+' Q'+cpx+','+cpy+' '+bx+','+by);
-    path.setAttribute('stroke',critView?'#f5c518':'rgba(255,200,60,0.6)');
-    path.setAttribute('stroke-width',critView?'4':'2.5');
-    if(!critView)path.setAttribute('stroke-dasharray','10 5');
+    const tcol=(depMap&&link.type)?typeColor(link.type):null;
+    path.setAttribute('stroke',ie?(ie==='up'?'#ff8a3d':'#3ec9c0'):critView?'#f5c518':tcol||'rgba(255,200,60,0.6)');
+    path.setAttribute('stroke-width',(critView||ie)?'4':tcol?'3':'2.5');
+    if(!critView&&!ie&&!tcol)path.setAttribute('stroke-dasharray','10 5');
     path.setAttribute('fill','none');
     path.setAttribute('stroke-linecap','round');
     path.setAttribute('marker-end','url(#arrow)');
@@ -3136,12 +3234,13 @@ function drawConnectors(){
     [[ax,ay],[bx,by]].forEach(([x,y])=>{
       const d=document.createElementNS('http://www.w3.org/2000/svg','circle');
       d.setAttribute('cx',x);d.setAttribute('cy',y);d.setAttribute('r','4');
-      d.setAttribute('fill','rgba(255,200,60,0.5)');
+      d.setAttribute('fill',tcol||'rgba(255,200,60,0.5)');
       svgEl.appendChild(d);
     });
 
     // Label
-    if(link.label){
+    const _lt=linkText(link);
+    if(_lt){
       let tx=(ax+2*cpx+bx)/4, ty=(ay+2*cpy+by)/4;
       if(lp){const m=polyMid(lp);tx=m.x;ty=m.y;}
       const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');
@@ -3150,9 +3249,9 @@ function drawConnectors(){
       text.setAttribute('text-anchor','middle');
       text.setAttribute('fill','rgba(255,220,100,0.85)');
       text.setAttribute('font-size','11');text.setAttribute('font-family','system-ui,sans-serif');
-      text.textContent=link.label;
+      text.textContent=_lt;
       // Background for readability
-      const bbox_w=link.label.length*6+8;
+      const bbox_w=_lt.length*6+8;
       bg.setAttribute('x',tx-bbox_w/2);bg.setAttribute('y',ty-16);
       bg.setAttribute('width',bbox_w);bg.setAttribute('height',16);bg.setAttribute('rx','4');
       bg.setAttribute('fill','rgba(30,30,30,0.7)');
@@ -3170,6 +3269,7 @@ function completeCrossLink(tid){
   if(tid===linkSourceId){cancelLinkMode();return;}
   if(linkKind!=='link'){const src=linkSourceId,kind=linkKind;cancelLinkMode();if(kind==='dep')addDependency(src,tid);else addDependency(tid,src);return;}
   if(crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){toast('Link exists');cancelLinkMode();return;}
+  if(depMap){const src=linkSourceId;cancelLinkMode();openLinkType(src,tid,false);return;}
   snap();const label=prompt('Link label (optional):','');
   crossLinks.push({from:linkSourceId,to:tid,label:label||''});
   cancelLinkMode();render();autoSave();toast('Cross-link created');
@@ -3211,7 +3311,10 @@ function showDetail(nid,anchorEl,pinned){
     let h='<div class="dp-label" style="margin-top:10px">Cross-links</div>';
     nl.forEach(lk=>{
       const oid=lk.from===nid?lk.to:lk.from;const o=gn(oid);
-      h+='<div class="dp-link-row"><span class="link-target" onclick="focusNode('+oid+')">'+esc(o?o.text:'?')+(lk.label?' — '+esc(lk.label):'')+'</span>';
+      const rel=depMap?(lk.from===nid?'Relies on ':'Needed by '):'';
+      const lt=depMap?linkText(lk):lk.label;
+      h+='<div class="dp-link-row"><span class="link-target" onclick="focusNode('+oid+')">'+rel+esc(o?o.text:'?')+(lt?' — '+esc(lt):'')+'</span>';
+      if(depMap)h+='<span class="link-edit" title="Change link type" onclick="openLinkType('+lk.from+','+lk.to+',true)">&#9998;</span>';
       h+='<span class="link-remove" onclick="removeCrossLink('+lk.from+','+lk.to+')">&times;</span></div>';
     });
     ld.innerHTML=h;
@@ -3224,6 +3327,7 @@ function showDetail(nid,anchorEl,pinned){
     pre.forEach(pr=>{const dn=pr.status==='completed';h+='<div class="dp-dep-row"><span title="Must be finished first">'+(dn?'<span class="dep-done">\u2713</span>':'\u23F3')+'</span><span class="link-target" onclick="focusNode('+pr.id+')">Depends on: '+esc(pr.text)+'</span><span class="link-remove" title="Remove dependency" onclick="removeDependency('+nid+','+pr.id+')">&times;</span></div>';});
     nxt.forEach(nx=>{h+='<div class="dp-dep-row"><span title="Waiting on this node">\u2192</span><span class="link-target" onclick="focusNode('+nx.id+')">Needed by: '+esc(nx.text)+'</span><span class="link-remove" title="Remove dependency" onclick="removeDependency('+nx.id+','+nid+')">&times;</span></div>';});
     h+='<div class="dp-dep-btns"><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'dep\')" title="Pick the node that must be finished before this one">+ Depends on&hellip;</button><button class="dp-mini" type="button" onclick="selectNode('+nid+');hideDetail();startDependency(\'need\')" title="Pick a node that cannot start until this one is finished">+ Needed by&hellip;</button>'+(trackActivity?'<button class="dp-mini dp-act" type="button" onclick="openAct('+nid+')" title="Activity and comments for this item" aria-label="Activity and comments"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2 3h12v8H7l-3 2.5V11H2z"/></svg>'+((node.log||[]).length||'')+'</button>':'')+'</div>';
+    if(depMap){const w=waveOf(node);h+='<div class="dp-wave"><label>Migration wave</label><select onchange="setWave('+nid+',+this.value)"><option value="0">None</option>'+[1,2,3,4,5,6,7,8].map(k=>'<option value="'+k+'"'+(w===k?' selected':'')+'>Wave '+k+'</option>').join('')+'</select><button class="dp-mini" type="button" onclick="showImpact('+nid+')" title="Highlight everything that relies on this node">Show impact</button></div>';}
     dd.innerHTML=h;
   }
 
@@ -3533,7 +3637,8 @@ function selectNode(id){const _prev=selectedId;selectedId=id;if(dateMode&&!showU
   if(dateMode&&!showUndated&&_prev!==null&&_prev!==id&&_prev!==editingId&&gn(_prev)){_dmHid=null;if(dmHiddenUndated().has(_prev)){toast('\u201C'+gn(_prev).text+'\u201D has no date, so it is hidden on the Date Axis until you give it one');render();}}
   if(focusSel||dateMode||canvas.classList.contains('has-focus')){applyFocus();drawConnectors();}
   if(id!==null&&!editingId){const a=document.activeElement;if(!a||a===document.body||(a.classList&&a.classList.contains('node'))){const se=elOf(id);if(se&&a!==se)se.focus({preventScroll:true});}}
- colorBar.classList.toggle('visible',id!==null);updateColorBarActive();updateToolbarEnabled();if(!id&&!detailPinned)hideDetail();}
+ colorBar.classList.toggle('visible',id!==null);updateColorBarActive();updateToolbarEnabled();if(!id&&!detailPinned)hideDetail();
+  if(depMap&&impactId!==null&&!linkMode&&id!==null&&id!==impactId&&gn(id)){impactId=id;refreshImpact();}}
 
 // ── CRUD ──
 // Placement helpers: find a free spot so new nodes do not land on top of existing ones
@@ -3585,7 +3690,7 @@ function duplicateSelected(){
   // Dependencies: inside the branch they point at the copies, outside it they still point at the original prerequisite
   Object.keys(idMap).forEach(oid=>{const o=gn(+oid),nn=gn(idMap[oid]);if(o&&nn)nn.deps=depsOf(o).map(d=>idMap[d]||d);});
   // Carry over cross-links that sit entirely inside the duplicated branch
-  crossLinks.filter(l=>idMap[l.from]&&idMap[l.to]).forEach(l=>crossLinks.push({from:idMap[l.from],to:idMap[l.to],label:l.label||''}));
+  crossLinks.filter(l=>idMap[l.from]&&idMap[l.to]).forEach(l=>crossLinks.push({from:idMap[l.from],to:idMap[l.to],label:l.label||'',type:l.type||''}));
   render();selectNode(idMap[orig.id]);autoSave();toast('Branch duplicated');
 }
 
@@ -3631,7 +3736,7 @@ function buildClip(){
   tops.forEach(add);
   const x0=Math.min(...tops.map(n=>n.x)),y0=Math.min(...tops.map(n=>n.y));
   const items=order.map(n=>({text:n.text,rx:Math.round(n.x-x0),ry:Math.round(n.y-y0),parent:topSet.has(n.id)?-1:idx.get(n.parentId),collapsed:!!n.collapsed,colorId:n.colorId,notes:n.notes||'',project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',deps:depsOf(n).filter(d=>idx.has(d)).map(d=>idx.get(d))}));
-  const links=crossLinks.filter(l=>idx.has(l.from)&&idx.has(l.to)).map(l=>({from:idx.get(l.from),to:idx.get(l.to),label:l.label||''}));
+  const links=crossLinks.filter(l=>idx.has(l.from)&&idx.has(l.to)).map(l=>({from:idx.get(l.from),to:idx.get(l.to),label:l.label||'',type:l.type||''}));
   const outside=crossLinks.filter(l=>idx.has(l.from)!==idx.has(l.to)).length;
   return {text:JSON.stringify({mindloom:CLIP_MARK,nodes:items,links}),count:order.length,outside};
 }
@@ -3655,7 +3760,7 @@ function parseClip(text){
       deps:[...new Set((Array.isArray(r.deps)?r.deps:[]).filter(d=>Number.isInteger(d)&&d>=0&&d<d_len&&d!==i))]
     });
   }
-  const links=(Array.isArray(d.links)?d.links:[]).filter(l=>l&&Number.isInteger(l.from)&&Number.isInteger(l.to)&&l.from>=0&&l.to>=0&&l.from<out.length&&l.to<out.length&&l.from!==l.to).map(l=>({from:l.from,to:l.to,label:String(l.label||'')}));
+  const links=(Array.isArray(d.links)?d.links:[]).filter(l=>l&&Number.isInteger(l.from)&&Number.isInteger(l.to)&&l.from>=0&&l.to>=0&&l.from<out.length&&l.to<out.length&&l.from!==l.to).map(l=>({from:l.from,to:l.to,label:String(l.label||''),type:String(l.type||'').slice(0,40)}));
   return {nodes:out,links};
 }
 function parseTextOutline(text){
@@ -3690,7 +3795,7 @@ function pasteClip(clip,forceRoot){
   }else{const o=importOrigin();bx=o.x;by=o.y;}
   by=freeY(bx,by,bw,bh);
   clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});});
-  clip.links.forEach(l=>{crossLinks.push({from:ids[l.from],to:ids[l.to],label:l.label});});
+  clip.links.forEach(l=>{crossLinks.push({from:ids[l.from],to:ids[l.to],label:l.label,type:l.type||''});});
   render();
   const first=clip.nodes.findIndex(r=>r.parent<0);
   selectNode(ids[first<0?0:first]);
@@ -3707,6 +3812,179 @@ function pasteText(text){
   toast('Pasted '+n+' node'+(n===1?'':'s')+(fromText?' from text':'')+' (Ctrl+Z to undo)');
   return true;
 }
+// ── Dependency mapping (opt-in, per map) ──
+// A relation reads "A relies on B": a dependency (A must wait for B) or a cross-link drawn from A to B.
+// Link types and waves only show while the setting is on; they stay saved in the file either way.
+const LINK_TYPES=[['builds from','#ff8a3d'],['deploys to','#4da3ff'],['authenticates via','#c8a8ff'],['sends data to','#3ec9c0'],['reads from','#8fd16b'],['calls (API)','#ff6fa8'],['webhook','#ffd24d'],['monitored by','#9aa3b5'],['scheduled by','#d9a066']];
+function typeColor(t){const k=String(t||'').toLowerCase();const f=LINK_TYPES.find(x=>x[0]===k);return f?f[1]:'#c8a8ff';}
+function linkText(l){const t=(depMap&&l.type)?l.type:'';return t?(l.label?t+' \u00B7 '+l.label:t):(l.label||'');}
+const WAVE_RE=/^wave\s*(\d{1,2})$/i;
+function waveOf(n){for(const t of getNodeTags(n)){const m=WAVE_RE.exec(String(t).trim());if(m)return +m[1];}return 0;}
+function setWave(id,w){const n=gn(id);if(!n)return;snap();const keep=getNodeTags(n).filter(t=>!WAVE_RE.test(String(t).trim()));if(w)keep.push('Wave '+w);setNodeTags(id,keep);n.modifiedAt=new Date().toISOString();render();autoSave();if(detailNodeId===id)renderDetailTags(id);}
+function relEdges(){
+  const E=[];
+  nodes.forEach(n=>depsOf(n).forEach(p=>{if(gn(p)&&p!==n.id)E.push({a:n.id,b:p,t:'',lab:'',k:'dep'});}));
+  crossLinks.forEach(l=>{if(gn(l.from)&&gn(l.to))E.push({a:l.from,b:l.to,t:l.type||'',lab:l.label||'',k:'link'});});
+  return E;
+}
+function computeImpact(){
+  const E=relEdges(),src=impactId,res=new Map([[src,{d:0,dir:'src',via:null}]]);
+  const walk=(rev,dir)=>{const seen=new Map([[src,0]]),q=[src];while(q.length){const c=q.shift();for(const e of E){const from=rev?e.b:e.a,to=rev?e.a:e.b;if(from===c&&!seen.has(to)){seen.set(to,seen.get(c)+1);q.push(to);if(!res.has(to))res.set(to,{d:seen.get(to),dir,via:c});}}}};
+  if(impactMode!=='dn')walk(true,'up');
+  if(impactMode!=='up')walk(false,'dn');
+  impactVia=E;
+  return res;
+}
+// Which way does this line run inside the highlighted set? ('up' = affected by the node, 'dn' = the node relies on it)
+function impEdge(a,b){
+  if(!impactMap)return null;
+  const ra=impactMap.get(a),rb=impactMap.get(b);if(!ra||!rb)return false;
+  if(rb.dir==='src'&&ra.dir==='up')return 'up';
+  if(ra.dir==='src'&&rb.dir==='dn')return 'dn';
+  if(ra.dir==='up'&&rb.dir==='up'&&ra.d===rb.d+1)return 'up';
+  if(ra.dir==='dn'&&rb.dir==='dn'&&rb.d===ra.d+1)return 'dn';
+  return false;
+}
+function impactClasses(el,node){
+  ['imp-dim','imp-src','imp-up','imp-dn','imp-far'].forEach(c=>el.classList.remove(c));
+  const old=el.querySelector(':scope > .imp-badge');if(old)old.remove();
+  if(!impactMap)return;
+  const _ir=impactMap.get(node.id);
+  if(!_ir){el.classList.add('imp-dim');return;}
+  el.classList.add(_ir.d===0?'imp-src':(_ir.dir==='up'?'imp-up':'imp-dn'));
+  if(_ir.d>1)el.classList.add('imp-far');
+  if(_ir.d>0){const _b=document.createElement('span');_b.className='imp-badge';_b.textContent=_ir.d;_b.title=_ir.d===1?(_ir.dir==='up'?'Relies on the selected node directly':'The selected node relies on this directly'):(_ir.d+' steps away');el.appendChild(_b);}
+}
+// While the impact view is open it follows the selection: pick another node and the view refreshes around it
+function refreshImpact(){
+  if(!depMap||impactId===null||!gn(impactId))return;
+  impactMap=computeImpact();
+  canvas.querySelectorAll('.node').forEach(el=>{const n=gn(parseInt(el.dataset.id,10));if(n)impactClasses(el,n);});
+  drawConnectors();updateImpactUI();
+}
+function showImpact(id){
+  if(!depMap||!gn(id))return;
+  impactId=id;impactMode='up';hideDetail();render();
+  const el=elOf(id);if(el&&!isHidden(gn(id)))selectNode(id);
+}
+function showImpactSelected(){if(selectedId===null||!gn(selectedId)){toast('Select a node first');return;}showImpact(selectedId);}
+function clearImpact(){if(impactId===null)return;impactId=null;render();}
+function setImpactMode(m){impactMode=m;render();}
+function updateImpactUI(){
+  const bar=$('#impact-bar'),pnl=$('#impact-panel');if(!bar||!pnl)return;
+  const on=impactMap!==null;
+  bar.classList.toggle('visible',on);pnl.classList.toggle('visible',on);
+  if(!on){pnl.innerHTML='';return;}
+  $('#ib-name').textContent=gn(impactId).text;
+  renderImpactPanel();
+}
+function wvTag(n){const w=waveOf(n);return w?' (Wave '+w+')':'';}
+function orderWarnings(E,only){
+  const out=[];
+  E.forEach(e=>{if(only&&e.a!==only&&e.b!==only)return;const A=gn(e.a),B=gn(e.b),wa=waveOf(A),wb=waveOf(B);if(wa&&wb&&wa<wb)out.push(A.text+' (Wave '+wa+') relies on '+B.text+' (Wave '+wb+'), so it moves first. Check it will still work.');});
+  return out;
+}
+function renderImpactPanel(){
+  const pnl=$('#impact-panel'),src=gn(impactId),E=impactVia||relEdges();
+  const up=[...impactMap].filter(([id,r])=>r.dir==='up'),dn=[...impactMap].filter(([id,r])=>r.dir==='dn');
+  const direct=up.filter(([id,r])=>r.d===1).length,indirect=up.length-direct;
+  const wv=waveOf(src);
+  let h='<button class="ip-x" type="button" onclick="clearImpact()" title="Close (Esc)" aria-label="Close">&times;</button>';
+  h+='<h3>'+esc(src.text)+'</h3><div class="ip-sub">'+(wv?'Wave '+wv+' \u00B7 ':'')+(src.owner?esc(src.owner)+' \u00B7 ':'')+'what relies on this, and what it relies on</div>';
+  h+='<div class="ip-cnt"><div><b style="color:#ff8a3d">'+direct+'</b><span>Direct</span></div><div><b style="color:#e8cf7a">'+indirect+'</b><span>Indirect</span></div><div><b style="color:#3ec9c0">'+dn.length+'</b><span>It relies on</span></div></div>';
+  h+='<div class="ip-tabs">'+[['up','Relies on this'],['dn','This relies on'],['both','Both']].map(([m,l])=>'<button type="button" class="'+(impactMode===m?'on':'')+'" onclick="setImpactMode(\''+m+'\')">'+l+'</button>').join('')+'</div>';
+  const rows=[...impactMap].filter(([id,r])=>r.d>0).sort((a,b)=>a[1].d-b[1].d||gn(a[0]).text.localeCompare(gn(b[0]).text));
+  const relName=(id,r)=>{
+    if(r.d>1)return 'via '+gn(r.via).text;
+    const e=E.find(x=>r.dir==='up'?(x.a===id&&x.b===r.via):(x.a===r.via&&x.b===id));
+    return e?(e.t||(e.k==='dep'?'depends on':e.lab||'linked')):'';
+  };
+  if(!rows.length)h+='<div class="ip-ok">Nothing is connected in this direction yet. Use + Depends on or Cross-link to add relationships.</div>';
+  rows.forEach(([id,r])=>{const col=r.dir==='up'?(r.d>1?'#e8cf7a':'#ff8a3d'):(r.d>1?'#8fe3dc':'#3ec9c0');h+='<div class="ip-row" onclick="jumpToNode('+id+')"><span class="dot" style="background:'+col+'"></span><span class="nm">'+esc(gn(id).text)+wvTag(gn(id))+'</span><span class="rl">'+esc(relName(id,r))+'</span></div>';});
+  // checks
+  const warns=orderWarnings(E.filter(e=>impactMap.has(e.a)&&impactMap.has(e.b)),null).slice(0,6);
+  const noOwn=[...impactMap.keys()].map(gn).filter(n=>!(n.owner||'').trim());
+  const gaps=depGaps();
+  h+='<div class="ip-lbl">Check before moving</div>';
+  warns.forEach(w=>{h+='<div class="ip-warn">\u26A0 '+esc(w)+'</div>';});
+  if(noOwn.length)h+='<div class="ip-warn">\u26A0 No owner: '+esc(noOwn.slice(0,4).map(n=>n.text).join(', '))+(noOwn.length>4?' and '+(noOwn.length-4)+' more':'')+'</div>';
+  if(gaps.orphans.length)h+='<div class="ip-warn">\u26A0 '+gaps.orphans.length+' node'+(gaps.orphans.length===1?' has':'s have')+' no links in this map. <button class="ip-link" type="button" onclick="openDepCheck()">Open dependency check</button></div>';
+  if(!warns.length&&!noOwn.length&&!gaps.orphans.length)h+='<div class="ip-ok">Nothing to flag.</div>';
+  pnl.innerHTML=h;
+}
+// Whole-map gaps (nodes with no sub-nodes only, so group headings are not flagged)
+function depGaps(){
+  const E=relEdges(),linked=new Set();E.forEach(e=>{linked.add(e.a);linked.add(e.b);});
+  const leaves=nodes.filter(n=>gch(n.id).length===0);
+  const multi=nodes.length>1;
+  return {
+    orphans:multi?leaves.filter(n=>!linked.has(n.id)):[],
+    noOwner:leaves.filter(n=>!(n.owner||'').trim()),
+    noWave:nodes.some(n=>waveOf(n))?leaves.filter(n=>!waveOf(n)):[],
+    order:orderWarnings(E,null)
+  };
+}
+function openDepCheck(){
+  if(!depMap){toast('Turn on Application Mapping Structures in Settings first');return;}
+  const g=depGaps();let h='';
+  const sec=(title,items,hint)=>{if(!items.length)return;h+='<div class="dc-sec"><h4>'+esc(title)+' <span>('+items.length+')'+(hint?' \u00B7 '+esc(hint):'')+'</span></h4>'+items.slice(0,40).map(n=>'<div class="dc-row" onclick="closeDepCheck();jumpToNode('+n.id+')">'+esc(n.text)+'</div>').join('')+(items.length>40?'<div class="dc-ok">and '+(items.length-40)+' more</div>':'')+'</div>';};
+  sec('Not linked to anything',g.orphans,'no dependency or cross-link');
+  sec('No owner',g.noOwner);
+  sec('No migration wave',g.noWave,'other nodes have one');
+  if(g.order.length)h+='<div class="dc-sec"><h4>Waves that may be in the wrong order <span>('+g.order.length+')</span></h4>'+g.order.slice(0,20).map(t=>'<div class="dc-row" style="cursor:default">'+esc(t)+'</div>').join('')+'</div>';
+  if(!h)h='<div class="dc-ok">Everything has a link, an owner and, where waves are used, a wave.</div>';
+  $('#dc-body').innerHTML=h;$('#dc-overlay').classList.add('visible');$('#dc-box .dc-close').focus();
+}
+function closeDepCheck(){$('#dc-overlay').classList.remove('visible');}
+$('#dc-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeDepCheck();}});
+// link type dialog
+let ltState=null;
+function openLinkType(from,to,existing){
+  if(!gn(from)||!gn(to))return;
+  const cur=existing?crossLinks.find(l=>l.from===from&&l.to===to):null;
+  ltState={from,to,existing:!!cur,type:cur?cur.type||'':'',note:cur?cur.label||'':''};
+  hideDetail();
+  $('#lt-custom').value=LINK_TYPES.some(x=>x[0]===ltState.type.toLowerCase())?'':ltState.type;
+  $('#lt-note').value=ltState.note;
+  $('#lt-swap').style.display=ltState.existing?'none':'';
+  $('#lt-save').textContent=ltState.existing?'Save changes':'Save link';
+  buildLinkTypeUI();
+  $('#lt-overlay').classList.add('visible');
+  $('#lt-custom').focus();
+}
+function buildLinkTypeUI(){
+  const s=ltState;if(!s)return;
+  $('#lt-sub').textContent=gn(s.from).text+' relies on '+gn(s.to).text;
+  const box=$('#lt-types');box.innerHTML='';
+  LINK_TYPES.forEach(([t,c])=>{const b=document.createElement('button');b.type='button';b.className=(s.type.toLowerCase()===t&&!$('#lt-custom').value.trim())?'on':'';b.innerHTML='<i style="background:'+c+'"></i>'+esc(t);b.addEventListener('click',()=>{s.type=t;$('#lt-custom').value='';buildLinkTypeUI();});box.appendChild(b);});
+}
+function swapLinkType(){if(!ltState||ltState.existing)return;const f=ltState.from;ltState.from=ltState.to;ltState.to=f;buildLinkTypeUI();}
+function closeLinkType(){$('#lt-overlay').classList.remove('visible');ltState=null;}
+function saveLinkType(){
+  const s=ltState;if(!s)return;
+  const type=($('#lt-custom').value.trim()||s.type||'').slice(0,40),note=$('#lt-note').value.trim().slice(0,120);
+  if(s.existing){
+    const l=crossLinks.find(x=>x.from===s.from&&x.to===s.to);if(!l){closeLinkType();return;}
+    snap();l.type=type;l.label=note;closeLinkType();render();autoSave();toast('Link updated');return;
+  }
+  if(crossLinks.some(l=>(l.from===s.from&&l.to===s.to)||(l.from===s.to&&l.to===s.from))){closeLinkType();toast('Link exists');return;}
+  snap();crossLinks.push({from:s.from,to:s.to,label:note,type});
+  closeLinkType();render();autoSave();toast('Link created');
+}
+$('#lt-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeLinkType();}else if(e.key==='Enter'){e.preventDefault();saveLinkType();}});
+$('#lt-custom').addEventListener('input',()=>{if(ltState){ltState.type='';buildLinkTypeUI();}});
+function updateDepUI(){
+  const t=$('#dep-toggle');if(t)t.textContent='Application Mapping Structures: '+(depMap?'On':'Off');
+  const b=$('#dep-menu-block');if(b)b.style.display=depMap?'':'none';
+  const c=$('#cx-impact');if(c&&!depMap)c.style.display='none';
+}
+function toggleDepMap(){
+  depMap=!depMap;
+  if(!depMap){impactId=null;closeDepCheck();closeLinkType();}
+  hideDetail();updateDepUI();render();autoSave();
+  toast(depMap?'Application Mapping Structures on. Link types, waves and the impact view are now available for this map':'Application Mapping Structures off. Link types and waves are kept in the file but hidden');
+}
+
 // ── Add several nodes (type or paste a list) ──
 let bulkSel=null;
 function bulkClip(){return parseTextOutline($('#bk-text').value);}
@@ -4256,7 +4534,7 @@ $('#act-list').addEventListener('click',e=>{
 
 // ── Turning the feature on or off (per map, off by default) ──
 function updateActButtons(){
-  const t=$('#act-toggle');if(t)t.textContent='Activity & comments: '+(trackActivity?'On':'Off');
+  const t=$('#act-toggle');if(t)t.textContent='Advanced Activity & Comments: '+(trackActivity?'On':'Off');
   const a=$('#author-btn');if(a)a.style.display=trackActivity?'':'none';
 }
 function toggleActivity(){
@@ -4264,7 +4542,7 @@ function toggleActivity(){
   logSync();hideWhy();closeAct();updateActButtons();
   if(detailNodeId!==null)hideDetail();
   render();autoSave();
-  toast(trackActivity?'Activity & comments on. Changes to status, dates and owner are now recorded for this map':'Activity & comments off. Existing history is kept in the file but hidden');
+  toast(trackActivity?'Advanced Activity & Comments on. Changes to status, dates and owner are now recorded for this map':'Advanced Activity & Comments off. Existing history is kept in the file but hidden');
 }
 
 // ── Your name (kept in this browser, added to the entries you make) ──
@@ -5691,7 +5969,7 @@ function onNodeContext(e,node){
   e.preventDefault();e.stopPropagation();selectNode(node.id);
   {const bm=$('#cx-bm'),cl=$('#cx-col'),hasKids=gch(node.id).length>0;
    bm.textContent=bookmarks.includes(node.id)?'Remove bookmark':'Bookmark';
-   cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';}
+   cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';$('#cx-impact').style.display=depMap?'':'none';}
   ctxMenu.style.left=e.clientX+'px';ctxMenu.style.top=e.clientY+'px';ctxMenu.classList.add('visible');
   // keep the whole menu on screen
   const w=ctxMenu.offsetWidth,h=ctxMenu.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
@@ -5769,7 +6047,7 @@ document.addEventListener('keydown',e=>{
   else if(k==='F2'){e.preventDefault();editSelected();}
   else if(k===' '){e.preventDefault();toggleCollapse();}
   else if(k==='Home'){e.preventDefault();centreView();}
-  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
+  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
   else if(k==='i'){e.preventDefault();showDetailForSelected();}
   else if(k==='l'){e.preventDefault();startLinkMode();}
   else if(k==='g'){e.preventDefault();toggleFocusPanel();}

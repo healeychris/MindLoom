@@ -1,4 +1,15 @@
-# MINDLOOM FEATURES (v1.32.0)
+# MINDLOOM FEATURES (v1.33.0)
+
+APPLICATION MAPPING STRUCTURES (OPTIONAL, OFF BY DEFAULT)
+
+Settings > Application Mapping Structures turns it on for the current map (saved in the file). While it is off
+nothing changes on screen. When on:
+  Link types on cross-links (builds from, deploys to, authenticates via, ...) with colours and a note
+  Migration wave per node (Wave 1 to 8, stored as a tag)
+  Impact view: right-click > Show impact, or View > Dependencies. Highlights everything that relies on a
+    node (direct and indirect), what it relies on, and checks owners and wave order
+  Dependency check: nodes with no links, no owner or no wave, and waves that look out of order
+A relation reads "A relies on B": a dependency (A waits for B) or a cross-link drawn from A to B.
 
 MAPPING AND EDITING
 
@@ -27,7 +38,7 @@ Optional sections, opened with buttons in the details panel (open by default whe
   Progress: % complete, shown as a bar on the node
   Repeat: recurring tasks (every n days, weeks, months or years). Completing one rolls its dates forward, ticks the checklist off and resets progress
 Bookmarks, with quick jump
-Activity and comments (optional, off by default; Settings > Editing > Activity & comments, saved per map). When on, each item keeps a history of changes to status, start date, due date and owner, plus typed comments. Moving a single due date asks for a reason (Dependency, Scope change, Resourcing, Client request, or your own). Open it with the speech-bubble button next to Dependencies in the details panel, or the comment chip on a node. Quick repeat edits merge into one entry, the newest 50 are kept per node, and the status report shows the reason for a moved date and the latest note. Settings > Editing > Your name signs entries (kept in the browser). Turning it off hides the history but keeps it in the file
+Activity and comments (optional, off by default; Settings > Editing > Advanced Activity & Comments, saved per map). When on, each item keeps a history of changes to status, start date, due date and owner, plus typed comments. Moving a single due date asks for a reason (Dependency, Scope change, Resourcing, Client request, or your own). Open it with the speech-bubble button next to Dependencies in the details panel, or the comment chip on a node. Quick repeat edits merge into one entry, the newest 50 are kept per node, and the status report shows the reason for a moved date and the latest note. Settings > Editing > Your name signs entries (kept in the browser). Turning it off hides the history but keeps it in the file
 
 LAYOUT AND VIEWS
 
