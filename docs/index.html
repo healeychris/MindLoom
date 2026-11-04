@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MindLoom User Guide</title>
+<meta name="description" content="The complete user guide for MindLoom, a single-file offline mind-mapping and planning app.">
+<style>
+:root{--bg:#f7f8fa;--panel:#fff;--side:#eef0f4;--text:#1d2330;--muted:#5b6475;--accent:#2f6fed;--accent-soft:#e3ecff;--border:#d9dde6;--code:#eef0f4;--note:#fff7e0;--noteb:#f0d98a;--tip:#e6f6ec;--tipb:#9fd5b2;--warn:#fde8e8;--warnb:#eaa7a7}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#12151c;--panel:#1a1e28;--side:#161a23;--text:#e6e9f0;--muted:#9aa3b5;--accent:#6ea0ff;--accent-soft:#222b44;--border:#2c3342;--code:#232938;--note:#2c2713;--noteb:#6b5a1c;--tip:#17291f;--tipb:#2f6b47;--warn:#2d1717;--warnb:#7a3434}}
+:root[data-theme=dark]{--bg:#12151c;--panel:#1a1e28;--side:#161a23;--text:#e6e9f0;--muted:#9aa3b5;--accent:#6ea0ff;--accent-soft:#222b44;--border:#2c3342;--code:#232938;--note:#2c2713;--noteb:#6b5a1c;--tip:#17291f;--tipb:#2f6b47;--warn:#2d1717;--warnb:#7a3434}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 18px;background:var(--panel);border-bottom:1px solid var(--border)}
+header.top .logo{font-weight:700;font-size:18px;color:var(--accent);white-space:nowrap}
+header.top .logo small{color:var(--muted);font-weight:400;font-size:13px;margin-left:6px}
+#q{flex:1;min-width:0;max-width:420px;margin-left:auto;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;font-size:14px}
+button.btn{border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 11px;font:inherit;font-size:13px;cursor:pointer}
+#menu{display:none}
+.layout{display:flex;max-width:1380px;margin:0 auto}
+nav#side{flex:0 0 270px;position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;padding:16px 10px 40px 18px;background:var(--side);border-right:1px solid var(--border)}
+nav#side h4{margin:16px 8px 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav#side a{display:block;padding:4px 10px;border-radius:6px;color:var(--text);text-decoration:none;font-size:14px;line-height:1.4}
+nav#side a:hover{background:var(--accent-soft)}
+nav#side a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+nav#side a.hide{display:none}
+main{flex:1;min-width:0;padding:30px 44px 80px;max-width:960px}
+section.sec{margin-bottom:56px}
+section.sec.hide{display:none}
+h1{font-size:34px;line-height:1.2;margin:0 0 8px}
+h2{font-size:26px;margin:0 0 6px;padding-top:8px;border-top:1px solid var(--border)}
+h3{font-size:19px;margin:28px 0 6px}
+p,li{max-width:76ch}
+.lead{font-size:19px;color:var(--muted);max-width:68ch}
+code,kbd{background:var(--code);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+kbd{border-bottom-width:2px;white-space:nowrap}
+pre{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:12px 14px;overflow:auto;font-size:13px;line-height:1.5}
+pre code{background:none;border:0;padding:0}
+figure{margin:18px 0 26px}
+figure img{max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;cursor:zoom-in;display:block;background:#0f1218}
+figure.small img{max-width:min(480px,100%)}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:6px}
+.callout{border:1px solid;border-radius:10px;padding:10px 14px;margin:16px 0;max-width:76ch}
+.callout.note{background:var(--note);border-color:var(--noteb)}
+.callout.tip{background:var(--tip);border-color:var(--tipb)}
+.callout.warn{background:var(--warn);border-color:var(--warnb)}
+.callout b.t{display:block;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.card h4{margin:0 0 4px;font-size:16px}
+.card p{margin:0;font-size:14.5px;color:var(--muted)}
+.card a{text-decoration:none}
+table{border-collapse:collapse;width:100%;max-width:820px;margin:12px 0;font-size:14.5px}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--side)}
+ol.steps{counter-reset:s;list-style:none;padding:0}
+ol.steps li{counter-increment:s;position:relative;padding:2px 0 10px 44px}
+ol.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);vertical-align:middle;margin-left:6px}
+.pill.opt{background:var(--note);color:var(--muted);border:1px solid var(--noteb)}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:100%;border-radius:8px}
+#none{display:none;color:var(--muted);padding:30px 0}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:14px;margin-top:40px}
+@media (max-width:900px){
+ #menu{display:inline-block}
+ nav#side{position:fixed;left:0;top:57px;bottom:0;z-index:15;transform:translateX(-105%);transition:transform .2s;width:280px;height:auto;box-shadow:0 0 30px rgba(0,0,0,.35)}
+ nav#side.open{transform:none}
+ main{padding:22px 16px 60px}
+ h1{font-size:28px}
+ header.top .logo small{display:none}
+ header.top{padding:10px 12px;gap:8px}
+ table{display:block;overflow-x:auto}
+}
+@media print{
+ header.top,nav#side,#lb{display:none!important}
+ body{background:#fff;color:#000;font-size:11pt}
+ main{padding:0;max-width:none}
+ section.sec{page-break-inside:auto}
+ h2{page-break-after:avoid}
+ figure{page-break-inside:avoid}
+ a{color:#000}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="btn" id="menu" aria-label="Contents">&#9776;</button>
+  <div class="logo">MindLoom <small>User Guide</small></div>
+  <input id="q" type="search" placeholder="Search the guide…" aria-label="Search the guide">
+  <button class="btn" id="theme" title="Switch light or dark">Theme</button>
+</header>
+
+<div class="layout">
+<nav id="side" aria-label="Contents">
+  <h4>Start here</h4>
+  <a href="#welcome">Welcome</a>
+  <a href="#quickstart">Quick start</a>
+  <a href="#recipes">Step-by-step recipes</a>
+  <h4>Building maps</h4>
+  <a href="#basics">Working with nodes</a>
+  <a href="#details">Node details</a>
+  <a href="#links">Links and dependencies</a>
+  <a href="#layouts">Layouts and Tidy</a>
+  <h4>Planning and tracking</h4>
+  <a href="#views">Agenda, Timeline, Board</a>
+  <a href="#dateaxis">Date Axis and baselines</a>
+  <a href="#report">Status report</a>
+  <a href="#find">Finding things</a>
+  <h4>Optional features</h4>
+  <a href="#mapping">Application Mapping Structures</a>
+  <a href="#activity">Advanced Activity &amp; Comments</a>
+  <h4>Everyday use</h4>
+  <a href="#files">Saving, files and backups</a>
+  <a href="#settings">Settings and appearance</a>
+  <a href="#shortcuts">Keyboard shortcuts</a>
+  <a href="#examples">Example maps</a>
+  <a href="#faq">Questions and fixes</a>
+  <h4>For technical readers</h4>
+  <a href="#technical">Technical reference</a>
+  <a href="#fileformat">File format</a>
+  <a href="#hosting">Hosting and security</a>
+  <a href="#releasing">Releases and updates</a>
+</nav>
+
+<main>
+<div id="none">Nothing in the guide matches that search.</div>
+
+<section class="sec" id="welcome">
+  <h1>MindLoom User Guide</h1>
+  <p class="lead">MindLoom is a mind-mapping and planning tool that lives in a single file. Open it in your browser and start. There is nothing to install, no account, and your work stays on your computer.</p>
+  <figure><img src="img/overview.png" alt="A MindLoom map of a product launch" loading="lazy"><figcaption>A map in MindLoom: ideas as nodes, colour for meaning, and dates, owners and status on each item.</figcaption></figure>
+  <h3>What you can do with it</h3>
+  <div class="grid">
+    <div class="card"><h4>Think visually</h4><p>Branch ideas out on an unlimited canvas, link them, colour them and rearrange them freely.</p></div>
+    <div class="card"><h4>Plan the work</h4><p>Give any node an owner, status, dates, checklist and progress. See it as an Agenda, Timeline, Board or calendar.</p></div>
+    <div class="card"><h4>Report</h4><p>Produce a ready-to-send status report with a Red, Amber or Green health line, with one click.</p></div>
+    <div class="card"><h4>Map how things connect</h4><p>Optionally switch on Application Mapping Structures to show what relies on what, for migrations and change planning.</p></div>
+  </div>
+  <h3>How to read this guide</h3>
+  <p>Use the contents on the left, or the search box at the top. If you are new, read <a href="#quickstart">Quick start</a>, then try a <a href="#recipes">recipe</a>. Everything is also in the <a href="#shortcuts">keyboard shortcut</a> list and the <a href="#faq">questions and fixes</a> section. Developers and IT teams will find the <a href="#technical">technical reference</a> at the end.</p>
+  <div class="callout tip"><b class="t">Keep this open while you learn</b>Press <kbd>?</kbd> in MindLoom for a built-in list of shortcuts and tips, and <kbd>Ctrl</kbd>+<kbd>K</kbd> to search every command by name.</div>
+</section>
+
+<section class="sec" id="quickstart">
+  <h2>Quick start</h2>
+  <p>Five minutes to your first useful map.</p>
+  <ol class="steps">
+    <li><b>Open the file.</b> Double-click <code>MindLoom.html</code>. It opens in your normal browser and works without an internet connection. You start on a fresh map with one central idea.</li>
+    <li><b>Name the central idea.</b> Select it and press <kbd>F2</kbd>, type a name and press <kbd>Enter</kbd>.</li>
+    <li><b>Add branches.</b> With a node selected, press <kbd>Tab</kbd> to add a child and <kbd>Enter</kbd> to add a sibling. Type, press <kbd>Enter</kbd>, and keep going.</li>
+    <li><b>Add details.</b> Select a node and press <kbd>I</kbd> to open its details panel: set a status, an owner and a due date.</li>
+    <li><b>See it another way.</b> Press <kbd>A</kbd> for the Agenda, <kbd>K</kbd> for the Board, <kbd>T</kbd> for the Timeline or <kbd>R</kbd> for a status report.</li>
+    <li><b>Save it.</b> Press <kbd>Ctrl</kbd>+<kbd>S</kbd> to save a file you can keep, email or open later.</li>
+  </ol>
+  <figure><img src="img/blank.png" alt="A new map with one node" loading="lazy"><figcaption>A new map. The coloured squares at the bottom set the category colour of the selected node.</figcaption></figure>
+  <div class="callout warn"><b class="t">Save a file copy</b>MindLoom automatically keeps a backup copy inside your browser, but that is only a safety net. Each visit opens a fresh map, and clearing browser data would remove the backup. Use <b>File &rarr; Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) to keep your map safe. See <a href="#files">Saving, files and backups</a>.</div>
+  <h3>Want to explore first?</h3>
+  <p>MindLoom has built-in demo maps. Open <b>File &rarr; About MindLoom</b>, click the version number five times, and choose a demo. You can also download the <a href="#examples">example maps</a> and open them with <b>File &rarr; Load</b>.</p>
+</section>
+
+<section class="sec" id="recipes">
+  <h2>Step-by-step recipes</h2>
+  <h3>Plan a project in ten minutes</h3>
+  <ol class="steps">
+    <li>Name the root node after the project. Press <kbd>Tab</kbd> to add the main phases as children.</li>
+    <li>Use <b>Edit &rarr; Add several nodes</b> to paste a whole list of tasks in one go (see <a href="#basics">Add several nodes</a>).</li>
+    <li>Select each task, press <kbd>I</kbd> and set an owner and a due date. Use the quick buttons (Today, +1 week, +1 month) to save time.</li>
+    <li>Link tasks that must happen in order using <b>Depends on</b> in the details panel (<a href="#links">Dependencies</a>).</li>
+    <li>Press <kbd>T</kbd> for the Timeline to see the plan as a Gantt chart. Drag bars to re-plan.</li>
+    <li>Press <kbd>R</kbd> for a status report you can paste into an email.</li>
+  </ol>
+  <h3>Track an application migration</h3>
+  <ol class="steps">
+    <li>Turn on <b>Settings &rarr; Application Mapping Structures</b> for this map.</li>
+    <li>Add one node per application (for example Jenkins, Bitbucket, Active Directory). Group them under headings like CI/CD and Identity.</li>
+    <li>Link applications that talk to each other with <b>Link</b> or <kbd>L</kbd>, and choose a link type such as <i>builds from</i> or <i>authenticates via</i>.</li>
+    <li>Give each application a <b>Migration wave</b> and an owner.</li>
+    <li>Select an application and choose <b>Show impact</b> to see everything that relies on it, before you move it.</li>
+    <li>Run <b>Dependency check</b> to find items with no links, no owner, or a wave that looks out of order.</li>
+  </ol>
+  <p>A ready-made version is in the <a href="#examples">example maps</a> as <code>application-migration.json</code>. Full details are in <a href="#mapping">Application Mapping Structures</a>.</p>
+  <h3>Send a weekly status update</h3>
+  <ol class="steps">
+    <li>Keep statuses and due dates current as the week goes on.</li>
+    <li>Press <kbd>R</kbd>. Type a one-line headline if you want one.</li>
+    <li>Choose <b>Copy formatted</b> and paste into Outlook, Teams, Gmail or Word. Headings and bullets arrive as real formatting.</li>
+    <li>Next week the report shows what changed since this one (see <a href="#report">Status report</a>).</li>
+  </ol>
+  <h3>Turn a meeting's notes into a map</h3>
+  <ol class="steps">
+    <li>Copy your notes as a list with indented sub-points.</li>
+    <li>Open <b>Edit &rarr; Add several nodes</b> and paste. The preview shows how many nodes will be made.</li>
+    <li>Choose <b>As separate root nodes</b> or <b>Under: the selected node</b>, then <b>Add nodes</b>.</li>
+    <li>Assign owners and dates to the action items and open the Agenda (<kbd>A</kbd>) to see who owes what.</li>
+  </ol>
+</section>
+
+<section class="sec" id="basics">
+  <h2>Working with nodes</h2>
+  <p>A map is made of <b>nodes</b>. Each node has a name and can have children, so ideas branch out from a central root. You can have several roots on one canvas.</p>
+  <h3>Adding, editing and removing</h3>
+  <table>
+    <tr><th>To do this</th><th>Do this</th></tr>
+    <tr><td>Add a child node</td><td>Select a node, press <kbd>Tab</kbd> (or <b>+ Child</b>)</td></tr>
+    <tr><td>Add a sibling</td><td>Press <kbd>Enter</kbd> (or <b>+ Sibling</b>)</td></tr>
+    <tr><td>Add a new root</td><td><b>+ Root</b> on the toolbar</td></tr>
+    <tr><td>Add a node where you click</td><td>Double-click empty canvas</td></tr>
+    <tr><td>Rename</td><td><kbd>F2</kbd> or double-click the node</td></tr>
+    <tr><td>Delete</td><td><kbd>Del</kbd></td></tr>
+    <tr><td>Duplicate a branch</td><td>Right-click &rarr; Duplicate subtree</td></tr>
+    <tr><td>Detach a branch as its own root</td><td>Right-click &rarr; Detach as root</td></tr>
+    <tr><td>Collapse or expand</td><td><kbd>Space</kbd>, or View &rarr; Collapse all / Expand all</td></tr>
+    <tr><td>Undo or redo</td><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> and <kbd>Ctrl</kbd>+<kbd>Y</kbd></td></tr>
+  </table>
+  <h3>Moving around</h3>
+  <p>Scroll to zoom and drag the empty canvas to pan. <kbd>F</kbd> fits the whole map in view and <kbd>Home</kbd> re-centres it. The arrow keys move between nodes. A minimap helps on large maps. On a phone or tablet, drag to move, pinch to zoom, long-press for the menu and use the quick-action bar at the bottom.</p>
+  <h3>Moving and re-parenting</h3>
+  <p>Drag a node to move it, and its children come with it. To move a node under a different parent, hold <kbd>Ctrl</kbd> while dragging and drop it onto the new parent.</p>
+  <figure class="small"><img src="img/menu-edit.png" alt="The Edit menu" loading="lazy"><figcaption>The Edit menu: undo, edit, copy and paste branches, Add several nodes and Shift dates.</figcaption></figure>
+  <p>Hold <kbd>Shift</kbd> and click to select several nodes, then change colour, status or owner for all of them together.</p>
+  <h3>Copy, cut and paste branches</h3>
+  <p><kbd>Ctrl</kbd>+<kbd>C</kbd>, <kbd>Ctrl</kbd>+<kbd>X</kbd> and <kbd>Ctrl</kbd>+<kbd>V</kbd> work on whole branches, including their details. Because the copy is held as text on your clipboard, you can paste a branch into a different map or another browser tab.</p>
+  <h3>Add several nodes at once</h3>
+  <p>Instead of typing nodes one by one, paste a list. Open <b>Edit &rarr; Add several nodes…</b> or right-click a node and choose <b>Several child nodes…</b>.</p>
+  <figure class="small"><img src="img/bulk.png" alt="The Add several nodes dialog" loading="lazy"><figcaption>One node per line. Indent to nest. Bullets, numbers and # headings are understood.</figcaption></figure>
+  <ul>
+    <li>One node is made per line. Indent a line to make it a child of the line above.</li>
+    <li>Bullets (<code>-</code>, <code>*</code>), numbers (<code>1.</code>) and <code>#</code> headings are removed for you.</li>
+    <li>Choose <b>As separate root nodes</b>, or <b>Under: <i>the selected node</i></b>.</li>
+    <li>A live count shows how many nodes you will get. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> adds them.</li>
+  </ul>
+  <h3>The right-click menu</h3>
+  <figure class="small"><img src="img/contextmenu.png" alt="Right-click menu" loading="lazy"><figcaption>Right-click a node for the most common actions, grouped as Edit, Add, Connect and Branch.</figcaption></figure>
+  <h3>Colour</h3>
+  <p>The coloured squares at the bottom of the screen set the <b>category</b> of the selected node. You can rename the categories (double-click a label in the legend) so a colour means something to your team, such as <i>Risk</i> or <i>Decision</i>.</p>
+</section>
+
+<section class="sec" id="details">
+  <h2>Node details</h2>
+  <p>Select a node and press <kbd>I</kbd> (or use the <b>···</b> button on the node) to open its details panel. You can drag the panel by its title bar and double-click the title to reset its position.</p>
+  <figure class="small"><img src="img/details.png" alt="The node details panel" loading="lazy"><figcaption>The details panel: project, owner, status, dates, notes and optional sections.</figcaption></figure>
+  <h3>The basics</h3>
+  <ul>
+    <li><b>Status</b>: To do, Ongoing, Completed, Blocked, Awaiting and others. The date something was completed is recorded so reports can show when work finished.</li>
+    <li><b>Start and due dates</b>, with quick buttons (Today, Tomorrow, +1 week, +2 weeks, +1 month) that act on whichever date field you last clicked. Overdue and due-today items are flagged on the map and counted in the toolbar.</li>
+    <li><b>Owner</b> and <b>Project</b>, used for filters and the status report.</li>
+    <li><b>Notes</b>, where web addresses become clickable.</li>
+    <li><b>Marker</b>, the shape used for single-date items on the Date Axis.</li>
+  </ul>
+  <h3>Optional sections</h3>
+  <p>Use the buttons in the panel to open these. They open automatically when the node already has content.</p>
+  <table>
+    <tr><th>Section</th><th>What it does</th></tr>
+    <tr><td><b>Tags</b></td><td>Free labels. Type and press <kbd>Enter</kbd>. Tags work with search and filters.</td></tr>
+    <tr><td><b>Checklist</b></td><td>Tick-off items inside a node, with a count shown on the node.</td></tr>
+    <tr><td><b>Progress</b></td><td>A percentage complete, shown as a bar on the node.</td></tr>
+    <tr><td><b>Recurring</b></td><td>Repeat every n days, weeks, months or years. Completing the item rolls its dates forward, ticks the checklist off and resets progress.</td></tr>
+  </table>
+  <h3>Bookmarks</h3>
+  <p>Right-click a node and choose <b>Bookmark</b>, then press <kbd>B</kbd> to jump straight to any bookmarked node, which is useful in very large maps.</p>
+</section>
+
+<section class="sec" id="links">
+  <h2>Links and dependencies</h2>
+  <p>Besides the parent and child structure, MindLoom has two ways to connect any two nodes.</p>
+  <h3>Cross-links</h3>
+  <p>A cross-link is a dashed arrow between two nodes that are not parent and child. Select a node and press <kbd>L</kbd> (or use the <b>Link</b> menu), then click the node to link to. You can give the link a label. They are good for "is related to" or "feeds into".</p>
+  <h3>Dependencies</h3>
+  <p>A dependency says one item cannot finish until another has. In the details panel use <b>Depends on</b> and <b>Needed by</b>. Dependencies are drawn as orange arrows from the prerequisite to the dependent, turn muted green once the prerequisite is done, and show a <b>Waiting on</b> badge while something is outstanding. MindLoom stops you creating circular dependencies.</p>
+  <div class="callout note"><b class="t">Which should I use?</b>Use a <b>dependency</b> when order and timing matter (planning). Use a <b>cross-link</b> for a relationship between things. For application diagrams, turn on <a href="#mapping">Application Mapping Structures</a> to give cross-links types and colours.</div>
+  <h3>Connector style</h3>
+  <p>Under <b>Settings</b>, <b>Connectors</b> switches between curved lines and squared (right-angled) lines, which suit technical diagrams.</p>
+</section>
+
+<section class="sec" id="layouts">
+  <h2>Layouts and Tidy</h2>
+  <p>Arrange nodes yourself by dragging, or let MindLoom do it with the <b>Tidy</b> menu. Each layout can be applied to the whole map or only the selected branch.</p>
+  <ul>
+    <li><b>Horizontal tree</b>: left to right, siblings ordered by due date.</li>
+    <li><b>Vertical tree</b>: top to bottom.</li>
+    <li><b>Balanced tree</b>: the root in the middle and branches split left and right. Best for large maps.</li>
+  </ul>
+  <figure><img src="img/balanced.png" alt="A balanced tree layout" loading="lazy"><figcaption>Balanced tree: branches fan out on both sides of the root.</figcaption></figure>
+  <p><b>Snap to grid</b> and lane bands (Settings) keep manual layouts neat. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
+  <h3>Presentation mode</h3>
+  <p>Press <kbd>P</kbd> to walk through your map one node at a time with the arrow keys, with <kbd>Esc</kbd> to leave. It is handy for talking a team through a plan.</p>
+</section>
+
+<section class="sec" id="views">
+  <h2>Agenda, Timeline and Board</h2>
+  <p>The same map can be viewed in several ways. They all read the same data, so a change in one appears in the others.</p>
+  <h3>Agenda <kbd>A</kbd></h3>
+  <figure><img src="img/agenda.png" alt="The Agenda panel" loading="lazy"><figcaption>The Agenda groups tasks into Overdue, Due today, Next 7 days and Under way.</figcaption></figure>
+  <p>A side panel that lists your tasks by urgency, with an owner filter. Tick a task to complete it, and tick checklist items inline.</p>
+  <h3>Timeline <kbd>T</kbd></h3>
+  <figure><img src="img/timeline.png" alt="The Timeline view" loading="lazy"><figcaption>The Timeline: a Gantt-style chart where you drag bars to re-plan.</figcaption></figure>
+  <p>A Gantt-style chart of items that have dates. Drag a bar to move it, or drag its ends to change the start or due date.</p>
+  <h3>Board <kbd>K</kbd></h3>
+  <figure><img src="img/board.png" alt="The Board view" loading="lazy"><figcaption>The Board: cards in columns by status.</figcaption></figure>
+  <p>A kanban board with a column per status. Drag a card to another column to change its status.</p>
+  <h3>Statistics <kbd>S</kbd></h3>
+  <figure class="small"><img src="img/stats.png" alt="Statistics panel" loading="lazy"><figcaption>Totals, status mix and due-date counts at a glance.</figcaption></figure>
+</section>
+
+<section class="sec" id="dateaxis">
+  <h2>Date Axis, critical path and baselines</h2>
+  <p>The <b>Date Axis</b> button on the toolbar lays your map out along a calendar, so a plan becomes a roadmap. Items with a start and due date become bars, items with one date become markers, and workstreams become swimlanes. Switching it off puts every node back where it was.</p>
+  <figure><img src="img/dateaxis.png" alt="The Date Axis" loading="lazy"><figcaption>The Date Axis, zoomed to a quarter: swimlanes per workstream, bars coloured by lane with a status stripe.</figcaption></figure>
+  <ul>
+    <li><b>Zoom</b> to Q1, Q2, Q3, Q4 or the whole Year, and jump to Today.</li>
+    <li><b>Lines</b> can be Off, Selected (only the selected node's links) or All.</li>
+    <li><b>Fold lanes</b> one at a time or all at once to focus on what matters.</li>
+    <li>Items with no date are hidden. A button shows how many and brings them back.</li>
+  </ul>
+  <h3>Critical path</h3>
+  <figure><img src="img/critical.png" alt="Critical path view" loading="lazy"><figcaption>Critical path: only the items marked Critical, with their links highlighted.</figcaption></figure>
+  <p>Mark important items with the Critical status, then press <b>Critical path</b> to show only those items and the dependency links between them.</p>
+  <h3>Slide view</h3>
+  <figure><img src="img/slide.png" alt="Slide view" loading="lazy"><figcaption>Slide view: a clean layout with labelled lanes and a legend.</figcaption></figure>
+  <p><b>Slide view</b> produces a clean, labelled layout that drops straight into PowerPoint. Non-critical items are dimmed, a legend is added, and you can export a high-resolution PNG.</p>
+  <h3>Baselines: planned versus actual</h3>
+  <p>Open <b>Baseline</b> (or <b>Settings &rarr; Baselines</b>) and save the current start and due dates as a named plan. You can keep up to five. After dates change, a dashed ghost bar shows where each item was planned, with the slip in days (for example <code>+12d</code> or <code>-5d</code>). The ghosts appear in PNG exports and printouts, and the status report lists what slipped.</p>
+  <h3>Shifting dates in bulk</h3>
+  <p>If a whole stream moves, use <b>Shift dates</b> (Edit menu or right-click) to move a node, or a branch together with its linked nodes, by a number of days.</p>
+</section>
+
+<section class="sec" id="report">
+  <h2>Status report</h2>
+  <p>Press <kbd>R</kbd> for a summary of the map that you can send straight to stakeholders.</p>
+  <figure><img src="img/report.png" alt="The status report" loading="lazy"><figcaption>The status report with a health line, key figures and sections for overdue, blocked and awaiting items.</figcaption></figure>
+  <h3>What is in it</h3>
+  <ul>
+    <li>A <b>Red, Amber or Green</b> health line that says what drove the rating.</li>
+    <li>An optional <b>headline</b> that you type. It goes into the copy, download and print.</li>
+    <li><b>Changes since the last report</b>: newly completed, newly overdue, newly blocked, date changes, and items added or removed.</li>
+    <li><b>Against baseline</b>: what slipped, what is earlier, and what is on plan.</li>
+    <li>Sections for Overdue, Blocked, Awaiting, Waiting on prerequisites, Critical path, Due soon and Completed, with days overdue and checklist or progress on each line.</li>
+    <li><b>Workload by owner</b>, and completion counted on tasks rather than group headings.</li>
+    <li>Filters by owner and project, for the whole map or a selected branch.</li>
+  </ul>
+  <h3>Getting it out</h3>
+  <table>
+    <tr><th>Button</th><th>Use it for</th></tr>
+    <tr><td>Copy formatted</td><td>Pasting into Outlook, Teams, Gmail or Word as real headings and bullets</td></tr>
+    <tr><td>Copy Markdown / Download .md</td><td>Wikis, GitHub and other Markdown tools</td></tr>
+    <tr><td>Print</td><td>A paper copy or PDF</td></tr>
+  </table>
+  <div class="callout note"><b class="t">How "changes since the last report" works</b>Copy, Download and Print each save a snapshot. The next report compares against that snapshot, so it only shows what is new.</div>
+</section>
+
+<section class="sec" id="find">
+  <h2>Finding things</h2>
+  <h3>Command palette <kbd>Ctrl</kbd>+<kbd>K</kbd></h3>
+  <figure class="small"><img src="img/palette.png" alt="Command palette" loading="lazy"><figcaption>Type a few letters to find any action. Recent commands are remembered.</figcaption></figure>
+  <h3>Search and filters</h3>
+  <ul>
+    <li><kbd>/</kbd> opens <b>Search</b>, to find nodes quickly.</li>
+    <li><kbd>Ctrl</kbd>+<kbd>F</kbd> opens the <b>Filter bar</b>, to narrow the map by status, owner, project, category, tag and due date.</li>
+    <li><b>Hide Completed</b> (Settings) clears finished work off the canvas.</li>
+  </ul>
+  <figure><img src="img/filter.png" alt="The filter bar" loading="lazy"><figcaption>The filter bar across the top of the canvas.</figcaption></figure>
+  <h3>Focus <kbd>G</kbd></h3>
+  <figure class="small"><img src="img/focus.png" alt="The Focus panel" loading="lazy"><figcaption>Switch whole root trees on or off.</figcaption></figure>
+  <p>When a map has several roots, <b>Focus</b> lets you show only the ones you choose.</p>
+  <h3>Saved Views <kbd>V</kbd></h3>
+  <figure class="small"><img src="img/views.png" alt="Saved Views" loading="lazy"><figcaption>Save a named combination of filters and layout.</figcaption></figure>
+  <p>Save a combination of filters, layout and view under a name, and recall it any time. For example "Overdue for Marcus" or "Wave 2 only".</p>
+  <h3>Highlight Selection</h3>
+  <p>In Settings, <b>Highlight Selection</b> fades everything unrelated to the selected node so only its own links and dependencies stand out.</p>
+</section>
+
+<section class="sec" id="mapping">
+  <h2>Application Mapping Structures <span class="pill opt">Optional</span></h2>
+  <p>Use this to show how systems depend on each other, for example during a migration, so that nothing breaks or gets forgotten. It is <b>off by default</b>, so people who just want a mind map never see it.</p>
+  <figure><img src="img/map-off.png" alt="A map with the feature off" loading="lazy"><figcaption>Off (the default): the map looks like any other MindLoom map.</figcaption></figure>
+  <figure><img src="img/map-on.png" alt="The same map with the feature on" loading="lazy"><figcaption>On: the same map now shows link types in colour and migration waves on each application.</figcaption></figure>
+  <h3>Turning it on</h3>
+  <p>Open <b>Settings &rarr; Application Mapping Structures</b> and switch it to On. The setting is saved in the file, so it belongs to that map. Turning it off again hides the extra features but keeps the information in the file.</p>
+  <figure class="small"><img src="img/map-settings.png" alt="Settings menu with the feature switched on" loading="lazy"><figcaption>The switch is in the Settings menu, under Editing.</figcaption></figure>
+  <h3>How to read a relationship</h3>
+  <p>Every relationship reads <b>"A relies on B"</b>. It can be a dependency (A waits for B) or a cross-link drawn from A to B, with the arrow pointing at B.</p>
+  <h3>Link types</h3>
+  <p>When you create a link, a dialog asks what kind it is. Each type has its own colour.</p>
+  <figure class="small"><img src="img/linktype.png" alt="The link type dialog" loading="lazy"><figcaption>Choose a type, or type your own. Swap direction reverses which item relies on the other.</figcaption></figure>
+  <table>
+    <tr><th>Type</th><th>Use for</th></tr>
+    <tr><td>builds from</td><td>A is built from code or artifacts held in B</td></tr>
+    <tr><td>deploys to</td><td>A deploys onto B</td></tr>
+    <tr><td>authenticates via</td><td>A signs users or services in using B</td></tr>
+    <tr><td>sends data to / reads from</td><td>Data flowing between systems</td></tr>
+    <tr><td>calls (API)</td><td>A calls B's interface</td></tr>
+    <tr><td>webhook</td><td>B notifies A when something happens</td></tr>
+    <tr><td>monitored by / scheduled by</td><td>Operational relationships</td></tr>
+  </table>
+  <p>You can also type your own type (up to 40 characters) and a short note, such as "service account" or "token expiry". To change a link later, open the details of either node and click the pencil next to the link. <b>Swap direction</b> is available there too.</p>
+  <h3>Migration waves</h3>
+  <p>In the details panel, <b>Migration wave</b> assigns Wave 1 to Wave 8. A wave is stored as an ordinary tag (for example <code>Wave 2</code>), so it works with search and filters and copies with the node.</p>
+  <figure class="small"><img src="img/map-details.png" alt="Details panel with migration wave and links" loading="lazy"><figcaption>The details panel shows the wave, the "Relies on / Needed by" links and a Show impact button.</figcaption></figure>
+  <h3>Impact view</h3>
+  <p>Right-click an application and choose <b>Show impact</b> (or use <b>View &rarr; Dependencies</b>). Everything that relies on it lights up, the rest fades, and each node shows how many steps away it is.</p>
+  <figure><img src="img/impact.png" alt="Impact view" loading="lazy"><figcaption>Impact of Active Directory: what relies on it, directly and indirectly, with a panel listing each one.</figcaption></figure>
+  <ul>
+    <li><b>Relies on this</b>: everything that would be affected if this application moved or failed.</li>
+    <li><b>This relies on</b>: everything this application needs in order to work.</li>
+    <li><b>Both</b>: the whole picture.</li>
+  </ul>
+  <figure><img src="img/impact-up.png" alt="Impact view, relies on this" loading="lazy"><figcaption>The impact view follows your selection: click another node and it updates. Press <kbd>Esc</kbd> to clear it.</figcaption></figure>
+  <h3>Dependency check</h3>
+  <p>Once the feature is on, the <b>View</b> menu gains a Dependencies section with <b>Show impact of selected</b> and <b>Dependency check</b>. The check looks for things that are easy to forget.</p>
+  <figure class="small"><img src="img/map-viewmenu.png" alt="View menu with the Dependencies section" loading="lazy"><figcaption>The Dependencies section appears in the View menu only while the feature is on.</figcaption></figure>
+  <figure class="small"><img src="img/depcheck.png" alt="Dependency check" loading="lazy"><figcaption>Click any row to jump to that node.</figcaption></figure>
+  <ul>
+    <li>Items not linked to anything.</li>
+    <li>Items with no owner.</li>
+    <li>Items with no wave, when other items have one.</li>
+    <li>Waves that look out of order, where something in an earlier wave relies on something in a later one.</li>
+  </ul>
+  <div class="callout tip"><b class="t">Tip: keep it high level</b>One node per application, a few link types, a wave and an owner is usually enough to catch most migration surprises. Add detail only where it helps a decision.</div>
+</section>
+
+<section class="sec" id="activity">
+  <h2>Advanced Activity &amp; Comments <span class="pill opt">Optional</span></h2>
+  <p>Switch this on to keep a history of changes and comments on each item. It is off by default and saved per map.</p>
+  <figure><img src="img/activity.png" alt="The activity panel" loading="lazy"><figcaption>The activity panel: a comment box above a history of changes and notes.</figcaption></figure>
+  <h3>Turning it on</h3>
+  <p>Choose <b>Settings &rarr; Advanced Activity &amp; Comments</b>. Optionally set <b>Your name</b> there so entries are signed (kept in your browser).</p>
+  <h3>What it records</h3>
+  <ul>
+    <li>Changes to <b>status</b>, <b>start date</b>, <b>due date</b> and <b>owner</b>.</li>
+    <li>Typed <b>comments</b>. Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to post.</li>
+    <li>When you move a single due date, you are asked for a <b>reason</b>: Dependency, Scope change, Resourcing, Client request, or your own.</li>
+  </ul>
+  <p>Open it with the speech-bubble button next to Dependencies in the details panel, or the comment chip on a node. Quick repeat edits merge into one entry, and the newest 50 entries per node are kept. The status report shows the reason for a moved date and the latest note.</p>
+  <div class="callout note"><b class="t">Turning it off</b>This hides the history but keeps it in the saved file, so switching it back on restores it.</div>
+</section>
+
+<section class="sec" id="files">
+  <h2>Saving, files and backups</h2>
+  <h3>How your work is kept</h3>
+  <table>
+    <tr><th>What</th><th>Where</th><th>Notes</th></tr>
+    <tr><td>Automatic backup</td><td>Your browser</td><td>A safety net only. It can be lost if browser data is cleared.</td></tr>
+    <tr><td>Saved file</td><td>Wherever you save it</td><td>The only copy that moves between computers and keeps everything.</td></tr>
+    <tr><td>Rolling backups</td><td>Your browser</td><td>File &rarr; Restore backup. Your previous map is kept here as "last session".</td></tr>
+  </table>
+  <p>MindLoom always opens on a fresh map. To continue earlier work, use <b>File &rarr; Load</b> or <b>Restore backup</b>.</p>
+  <figure class="small"><img src="img/menu-file.png" alt="The File menu" loading="lazy"><figcaption>The File menu.</figcaption></figure>
+  <h3>Saving</h3>
+  <ul>
+    <li><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and <b>Save As</b> write a file in MindLoom's own format. Use this for your real work.</li>
+    <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). The toolbar shows the status.</li>
+    <li>The save badge on the toolbar tells you when there are unsaved changes, and reminds you every ten minutes.</li>
+  </ul>
+  <h3>Export and import</h3>
+  <ul>
+    <li><b>Export</b> to CSV, Markdown or a PNG image. The PNG is a clean picture for slides and documents.</li>
+    <li><b>Import</b> from CSV or Markdown to bring in a list from a spreadsheet or a document.</li>
+    <li><b>Print</b> (<kbd>Ctrl</kbd>+<kbd>P</kbd>) prints the map. Choose "Save as PDF" in the print dialog to make a PDF.</li>
+  </ul>
+  <div class="callout warn"><b class="t">Use Save for the full picture</b>CSV and Markdown carry the text, status, dates and structure, but only a saved MindLoom file keeps everything, including links, baselines, saved views and activity history.</div>
+</section>
+
+<section class="sec" id="settings">
+  <h2>Settings and appearance</h2>
+  <figure class="small"><img src="img/menu-settings.png" alt="The Settings menu" loading="lazy"><figcaption>The Settings menu, grouped into Appearance, Editing and Planning.</figcaption></figure>
+  <table>
+    <tr><th>Setting</th><th>What it does</th></tr>
+    <tr><td>Theme</td><td>Dark or light</td></tr>
+    <tr><td>Connectors</td><td>Curved or squared lines</td></tr>
+    <tr><td>Background and pattern</td><td>Canvas colour, and a grid, dots or none</td></tr>
+    <tr><td>Advanced Activity &amp; Comments</td><td>History and comments per item (<a href="#activity">details</a>)</td></tr>
+    <tr><td>Application Mapping Structures</td><td>Link types, waves and impact view (<a href="#mapping">details</a>)</td></tr>
+    <tr><td>Snap to Grid</td><td>Keeps nodes aligned when you drag</td></tr>
+    <tr><td>Hover Popups</td><td>Show a preview when you hover a node (off by default)</td></tr>
+    <tr><td>Highlight Selection</td><td>Fade everything unrelated to the selected node</td></tr>
+    <tr><td>Hide Completed</td><td>Remove finished items from view</td></tr>
+    <tr><td>Baselines, Date Axis settings</td><td>Planning options (<a href="#dateaxis">details</a>)</td></tr>
+  </table>
+  <figure><img src="img/light.png" alt="Light theme" loading="lazy"><figcaption>The light theme, a good choice for printing and projectors.</figcaption></figure>
+  <p>The <b>View</b> menu collects panels and view options in one place.</p>
+  <figure class="small"><img src="img/menu-view.png" alt="The View menu" loading="lazy"><figcaption>The View menu.</figcaption></figure>
+</section>
+
+<section class="sec" id="shortcuts">
+  <h2>Keyboard shortcuts</h2>
+  <p>Press <kbd>?</kbd> inside MindLoom to see this list any time. On a Mac, use <kbd>Cmd</kbd> in place of <kbd>Ctrl</kbd>.</p>
+  <table>
+    <tr><th>Key</th><th>Action</th><th>Key</th><th>Action</th></tr>
+    <tr><td><kbd>Tab</kbd></td><td>Add child</td><td><kbd>A</kbd></td><td>Agenda</td></tr>
+    <tr><td><kbd>Enter</kbd></td><td>Add sibling</td><td><kbd>T</kbd></td><td>Timeline</td></tr>
+    <tr><td><kbd>F2</kbd></td><td>Edit node</td><td><kbd>K</kbd></td><td>Board</td></tr>
+    <tr><td><kbd>Del</kbd></td><td>Delete node</td><td><kbd>R</kbd></td><td>Status report</td></tr>
+    <tr><td><kbd>Space</kbd></td><td>Collapse / expand</td><td><kbd>S</kbd></td><td>Statistics</td></tr>
+    <tr><td><kbd>I</kbd></td><td>Notes and details</td><td><kbd>G</kbd></td><td>Focus roots</td></tr>
+    <tr><td><kbd>L</kbd></td><td>Start a cross-link</td><td><kbd>V</kbd></td><td>Saved views</td></tr>
+    <tr><td><kbd>/</kbd></td><td>Search</td><td><kbd>B</kbd></td><td>Bookmarks</td></tr>
+    <tr><td><kbd>F</kbd></td><td>Fit all in view</td><td><kbd>P</kbd></td><td>Presentation mode</td></tr>
+    <tr><td><kbd>Home</kbd></td><td>Centre and reset zoom</td><td><kbd>Esc</kbd></td><td>Deselect / close panels</td></tr>
+    <tr><td><kbd>Ctrl+F</kbd></td><td>Filter bar</td><td><kbd>Ctrl+K</kbd></td><td>Command palette</td></tr>
+    <tr><td><kbd>Ctrl+S</kbd></td><td>Save to file</td><td><kbd>Ctrl+P</kbd></td><td>Print</td></tr>
+    <tr><td><kbd>Ctrl+C / X / V</kbd></td><td>Copy, cut, paste branch</td><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo, redo</td></tr>
+    <tr><td><kbd>Shift+Click</kbd></td><td>Multi-select</td><td><kbd>Ctrl+Drag</kbd></td><td>Re-parent a node</td></tr>
+    <tr><td><kbd>Arrows</kbd></td><td>Move between nodes</td><td><kbd>?</kbd></td><td>Help and shortcuts</td></tr>
+  </table>
+  <figure><img src="img/about.png" alt="The About screen" loading="lazy"><figcaption>The About screen (press <kbd>?</kbd>) lists shortcuts and tips, and has a "Check for updates" button.</figcaption></figure>
+</section>
+
+<section class="sec" id="examples">
+  <h2>Example maps</h2>
+  <p>Download a file, then open MindLoom and choose <b>File &rarr; Load</b>. Right-click the link and choose "Save link as" if your browser tries to display the file instead.</p>
+  <div class="grid">
+    <div class="card"><h4><a href="examples/application-migration.json" download>Application migration</a></h4><p>A data centre migration with link types, waves and owners. Turn on Application Mapping Structures to explore the impact view.</p></div>
+    <div class="card"><h4><a href="examples/product-launch-plan.json" download>Product launch plan</a></h4><p>About 40 nodes with statuses, dates, dependencies and a status report to try.</p></div>
+    <div class="card"><h4><a href="examples/customer-portal-programme.json" download>Customer portal programme</a></h4><p>A large programme map for testing layouts, filters and Focus.</p></div>
+    <div class="card"><h4><a href="examples/annual-roadmap.json" download>Annual roadmap</a></h4><p>A full year of workstreams for the Date Axis, critical path and Slide view.</p></div>
+    <div class="card"><h4><a href="examples/team-away-day.json" download>Team away day</a></h4><p>A small, friendly map, ideal for a first look.</p></div>
+    <div class="card"><h4><a href="examples/personal-to-do-list.json" download>Personal to-do list</a></h4><p>A different use: today, this week, work and home.</p></div>
+  </div>
+  <p>Dates in the demos are set relative to the day you load them, so the example always looks current.</p>
+</section>
+
+<section class="sec" id="faq">
+  <h2>Questions and fixes</h2>
+  <h3>My map has disappeared.</h3>
+  <p>MindLoom opens on a fresh map each visit. Your previous map is under <b>File &rarr; Restore backup</b> (look for "last session"). If you saved a file, use <b>File &rarr; Load</b>.</p>
+  <h3>Can several people work on one map at the same time?</h3>
+  <p>No. MindLoom is a single-user, offline tool. To share, save a file and send it, or place it on a shared drive. Agree who has the latest copy, as the last person to save wins.</p>
+  <h3>Is my data sent anywhere?</h3>
+  <p>No. Everything stays in your browser and in files you save. The only time MindLoom contacts the internet is when you press <b>Check for updates</b> in the About screen.</p>
+  <h3>The save badge says "Browser copy only".</h3>
+  <p>That means no file copy has been saved yet. Press <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
+  <h3>Why can't I see the link types or Show impact?</h3>
+  <p>They belong to <a href="#mapping">Application Mapping Structures</a>, which is off by default. Turn it on in <b>Settings</b>.</p>
+  <h3>Why are some nodes missing on the Date Axis?</h3>
+  <p>Items with no dates are hidden there. Use the button that shows how many are hidden to bring them back, or give them dates.</p>
+  <h3>My links look curved when I wanted square lines.</h3>
+  <p>Choose <b>Settings &rarr; Connectors</b> and switch to Squared.</p>
+  <h3>The map has become slow.</h3>
+  <p>Very large maps (several hundred nodes) can slow down. Collapse branches you are not using, use Focus to hide whole root trees, or use <b>Hide Completed</b>.</p>
+  <h3>Dates like 03/04/2026 came in the wrong way round.</h3>
+  <p>When importing from CSV, ambiguous dates are read as day/month/year. MindLoom tells you how many it read that way, so you can check them. Using the form 2026-04-03 avoids any doubt.</p>
+  <h3>I opened a file from a newer version in an older one.</h3>
+  <p>Older versions open the file but ignore newer parts, and would drop them if you saved. Keep everyone on the same version where you can. See <a href="#releasing">Releases and updates</a>.</p>
+</section>
+
+<section class="sec" id="technical">
+  <h2>Technical reference</h2>
+  <p>For IT teams, developers and anyone who wants to know how MindLoom works.</p>
+  <h3>Design in brief</h3>
+  <ul>
+    <li><b>One file.</b> The whole application (HTML, CSS and JavaScript) is a single <code>MindLoom.html</code>, with no build step and no runtime dependencies.</li>
+    <li><b>Offline.</b> It never loads scripts, fonts or data from the network.</li>
+    <li><b>Local data.</b> State is held in memory, backed up to the browser's <code>localStorage</code>, and saved by the user as a JSON file.</li>
+    <li><b>Plain JavaScript</b> with no framework. The map is rendered as absolutely positioned DOM elements over an SVG layer for connectors.</li>
+  </ul>
+  <h3>Browser support</h3>
+  <p>Any current desktop browser (Chrome, Edge, Firefox, Safari) runs MindLoom. <b>Auto-save to file</b> uses the File System Access API, which is available in Chromium-based browsers such as Chrome and Edge. Elsewhere you can still use Save and Save As.</p>
+  <h3>Built-in self-test</h3>
+  <p>The About screen has a <b>Run self-test</b> button (revealed by clicking the version number five times). It checks date parsing, data cleaning, CSV parsing and other core routines, and reports pass or fail.</p>
+  <h3>Import formats</h3>
+  <p><b>CSV</b> needs a header row and a text column (<code>text</code>, <code>topic</code>, <code>name</code> or <code>title</code>). Recognised optional columns:</p>
+  <table>
+    <tr><th>Column names</th><th>Meaning</th></tr>
+    <tr><td><code>id</code>, <code>parent</code> (or <code>parent_id</code>)</td><td>Hierarchy by ID, as produced by MindLoom's own CSV export</td></tr>
+    <tr><td><code>parent name</code></td><td>Hierarchy by parent's name</td></tr>
+    <tr><td><code>notes</code> (or <code>description</code>), <code>status</code>, <code>tags</code>, <code>project</code>, <code>owner</code></td><td>Node fields</td></tr>
+    <tr><td><code>category</code> (or <code>colour</code>, <code>color</code>)</td><td>Colour category</td></tr>
+    <tr><td><code>due</code>, <code>start</code> and common variants</td><td>Dates</td></tr>
+  </table>
+  <p>The importer handles quoted fields, embedded newlines and a byte-order mark. Cells starting with <code>=</code>, <code>+</code>, <code>-</code> or <code>@</code> that were protected by a leading apostrophe on export are restored. Parent cycles are broken so nothing becomes unreachable. <b>Markdown</b> import turns a document's structure into nodes.</p>
+</section>
+
+<section class="sec" id="fileformat">
+  <h2>File format</h2>
+  <p>A saved map is plain, human-readable JSON. The file records its format name (<code>MindLoom</code>) and a numeric version (currently <code>5</code>). Older files open normally. Older programs ignore parts they do not know about.</p>
+  <pre><code>{
+  "format": "MindLoom",
+  "version": 5,
+  "nodes": [ ... ],
+  "crossLinks": [ { "from": 3, "to": 7, "label": "", "type": "builds from" } ],
+  "nextId": 42,
+  "bookmarks": [ ... ],
+  "savedViews": [ ... ],
+  "baselines": [ ... ],
+  "trackActivity": false,
+  "depMap": false,
+  ...
+}</code></pre>
+  <h3>Top-level keys</h3>
+  <table>
+    <tr><th>Key</th><th>Holds</th></tr>
+    <tr><td><code>nodes</code>, <code>crossLinks</code>, <code>nextId</code></td><td>The map itself</td></tr>
+    <tr><td><code>colorLabels</code>, <code>bgColorId</code>, <code>bgPatternId</code>, <code>lightTheme</code>, <code>connStyle</code></td><td>Appearance</td></tr>
+    <tr><td><code>bookmarks</code>, <code>hiddenRoots</code>, <code>savedViews</code>, <code>hideCompleted</code>, <code>snapToGrid</code>, <code>hoverPopup</code>, <code>focusSel</code></td><td>Views and preferences</td></tr>
+    <tr><td><code>dateMode</code>, <code>dateOrigin</code>, <code>laneBands</code>, <code>linkVis</code>, <code>barColors</code>, <code>showUndated</code>, <code>critOnly</code>, <code>axSlide</code></td><td>Date Axis settings</td></tr>
+    <tr><td><code>baselines</code>, <code>activeBaseline</code>, <code>reportState</code></td><td>Planned dates and the last-report snapshot</td></tr>
+    <tr><td><code>trackActivity</code>, <code>depMap</code></td><td>Whether the optional features are on for this map</td></tr>
+  </table>
+  <h3>A node</h3>
+  <pre><code>{
+  "id": 12, "text": "Jenkins", "x": 540, "y": 210,
+  "parentId": 8,            // null for a root
+  "collapsed": false, "colorId": "default",
+  "notes": "", "project": "", "owner": "Sam", "status": "ongoing",
+  "tags": ["Wave 2"],       // a migration wave is just a tag
+  "due": "2026-12-01", "start": "",
+  "deps": [14],             // ids this node waits for
+  "createdAt": "...", "modifiedAt": "...",
+  "log": [ ... ]            // activity history, when used
+}</code></pre>
+  <p>Cross-links <code>type</code> is optional free text up to 40 characters. Dates are ISO <code>YYYY-MM-DD</code>.</p>
+  <div class="callout note"><b class="t">Editing by hand</b>The format is friendly to scripts, so you can generate maps from other tools. Keep <code>nextId</code> higher than any node id, and make sure every <code>parentId</code> and <code>deps</code> entry points to an existing node. MindLoom cleans up bad data when it loads a file, but it is wise to keep a backup.</div>
+</section>
+
+<section class="sec" id="hosting">
+  <h2>Hosting and security</h2>
+  <h3>Ways to deploy</h3>
+  <ul>
+    <li><b>Hand out the file.</b> Put <code>MindLoom.html</code> on a shared drive or send it. Users open it directly from disk.</li>
+    <li><b>Serve it internally.</b> Host the file on any web server or intranet page. No server-side code is required, so a static file server is enough.</li>
+    <li><b>Per-location storage.</b> The browser keeps each map backup separately for each address (for example a different file location or URL), so moving the file or changing its address means the browser backups do not follow it. Saved files are not affected.</li>
+  </ul>
+  <h3>Security posture</h3>
+  <p>The page declares a strict Content Security Policy, so even if something went wrong it could not load outside code or send data elsewhere:</p>
+  <pre><code>default-src 'none';
+script-src 'unsafe-inline';  style-src 'unsafe-inline';
+img-src data: blob:;
+connect-src https://raw.githubusercontent.com;
+form-action 'none';  base-uri 'none';
+frame-src 'none';  object-src 'none'</code></pre>
+  <ul>
+    <li>The only allowed network destination is <code>raw.githubusercontent.com</code>, used solely by the manual <b>Check for updates</b> button.</li>
+    <li>MindLoom never checks for updates by itself and sends no analytics or telemetry.</li>
+    <li>Inline script is needed because the app is a single file. It cannot be framed, cannot post forms and cannot load plugins.</li>
+    <li>CSV export protects cells that begin with spreadsheet formula characters.</li>
+  </ul>
+  <h3>Data handling</h3>
+  <p>Maps are stored only in the user's browser storage and in files the user chooses to save. If your organisation needs to control where files go, treat a saved map like any other document of that sensitivity.</p>
+</section>
+
+<section class="sec" id="releasing">
+  <h2>Releases and updates</h2>
+  <ul>
+    <li><b>Version.</b> The app version is shown in the About screen. The file format version (currently 5) is separate and changes rarely.</li>
+    <li><b>Checking for updates.</b> <b>About &rarr; Check for updates</b> reads <code>version.json</code> from the project's <code>main</code> branch on GitHub and says whether a newer version exists.</li>
+    <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
+    <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
+  </ul>
+  <pre><code>{ "version": "1.33.2", "date": "2026-11-04", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.33.2.</footer>
+</section>
+</main>
+</div>
+
+<div id="lb"><img alt=""></div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+  var root=document.documentElement;
+  try{var t=localStorage.getItem('ml-guide-theme');if(t)root.setAttribute('data-theme',t)}catch(e){}
+  $('#theme').onclick=function(){
+    var dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    var n=dark?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('ml-guide-theme',n)}catch(e){}
+  };
+  var side=$('#side');
+  $('#menu').onclick=function(){side.classList.toggle('open')};
+  side.addEventListener('click',function(e){if(e.target.tagName==='A')side.classList.remove('open')});
+  // lightbox
+  var lb=$('#lb'),lbi=$('img',lb);
+  document.addEventListener('click',function(e){
+    var im=e.target.closest&&e.target.closest('figure img');
+    if(im){lbi.src=im.src;lbi.alt=im.alt;lb.classList.add('on');return}
+    if(lb.classList.contains('on'))lb.classList.remove('on');
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
+  // search
+  var secs=$$('section.sec'),links=$$('#side a'),none=$('#none');
+  var texts=secs.map(function(s){return s.textContent.toLowerCase()});
+  $('#q').addEventListener('input',function(){
+    var q=this.value.trim().toLowerCase(),shown=0;
+    secs.forEach(function(s,i){
+      var ok=!q||texts[i].indexOf(q)>-1;s.classList.toggle('hide',!ok);if(ok)shown++;
+      var a=$('#side a[href="#'+s.id+'"]');if(a)a.classList.toggle('hide',!ok);
+    });
+    none.style.display=shown?'none':'block';
+  });
+  // scroll spy
+  var obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)})}});
+  },{rootMargin:'-80px 0px -65% 0px'});
+  secs.forEach(function(s){obs.observe(s)});
+})();
+</script>
+</body>
+</html>

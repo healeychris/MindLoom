@@ -1,4 +1,8 @@
-# MINDLOOM FEATURES (v1.33.0)
+# MINDLOOM FEATURES (v1.33.2)
+
+USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It covers every feature with screenshots,
+step-by-step recipes, example maps (docs/examples) and a technical reference.
+
 
 APPLICATION MAPPING STRUCTURES (OPTIONAL, OFF BY DEFAULT)
 

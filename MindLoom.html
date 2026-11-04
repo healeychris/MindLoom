@@ -2127,7 +2127,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.33.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.33.2';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -3137,9 +3137,35 @@ function linkPts(nA,nB,rects){
 
 let connDragFast=false,connRaf=0;
 function drawConnectorsSoon(){if(connRaf)return;connRaf=requestAnimationFrame(()=>{connRaf=0;drawConnectors();});}
+// Curved cross-links run centre to centre, so trim both ends to the node edges or the arrowhead hides under the box
+function trimQuad(ax,ay,cx,cy,bx,by,ra,rb){
+  const P=t=>({x:(1-t)*(1-t)*ax+2*(1-t)*t*cx+t*t*bx,y:(1-t)*(1-t)*ay+2*(1-t)*t*cy+t*t*by});
+  const inR=(p,r)=>p.x>=r.x-2&&p.x<=r.x+r.w+2&&p.y>=r.y-2&&p.y<=r.y+r.h+2;
+  let t0=0,t1=1;const N=80;
+  for(let i=0;i<=N;i++){if(!inR(P(i/N),ra)){t0=i/N;break;}}
+  for(let i=N;i>=0;i--){if(!inR(P(i/N),rb)){t1=i/N;break;}}
+  if(t1-t0<0.05)return null;
+  const p0=P(t0),p1=P(t1);
+  const d0={x:2*((1-t0)*(cx-ax)+t0*(bx-cx)),y:2*((1-t0)*(cy-ay)+t0*(by-cy))};
+  const k=(t1-t0)/2;
+  return{ax:p0.x,ay:p0.y,cx:p0.x+d0.x*k,cy:p0.y+d0.y*k,bx:p1.x,by:p1.y};
+}
+// Arrowhead in the same colour as its line (created on demand)
+function arrowFor(col){
+  if(!col||col==='rgba(255,200,60,0.6)')return 'url(#arrow)';
+  const id='arrow-'+col.replace(/[^a-z0-9]/gi,'');
+  const defs=svgEl.querySelector('defs');
+  if(!defs.querySelector('#'+id)){
+    const m=document.createElementNS('http://www.w3.org/2000/svg','marker');
+    m.setAttribute('id',id);m.setAttribute('viewBox','0 0 10 10');m.setAttribute('refX','9');m.setAttribute('refY','5');m.setAttribute('markerWidth','7');m.setAttribute('markerHeight','7');m.setAttribute('orient','auto-start-reverse');
+    const pa=document.createElementNS('http://www.w3.org/2000/svg','path');pa.setAttribute('d','M 0 1 L 10 5 L 0 9 z');pa.setAttribute('fill',col);
+    m.appendChild(pa);defs.appendChild(m);
+  }
+  return 'url(#'+id+')';
+}
 function drawConnectors(){
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
-  const sq=connStyle==='squared'&&!connDragFast,rects=sq?nodeRects():null;
+  const sq=connStyle==='squared'&&(!connDragFast||nodes.length<=250),rects=sq?nodeRects():null; // squared stays squared while dragging, except on very large maps
   const critView=dateMode&&(critOnly||axSlide);
   const lvm=dateMode?linkVis:'all',FS=focusSets(dateMode&&lvm==='selected'),quietDM=focusSel&&dateMode&&lvm==='all'&&!FS;
   const fw=(n)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
@@ -3215,19 +3241,24 @@ function drawConnectors(){
     let bx=nB.x+eB.offsetWidth/2, by=nB.y+eB.offsetHeight/2;
 
     const dx=bx-ax,dy=by-ay;
-    const cpx=(ax+bx)/2 - dy*0.3, cpy=(ay+by)/2 + dx*0.3;
+    let cpx=(ax+bx)/2 - dy*0.3, cpy=(ay+by)/2 + dx*0.3;
 
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
     const lp=sq?linkPts(nA,nB,rects):null;
     if(lp){ax=lp[0].x;ay=lp[0].y;bx=lp[lp.length-1].x;by=lp[lp.length-1].y;}
+    if(!lp){
+      const tr=trimQuad(ax,ay,cpx,cpy,bx,by,{x:nA.x,y:nA.y,w:eA.offsetWidth,h:eA.offsetHeight},{x:nB.x,y:nB.y,w:eB.offsetWidth,h:eB.offsetHeight});
+      if(tr){ax=tr.ax;ay=tr.ay;cpx=tr.cx;cpy=tr.cy;bx=tr.bx;by=tr.by;}
+    }
     path.setAttribute('d',lp?cmdsToSvg(polyCmds(lp,10)):'M'+ax+','+ay+' Q'+cpx+','+cpy+' '+bx+','+by);
     const tcol=(depMap&&link.type)?typeColor(link.type):null;
-    path.setAttribute('stroke',ie?(ie==='up'?'#ff8a3d':'#3ec9c0'):critView?'#f5c518':tcol||'rgba(255,200,60,0.6)');
+    const lcol=ie?(ie==='up'?'#ff8a3d':'#3ec9c0'):critView?'#f5c518':tcol||'rgba(255,200,60,0.6)';
+    path.setAttribute('stroke',lcol);
     path.setAttribute('stroke-width',(critView||ie)?'4':tcol?'3':'2.5');
     if(!critView&&!ie&&!tcol)path.setAttribute('stroke-dasharray','10 5');
     path.setAttribute('fill','none');
     path.setAttribute('stroke-linecap','round');
-    path.setAttribute('marker-end','url(#arrow)');
+    path.setAttribute('marker-end',arrowFor(lcol));
     svgEl.appendChild(path);
 
     // Dots at both ends
@@ -3942,11 +3973,11 @@ let ltState=null;
 function openLinkType(from,to,existing){
   if(!gn(from)||!gn(to))return;
   const cur=existing?crossLinks.find(l=>l.from===from&&l.to===to):null;
-  ltState={from,to,existing:!!cur,type:cur?cur.type||'':'',note:cur?cur.label||'':''};
+  ltState={from,to,of:from,ot:to,existing:!!cur,type:cur?cur.type||'':'',note:cur?cur.label||'':''};
   hideDetail();
   $('#lt-custom').value=LINK_TYPES.some(x=>x[0]===ltState.type.toLowerCase())?'':ltState.type;
   $('#lt-note').value=ltState.note;
-  $('#lt-swap').style.display=ltState.existing?'none':'';
+  $('#lt-swap').style.display='';
   $('#lt-save').textContent=ltState.existing?'Save changes':'Save link';
   buildLinkTypeUI();
   $('#lt-overlay').classList.add('visible');
@@ -3958,14 +3989,14 @@ function buildLinkTypeUI(){
   const box=$('#lt-types');box.innerHTML='';
   LINK_TYPES.forEach(([t,c])=>{const b=document.createElement('button');b.type='button';b.className=(s.type.toLowerCase()===t&&!$('#lt-custom').value.trim())?'on':'';b.innerHTML='<i style="background:'+c+'"></i>'+esc(t);b.addEventListener('click',()=>{s.type=t;$('#lt-custom').value='';buildLinkTypeUI();});box.appendChild(b);});
 }
-function swapLinkType(){if(!ltState||ltState.existing)return;const f=ltState.from;ltState.from=ltState.to;ltState.to=f;buildLinkTypeUI();}
+function swapLinkType(){if(!ltState)return;const f=ltState.from;ltState.from=ltState.to;ltState.to=f;buildLinkTypeUI();}
 function closeLinkType(){$('#lt-overlay').classList.remove('visible');ltState=null;}
 function saveLinkType(){
   const s=ltState;if(!s)return;
   const type=($('#lt-custom').value.trim()||s.type||'').slice(0,40),note=$('#lt-note').value.trim().slice(0,120);
   if(s.existing){
-    const l=crossLinks.find(x=>x.from===s.from&&x.to===s.to);if(!l){closeLinkType();return;}
-    snap();l.type=type;l.label=note;closeLinkType();render();autoSave();toast('Link updated');return;
+    const l=crossLinks.find(x=>x.from===s.of&&x.to===s.ot);if(!l){closeLinkType();return;}
+    snap();l.type=type;l.label=note;if(s.from!==s.of){l.from=s.from;l.to=s.to;}closeLinkType();render();autoSave();toast('Link updated');return;
   }
   if(crossLinks.some(l=>(l.from===s.from&&l.to===s.to)||(l.from===s.to&&l.to===s.from))){closeLinkType();toast('Link exists');return;}
   snap();crossLinks.push({from:s.from,to:s.to,label:note,type});
