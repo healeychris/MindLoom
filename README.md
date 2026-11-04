@@ -1,5 +1,7 @@
 # MINDLOOM FEATURES (v1.33.2)
 
+https://healeychris.github.io/MindLoom/
+
 USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It covers every feature with screenshots,
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
