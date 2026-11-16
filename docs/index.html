@@ -152,6 +152,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <li><b>Open the file.</b> Double-click <code>MindLoom.html</code>. It opens in your normal browser and works without an internet connection. You start on a fresh map with one central idea.</li>
     <li><b>Name the central idea.</b> Select it and press <kbd>F2</kbd>, type a name and press <kbd>Enter</kbd>.</li>
     <li><b>Add branches.</b> With a node selected, press <kbd>Tab</kbd> to add a child and <kbd>Enter</kbd> to add a sibling. Type, press <kbd>Enter</kbd>, and keep going.</li>
+    <li><b>Capture ideas quickly.</b> Press <kbd>Q</kbd> from anywhere, type a task such as <i>Call supplier fri #work @sam</i> and press <kbd>Enter</kbd>. It is filed under an Inbox node for you to sort later (<a href="#basics">more on Quick capture</a>).</li>
     <li><b>Add details.</b> Select a node and press <kbd>I</kbd> to open its details panel: set a status, an owner and a due date.</li>
     <li><b>See it another way.</b> Press <kbd>A</kbd> for the Agenda, <kbd>K</kbd> for the Board, <kbd>T</kbd> for the Timeline or <kbd>R</kbd> for a status report.</li>
     <li><b>Save it.</b> Press <kbd>Ctrl</kbd>+<kbd>S</kbd> to save a file you can keep, email or open later.</li>
@@ -209,6 +210,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Add a sibling</td><td>Press <kbd>Enter</kbd> (or <b>+ Sibling</b>)</td></tr>
     <tr><td>Add a new root</td><td><b>+ Root</b> on the toolbar</td></tr>
     <tr><td>Add a node where you click</td><td>Double-click empty canvas</td></tr>
+    <tr><td>Capture a task quickly, wherever you are</td><td>Press <kbd>Q</kbd>, type it with an optional date, <code>#tag</code> and <code>@owner</code>, then <kbd>Enter</kbd> (<a href="#basics">Quick capture</a>)</td></tr>
     <tr><td>Rename</td><td><kbd>F2</kbd> or double-click the node</td></tr>
     <tr><td>Delete</td><td><kbd>Del</kbd></td></tr>
     <tr><td>Duplicate a branch</td><td>Right-click &rarr; Duplicate subtree</td></tr>
@@ -542,7 +544,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><kbd>Ctrl+C / X / V</kbd></td><td>Copy, cut, paste branch</td><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo, redo</td></tr>
     <tr><td><kbd>Shift+Click</kbd></td><td>Multi-select</td><td><kbd>Ctrl+Drag</kbd></td><td>Re-parent a node</td></tr>
     <tr><td><kbd>Arrows</kbd></td><td>Move between nodes</td><td><kbd>?</kbd></td><td>Help and shortcuts</td></tr>
-    <tr><td><kbd>Q</kbd></td><td>Quick capture to Inbox</td><td></td><td></td></tr>
+    <tr><td><kbd>Q</kbd></td><td>Quick capture: add a task to the Inbox</td><td><kbd>Enter</kbd> / <kbd>Esc</kbd></td><td>In Quick capture: add / close</td></tr>
   </table>
   <figure><img src="img/about.png" alt="The About screen" loading="lazy"><figcaption>The About screen (press <kbd>?</kbd>) lists shortcuts and tips, and has a "Check for updates" button.</figcaption></figure>
 </section>
@@ -689,8 +691,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.37.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.37.0.</footer>
+  <pre><code>{ "version": "1.37.1", "date": "2026-11-16", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.37.1.</footer>
 </section>
 </main>
 </div>

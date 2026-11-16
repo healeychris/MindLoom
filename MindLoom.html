@@ -1778,6 +1778,7 @@
           &bull; Scroll to zoom, drag canvas to pan<br>
           &bull; Blue dot means the node has metadata or notes<br>
           &bull; Status icons appear top-right on nodes<br>
+          &bull; Press Q anywhere to capture a task: type it, add #tag, @owner and a date such as fri or +2w, then press Enter. It lands under an Inbox node<br>
           &bull; Tags are comma-separated — press Enter to add<br>
           &bull; Each visit opens a fresh map. Your previous map is kept under File &gt; Restore backup, and a copy is also auto-saved in this browser<br>
           &bull; Use File &gt; Save to keep a file copy, or to move a map between machines. Save is the only format that keeps everything<br>
@@ -2247,7 +2248,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.37.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.37.1';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}

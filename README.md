@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.37.0)
+# MINDLOOM FEATURES (v1.37.1)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,7 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.37.0
+WHAT'S NEW IN 1.37
 
 Quick capture (key Q, or Edit > Quick capture): a one-line box that adds a task under an Inbox node without choosing where.
   Add #tags, an @owner and a trailing date (today, tomorrow, fri, +2w, 27/11) in the same line; a live preview shows
