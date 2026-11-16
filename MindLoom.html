@@ -426,6 +426,11 @@
   }
   .legend-row .editable-label:hover { background:rgba(255,255,255,0.05); }
   .legend-row .editable-label:focus { background:rgba(255,255,255,0.08); }
+  .legend-hint { font-size:10px; line-height:1.35; color:var(--text-muted); max-width:170px; margin-bottom:6px; }
+  .legend-tools { display:flex; gap:6px; margin-top:8px; }
+  .legend-tools select, .legend-tools button { background:var(--surface-hover); color:var(--text); border:1px solid var(--border); border-radius:5px; font:11px var(--font); padding:3px 6px; cursor:pointer; min-width:0; }
+  .legend-tools select { flex:1; }
+  .cat-edit { position:fixed; z-index:300; width:120px; background:var(--surface); color:var(--text); border:1px solid var(--accent); border-radius:5px; padding:4px 6px; font:12px var(--font); outline:none; box-shadow:0 4px 14px rgba(0,0,0,0.4); }
 
   /* ── Minimap ── */
   #minimap {
@@ -591,6 +596,42 @@
   .dp-tog[aria-expanded=true] { color:var(--accent); border-color:var(--accent); }
   .dp-tog i { font-style:normal; font-size:10.5px; background:rgba(128,128,128,0.25); color:var(--text); border-radius:8px; padding:0 6px; }
   .dp-tog i:empty { display:none; }
+
+  /* Details panel layouts (Settings > Details Layout). Classic is the original look. The other two re-arrange and restyle the same blocks. */
+  .dp-sum,.dp-tog.dp-nt,.dp-tog.dp-ln{display:none}
+  .dp-sum span{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:2px 10px;font-size:11.5px}
+  .dp-sum span[class^=st-]::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:0}
+  .dp-sum .st-ongoing{--c:#3a7abf} .dp-sum .st-completed{--c:#3a9f55} .dp-sum .st-blocked{--c:#bf3a3a} .dp-sum .st-awaiting{--c:#bf8f2a} .dp-sum .st-critical{--c:#f5c518}
+  #detail-panel.dpl-sections{width:460px}
+  #detail-panel.visible.dpl-sections{display:flex;flex-direction:column}
+  #detail-panel.dpl-sections>*{flex:none}
+  #detail-panel.dpl-sections>*,#detail-panel.dpl-sections .dp-togs>*{order:var(--o,0)}
+  #detail-panel.dpl-sections .dp-sum{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+  #detail-panel.dpl-sections .dp-fields{grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr)}
+  #detail-panel.dpl-sections .dp-fields input,#detail-panel.dpl-sections .dp-fields select{min-width:0;width:100%}
+  #detail-panel.dpl-sections #dp-ck-sec>.dp-label,#detail-panel.dpl-sections #dp-notes-sec>.dp-label{display:none}
+  #detail-panel.dpl-sections .dp-fields label{text-align:left}
+  #detail-panel.dpl-sections .dp-due-quick,#detail-panel.dpl-sections .dp-due-note{grid-column:1/-1}
+  #detail-panel.dpl-sections .dp-togs{display:contents}
+  #detail-panel.dpl-sections .dp-tog.dp-nt,#detail-panel.dpl-sections .dp-tog.dp-ln{display:inline-flex}
+  #detail-panel.dpl-sections .dp-tog{width:100%;border:0;border-top:1px solid var(--border);border-radius:0;padding:9px 2px;font-size:12.5px;font-weight:600;color:var(--text);gap:8px}
+  #detail-panel.dpl-sections .dp-tog::before{content:'\25B8';width:10px}
+  #detail-panel.dpl-sections .dp-tog[aria-expanded=true]::before{content:'\25BE'}
+  #detail-panel.dpl-sections .dp-tog[aria-expanded=true],#detail-panel.dpl-sections .dp-tog:hover{border-color:var(--border);color:var(--text)}
+  #detail-panel.dpl-sections .dp-tog i{margin-left:auto;background:none;font-weight:400;font-size:11.5px;color:var(--text-muted);padding:0;max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #detail-panel.dpl-sections .dp-shut{display:none}
+  #detail-panel.dpl-sections .dp-timestamps{border-top:1px solid var(--border);margin-top:0;padding-top:8px}
+  #detail-panel.dpl-props{width:400px;padding:16px 20px}
+  #detail-panel.dpl-props h3{font-size:18px;margin-bottom:12px}
+  #detail-panel.dpl-props .dp-fields{grid-template-columns:84px 1fr;gap:2px 8px}
+  #detail-panel.dpl-props .dp-fields label{text-align:left}
+  #detail-panel.dpl-props .dp-fields input,#detail-panel.dpl-props .dp-fields select,#detail-panel.dpl-props .notes-area{background:transparent;border-color:transparent}
+  #detail-panel.dpl-props .dp-fields input,#detail-panel.dpl-props .dp-fields select{padding:5px 8px}
+  #detail-panel.dpl-props .dp-fields input:hover,#detail-panel.dpl-props .dp-fields select:hover,#detail-panel.dpl-props .notes-area:hover{border-color:var(--border)}
+  #detail-panel.dpl-props .dp-fields input:focus,#detail-panel.dpl-props .dp-fields select:focus,#detail-panel.dpl-props .notes-area:focus{background:var(--bg);border-color:var(--accent)}
+  #detail-panel.dpl-props .dp-label{text-transform:uppercase;letter-spacing:.5px;font-weight:600;font-size:10.5px}
+  #detail-panel.dpl-props #dp-notes-sec,#detail-panel.dpl-props #dp-ck-sec,#detail-panel.dpl-props #dp-links-sec{border-top:1px solid var(--border);padding-top:10px;margin-top:10px}
+  #detail-panel.dpl-props .dp-tog{border-color:transparent}
   #dp-checks { display:flex; flex-direction:column; gap:3px; margin-bottom:4px; }
   .ck-row { display:flex; align-items:center; gap:6px; }
   .ck-row input[type=checkbox] { flex:none; margin:0; accent-color:var(--accent); cursor:pointer; }
@@ -733,10 +774,10 @@
   #rp-body .rp-health.red { color:#e57373; border-color:#e57373; }
   #rp-body .rp-chip { display:inline-block; font-size:10.5px; line-height:16px; padding:0 7px; margin-left:5px; border:1px solid var(--border); border-radius:8px; color:var(--text-muted); white-space:nowrap; }
   #rp-body .rp-t.gone { color:var(--text-muted); cursor:default; text-decoration:line-through; }
-  #cmd-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.35); display:none; align-items:flex-start; justify-content:center; padding-top:12vh; }
-  #cmd-overlay.visible { display:flex; }
-  #cmd-box { width:min(580px,calc(100vw - 24px)); background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 16px 48px rgba(0,0,0,0.55); overflow:hidden; display:flex; flex-direction:column; max-height:70vh; }
-  #cmd-input { background:none; border:0; border-bottom:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:15px; padding:14px 16px; outline:none; }
+  #cmd-overlay,#qc-overlay { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.35); display:none; align-items:flex-start; justify-content:center; padding-top:12vh; }
+  #cmd-overlay.visible,#qc-overlay.visible { display:flex; }
+  #cmd-box,#qc-box { width:min(580px,calc(100vw - 24px)); background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 16px 48px rgba(0,0,0,0.55); overflow:hidden; display:flex; flex-direction:column; max-height:70vh; }
+  #cmd-input,#qc-input { background:none; border:0; border-bottom:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:15px; padding:14px 16px; outline:none; }
   #cmd-list { overflow-y:auto; padding:6px; }
   .cmd-item { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:6px; cursor:pointer; font-size:13px; }
   .cmd-item.sel { background:var(--accent-dim); }
@@ -744,6 +785,11 @@
   .cmd-item .cmd-cat { color:var(--text-muted); font-size:11px; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .cmd-item kbd, .cmd-foot kbd { font-family:var(--font); font-size:10px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:1px 5px; color:var(--text-muted); margin-right:3px; }
   .cmd-empty { color:var(--text-muted); text-align:center; padding:18px; font-size:13px; }
+  #qc-prev { padding:9px 16px 4px; font-size:12px; color:var(--text-muted); min-height:20px; }
+  #qc-prev b { color:var(--text); font-weight:600; }
+  #qc-prev span { margin-left:8px; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:1px 8px; color:var(--text); }
+  #qc-last { padding:2px 16px 10px; font-size:12px; color:var(--text-muted); min-height:16px; display:flex; gap:8px; align-items:center; }
+  #qc-last button { margin-left:auto; }
   .cmd-foot { display:flex; gap:14px; padding:7px 14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted); }
   #tl-tip { position:fixed; z-index:400; pointer-events:none; background:var(--surface); color:var(--text); border:1px solid var(--accent); border-radius:6px; padding:4px 9px; font-size:12px; box-shadow:0 6px 18px rgba(0,0,0,0.45); white-space:nowrap; display:none; }
   .tl-bar.overdue { box-shadow:0 0 0 2px rgba(224,82,82,0.8); } .tl-bar.today { box-shadow:0 0 0 2px rgba(255,160,40,0.9); }
@@ -806,6 +852,9 @@
     box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none;
   }
   #views-panel.visible { display:block; }
+  #xp-panel { position:fixed; top:48px; left:16px; z-index:130; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; width:300px; max-height:440px; overflow-y:auto; box-shadow:0 8px 28px rgba(0,0,0,0.45); display:none; }
+  #xp-panel.visible { display:block; }
+  #xp-panel select { background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:5px 6px; font-size:12px; }
   .vw-new { display:flex; gap:6px; margin-bottom:8px; }
   .vw-new input { flex:1; min-width:0; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:5px 8px; font-size:12px; outline:none; }
   .vw-new input:focus { border-color:var(--accent); }
@@ -1035,8 +1084,8 @@
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #search-box, #focus-panel,
-    #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
-    #bookmarks-panel, #views-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
+    #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
+    #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
     body.print-report > *:not(#report-overlay) { display:none !important; }
     body.print-report #report-overlay { display:block !important; position:static !important; transform:none !important; width:auto !important; box-shadow:none !important; border:0 !important; background:#fff !important; }
@@ -1117,6 +1166,8 @@
         <button class="dd-item" title="Save the map as a picture or as text and spreadsheet files">Export</button>
         <div class="dd-submenu-items">
           <button class="dd-item" onclick="exportPNG();closeDD()" title="Save the whole map as a picture">Export PNG</button>
+          <button class="dd-item" onclick="exportSVG();closeDD()" title="Save the same picture as a vector image that stays sharp at any size and can be edited in PowerPoint or Inkscape">Export SVG</button>
+          <button class="dd-item" onclick="toggleExportPresets();closeDD()" title="Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click">Export Presets&hellip;</button>
           <button class="dd-item" onclick="exportMarkdown();closeDD()" title="Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)">Export Markdown</button>
           <button class="dd-item" onclick="exportCSV();closeDD()" title="Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)">Export CSV</button>
         </div>
@@ -1144,6 +1195,7 @@
       <button class="dd-item" onclick="cutSelection();closeDD()" title="Copy the selected node and everything beneath it, then remove it from this map">Cut branch <span class="shortcut">Ctrl+X</span></button>
       <button class="dd-item" onclick="pasteSelection();closeDD()" title="Paste a copied branch under the selected node (or as a new tree if nothing is selected). Plain text becomes nodes, one per line">Paste <span class="shortcut">Ctrl+V</span></button>
       <button class="dd-item" onclick="duplicateSelected();closeDD()" title="Copy the selected node together with everything beneath it">Duplicate subtree</button>
+      <button class="dd-item" onclick="openCapture();closeDD()" title="Type a task and press Enter: it goes under an Inbox node without you choosing where. Add a date (fri, tomorrow, +2w), #tag and @owner in the same line">Quick capture&hellip; <span class="shortcut">Q</span></button>
       <button class="dd-item" onclick="openBulkAdd();closeDD()" title="Type or paste a list of names and create them all at once, as top-level nodes or under the selected node">Add several nodes&hellip;</button>
       <div class="dd-sep"></div>
       <button class="dd-item" onclick="openShiftDates();closeDD()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates (branch + links)&hellip;</button>
@@ -1172,7 +1224,7 @@
           <button class="dd-item" onclick="toggleFocusPanel();closeDD()" title="Show or hide whole root trees to concentrate on one">Focus Roots <span class="shortcut">G</span></button>
           <button class="dd-item" onclick="toggleFilter();closeDD()" title="Dim nodes that don't match a status, colour, owner or tag">Filter Bar <span class="shortcut">Ctrl+F</span></button>
           <button class="dd-item" onclick="toggleSearch();closeDD()" title="Find nodes by their title, notes, tags or date">Search <span class="shortcut">/</span></button>
-          <button class="dd-item" onclick="toggleLegend();closeDD()" title="Show or hide the key for the colour categories">Legend</button>
+          <button class="dd-item" onclick="toggleLegend();closeDD()" title="Show or hide the colour key. Click any name in it to rename a category, pick a ready-made set (Task status, RAG, Workstream) or Reset. You can also double-click a colour on the colour bar. Names are saved with the map. The colours themselves don't change.">Legend / Rename Colours</button>
           <button class="dd-item" onclick="toggleMinimap();closeDD()" title="Show or hide a small overview of the whole map">Minimap</button>
           <button class="dd-item" onclick="toggleStatsPanel();closeDD()" title="Show counts and progress statistics for the map">Statistics <span class="shortcut">S</span></button>
         </div>
@@ -1213,6 +1265,7 @@
       <button class="dd-item" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
       <button class="dd-item" id="dep-toggle" onclick="toggleDepMap();closeDD()" title="Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map">Application Mapping Structures: Off</button>
       <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
+      <button class="dd-item" id="dpl-toggle" onclick="cycleDetailLayout();closeDD()" title="How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)">Details Layout: Classic</button>
       <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
       <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
       <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
@@ -1328,6 +1381,15 @@
     <input type="text" id="cmd-input" placeholder="Type a command, e.g. board, export, theme&hellip;" aria-label="Search commands" autocomplete="off" spellcheck="false">
     <div id="cmd-list" role="listbox"></div>
     <div class="cmd-foot"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> choose</span><span><kbd>Enter</kbd> run</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div id="qc-overlay" onclick="if(event.target===this)closeCapture()">
+  <div id="qc-box" role="dialog" aria-label="Quick capture">
+    <input type="text" id="qc-input" placeholder="Quick capture, e.g. Call supplier fri #work @sam" aria-label="Quick capture" autocomplete="off" spellcheck="false" maxlength="300">
+    <div id="qc-prev" aria-live="polite"></div>
+    <div id="qc-last"></div>
+    <div class="cmd-foot"><span><kbd>Enter</kbd> add to Inbox</span><span><kbd>Esc</kbd> close</span><span>Dates: today, tomorrow, fri, +2w, 27/11 &middot; #tag &middot; @owner</span></div>
   </div>
 </div>
 
@@ -1474,6 +1536,7 @@
 <div id="detail-panel">
   <button class="dp-close" onclick="hideDetail()" aria-label="Close details">&times;</button>
   <h3><span class="color-pip"></span><span class="dp-title"></span><span class="dp-category"></span></h3>
+  <div class="dp-sum" id="dp-sum"></div>
   <div class="dp-fields">
     <label>Project</label><input type="text" id="dp-project" placeholder="Project name">
     <label>Owner</label><input type="text" id="dp-owner" placeholder="Owner / Lead">
@@ -1502,39 +1565,45 @@
     <div class="dp-due-note" id="dp-due-note"></div>
   </div>
   <div class="dp-togs">
-    <button type="button" class="dp-tog" id="dp-tog-tags" aria-expanded="false" title="Show or hide the tags">Tags<i id="dp-tog-tags-n"></i></button>
-    <button type="button" class="dp-tog" id="dp-tog-ck" aria-expanded="false" title="Show or hide the checklist">Checklist<i id="dp-tog-ck-n"></i></button>
-    <button type="button" class="dp-tog" id="dp-tog-pg" aria-expanded="false" title="Show or hide the progress (% complete)">Progress<i id="dp-tog-pg-n"></i></button>
-    <button type="button" class="dp-tog" id="dp-tog-rp" aria-expanded="false" title="Show or hide the recurring setting (repeat this task on a schedule)">Recurring<i id="dp-tog-rp-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-tags" style="--o:40" aria-expanded="false" title="Show or hide the tags">Tags<i id="dp-tog-tags-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-ck" style="--o:10" aria-expanded="false" title="Show or hide the checklist">Checklist<i id="dp-tog-ck-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-pg" style="--o:20" aria-expanded="false" title="Show or hide the progress (% complete)">Progress<i id="dp-tog-pg-n"></i></button>
+    <button type="button" class="dp-tog" id="dp-tog-rp" style="--o:50" aria-expanded="false" title="Show or hide the recurring setting (repeat this task on a schedule)">Recurring<i id="dp-tog-rp-n"></i></button>
+    <button type="button" class="dp-tog dp-nt" id="dp-tog-nt" style="--o:30" aria-expanded="true" title="Show or hide the notes">Notes<i id="dp-tog-nt-n"></i></button>
+    <button type="button" class="dp-tog dp-ln" id="dp-tog-ln" style="--o:60" aria-expanded="true" title="Show or hide the dependencies and cross-links">Links<i id="dp-tog-ln-n"></i></button>
   </div>
-  <div id="dp-tags-sec" style="display:none">
+  <div id="dp-tags-sec" style="display:none;--o:41">
     <div id="dp-tags" class="tag-chips"></div>
     <input type="text" id="dp-tag-input" class="dp-tag-input" placeholder="Add tag and press Enter">
   </div>
-  <div id="dp-ck-sec" style="display:none">
+  <div id="dp-ck-sec" style="display:none;--o:11">
     <div class="dp-label" style="margin-top:4px">Checklist <span id="dp-ck-count" style="font-weight:400;opacity:0.75"></span></div>
     <div class="ck-bar" id="dp-ck-bar" style="display:none"><i></i></div>
     <div id="dp-checks"></div>
     <input type="text" id="dp-ck-add" class="dp-tag-input" placeholder="Add an item and press Enter (paste a list to add several)">
   </div>
-  <div id="dp-pg-sec">
+  <div id="dp-pg-sec" style="--o:21">
     <input type="range" id="dp-pg-range" min="0" max="100" step="5" value="0" aria-label="Percent complete">
     <span><input type="number" id="dp-pg-num" min="0" max="100" step="1" value="0" aria-label="Percent complete"> %</span>
     <div class="dp-pg-quick"><button class="dp-mini" type="button" data-v="0">0%</button><button class="dp-mini" type="button" data-v="25">25%</button><button class="dp-mini" type="button" data-v="50">50%</button><button class="dp-mini" type="button" data-v="75">75%</button><button class="dp-mini" type="button" data-v="100">100%</button></div>
   </div>
-  <div id="dp-rp-sec">
+  <div id="dp-rp-sec" style="--o:51">
     <span>Every</span><input type="number" id="dp-rp-num" min="1" max="99" value="1" aria-label="Recur every">
     <select id="dp-rp-unit" aria-label="Recurrence unit"><option value="d">days</option><option value="w">weeks</option><option value="m">months</option><option value="y">years</option></select>
     <button class="dp-mini" type="button" id="dp-rp-stop" title="Stop this task recurring">Stop</button>
     <div class="dp-rp-quick"><button class="dp-mini" type="button" data-n="1" data-u="d">Daily</button><button class="dp-mini" type="button" data-n="1" data-u="w">Weekly</button><button class="dp-mini" type="button" data-n="2" data-u="w">Fortnightly</button><button class="dp-mini" type="button" data-n="1" data-u="m">Monthly</button><button class="dp-mini" type="button" data-n="3" data-u="m">Quarterly</button><button class="dp-mini" type="button" data-n="1" data-u="y">Yearly</button></div>
     <div id="dp-rp-note"></div>
   </div>
-  <div class="dp-label" style="margin-top:7px">Notes &amp; Details</div>
-  <textarea class="notes-area" placeholder="Add notes, details, references..."></textarea>
-  <div class="dp-note-links" style="display:none"></div>
-  <div class="dp-links"></div>
-  <div class="dp-deps"></div>
-  <div class="dp-timestamps" id="dp-timestamps"></div>
+  <div id="dp-notes-sec" class="dp-coll" style="--o:31">
+    <div class="dp-label" style="margin-top:7px">Notes &amp; Details</div>
+    <textarea class="notes-area" placeholder="Add notes, details, references..."></textarea>
+    <div class="dp-note-links" style="display:none"></div>
+  </div>
+  <div id="dp-links-sec" class="dp-coll" style="--o:61">
+    <div class="dp-links"></div>
+    <div class="dp-deps"></div>
+  </div>
+  <div class="dp-timestamps" id="dp-timestamps" style="--o:90"></div>
 </div>
 
 <div id="ctx-menu">
@@ -1653,15 +1722,15 @@
 
     <div class="about-section">Features</div>
     <p style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">
-      Multiple root nodes &middot; Colour categories &middot; Cross-links with labels &middot;
+      Multiple root nodes &middot; Renamable colour categories with ready-made label sets &middot; Cross-links with labels &middot;
       Node notes, project, owner &amp; status fields &middot; Tags &middot;
       Filter bar &middot; Search &middot; Auto layout &middot; Minimap &middot;
-      Undo/redo &middot; PNG, Markdown &amp; CSV export &middot; JSON save/load &middot;
+      Undo/redo &middot; PNG, SVG, Markdown &amp; CSV export with named export presets &middot; JSON save/load &middot;
       CSV &amp; Markdown import &middot; Customisable background &middot; Snap to grid &middot;
       Multi-select &amp; bulk ops &middot; Reparent by Ctrl+drag &middot; Focus roots &middot;
       Statistics dashboard &middot; Bookmarks &middot; Presentation mode &middot;
       Dark/Light theme &middot; Node timestamps &middot; Duplicate subtree &middot;
-      Hide completed &middot; Due dates with overdue flags, an Agenda view and a draggable Timeline (Gantt) view &middot; Clickable links in notes &middot; Tidy tree layouts &middot; Bulk date shift for a branch and its links &middot; Copy, cut and paste branches (also between maps, or paste plain text as nodes) &middot; Saved views &middot; Dependencies (prerequisite arrows and a waiting badge) &middot; Board (kanban) view &middot; Status report you can copy, download or print &middot; Command palette (Ctrl+K) that finds every action &middot; Save indicator, optional auto-save to your file and rolling backups &middot; Touch support &middot; Print support &middot; Keyboard-driven workflow
+      Three details-panel layouts &middot; Hide completed &middot; Due dates with overdue flags, an Agenda view and a draggable Timeline (Gantt) view &middot; Clickable links in notes &middot; Tidy tree layouts &middot; Bulk date shift for a branch and its links &middot; Copy, cut and paste branches (also between maps, or paste plain text as nodes) &middot; Saved views &middot; Dependencies (prerequisite arrows and a waiting badge) &middot; Board (kanban) view &middot; Status report you can copy, download or print &middot; Command palette (Ctrl+K) that finds every action &middot; Save indicator, optional auto-save to your file and rolling backups &middot; Date Axis roadmap with swimlanes, milestones, Slide view and Critical-path view &middot; Dependencies between items &middot; Baselines that show how dates have slipped &middot; Checklists and progress &middot; Recurring tasks &middot; Board (kanban) view &middot; Saved views &middot; Status report (Markdown, HTML or print) &middot; Optional comments and change history &middot; Optional application mapping (link types, migration waves, impact view) &middot; Touch support &middot; Print support &middot; Keyboard-driven workflow
     </p>
 
     <div class="about-columns">
@@ -1681,6 +1750,7 @@
           <kbd>Ctrl+F</kbd><span>Toggle filter bar</span>
           <kbd>G</kbd><span>Focus — show/hide root trees</span>
       <kbd>S</kbd><span>Statistics dashboard</span>
+          <kbd>Q</kbd><span>Quick capture to Inbox</span>
           <kbd>A</kbd><span>Agenda (to-do list)</span>
           <kbd>T</kbd><span>Timeline</span>
           <kbd>Ctrl+S</kbd><span>Save to file</span>
@@ -1712,6 +1782,7 @@
           &bull; Each visit opens a fresh map. Your previous map is kept under File &gt; Restore backup, and a copy is also auto-saved in this browser<br>
           &bull; Use File &gt; Save to keep a file copy, or to move a map between machines. Save is the only format that keeps everything<br>
           &bull; Shift+click to multi-select, then bulk-change colour, status or owner<br>
+          &bull; Double-click a colour on the colour bar to rename it, or open View &gt; Panels &gt; Legend for ready-made label sets<br>
           &bull; Ctrl+drag a node onto another to reparent it<br>
           &bull; Use Focus to show/hide entire root trees<br>
           &bull; Collapse All / Expand All in the View menu<br>
@@ -1742,6 +1813,13 @@
   <div class="vw-new"><input type="text" id="vw-name" maxlength="40" placeholder="Name this view" aria-label="Name for the new saved view"><button class="tb-btn" onclick="saveView()">Save</button></div>
   <div id="vw-list"></div>
   <div class="vw-hint">A view remembers filters, hidden trees, collapsed branches, completed and date-axis settings, and where you were looking.</div>
+</div>
+
+<div id="xp-panel" role="dialog" aria-label="Export presets">
+  <div class="agenda-head"><div class="bm-title" style="margin:0;flex:1">Export presets</div><button class="dp-mini panel-x" type="button" onclick="toggleExportPresets()" title="Close (Esc)" aria-label="Close">&times;</button></div>
+  <div class="vw-new"><input type="text" id="xp-name" maxlength="40" placeholder="Name it, e.g. Steering pack" aria-label="Name for the new export preset"><select id="xp-fmt" aria-label="Image format"><option value="png">PNG</option><option value="svg">SVG</option></select><button class="tb-btn" onclick="savePreset()" title="Save the current export settings under this name">Save</button></div>
+  <div id="xp-list"></div>
+  <div class="vw-hint">A preset remembers the Date Axis on/off, Slide view, Critical path only, Lines, Bar Colours, Lane Bands, Show Undated, Hide Completed, the background and the image format. Click a preset to export with those settings; your screen is put back as it was. Presets are saved in your file.</div>
 </div>
 
 <div id="bl-panel" role="dialog" aria-label="Baselines">
@@ -1884,6 +1962,15 @@ let COLORS = [
   {id:'pink',bg:'#4a1e3a',border:'#bf3a8a',wire:'rgba(191,58,138,0.6)',label:'Question'},
 ];
 function gc(id){return COLORS.find(c=>c.id===id)||COLORS[0];}
+// Names for the eight colours, in COLORS order. The colours never change, only what each one means
+const DEFAULT_LABELS=COLORS.map(c=>c.label);
+const LABEL_SETS={
+  'Task status':['Not started','Planned','Done','In progress','Blocked','On hold','In review','Needs decision'],
+  'RAG':['Not rated','Info','Green','Amber','Red','Closed','On hold','Escalated'],
+  'Workstream':['General','Business','People','Process','Risk','Technology','Data','Finance']
+};
+function applyLabels(a){COLORS.forEach((c,i)=>{c.label=a[i]||DEFAULT_LABELS[i];});}
+function labelsChanged(){buildLegend();updateSwatchLabels();rebuildColorFilter();autoSave();}
 
 // ── State ──
 let nodes=[],crossLinks=[],nextId=1,selectedId=null;
@@ -1914,6 +2001,7 @@ let trackActivity=false; // per map: keep comments and change history (see Activ
 let baselines=[],activeBaseline=0; // saved plans (see Baselines); activeBaseline is the one the Date Axis compares with
 let reportState={note:'',snap:null}; // report headline text and the snapshot the next report compares against
 let savedViews=[];
+let exportPresets=[]; // per map: named export settings (see Export presets)
 let presMode=false, presNodes=[], presIdx=0;
 
 const canvas=$('#canvas'),wrap=$('#canvas-wrap'),svgEl=$('#connectors');
@@ -1921,49 +2009,81 @@ const ctxMenu=$('#ctx-menu'),colorBar=$('#color-bar'),detailPanel=$('#detail-pan
 const legendEl=$('#legend'),statsEl=$('#stats');
 
 // ── Colour bar ──
+let swHit=null;
 COLORS.forEach(c=>{
   const sw=document.createElement('div');
   sw.className='color-swatch';sw.style.background=c.bg;sw.style.borderColor=c.border;
-  sw.dataset.colorId=c.id;sw.title=c.label;
+  sw.dataset.colorId=c.id;sw.title=c.label+' (double-click to rename)';
   const lbl=document.createElement('span');lbl.className='swatch-label';lbl.textContent=c.label;
   sw.appendChild(lbl);
-  sw.addEventListener('click',()=>setNodeColor(c.id));
+  sw.addEventListener('click',e=>{if(e.detail>1)return;swHit=selectedId?{id:selectedId,col:gn(selectedId).colorId}:null;setNodeColor(c.id);});
+  sw.addEventListener('dblclick',()=>{if(swHit&&gn(swHit.id)){gn(swHit.id).colorId=swHit.col;undoStack.pop();render();autoSave();}swHit=null;editCatLabel(c,sw);});
   colorBar.appendChild(sw);
 });
 
 function buildLegend(){
-  legendEl.innerHTML='<div class="legend-title">Colour Categories</div>';
+  legendEl.innerHTML='<div class="legend-title">Colour Categories</div><div class="legend-hint">Click a name to rename it, or double-click a colour on the colour bar. Names are saved with the map.</div>';
   COLORS.forEach(c=>{
     const row=document.createElement('div');row.className='legend-row';
     const pip=document.createElement('div');pip.className='legend-pip';
     pip.style.background=c.bg;pip.style.border='1.5px solid '+c.border;
     row.appendChild(pip);
-    const inp=document.createElement('input');inp.className='editable-label';inp.type='text';inp.value=c.label;
-    inp.addEventListener('change',()=>{c.label=inp.value.trim()||c.id;updateSwatchLabels();autoSave();});
+    const inp=document.createElement('input');inp.className='editable-label';inp.type='text';inp.value=c.label;inp.maxLength=30;
+    inp.addEventListener('change',()=>{c.label=inp.value.trim()||c.id;updateSwatchLabels();rebuildColorFilter();autoSave();});
     row.appendChild(inp);legendEl.appendChild(row);
   });
+  const t=document.createElement('div');t.className='legend-tools';
+  const sel=document.createElement('select');sel.title='Replace all eight names with a ready-made set';
+  sel.innerHTML='<option value="">Label set&hellip;</option>'+Object.keys(LABEL_SETS).map(k=>'<option>'+k+'</option>').join('');
+  sel.addEventListener('change',()=>{const k=sel.value;if(!k)return;applyLabels(LABEL_SETS[k]);labelsChanged();toast('Colour names: '+k);});
+  const b=document.createElement('button');b.textContent='Reset';b.title='Restore the original names (Primary, Approved, In Progress, Blocker...)';
+  b.addEventListener('click',()=>{applyLabels(DEFAULT_LABELS);labelsChanged();toast('Colour names reset');});
+  t.appendChild(sel);t.appendChild(b);legendEl.appendChild(t);
+}
+function editCatLabel(c,sw){
+  const r=sw.getBoundingClientRect(),i=document.createElement('input');
+  i.className='cat-edit';i.value=c.label;i.maxLength=30;
+  i.style.left=Math.max(4,r.left+r.width/2-60)+'px';i.style.bottom=(innerHeight-r.top+8)+'px';
+  let done=0;const fin=ok=>{if(done)return;done=1;const v=i.value.trim();i.remove();if(ok&&v&&v!==c.label){c.label=v;labelsChanged();}};
+  i.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')fin(1);else if(e.key==='Escape')fin(0);});
+  i.addEventListener('blur',()=>fin(1));
+  document.body.appendChild(i);i.focus();i.select();
 }
 buildLegend();
-function updateSwatchLabels(){colorBar.querySelectorAll('.color-swatch').forEach(sw=>{const c=gc(sw.dataset.colorId);sw.title=c.label;sw.querySelector('.swatch-label').textContent=c.label;});}
+function updateSwatchLabels(){colorBar.querySelectorAll('.color-swatch').forEach(sw=>{const c=gc(sw.dataset.colorId);sw.title=c.label+' (double-click to rename)';sw.querySelector('.swatch-label').textContent=c.label;});}
 function toggleLegend(){legendVisible=!legendVisible;legendEl.classList.toggle('visible',legendVisible);}
 function toggleMinimap(){minimapVisible=!minimapVisible;$('#minimap').classList.toggle('visible',minimapVisible);if(minimapVisible)drawMinimap();}
 
 // ── Undo ──
 // Undo snapshots cover the nodes, links, bookmarks and which root trees are hidden (Focus)
-function snapState(){return JSON.stringify({nodes,crossLinks,nextId,bookmarks,hiddenRoots:[...hiddenRoots]});}
+// `full` also captures the per-map extras (saved views, report state, baselines, the two opt-in modes). Only the snapshots
+// taken before a Load, Restore or New Map use it, so ordinary edits never roll back a baseline made in between.
+function snapState(full){
+  const o={nodes,crossLinks,nextId,bookmarks,hiddenRoots:[...hiddenRoots]};
+  if(full)o.extras={savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets};
+  return JSON.stringify(o);
+}
+function hasExtras(str){try{return JSON.parse(str).extras!==undefined;}catch(e){return false;}}
 function restoreState(str){
   const s=JSON.parse(str);
   nodes=s.nodes;crossLinks=s.crossLinks||[];nextId=s.nextId;logSync();
   if(Array.isArray(s.bookmarks))bookmarks=s.bookmarks;
   if(Array.isArray(s.hiddenRoots))hiddenRoots=new Set(s.hiddenRoots);
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
+  if(s.extras&&typeof s.extras==='object'){
+    const x=s.extras;
+    savedViews=sanitizeViews(x.savedViews);exportPresets=sanitizePresets(x.exportPresets);buildPresetList();reportState=cleanReportState(x.reportState);baselines=cleanBaselines(x.baselines);
+    activeBaseline=baselines.some(b=>b.id===Number(x.activeBaseline))?Number(x.activeBaseline):0;
+    trackActivity=x.trackActivity===true;depMap=x.depMap===true;impactId=null;
+    buildViewList();updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();
+  }
   selectedId=null;
   if(focusPanelVisible)buildFocusList();
   if($('#bookmarks-panel').classList.contains('visible'))buildBookmarkList();
 }
-function snap(){undoStack.push(snapState());if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}
-function undo(){if(!undoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();redoStack.push(snapState());restoreState(undoStack.pop());render();autoSave();toast('Undo');}
-function redo(){if(!redoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();undoStack.push(snapState());restoreState(redoStack.pop());render();autoSave();toast('Redo');}
+function snap(full){undoStack.push(snapState(full===true));if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}
+function undo(){if(!undoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const prev=undoStack.pop();redoStack.push(snapState(hasExtras(prev)));restoreState(prev);render();autoSave();toast('Undo');}
+function redo(){if(!redoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const nxt=redoStack.pop();undoStack.push(snapState(hasExtras(nxt)));restoreState(nxt);render();autoSave();toast('Redo');}
 
 // ── Dates ──
 const pad2=n=>String(n).padStart(2,'0');
@@ -2127,7 +2247,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.33.2';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.37.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2157,6 +2277,7 @@ function init(){
       if(d.focusSel!==undefined)setFocusSel(d.focusSel!==false,true);
       if(d.linkVis)setLinkVis(d.linkVis,true);if(d.barColors)setBarColors(d.barColors,true);
       if(d.showUndated!==undefined)setShowUndated(!!d.showUndated,true);
+      if(typeof d.detailLayout==='string')setDetailLayout(d.detailLayout,true);
       if(d.hoverPopup!==undefined){hoverPopup=d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
       if(d.hideCompleted!==undefined){hideCompleted=d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
       if(d.colorLabels) d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});
@@ -2166,8 +2287,16 @@ function init(){
       savedViews=sanitizeViews(d.savedViews);
       nodes.forEach(n=>{if(!n.colorId)n.colorId='default';if(n.notes===undefined)n.notes='';if(!n.project)n.project='';if(!n.owner)n.owner='';if(!n.status)n.status='';if(!n.createdAt)n.createdAt=new Date().toISOString();if(!n.modifiedAt)n.modifiedAt=n.createdAt;});
       // Always open on a fresh map so it is never mistaken for a saved file; keep the last map in Restore backup
-      if(nodes.length>1){dateMode=!!d.dateMode;pushBackup('last session',true);dateMode=false;prevCount=nodes.length;}
+      // The backup must carry everything a saved file would: report state, baselines and the two opt-in modes are
+      // read back in first, then cleared again for the fresh map
+      if(nodes.length>1){
+        reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);
+        activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;
+        trackActivity=d.trackActivity===true;depMap=d.depMap===true;exportPresets=sanitizePresets(d.exportPresets);
+        dateMode=!!d.dateMode;pushBackup('last session',true);dateMode=false;prevCount=nodes.length;
+      }
       createDefault();bookmarks=[];savedViews=[];hiddenRoots=new Set();dateOrigin='';
+      reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;exportPresets=[];
     }catch(e){createDefault();}
   }else createDefault();
   setBgColor(bgColorId); setBgPattern(bgPatternId);
@@ -2201,7 +2330,7 @@ function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews,reportState,baselines,activeBaseline}));
+  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets,detailLayout:dpLayout}));
   updateSaveBadge();pushBackup('auto',false);
 }
 // Two tabs of the same file share one browser store: warn instead of silently overwriting each other
@@ -2216,17 +2345,16 @@ window.addEventListener('pagehide',flushSave);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave();});
 let currentFileHandle=null;
 let autoFile=false,autoBusy=false;
-let lastSaveDate=null;
 
 function getSaveData(compact){
   const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap},null,compact?0:2);
+  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets,detailLayout:dpLayout},null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
 // "Dirty" means the map differs from the last file save (or, if never saved to a file, from how it was when the page opened).
 // It compares content, so panning and zooming never count as changes.
-const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity,depMap]);
+const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity,depMap,exportPresets]);
 function hashStr(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h+':'+t.length;}
 const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 function refreshDirty(){
@@ -2307,14 +2435,13 @@ function restoreBackup(i){
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 async function saveToFile(){
-  const today=todayStr();
   // If we have a handle and it's still the same day, reuse it
   if(currentFileHandle && window.showSaveFilePicker){
     try{
       const writable=await currentFileHandle.createWritable();
       await writable.write(getSaveData());
       await writable.close();
-      lastSaveDate=today;markSaved(currentFileHandle.name);
+      markSaved(currentFileHandle.name);
       toast('Saved '+currentFileHandle.name);
       return;
     }catch(err){
@@ -2336,7 +2463,6 @@ async function saveAsFile(){
       await writable.write(getSaveData());
       await writable.close();
       currentFileHandle=handle;
-      lastSaveDate=todayStr();
       markSaved(handle.name);
       toast('Saved as '+handle.name);
     }catch(err){if(err.name!=='AbortError')toast('Save failed');}
@@ -2362,7 +2488,7 @@ async function loadWithFilePicker(){
     const text=await file.text();
     const okLoad=applyLoadedData(text,file.name);
     // Only bind Ctrl+S to this file when it really was a MindLoom map; a failed load changes nothing
-    if(okLoad){currentFileHandle=handle;lastSaveDate=todayStr();markSaved(file.name);}
+    if(okLoad){currentFileHandle=handle;markSaved(file.name);}
   }catch(err){if(err.name!=='AbortError')toast('Error loading file');}
 }
 
@@ -2375,7 +2501,7 @@ $('#file-input').addEventListener('change',e=>{
 
 // Forget which file the map came from, so Ctrl+S / auto-save can never overwrite a file with a map that replaced it
 function detachFile(){
-  stopAutoFile(true);currentFileHandle=null;lastFileSig=null;lastFileSavedAt=0;lastFileName='';lastSaveDate=null;dirtySince=null;lastNudge=0;
+  stopAutoFile(true);currentFileHandle=null;lastFileSig=null;lastFileSavedAt=0;lastFileName='';dirtySince=null;lastNudge=0;
   initSig=sigOf();updateSaveBadge();
 }
 function applyLoadedData(text,name){
@@ -2387,26 +2513,27 @@ function applyLoadedData(text,name){
     const fresh=sanitizeNodes(d.nodes);
     if(!fresh.length)throw new Error('No nodes in file');
     if(Number(d.version)>FORMAT_VERSION)toast('This file was saved by a newer MindLoom (v'+d.version+'). Some details may be ignored');
-    hideDetail();pushBackup('before load',true);snap();
+    hideDetail();pushBackup('before load',true);snap(true);
     nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);logSync();
     // Reset per-map view state so stale IDs from the previous map cannot leak in
     hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));
     bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
-    savedViews=sanitizeViews(d.savedViews);buildViewList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;depMap=d.depMap===true;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
+    savedViews=sanitizeViews(d.savedViews);buildViewList();exportPresets=sanitizePresets(d.exportPresets);buildPresetList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;depMap=d.depMap===true;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
     multiSelected.clear();updateBulkBar();
     if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
-    if(d.colorLabels){d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();}
+    applyLabels(DEFAULT_LABELS);if(d.colorLabels)d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();rebuildColorFilter();
     if(d.bgColorId)setBgColor(d.bgColorId);if(d.bgPatternId)setBgPattern(d.bgPatternId);
     if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);
     dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setFocusSel(d.focusSel!==false,true);setLinkVis(d.linkVis||'selected',true);setBarColors(d.barColors||'lane',true);setShowUndated(!!d.showUndated,true);setCritOnly(!!d.critOnly,true);setSlide(!!d.axSlide,true);setDateMode(!!d.dateMode,true);
     if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}
+    if(typeof d.detailLayout==='string')setDetailLayout(d.detailLayout,true);
     if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
     if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
     selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap();createDefault();selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap(true);setDateMode(false,true);createDefault();dateOrigin='';selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];exportPresets=[];buildPresetList();reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -3329,6 +3456,7 @@ function showDetail(nid,anchorEl,pinned){
   renderDetailTags(nid);renderDetailChecks();$('#dp-ck-add').value='';
   renderDetailProgress();renderDetailRepeat();
   setDpSec('rp',!!cleanRepeat(node.repeat));setDpSec('tags',getNodeTags(node).length>0);setDpSec('ck',ckCount(node).total>0);setDpSec('pg',cleanPct(node.progress)>0);
+  setDpColl('nt',!!(node.notes||'').trim());
 
   const tsDiv=$('#dp-timestamps');
   if(node.createdAt||node.modifiedAt){
@@ -3361,6 +3489,8 @@ function showDetail(nid,anchorEl,pinned){
     if(depMap){const w=waveOf(node);h+='<div class="dp-wave"><label>Migration wave</label><select onchange="setWave('+nid+',+this.value)"><option value="0">None</option>'+[1,2,3,4,5,6,7,8].map(k=>'<option value="'+k+'"'+(w===k?' selected':'')+'>Wave '+k+'</option>').join('')+'</select><button class="dp-mini" type="button" onclick="showImpact('+nid+')" title="Highlight everything that relies on this node">Show impact</button></div>';}
     dd.innerHTML=h;
   }
+  {const lc=nl.length+depsOf(node).length+dependentsOf(nid).length;$('#dp-tog-ln-n').textContent=lc||'';setDpColl('ln',lc>0);}
+  updateDpSum();
 
   const rect=anchorEl.getBoundingClientRect();
   detailPanel.classList.add('visible');
@@ -3375,6 +3505,46 @@ function showDetail(nid,anchorEl,pinned){
   detailPanel.style.left=left+'px';detailPanel.style.top=top+'px';
   if(pinned)detailPanel.querySelector('.notes-area').focus();
 }
+
+// ── Details panel layouts ──
+// Classic is the original. Sections and Property List only add a class to the panel: the same fields and buttons are
+// re-ordered and restyled by CSS, so there is one panel to maintain.
+let dpLayout='classic';
+const DPL_NAME={classic:'Classic',sections:'Sections',props:'Property List'};
+function setDetailLayout(v,quiet){
+  dpLayout=DPL_NAME[v]?v:'classic';
+  detailPanel.classList.remove('dpl-sections','dpl-props');
+  if(dpLayout!=='classic')detailPanel.classList.add('dpl-'+dpLayout);
+  const b=$('#dpl-toggle');if(b)b.textContent='Details Layout: '+DPL_NAME[dpLayout];
+  if(!quiet&&detailNodeId!==null){saveDetailFields();const el=elOf(detailNodeId);if(el)showDetail(detailNodeId,el,detailPinned);}
+}
+function cycleDetailLayout(){
+  const k=Object.keys(DPL_NAME);setDetailLayout(k[(k.indexOf(dpLayout)+1)%k.length]);autoSave();
+  toast('Details layout: '+DPL_NAME[dpLayout]);
+}
+// Notes and Links rows of the Sections layout (the other rows reuse setDpSec)
+function setDpColl(which,open,focus){
+  const M={nt:['#dp-notes-sec','#dp-tog-nt'],ln:['#dp-links-sec','#dp-tog-ln']}[which];
+  $(M[0]).classList.toggle('dp-shut',!open);$(M[1]).setAttribute('aria-expanded',open?'true':'false');
+  if(open&&focus&&which==='nt')detailPanel.querySelector('.notes-area').focus();
+  if(detailPanel.classList.contains('visible')){const m=dpClamp(detailPanel.offsetLeft,detailPanel.offsetTop);detailPanel.style.left=m.left+'px';detailPanel.style.top=m.top+'px';}
+}
+$('#dp-tog-nt').addEventListener('click',()=>setDpColl('nt',$('#dp-notes-sec').classList.contains('dp-shut'),true));
+$('#dp-tog-ln').addEventListener('click',()=>setDpColl('ln',$('#dp-links-sec').classList.contains('dp-shut'),true));
+// Summary line (Sections layout) and the short hints on the Notes row; read from the fields so they follow your edits
+function updateDpSum(){
+  const sum=$('#dp-sum'),s=$('#dp-status'),st=s.value,o=$('#dp-owner').value.trim(),d=$('#dp-due').value,p=Math.round(+$('#dp-pg-num').value)||0;
+  sum.textContent='';
+  const mk=(t,c)=>{const e=document.createElement('span');e.textContent=t;if(c)e.className=c;sum.appendChild(e);};
+  if(st)mk(s.options[s.selectedIndex].text,'st-'+st);
+  if(o)mk(o);
+  if(d){const dt=new Date(d+'T00:00');if(!isNaN(dt))mk('Due '+dt.toLocaleDateString(undefined,{day:'numeric',month:'short'}));}
+  if(p)mk(p+'%');
+  const nt=detailPanel.querySelector('.notes-area').value.replace(/\s+/g,' ').trim();
+  $('#dp-tog-nt-n').textContent=nt.length>28?nt.slice(0,28)+'\u2026':nt;
+}
+detailPanel.addEventListener('input',updateDpSum);detailPanel.addEventListener('change',updateDpSum);
+detailPanel.addEventListener('click',()=>setTimeout(updateDpSum,0));
 // ── Details panel: collapsible Tags and Checklist, and a movable panel ──
 function setDpSec(which,open,focus){
   const M={tags:['#dp-tags-sec','#dp-tog-tags','#dp-tag-input'],ck:['#dp-ck-sec','#dp-tog-ck','#dp-ck-add'],pg:['#dp-pg-sec','#dp-tog-pg','#dp-pg-range'],rp:['#dp-rp-sec','#dp-tog-rp','#dp-rp-num']}[which];
@@ -3596,11 +3766,7 @@ function copyText(t){
   try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>fallbackCopy(t,done));return;}}catch(e){}
   fallbackCopy(t,done);
 }
-function fallbackCopy(t,done){
-  const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;left:-999px;top:0';document.body.appendChild(ta);ta.select();
-  let ok=false;try{ok=document.execCommand('copy');}catch(e){}
-  ta.remove();if(ok)done();else toast('Could not copy. Select the text in the notes instead.');
-}
+function fallbackCopy(t,done){legacyCopy(t).then(done,()=>toast('Could not copy. Select the text in the notes instead.'));}
 function renderNoteLinks(){
   const box=detailPanel.querySelector('.dp-note-links');if(!box)return;
   const ta=detailPanel.querySelector('.notes-area');
@@ -4163,7 +4329,7 @@ async function autoFileWrite(){
   try{
     const w=await currentFileHandle.createWritable();
     await w.write(data);await w.close();
-    lastFileSig=sig;lastFileSavedAt=Date.now();lastFileName=currentFileHandle.name;lastSaveDate=todayStr();
+    lastFileSig=sig;lastFileSavedAt=Date.now();lastFileName=currentFileHandle.name;
     refreshDirty();updateSaveBadge();
   }catch(e){
     autoFile=false;updateAutoUI();
@@ -4294,6 +4460,129 @@ function buildViewList(){
   });
 }
 $('#vw-name').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveView();}e.stopPropagation();});
+
+// ── Export presets ──
+// A preset is a named set of the settings that change how the picture comes out. Exporting with one applies the settings,
+// draws the image, then puts everything (including node positions on the Date Axis) back exactly as it was.
+const XP_MAX=20;
+function sanitizePresets(a){
+  if(!Array.isArray(a))return [];
+  const out=[];
+  for(const v of a){
+    if(out.length>=XP_MAX)break;
+    if(!v||typeof v!=='object')continue;
+    out.push({
+      id:Number.isInteger(v.id)?v.id:out.length+1,
+      name:String(v.name==null?'':v.name).trim().slice(0,40)||'Preset',
+      fmt:v.fmt==='svg'?'svg':'png',
+      dateMode:!!v.dateMode,axSlide:!!v.axSlide,critOnly:!!v.critOnly,
+      linkVis:LINKVIS_NAME[v.linkVis]?v.linkVis:'selected',barColors:v.barColors==='node'?'node':'lane',
+      bgColorId:BG_COLORS.some(b=>b.id===v.bgColorId)?v.bgColorId:'dark',
+      laneBands:v.laneBands!==false,showUndated:!!v.showUndated,hideCompleted:!!v.hideCompleted
+    });
+  }
+  const seen=new Set();out.forEach(v=>{while(seen.has(v.id))v.id+=1000;seen.add(v.id);});
+  return out;
+}
+function captureExportSettings(){return {dateMode,axSlide,critOnly,linkVis,barColors,bgColorId,laneBands,showUndated,hideCompleted};}
+// Applies a settings object quietly (no toasts, no re-layout) and returns whether the Date Axis was switched
+function applyExportSettings(S){
+  const ta=toast;const _toast=msg=>{};
+  let switched=false;
+  try{
+    toast=_toast;
+    setLinkVis(S.linkVis,true);setBarColors(S.barColors,true);setLaneBands(S.laneBands,true);setShowUndated(S.showUndated,true);
+    setSlide(S.axSlide,true);setCritOnly(S.critOnly,true);
+    hideCompleted=!!S.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');
+    if(S.bgColorId!==bgColorId)setBgColor(S.bgColorId);
+    if(!!S.dateMode!==dateMode){setDateMode(!!S.dateMode);switched=true;}
+    else if(dateMode)dateTidy('all',true);
+    render();
+  }finally{toast=ta;}
+  return switched;
+}
+const nextPresetId=()=>exportPresets.reduce((m,v)=>Math.max(m,v.id),0)+1;
+function toggleExportPresets(){
+  const xp=$('#xp-panel');
+  if(!xp.classList.contains('visible')){if($('#views-panel').classList.contains('visible'))toggleViews();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();}
+  xp.classList.toggle('visible');
+  if(xp.classList.contains('visible')){buildPresetList();setTimeout(()=>{try{$('#xp-name').focus();}catch(e){}},0);}
+}
+function savePreset(){
+  const inp=$('#xp-name');let name=inp.value.trim().slice(0,40);
+  if(!name)name='Preset '+(exportPresets.length+1);
+  if(exportPresets.length>=XP_MAX){toast('You can keep up to '+XP_MAX+' presets. Delete one first');return;}
+  exportPresets.push(Object.assign({id:nextPresetId(),name,fmt:$('#xp-fmt').value==='svg'?'svg':'png'},captureExportSettings()));
+  inp.value='';autoSave();buildPresetList();toast('Saved export preset "'+name+'"');
+}
+function updatePreset(id){
+  const i=exportPresets.findIndex(v=>v.id===id);if(i<0)return;
+  exportPresets[i]=Object.assign({id,name:exportPresets[i].name,fmt:exportPresets[i].fmt},captureExportSettings());
+  autoSave();buildPresetList();toast('Updated "'+exportPresets[i].name+'" to the current settings');
+}
+function renamePreset(id){
+  const v=exportPresets.find(x=>x.id===id);if(!v)return;
+  const n=prompt('Rename preset',v.name);if(n===null)return;
+  v.name=n.trim().slice(0,40)||v.name;autoSave();buildPresetList();
+}
+function togglePresetFmt(id){
+  const v=exportPresets.find(x=>x.id===id);if(!v)return;
+  v.fmt=v.fmt==='svg'?'png':'svg';autoSave();buildPresetList();toast('"'+v.name+'" now exports '+v.fmt.toUpperCase());
+}
+function deletePreset(id){
+  const v=exportPresets.find(x=>x.id===id);if(!v)return;
+  exportPresets=exportPresets.filter(x=>x.id!==id);autoSave();buildPresetList();toast('Deleted preset "'+v.name+'"');
+}
+// Set the screen up like the preset, without exporting
+function applyPreset(id){
+  const v=exportPresets.find(x=>x.id===id);if(!v)return;
+  hideDetail();snap();applyExportSettings(v);fitAll();autoSave();toast('Export settings: '+v.name);
+}
+// Export with the preset, then restore the screen (settings, positions, pan and zoom)
+function runPreset(id){
+  const v=exportPresets.find(x=>x.id===id);if(!v)return;
+  hideDetail();
+  const S=captureExportSettings(),pos=nodes.map(n=>[n,n.x,n.y,n.px,n.py]),view=[panX,panY,zoom],origin=dateOrigin,sel=selectedId;
+  let err=null;
+  try{
+    applyExportSettings(v);
+    if(v.fmt==='svg')exportSVG();else exportPNG();
+  }catch(e){err=e;}
+  // Put everything back. Positions are restored last so a Date Axis switch cannot move anything
+  applyExportSettings(S);
+  for(const [n,x,y,px,py] of pos){n.x=x;n.y=y;if(px===undefined)delete n.px;else n.px=px;if(py===undefined)delete n.py;else n.py=py;}
+  dateOrigin=origin;selectedId=sel;render();
+  panX=view[0];panY=view[1];zoom=view[2];updateTransform();autoSave();
+  if(err){toast('Export failed');console.error(err);}
+}
+function presetSummary(v){
+  const b=[v.fmt.toUpperCase()];
+  if(v.dateMode){b.push('date axis');if(v.axSlide)b.push('slide');if(v.critOnly)b.push('critical only');b.push('lines '+LINKVIS_NAME[v.linkVis].toLowerCase());if(v.barColors==='node')b.push('node colours');if(!v.laneBands)b.push('no lanes');}
+  else b.push('map');
+  if(v.hideCompleted)b.push('no completed');
+  const bg=BG_COLORS.find(x=>x.id===v.bgColorId);if(bg)b.push(bg.label.toLowerCase());
+  return b.join(', ');
+}
+function buildPresetList(){
+  const box=document.getElementById('xp-list');if(!box)return;
+  box.innerHTML='';
+  if(!exportPresets.length){const d=document.createElement('div');d.style.cssText='color:var(--text-muted);padding:8px 6px;font-size:12px';d.textContent='No presets yet. Set the Date Axis, Slide view, Lines, Bar Colours and background the way you want the picture, choose PNG or SVG, name it above and press Save.';box.appendChild(d);return;}
+  exportPresets.forEach(v=>{
+    const row=document.createElement('div');row.className='vw-row';
+    const go=document.createElement('button');go.className='vw-go';go.title='Export with this preset';
+    go.textContent=v.name;const sp=document.createElement('span');sp.className='vw-sub';sp.textContent=presetSummary(v);go.appendChild(sp);
+    go.addEventListener('click',()=>runPreset(v.id));
+    const mk=(ch,tip,fn)=>{const b=document.createElement('button');b.className='vw-ico';b.textContent=ch;b.title=tip;b.setAttribute('aria-label',tip+' '+v.name);b.addEventListener('click',e=>{e.stopPropagation();fn(v.id);});return b;};
+    row.appendChild(go);
+    row.appendChild(mk('👁','Show these settings on screen without exporting',applyPreset));
+    row.appendChild(mk('↻','Update to the current settings',updatePreset));
+    row.appendChild(mk('⇄','Switch between PNG and SVG',togglePresetFmt));
+    row.appendChild(mk('✎','Rename',renamePreset));
+    row.appendChild(mk('×','Delete',deletePreset));
+    box.appendChild(row);
+  });
+}
+$('#xp-name').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();savePreset();}e.stopPropagation();});
 
 // ── Board view ──
 // Kanban columns built from the map. Dragging a card changes the node's status / owner / project, with one Undo step.
@@ -5134,6 +5423,84 @@ $('#rp-print').addEventListener('click',()=>{
   reportSent('Report sent to print');
 });
 
+// ── Quick capture ──
+// One line, Enter, done: the item goes under an "Inbox" node (made on first use) so nothing has to be placed on the map.
+// Shorthand in the line: #tag, @owner and one trailing date word (today, tomorrow, mon..sun, +3d/+2w/+1m, 2026-12-01, 27/11).
+const QC_DAYS={sun:0,sunday:0,mon:1,monday:1,tue:2,tues:2,tuesday:2,wed:3,weds:3,wednesday:3,thu:4,thur:4,thurs:4,thursday:4,fri:5,friday:5,sat:6,saturday:6};
+function qcDate(tok){
+  const t=String(tok).toLowerCase(),today=todayMs(),iso=ms=>new Date(ms).toISOString().slice(0,10);
+  if(t==='today'||t==='tod')return iso(today);
+  if(t==='tomorrow'||t==='tmw'||t==='tom')return iso(today+864e5);
+  if(Object.prototype.hasOwnProperty.call(QC_DAYS,t)){const d=(QC_DAYS[t]-new Date(today).getUTCDay()+7)%7||7;return iso(today+d*864e5);}
+  let m=/^\+(\d{1,3})([dwmy])$/.exec(t);if(m)return addToIso(iso(today),+m[1],m[2]);
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(t))return normDate(t);
+  m=/^(\d{1,2})[\/.](\d{1,2})(?:[\/.](\d{4}))?$/.exec(t);
+  if(m){
+    if(m[3])return normDate(m[1]+'/'+m[2]+'/'+m[3]);
+    const y=new Date(today).getUTCFullYear();let d=normDate(m[1]+'/'+m[2]+'/'+y);
+    if(d&&d<iso(today))d=normDate(m[1]+'/'+m[2]+'/'+(y+1));
+    return d;
+  }
+  return '';
+}
+function qcParse(raw){
+  const keep=[],tags=[];let owner='',m;
+  for(const w of String(raw||'').trim().split(/\s+/).filter(Boolean)){
+    if((m=/^#([^\s#@]{1,30})$/.exec(w)))tags.push(m[1]);
+    else if((m=/^@([^\s#@]{1,40})$/.exec(w)))owner=m[1].replace(/_/g,' ');
+    else keep.push(w);
+  }
+  let due='';
+  // only a date word at the end counts, and never the only word, so "Sat on the sofa" or "Friday" stay as written
+  if(keep.length>1){const d=qcDate(keep[keep.length-1]);if(d){due=d;keep.pop();}}
+  if(owner){const o=nodes.find(n=>(n.owner||'').toLowerCase()===owner.toLowerCase());if(o)owner=o.owner;}
+  return {text:keep.join(' ').slice(0,200),tags:cleanTags(tags),owner,due};
+}
+function qcInbox(){
+  const isIn=n=>String(n.text||'').trim().toLowerCase()==='inbox';
+  let ib=nodes.find(n=>n.parentId===null&&isIn(n))||nodes.find(isIn);
+  if(ib)return ib;
+  const o=importOrigin(),now=new Date().toISOString();
+  ib={id:nextId++,text:'Inbox',x:o.x,y:o.y,parentId:null,collapsed:false,colorId:'amber',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};
+  nodes.push(ib);return ib;
+}
+function qcShowPreview(){
+  const box=$('#qc-prev'),raw=$('#qc-input').value;box.textContent='';
+  if(!raw.trim())return;
+  const p=qcParse(raw),b=document.createElement('b');b.textContent=p.text||'(nothing to add yet)';box.appendChild(b);
+  const chip=t=>{const e=document.createElement('span');e.textContent=t;box.appendChild(e);};
+  if(p.due)chip('due '+new Date(p.due+'T00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'}));
+  p.tags.forEach(t=>chip('#'+t));if(p.owner)chip('@'+p.owner);
+}
+function openCapture(){
+  closeDD();hideCtx();
+  $('#qc-overlay').classList.add('visible');$('#qc-last').textContent='';
+  const i=$('#qc-input');i.value='';qcShowPreview();i.focus();
+}
+function closeCapture(){$('#qc-overlay').classList.remove('visible');}
+function qcAdd(){
+  const inp=$('#qc-input'),p=qcParse(inp.value);if(!p.text)return;
+  hideDetail();snap();
+  const ib=qcInbox();ib.collapsed=false;
+  const pEl=elOf(ib.id),pw=pEl?pEl.offsetWidth:120,ch=gch(ib.id).filter(c=>!isHidden(c)),nx=ib.x+pw+60;
+  let y0=ib.y;if(ch.length)y0=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));
+  const now=new Date().toISOString();
+  const n={id:nextId++,text:p.text,x:nx,y:freeY(nx,y0,120,38),parentId:ib.id,collapsed:false,colorId:ib.colorId||'default',notes:'',project:'',owner:p.owner,status:'',tags:p.tags,due:p.due,start:'',createdAt:now,modifiedAt:now};
+  nodes.push(n);render();autoSave();
+  refreshAgenda();if(boardVisible)buildBoard(true);if(tlVisible)buildTimeline(true);
+  inp.value='';qcShowPreview();
+  const L=$('#qc-last');L.textContent='';
+  const t=document.createElement('span');t.textContent='Added \u201C'+n.text+'\u201D'+(hiddenRoots.has(ib.id)?' (the Inbox is hidden by Focus)':'');L.appendChild(t);
+  const g=document.createElement('button');g.type='button';g.className='dp-mini';g.textContent='Show in map';g.addEventListener('click',()=>{closeCapture();focusNode(n.id);});L.appendChild(g);
+  inp.focus();
+}
+$('#qc-input').addEventListener('input',qcShowPreview);
+$('#qc-input').addEventListener('keydown',e=>{
+  e.stopPropagation();
+  if(e.key==='Enter'){e.preventDefault();qcAdd();}
+  else if(e.key==='Escape'){e.preventDefault();closeCapture();}
+});
+
 // ── Command palette ──
 // The list is read from the menus and toolbar themselves each time it opens, so it can never fall out of step with them
 let cmdAll=[],cmdShown=[],cmdSel=0,cmdRecentN=0;
@@ -5247,7 +5614,7 @@ function exitPresentation(){
 function showPresSlide(){
   const n=presNodes[presIdx];if(!n)return;
   const c=gc(n.colorId);
-  const depth=getDepth(n);
+  const depth=gdepth(n);
   const parent=n.parentId?gn(n.parentId):null;
   let html='<div style="text-align:center;max-width:800px;margin:0 auto">';
   if(parent)html+='<div style="font-size:14px;color:var(--text-muted);margin-bottom:12px">'+esc(parent.text)+' →</div>';
@@ -5261,7 +5628,6 @@ function showPresSlide(){
   $('#pres-content').innerHTML=html;
   $('#pres-counter').textContent=(presIdx+1)+' / '+presNodes.length;
 }
-function getDepth(n){let d=0,x=n;while(x.parentId!==null){x=gn(x.parentId);if(!x)break;d++;}return d;}
 function presNav(dir){
   presIdx+=dir;
   if(presIdx<0)presIdx=0;
@@ -5652,13 +6018,22 @@ function doSearch(q){
 function clearSearchDim(){if(searchHits){searchHits=null;render();}}
 
 // ── Export PNG ──
+// Text and strokes that sit directly on the page background switch to dark ink when the background is light
+let pngInk={main:'#e9ecf2',sub:'#c9ced8',text:'#d4d8e0',link:'rgba(255,200,60,0.6)',linkLab:'rgba(255,220,100,0.85)'};
+function pngInkFor(hex){
+  const h=String(hex||'#1a1d23').replace('#',''),v=k=>parseInt(h.substr(k,2),16)||0;
+  const lum=(0.299*v(0)+0.587*v(2)+0.114*v(4))/255;
+  return lum>0.6?{main:'#1a1d23',sub:'#3a414d',text:'#1a1d23',link:'rgba(190,125,0,0.9)',linkLab:'#8a5a00'}
+                 :{main:'#e9ecf2',sub:'#c9ced8',text:'#d4d8e0',link:'rgba(255,200,60,0.6)',linkLab:'rgba(255,220,100,0.85)'};
+}
+function pngArrowHead(ctx,fx,fy,tx,ty,size){const ang=Math.atan2(ty-fy,tx-fx);ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx-size*Math.cos(ang-0.4),ty-size*Math.sin(ang-0.4));ctx.lineTo(tx-size*Math.cos(ang+0.4),ty-size*Math.sin(ang+0.4));ctx.closePath();ctx.fill();}
 function dmExportAxis(ctx,x1,y1,pad,cw,ch){
   const o=dmOrigin(),px=DM_PX,ox=-x1+pad;               // canvas x -> image x
   const dL=Math.floor((x1-pad)/px)+o-2,dR=Math.ceil((x1-pad+cw)/px)+o+2;
   const st=new Date(dL*864e5);let y=st.getUTCFullYear(),m=st.getUTCMonth();
   const PM=dateMode&&axSlide;
   ctx.save();ctx.globalAlpha=PM?0.1:0.07;for(const L of ((laneBands||PM)?dmLanes:[])){ctx.fillStyle=L.color;ctx.fillRect(0,L.y1-y1+pad,cw,L.y2-L.y1);}ctx.globalAlpha=1;
-  if(PM){ctx.font='700 13px system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';for(const L of dmLanes){const ly=L.y1-y1+pad-11;ctx.fillStyle=L.color;ctx.fillRect(14,ly-8,4,16);ctx.fillStyle='#e9ecf2';ctx.fillText(L.text,24,ly);}}
+  if(PM){ctx.font='700 13px system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';for(const L of dmLanes){const ly=L.y1-y1+pad-11;ctx.fillStyle=L.color;ctx.fillRect(14,ly-8,4,16);ctx.fillStyle=pngInk.main;ctx.fillText(L.text,24,ly);}}
   ctx.fillStyle='#16181d';ctx.fillRect(0,0,cw,52);ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
   let qs=null;
   const flushQ=e=>{if(!qs)return;const l=(qs.s-o)*px+ox,r=(e-o)*px+ox;ctx.fillStyle='#0d0e11';ctx.fillRect(l,0,r-l,26);ctx.fillStyle='#e9ecf2';ctx.fillText('Q'+qs.q+' '+qs.y,(l+r)/2,13);ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fillRect(r-1,0,1,52);};
@@ -5677,12 +6052,14 @@ function dmExportAxis(ctx,x1,y1,pad,cw,ch){
 }
 // Critical-path view: the dependency chain between critical items, drawn as heavy yellow arrows
 // Slide view export: title under the axis, legend along the bottom
-function dmExportLegend(ctx,cw,ch){
+function dmExportLegend(ctx,cw,ch,y1,pad){
   const r=getRoots().find(x=>!hiddenRoots.has(x.id));
   ctx.save();ctx.textBaseline='middle';ctx.textAlign='left';
-  if(r){ctx.font='700 22px system-ui,sans-serif';ctx.fillStyle='#e9ecf2';ctx.fillText(r.text,14,86);}
+  // Keep the title clear of the first lane label when the top lane sits high up
+  let ty=86;for(const L of dmLanes){const ly=L.y1-y1+pad-11;if(ly-ty<30)ty=Math.max(66,ly-30);}
+  if(r){ctx.font='700 22px system-ui,sans-serif';ctx.fillStyle=pngInk.main;ctx.fillText(r.text,14,ty);}
   const y=ch-34;let x=14;ctx.font='13px system-ui,sans-serif';
-  const item=(label,draw,w)=>{draw(x,y);ctx.fillStyle='#c9ced8';ctx.fillText(label,x+w+8,y);x+=w+8+ctx.measureText(label).width+26;};
+  const item=(label,draw,w)=>{draw(x,y);ctx.fillStyle=pngInk.sub;ctx.fillText(label,x+w+8,y);x+=w+8+ctx.measureText(label).width+26;};
   item('Critical path',(x,y)=>{ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+8,y-8);ctx.lineTo(x+16,y+7);ctx.lineTo(x,y+7);ctx.closePath();ctx.fill();},16);
   item('Key milestone',(x,y)=>{ctx.fillStyle='#9aa3b2';ctx.beginPath();DM_STAR.split(' ').forEach((p,k)=>{const q=p.split(',').map(Number);k?ctx.lineTo(x+q[0]*0.75,y-8+q[1]*0.75):ctx.moveTo(x+q[0]*0.75,y-8+q[1]*0.75);});ctx.closePath();ctx.fill();},16);
   item('Milestone',(x,y)=>{ctx.fillStyle='#9aa3b2';ctx.beginPath();ctx.arc(x+7,y,6,0,Math.PI*2);ctx.fill();},14);
@@ -5710,12 +6087,12 @@ function dmExportChain(ctx,x1,y1,pad){
 }
 function dmExportNode(ctx,node,el,x1,y1,pad){
   const i=dmInfo(node);if(!i)return false;
-  const c=gc(node.colorId),x=node.x-x1+pad,y=node.y-y1+pad,h=el.offsetHeight;
+  const c=dmLaneColor(node)||gc(node.colorId),x=node.x-x1+pad,y=node.y-y1+pad,h=el.offsetHeight;
   ctx.save();ctx.textBaseline='middle';
   if(i.bar){
     const w=i.w;ctx.fillStyle=c.bg;ctx.strokeStyle=node.status==='critical'?'#f5c518':c.border;ctx.lineWidth=2;
     ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,6):ctx.rect(x,y,w,h);ctx.fill();ctx.stroke();
-    ctx.fillStyle='#d4d8e0';ctx.font='12px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(node.text,x+8,y+h/2,Math.max(10,w-16));
+    ctx.fillStyle=(ctx.globalAlpha<1&&pngInk.main==='#1a1d23')?pngInk.main:'#d4d8e0';ctx.font='12px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(node.text,x+8,y+h/2,Math.max(10,w-16));
   }else{
     const sh=dmShape(node),cx=x+11,cy=y+h/2,fill=(node.status==='critical'||sh==='star'||sh==='triangle')?'#f5c518':(node.colorId==='default'?'#9aa3b2':c.border);
     ctx.fillStyle=fill;ctx.strokeStyle='rgba(0,0,0,0.45)';ctx.lineWidth=1;ctx.beginPath();
@@ -5724,7 +6101,7 @@ function dmExportNode(ctx,node,el,x1,y1,pad){
     else if(sh==='star'){DM_STAR.split(' ').forEach((p,k)=>{const q=p.split(',').map(Number);k?ctx.lineTo(x+q[0],cy-11+q[1]):ctx.moveTo(x+q[0],cy-11+q[1]);});ctx.closePath();}
     else{ctx.moveTo(cx,cy-9.5);ctx.lineTo(cx+9.5,cy);ctx.lineTo(cx,cy+9.5);ctx.lineTo(cx-9.5,cy);ctx.closePath();}
     ctx.fill();ctx.stroke();
-    ctx.fillStyle='#d4d8e0';ctx.font='12px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(node.text,x+28,cy);
+    ctx.fillStyle=pngInk.text;ctx.font='12px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(node.text,x+28,cy);
   }
   ctx.restore();return true;
 }
@@ -5741,23 +6118,101 @@ function pngChips(ctx,el,x,y,bw){
     ctx.restore();
   });
 }
-function exportPNG(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return;}const slideX=dateMode&&axSlide;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n)||(slideX&&slideHides(n)))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
+function exportBounds(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return null;}const slideX=dateMode&&axSlide;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n)||(slideX&&slideHides(n)))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
   if(dateMode)for(const g of dmGhostRows()){x1=Math.min(x1,g.gx);x2=Math.max(x2,g.gx+g.gw);}
-  const pad=dateMode?(slideX?150:110):50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;const cv=document.createElement('canvas');const dpr=2;cv.width=cw*dpr;cv.height=ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
-  const bgc=BG_COLORS.find(b=>b.id===bgColorId);ctx.fillStyle=bgc?bgc.color:'#1a1d23';ctx.fillRect(0,0,cw,ch);
+  const pad=dateMode?(slideX?150:110):50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;
+  return {x1,y1,x2,y2,pad,cw,ch,slideX};
+}
+  // Draws the whole export onto any 2D context: a real canvas for PNG, or SvgCtx for SVG
+function exportDraw(ctx,b){
+  const {x1,y1,pad,cw,ch,slideX}=b;
+  const bgc=BG_COLORS.find(x=>x.id===bgColorId);ctx.fillStyle=bgc?bgc.color:'#1a1d23';ctx.fillRect(0,0,cw,ch);pngInk=pngInkFor(bgc&&bgc.color);
+  // Same line visibility rules as the screen (Lines: Selected / All / Off on the Date Axis)
+  const lvm=dateMode?linkVis:'all',FS=focusSets(dateMode&&lvm==='selected'),quietDM=focusSel&&dateMode&&lvm==='all'&&!FS;
+  const fwf=n=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
+  const fxf=(a,b)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(a)||FS.core.has(b))?1:0):FS?((FS.core.has(a)||FS.core.has(b))?1:0):(quietDM?0.5:1);
   if(dateMode){dmExportAxis(ctx,x1,y1,pad,cw,ch);dmExportGhosts(ctx,x1,y1,pad);}
   // Wires
   const sqx=connStyle==='squared',rcs=sqx?nodeRects():null;
   const critX=dateMode&&(critOnly||axSlide);
-  for(const node of nodes){if(critX||isHidden(node)||node.parentId===null)continue;const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;const pEl=elOf(parent.id);const cEl=elOf(node.id);if(!pEl||!cEl)continue;const px=parent.x+pEl.offsetWidth-x1+pad,py=parent.y+pEl.offsetHeight/2-y1+pad;const cx=node.x-x1+pad,cy=node.y+cEl.offsetHeight/2-y1+pad;const c=gc(node.colorId);ctx.beginPath();const tp=sqx?treeWirePts(parent,node,rcs):null;if(tp){tp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(tp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(px,py);const mx=(px+cx)/2;ctx.bezierCurveTo(mx,py,mx,cy,cx,cy);}ctx.strokeStyle=c.wire;ctx.lineWidth=2.5;ctx.stroke();}
+  for(const node of nodes){if(critX||isHidden(node)||node.parentId===null)continue;const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;const pEl=elOf(parent.id);const cEl=elOf(node.id);if(!pEl||!cEl)continue;const fwv=fwf(node);if(fwv===0)continue;const px=parent.x+pEl.offsetWidth-x1+pad,py=parent.y+pEl.offsetHeight/2-y1+pad;const cx=node.x-x1+pad,cy=node.y+cEl.offsetHeight/2-y1+pad;const c=gc(node.colorId);ctx.globalAlpha=fwv;ctx.beginPath();const tp=sqx?treeWirePts(parent,node,rcs):null;if(tp){tp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(tp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(px,py);const mx=(px+cx)/2;ctx.bezierCurveTo(mx,py,mx,cy,cx,cy);}ctx.strokeStyle=c.wire;ctx.lineWidth=2.5;ctx.stroke();ctx.globalAlpha=1;}
+  // Dependencies: prerequisite -> dependent (orange while open, dotted green once done), as on screen
+  if(!critX)for(const dn of nodes){
+    if(isHidden(dn))continue;
+    for(const pid of depsOf(dn)){
+      const pn=gn(pid);if(!pn||isHidden(pn))continue;
+      const fxv=fxf(pn.id,dn.id);if(fxv===0)continue;
+      const pe=elOf(pn.id),de=elOf(dn.id);if(!pe||!de)continue;
+      const pcx=pn.x+pe.offsetWidth/2,pcy=pn.y+pe.offsetHeight/2,dcx=dn.x+de.offsetWidth/2,dcy=dn.y+de.offsetHeight/2;
+      const a=rectEdge(pcx,pcy,pe.offsetWidth+6,pe.offsetHeight+6,dcx,dcy),b=rectEdge(dcx,dcy,de.offsetWidth+10,de.offsetHeight+10,pcx,pcy);
+      const done=pn.status==='completed'||dn.status==='completed',col=done?'rgba(110,190,140,0.75)':'#ff8a3d';
+      const ax=a.x-x1+pad,ay=a.y-y1+pad,bx=b.x-x1+pad,by=b.y-y1+pad,mx=(ax+bx)/2,my=(ay+by)/2,ddx=bx-ax,ddy=by-ay,qx=mx+ddy*0.12,qy=my-ddx*0.12;
+      ctx.save();ctx.globalAlpha=fxv;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=done?2:2.5;ctx.lineCap='round';if(done)ctx.setLineDash([2,5]);
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(qx,qy,bx,by);ctx.stroke();ctx.setLineDash([]);
+      pngArrowHead(ctx,qx,qy,bx,by,11);ctx.restore();
+    }
+  }
   // Cross-links
   if(critX)dmExportChain(ctx,x1,y1,pad);
-  for(const lk of (critX?[]:crossLinks)){const nA=gn(lk.from),nB=gn(lk.to);if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;const eA=elOf(nA.id);const eB=elOf(nB.id);if(!eA||!eB)continue;const ax=nA.x+eA.offsetWidth/2-x1+pad,ay=nA.y+eA.offsetHeight/2-y1+pad;const bx=nB.x+eB.offsetWidth/2-x1+pad,by=nB.y+eB.offsetHeight/2-y1+pad;ctx.beginPath();ctx.setLineDash([10,5]);const dx=bx-ax,dy=by-ay;const cpx=(ax+bx)/2-dy*0.3,cpy=(ay+by)/2+dx*0.3;const lp=sqx?linkPts(nA,nB,rcs):null;if(lp){lp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(lp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cpx,cpy,bx,by);}ctx.strokeStyle='rgba(255,200,60,0.6)';ctx.lineWidth=2.5;ctx.stroke();ctx.setLineDash([]);
-    if(lk.label){let tx=(ax+2*cpx+bx)/4,ty=(ay+2*cpy+by)/4;if(lp){const m=polyMid(lp);tx=m.x;ty=m.y;}ctx.font='11px system-ui,sans-serif';ctx.fillStyle='rgba(255,220,100,0.85)';ctx.textAlign='center';ctx.fillText(lk.label,tx,ty-4);ctx.textAlign='start';}}
+  for(const lk of (critX?[]:crossLinks)){const nA=gn(lk.from),nB=gn(lk.to);if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;const fxv=fxf(lk.from,lk.to);if(fxv===0)continue;const eA=elOf(nA.id);const eB=elOf(nB.id);if(!eA||!eB)continue;const ax=nA.x+eA.offsetWidth/2-x1+pad,ay=nA.y+eA.offsetHeight/2-y1+pad;const bx=nB.x+eB.offsetWidth/2-x1+pad,by=nB.y+eB.offsetHeight/2-y1+pad;const tcol=(depMap&&lk.type)?typeColor(lk.type):null;ctx.globalAlpha=fxv;ctx.beginPath();ctx.setLineDash(tcol?[]:[10,5]);const dx=bx-ax,dy=by-ay;const cpx=(ax+bx)/2-dy*0.3,cpy=(ay+by)/2+dx*0.3;const lp=sqx?linkPts(nA,nB,rcs):null;if(lp){lp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(lp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cpx,cpy,bx,by);}ctx.strokeStyle=tcol||pngInk.link;ctx.lineWidth=tcol?3:2.5;ctx.stroke();ctx.setLineDash([]);
+    if(lk.label){let tx=(ax+2*cpx+bx)/4,ty=(ay+2*cpy+by)/4;if(lp){const m=polyMid(lp);tx=m.x;ty=m.y;}ctx.font='11px system-ui,sans-serif';ctx.fillStyle=pngInk.linkLab;ctx.textAlign='center';ctx.fillText(lk.label,tx,ty-4);ctx.textAlign='start';}ctx.globalAlpha=1;}
   // Nodes
   for(const node of nodes){if(isHidden(node)||(slideX&&slideHides(node)))continue;const el=elOf(node.id);if(!el)continue;if(dateMode){ctx.globalAlpha=(slideX&&node.status!=='critical')?0.5:1;const done=dmExportNode(ctx,node,el,x1,y1,pad);ctx.globalAlpha=1;if(done)continue;}const c=gc(node.colorId);const x=node.x-x1+pad,y=node.y-y1+pad;const w=el.offsetWidth,h=el.offsetHeight;const crit=node.status==='critical';ctx.fillStyle=c.bg;ctx.strokeStyle=crit?'#f5c518':c.border;ctx.lineWidth=crit?3:(isRoot(node)?3:2);if(crit){ctx.shadowColor='rgba(245,197,24,0.8)';ctx.shadowBlur=18;}ctx.beginPath();const r=8;ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowColor='transparent';ctx.shadowBlur=0;const _lab=el.querySelector('.label'),_bw=isRoot(node)?3:2;ctx.fillStyle='#d4d8e0';ctx.font=(gdepth(node)===0?'600 16':'14')+'px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='start';ctx.fillText(node.text,x+_bw+(_lab?_lab.offsetLeft:12),y+_bw+(_lab?_lab.offsetTop+_lab.offsetHeight/2:(h-2*_bw)/2),w-28);pngChips(ctx,el,x,y,_bw);if(node.status==='critical'){ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+w-2,y-18);ctx.lineTo(x+w+14,y+8);ctx.lineTo(x+w-18,y+8);ctx.closePath();ctx.fill();}else if(node.status==='blocked'){ctx.fillStyle='#bf3a3a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u26A0',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='completed'){ctx.fillStyle='#3a9f55';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u2713',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='awaiting'){ctx.fillStyle='#bf8f2a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u23F3',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='ongoing'){ctx.fillStyle='#3a7abf';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u25B6',x+w-4,y+1);ctx.textAlign='start';}}
-  if(slideX)dmExportLegend(ctx,cw,ch);
+  if(slideX)dmExportLegend(ctx,cw,ch,y1,pad);
+}
+function exportPNG(){
+  const b=exportBounds();if(!b)return;
+  const cv=document.createElement('canvas');const dpr=2;cv.width=b.cw*dpr;cv.height=b.ch*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  exportDraw(ctx,b);
   cv.toBlob(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('png');a.click();URL.revokeObjectURL(a.href);toast('PNG exported');});
+}
+function exportSVG(){
+  const b=exportBounds();if(!b)return;
+  const ctx=new SvgCtx(b.cw,b.ch);
+  exportDraw(ctx,b);
+  const blob=new Blob([ctx.toString()],{type:'image/svg+xml'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dfn('svg');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);toast('SVG exported');
+}
+// A minimal Canvas-2D look-alike that records the same drawing calls as SVG elements, so the PNG and SVG exports
+// are drawn by one routine and can never drift apart. Only the parts of the canvas API the export uses are here.
+class SvgCtx{
+  constructor(w,h){
+    this.w=w;this.h=h;this.out=[];this.defs=[];this.path=[];this.stack=[];
+    this.fillStyle='#000';this.strokeStyle='#000';this.lineWidth=1;this.lineCap='butt';this.globalAlpha=1;this.dash=[];
+    this.font='10px sans-serif';this.textAlign='start';this.textBaseline='alphabetic';this.shadowColor='transparent';this.shadowBlur=0;
+    this._m=document.createElement('canvas').getContext('2d');this._glow=0;
+  }
+  scale(){}
+  clearRect(){}
+  save(){this.stack.push({fillStyle:this.fillStyle,strokeStyle:this.strokeStyle,lineWidth:this.lineWidth,lineCap:this.lineCap,globalAlpha:this.globalAlpha,dash:this.dash,font:this.font,textAlign:this.textAlign,textBaseline:this.textBaseline,shadowColor:this.shadowColor,shadowBlur:this.shadowBlur});}
+  restore(){const s=this.stack.pop();if(s)Object.assign(this,s);}
+  setLineDash(a){this.dash=Array.isArray(a)?a.slice():[];}
+  measureText(t){this._m.font=this.font;return this._m.measureText(t);}
+  _n(v){return Math.round(v*100)/100;}
+  _alpha(){return this.globalAlpha<1?' opacity="'+this._n(this.globalAlpha)+'"':'';}
+  _filter(){if(!(this.shadowBlur>0)||this.shadowColor==='transparent')return '';if(!this._glow){this._glow=1;this.defs.push('<filter id="glow" x="-50%" y="-50%" width="200%" height="300%"><feDropShadow dx="0" dy="0" stdDeviation="'+this._n(this.shadowBlur/2)+'" flood-color="'+esc(this.shadowColor)+'"/></filter>');}return ' filter="url(#glow)"';}
+  beginPath(){this.path=[];}
+  moveTo(x,y){this.path.push('M'+this._n(x)+' '+this._n(y));}
+  lineTo(x,y){this.path.push('L'+this._n(x)+' '+this._n(y));}
+  quadraticCurveTo(cx,cy,x,y){this.path.push('Q'+this._n(cx)+' '+this._n(cy)+' '+this._n(x)+' '+this._n(y));}
+  bezierCurveTo(ax,ay,bx,by,x,y){this.path.push('C'+this._n(ax)+' '+this._n(ay)+' '+this._n(bx)+' '+this._n(by)+' '+this._n(x)+' '+this._n(y));}
+  closePath(){this.path.push('Z');}
+  rect(x,y,w,h){this.path.push('M'+this._n(x)+' '+this._n(y)+'h'+this._n(w)+'v'+this._n(h)+'h'+this._n(-w)+'Z');}
+  roundRect(x,y,w,h,r){r=Math.min(r||0,w/2,h/2);const n=this._n.bind(this);this.path.push('M'+n(x+r)+' '+n(y)+'h'+n(w-2*r)+'a'+n(r)+' '+n(r)+' 0 0 1 '+n(r)+' '+n(r)+'v'+n(h-2*r)+'a'+n(r)+' '+n(r)+' 0 0 1 '+n(-r)+' '+n(r)+'h'+n(2*r-w)+'a'+n(r)+' '+n(r)+' 0 0 1 '+n(-r)+' '+n(-r)+'v'+n(2*r-h)+'a'+n(r)+' '+n(r)+' 0 0 1 '+n(r)+' '+n(-r)+'Z');}
+  arc(x,y,r,a0,a1){const n=this._n.bind(this);if(Math.abs(a1-a0)>=Math.PI*2-1e-6){this.path.push('M'+n(x-r)+' '+n(y)+'a'+n(r)+' '+n(r)+' 0 1 0 '+n(2*r)+' 0a'+n(r)+' '+n(r)+' 0 1 0 '+n(-2*r)+' 0Z');return;}const sx=x+r*Math.cos(a0),sy=y+r*Math.sin(a0),ex=x+r*Math.cos(a1),ey=y+r*Math.sin(a1),lg=(a1-a0)>Math.PI?1:0;this.path.push((this.path.length?'L':'M')+n(sx)+' '+n(sy)+'A'+n(r)+' '+n(r)+' 0 '+lg+' 1 '+n(ex)+' '+n(ey));}
+  fillRect(x,y,w,h){this.out.push('<rect x="'+this._n(x)+'" y="'+this._n(y)+'" width="'+this._n(w)+'" height="'+this._n(h)+'" fill="'+esc(this.fillStyle)+'"'+this._alpha()+'/>');}
+  fill(){if(!this.path.length)return;this.out.push('<path d="'+this.path.join('')+'" fill="'+esc(this.fillStyle)+'"'+this._alpha()+this._filter()+'/>');}
+  stroke(){if(!this.path.length)return;this.out.push('<path d="'+this.path.join('')+'" fill="none" stroke="'+esc(this.strokeStyle)+'" stroke-width="'+this._n(this.lineWidth)+'"'+(this.lineCap!=='butt'?' stroke-linecap="'+this.lineCap+'"':'')+(this.dash.length?' stroke-dasharray="'+this.dash.join(' ')+'"':'')+this._alpha()+'/>');}
+  fillText(t,x,y,maxW){
+    t=String(t==null?'':t);if(!t)return;
+    const m=/^(?:(\d{3}|bold)\s+)?(\d+(?:\.\d+)?)px\s+(.+)$/.exec(this.font)||[];
+    const wt=m[1]?' font-weight="'+m[1]+'"':'',sz=m[2]||'12',fam=(m[3]||'sans-serif').replace(/system-ui/,'system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial');
+    const an=this.textAlign==='center'?'middle':(this.textAlign==='right'||this.textAlign==='end')?'end':'start';
+    const bl=this.textBaseline==='middle'?' dominant-baseline="central"':this.textBaseline==='top'?' dominant-baseline="hanging"':'';
+    let len='';if(maxW!==undefined&&maxW>0){const w=this.measureText(t).width;if(w>maxW)len=' textLength="'+this._n(maxW)+'" lengthAdjust="spacingAndGlyphs"';}
+    this.out.push('<text x="'+this._n(x)+'" y="'+this._n(y)+'" font-size="'+sz+'" font-family="'+esc(fam)+'"'+wt+' text-anchor="'+an+'"'+bl+len+' fill="'+esc(this.fillStyle)+'"'+this._alpha()+'>'+esc(t)+'</text>');
+  }
+  toString(){return '<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="'+this._n(this.w)+'" height="'+this._n(this.h)+'" viewBox="0 0 '+this._n(this.w)+' '+this._n(this.h)+'">\n'+(this.defs.length?'<defs>'+this.defs.join('')+'</defs>\n':'')+this.out.join('\n')+'\n</svg>\n';}
 }
 
 // ── Minimap ──
@@ -6034,6 +6489,7 @@ document.addEventListener('keydown',e=>{
     else if(!ctrl&&t1!=='INPUT'&&t1!=='SELECT'&&t1!=='TEXTAREA'){
       if(k==='k'&&boardVisible){e.preventDefault();toggleBoard();}
       else if(k==='r'&&reportVisible){e.preventDefault();toggleReport();}
+      else if(k==='q'){e.preventDefault();openCapture();}
     }
     return;
   }
@@ -6047,6 +6503,7 @@ document.addEventListener('keydown',e=>{
       else if(k==='-'){e.preventDefault();tlZoom(1/1.4);}
       else if(k==='t'){e.preventDefault();toggleTimeline();}
       else if(k==='0'){e.preventDefault();tlPx=0;buildTimeline();}
+      else if(k==='q'){e.preventDefault();openCapture();}
     }
     return; // never let map shortcuts (Delete, Tab ...) act on the map underneath
   }
@@ -6078,11 +6535,12 @@ document.addEventListener('keydown',e=>{
   else if(k==='F2'){e.preventDefault();editSelected();}
   else if(k===' '){e.preventDefault();toggleCollapse();}
   else if(k==='Home'){e.preventDefault();centreView();}
-  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
+  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if($('#xp-panel').classList.contains('visible'))toggleExportPresets();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
   else if(k==='i'){e.preventDefault();showDetailForSelected();}
   else if(k==='l'){e.preventDefault();startLinkMode();}
   else if(k==='g'){e.preventDefault();toggleFocusPanel();}
   else if(k==='s'){e.preventDefault();toggleStatsPanel();}
+  else if(k==='q'){e.preventDefault();openCapture();}
   else if(k==='a'){e.preventDefault();toggleAgenda();}
   else if(k==='t'){e.preventDefault();toggleTimeline();}
   else if(k==='k'){e.preventDefault();toggleBoard();}
@@ -6189,7 +6647,7 @@ function jumpToNode(id){
     snap();anc.forEach(a=>{a.collapsed=false;});hiddenRoots.delete(root.id);
     render();autoSave();if(focusPanelVisible)buildFocusList();
   }
-  if(isHidden(n)){toast('Hidden by "Hide Completed" \u2014 turn that off in the View menu to see it');return;}
+  if(isHidden(n)){toast('Hidden by "Hide Completed" \u2014 turn that off in Settings to see it');return;}
   selectNode(id);
   const el=elOf(id),w=el?el.offsetWidth:120,h=el?el.offsetHeight:36,r=viewRect();
   panX=r.width/2-(n.x+w/2)*zoom;panY=r.height/2-(n.y+h/2)*zoom;updateTransform();autoSave();
@@ -6742,27 +7200,7 @@ function focusSoloSelected(){
   render();autoSave();buildFocusList();
   toast('Solo: '+r.text);
 }
-function focusFitVisible(){
-  // Fit only visible nodes
-  if(!nodes.length)return;
-  render();
-  let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;
-  let count=0;
-  for(const n of nodes){
-    if(isHidden(n))continue;
-    const el=elOf(n.id);
-    const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;
-    if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;
-    if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;
-    count++;
-  }
-  if(!count)return;
-  const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;
-  const _vr=viewRect(),vw=_vr.width,vh=_vr.height;
-  zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));
-  panX=vw/2-(x1+x2)/2*zoom;panY=vh/2-(y1+y2)/2*zoom;
-  updateTransform();autoSave();
-}
+function focusFitVisible(){fitAll();}
 
 // ── About ──
 const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/main/version.json',REPO_URL='https://github.com/healeychris/mindloom';
@@ -7319,6 +7757,12 @@ function selfTest(){
     ok('addLog drops an edit that was put back',lgn.log.length===0);
     ok('logText wording',logText({t:'due',from:'2026-03-01',to:'2026-03-13'}).includes('+12 days')&&logText({t:'status',from:'',to:'blocked'})==='Status None \u2192 Blocked');
     ok('cleanRepeat',cleanRepeat({n:2,u:'w'}).n===2&&cleanRepeat({n:0,u:'w'})===null&&cleanRepeat({n:1,u:'x'})===null);
+    {const q=qcParse('Call supplier fri #work @sam'),tm=todayMs(),dd=dayMs(q.due);
+     ok('quick capture reads text, #tag, @owner and a weekday',q.text==='Call supplier'&&q.tags.join()==='work'&&q.owner==='sam'&&dd>tm&&dd<=tm+7*864e5&&new Date(dd).getUTCDay()===5);
+     ok('quick capture leaves ordinary words alone',qcParse('Sat on the sofa').due===''&&qcParse('Sat on the sofa').text==='Sat on the sofa'&&qcParse('Friday').text==='Friday'&&qcParse('Friday').due==='');
+     ok('quick capture +2w and ISO dates',qcParse('Review plan +2w').due===addToIso(new Date(tm).toISOString().slice(0,10),2,'w')&&qcParse('Ship it 2031-12-01').due==='2031-12-01'&&qcParse('Ship it 31/02/2031').due==='');}
+    {const keep=COLORS.map(c=>c.label);applyLabels(LABEL_SETS['Task status']);const a=COLORS[3].label==='In progress'&&COLORS[4].label==='Blocked'&&COLORS[2].label==='Done';applyLabels(DEFAULT_LABELS);const b=COLORS[3].label==='In Progress'&&COLORS[1].label==='Primary';applyLabels(keep);
+     ok('colour label sets apply and reset',a&&b&&Object.values(LABEL_SETS).every(x=>x.length===COLORS.length));}
   }catch(e){ok('self-test crashed: '+e.message,false);}
   const bad=res.filter(r=>!r[1]);
   console.log('MindLoom self-test\n'+res.map(r=>(r[1]?'PASS ':'FAIL ')+r[0]).join('\n'));

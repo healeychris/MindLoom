@@ -233,10 +233,32 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <li>Choose <b>As separate root nodes</b>, or <b>Under: <i>the selected node</i></b>.</li>
     <li>A live count shows how many nodes you will get. <kbd>Ctrl</kbd>+<kbd>Enter</kbd> adds them.</li>
   </ul>
+  <h3>Quick capture <kbd>Q</kbd></h3>
+  <p>Press <kbd>Q</kbd> (or choose <b>Edit &rarr; Quick capture</b>) to open a one-line box. Type a task and press <kbd>Enter</kbd>. It is added under an <b>Inbox</b> node without you choosing where it goes, and the box stays open so you can capture the next one. Press <kbd>Esc</kbd> to close it. Sort the Inbox out later by dragging items to where they belong.</p>
+  <figure><img src="img/quickcapture.png" alt="The Quick capture box with a live preview" loading="lazy"><figcaption>Quick capture: a preview under the box shows the title, due date, tag and owner it has understood.</figcaption></figure>
+  <table>
+    <tr><th>Type</th><th>Result</th></tr>
+    <tr><td><code>#travel</code></td><td>Adds the tag <i>travel</i>. Use as many as you like, anywhere in the line.</td></tr>
+    <tr><td><code>@Marcus</code></td><td>Sets the owner. If the map already has an owner with that name, the existing spelling is used.</td></tr>
+    <tr><td>A date as the <b>last word</b></td><td><code>today</code>, <code>tomorrow</code>, a weekday such as <code>fri</code> (the next one, never today), <code>+3d</code>, <code>+2w</code>, <code>+1m</code>, <code>2026-12-01</code> or <code>27/11</code> (rolls to next year if it has passed).</td></tr>
+  </table>
+  <ul>
+    <li>A date word is only recognised at the end of the line, and never when it is the only word. <i>Sat on the sofa</i> and a lone <i>Friday</i> stay as ordinary text.</li>
+    <li>If you already have a root node called <i>Inbox</i> (any capitalisation), it is used. Otherwise one is created the first time you capture.</li>
+    <li>Each capture is a single step, so <kbd>Ctrl</kbd>+<kbd>Z</kbd> removes it. After adding, a <b>Show in map</b> button takes you to the new node.</li>
+    <li><kbd>Q</kbd> is ignored while you are typing in a text box.</li>
+  </ul>
   <h3>The right-click menu</h3>
   <figure class="small"><img src="img/contextmenu.png" alt="Right-click menu" loading="lazy"><figcaption>Right-click a node for the most common actions, grouped as Edit, Add, Connect and Branch.</figcaption></figure>
   <h3>Colour</h3>
-  <p>The coloured squares at the bottom of the screen set the <b>category</b> of the selected node. You can rename the categories (double-click a label in the legend) so a colour means something to your team, such as <i>Risk</i> or <i>Decision</i>.</p>
+  <p>The coloured squares at the bottom of the screen set the <b>category</b> of the selected node. The colours are fixed, but you can change what each one means so it suits your team, such as <i>Risk</i> or <i>Decision</i>.</p>
+  <figure><img src="img/legend.png" alt="The Legend panel with the Task status label set applied" loading="lazy"><figcaption>The Legend panel, here with the <i>Task status</i> label set applied. The colour bar and the filters use the new names straight away.</figcaption></figure>
+  <ul>
+    <li><b>Rename one category.</b> Double-click a colour on the colour bar, type the new name and press <kbd>Enter</kbd> (<kbd>Esc</kbd> cancels). Or open <b>View &rarr; Panels &rarr; Legend / Rename Colours</b> and click a name.</li>
+    <li><b>Use a ready-made set.</b> In the Legend, the <b>Label set&hellip;</b> list replaces all eight names at once with <i>Task status</i>, <i>RAG</i> or <i>Workstream</i>.</li>
+    <li><b>Reset.</b> The <b>Reset</b> button in the Legend restores the original names (Primary, Approved, In Progress, Blocker, Idea, Reference, Question).</li>
+    <li>Names are saved with the map file, so each map can use its own. They appear in the colour bar, the Filter bar and the bulk-edit colour list.</li>
+  </ul>
 </section>
 
 <section class="sec" id="details">
@@ -260,6 +282,15 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><b>Progress</b></td><td>A percentage complete, shown as a bar on the node.</td></tr>
     <tr><td><b>Recurring</b></td><td>Repeat every n days, weeks, months or years. Completing the item rolls its dates forward, ticks the checklist off and resets progress.</td></tr>
   </table>
+  <h3>Details layout</h3>
+  <p>The details panel can be laid out three ways. Choose <b>Settings &rarr; Details Layout</b> to switch (each click moves to the next one). The choice is saved with the map and every layout holds the same information.</p>
+  <table>
+    <tr><th>Layout</th><th>What it looks like</th></tr>
+    <tr><td><b>Classic</b></td><td>The original panel, with every field visible. This is the default.</td></tr>
+    <tr><td><b>Sections</b></td><td>A summary line of status, owner and due date at the top, then collapsible rows for Checklist, Progress, Notes, Tags, Recurring and Links.</td></tr>
+    <tr><td><b>Property List</b></td><td>A quiet list that shows input boxes only when you hover or edit, which keeps a busy panel tidy.</td></tr>
+  </table>
+  <figure class="small"><img src="img/details-sections.png" alt="The Sections details layout" loading="lazy"><figcaption>The Sections layout.</figcaption></figure>
   <h3>Bookmarks</h3>
   <p>Right-click a node and choose <b>Bookmark</b>, then press <kbd>B</kbd> to jump straight to any bookmarked node, which is useful in very large maps.</p>
 </section>
@@ -457,10 +488,15 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   </ul>
   <h3>Export and import</h3>
   <ul>
-    <li><b>Export</b> to CSV, Markdown or a PNG image. The PNG is a clean picture for slides and documents.</li>
+    <li><b>Export</b> to CSV, Markdown, a PNG image or an SVG image. The PNG is a clean picture for slides and documents. The <b>SVG</b> is a vector picture that stays sharp at any size and can be edited in PowerPoint or Inkscape.</li>
+    <li><b>Export presets</b> remember a set of export choices so a repeat export takes one click (see below).</li>
     <li><b>Import</b> from CSV or Markdown to bring in a list from a spreadsheet or a document.</li>
     <li><b>Print</b> (<kbd>Ctrl</kbd>+<kbd>P</kbd>) prints the map. Choose "Save as PDF" in the print dialog to make a PDF.</li>
   </ul>
+  <h3>Export presets</h3>
+  <p>Set up the screen the way you want the picture, then open <b>File &rarr; Export &rarr; Export Presets&hellip;</b>, type a name such as <i>Steering pack</i>, choose PNG or SVG and press <b>Save</b>. Clicking a preset later exports with those settings and then puts your screen back as it was.</p>
+  <figure class="small"><img src="img/export-presets.png" alt="The Export presets panel" loading="lazy"><figcaption>The Export presets panel.</figcaption></figure>
+  <p>A preset remembers the Date Axis on or off, Slide view, Critical path only, Lines, Bar Colours, Lane Bands, Show Undated, Hide Completed, the background and the image format. Presets are saved in your file.</p>
   <div class="callout warn"><b class="t">Use Save for the full picture</b>CSV and Markdown carry the text, status, dates and structure, but only a saved MindLoom file keeps everything, including links, baselines, saved views and activity history.</div>
 </section>
 
@@ -472,6 +508,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Theme</td><td>Dark or light</td></tr>
     <tr><td>Connectors</td><td>Curved or squared lines</td></tr>
     <tr><td>Background and pattern</td><td>Canvas colour, and a grid, dots or none</td></tr>
+    <tr><td>Details Layout</td><td>Classic, Sections or Property List for the details panel (<a href="#details">details</a>)</td></tr>
     <tr><td>Advanced Activity &amp; Comments</td><td>History and comments per item (<a href="#activity">details</a>)</td></tr>
     <tr><td>Application Mapping Structures</td><td>Link types, waves and impact view (<a href="#mapping">details</a>)</td></tr>
     <tr><td>Snap to Grid</td><td>Keeps nodes aligned when you drag</td></tr>
@@ -481,7 +518,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Baselines, Date Axis settings</td><td>Planning options (<a href="#dateaxis">details</a>)</td></tr>
   </table>
   <figure><img src="img/light.png" alt="Light theme" loading="lazy"><figcaption>The light theme, a good choice for printing and projectors.</figcaption></figure>
-  <p>The <b>View</b> menu collects panels and view options in one place.</p>
+  <p>The <b>View</b> menu collects panels and view options in one place. Its <b>Panels</b> list includes the <b>Legend / Rename Colours</b> panel (see <a href="#basics">Colour</a>).</p>
   <figure class="small"><img src="img/menu-view.png" alt="The View menu" loading="lazy"><figcaption>The View menu.</figcaption></figure>
 </section>
 
@@ -505,6 +542,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><kbd>Ctrl+C / X / V</kbd></td><td>Copy, cut, paste branch</td><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo, redo</td></tr>
     <tr><td><kbd>Shift+Click</kbd></td><td>Multi-select</td><td><kbd>Ctrl+Drag</kbd></td><td>Re-parent a node</td></tr>
     <tr><td><kbd>Arrows</kbd></td><td>Move between nodes</td><td><kbd>?</kbd></td><td>Help and shortcuts</td></tr>
+    <tr><td><kbd>Q</kbd></td><td>Quick capture to Inbox</td><td></td><td></td></tr>
   </table>
   <figure><img src="img/about.png" alt="The About screen" loading="lazy"><figcaption>The About screen (press <kbd>?</kbd>) lists shortcuts and tips, and has a "Check for updates" button.</figcaption></figure>
 </section>
@@ -598,6 +636,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><code>bookmarks</code>, <code>hiddenRoots</code>, <code>savedViews</code>, <code>hideCompleted</code>, <code>snapToGrid</code>, <code>hoverPopup</code>, <code>focusSel</code></td><td>Views and preferences</td></tr>
     <tr><td><code>dateMode</code>, <code>dateOrigin</code>, <code>laneBands</code>, <code>linkVis</code>, <code>barColors</code>, <code>showUndated</code>, <code>critOnly</code>, <code>axSlide</code></td><td>Date Axis settings</td></tr>
     <tr><td><code>baselines</code>, <code>activeBaseline</code>, <code>reportState</code></td><td>Planned dates and the last-report snapshot</td></tr>
+    <tr><td><code>exportPresets</code>, <code>detailLayout</code></td><td>Saved export presets and the chosen details layout</td></tr>
     <tr><td><code>trackActivity</code>, <code>depMap</code></td><td>Whether the optional features are on for this map</td></tr>
   </table>
   <h3>A node</h3>
@@ -650,8 +689,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.33.2", "date": "2026-11-04", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.33.2.</footer>
+  <pre><code>{ "version": "1.37.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.37.0.</footer>
 </section>
 </main>
 </div>

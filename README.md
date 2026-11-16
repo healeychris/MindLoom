@@ -1,10 +1,20 @@
-# MINDLOOM FEATURES (v1.33.2)
+# MINDLOOM FEATURES (v1.37.0)
 
 https://healeychris.github.io/MindLoom/
 
 USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It covers every feature with screenshots,
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
+
+WHAT'S NEW IN 1.37.0
+
+Quick capture (key Q, or Edit > Quick capture): a one-line box that adds a task under an Inbox node without choosing where.
+  Add #tags, an @owner and a trailing date (today, tomorrow, fri, +2w, 27/11) in the same line; a live preview shows
+  what it understood and each capture is one undo step
+Renamable colour categories: double-click a colour on the colour bar, or use View > Panels > Legend / Rename Colours.
+  Pick a ready-made label set (Task status, RAG, Workstream) or Reset to the original names. Names are saved with the map
+Export SVG (vector image, editable in PowerPoint or Inkscape) and Export presets (File > Export > Export Presets)
+Details Layout (Settings): Classic, Sections or Property List for the details panel
 
 APPLICATION MAPPING STRUCTURES (OPTIONAL, OFF BY DEFAULT)
 
