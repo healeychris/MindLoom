@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.38.0)
+# MINDLOOM FEATURES (v1.38.1)
 
 https://healeychris.github.io/MindLoom/
 
@@ -9,8 +9,7 @@ step-by-step recipes, example maps (docs/examples) and a technical reference.
 WHAT'S NEW IN 1.38
 
 Simple Menus (Settings): hides the specialist items from the menus and toolbar, off by default. Ctrl+K still finds every command
-Welcome tips: a short card shown once in a browser that has never held a MindLoom map; reopen it from File > Welcome Tips
-User Guide link: File > User Guide, the About screen and the tips card open the online guide (only when clicked; MindLoom never goes online by itself)
+User Guide link: File > User Guide and the About screen open the online guide (only when clicked; MindLoom never goes online by itself)
 
 EARLIER IN 1.37
 

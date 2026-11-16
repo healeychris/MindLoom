@@ -434,17 +434,6 @@
 
   /* ── Simple menus and welcome tips ── */
   body.simple-menus .adv { display:none !important; }
-  #tips-card { position:fixed; top:78px; right:16px; width:310px; z-index:130; display:none; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,0.4); padding:14px 16px 12px; font-size:12.5px; line-height:1.5; color:var(--text); }
-  #tips-card.visible { display:block; }
-  #tips-card h3 { margin:0 0 8px; font-size:14px; }
-  #tips-card ul { list-style:none; margin:0 0 10px; padding:0; }
-  #tips-card li { display:flex; gap:10px; align-items:baseline; padding:2px 0; }
-  #tips-card li > kbd { flex:0 0 52px; text-align:center; }
-  #tips-card kbd { font:11px var(--font); background:var(--surface-hover); border:1px solid var(--border); border-radius:4px; padding:1px 6px; white-space:nowrap; }
-  #tips-card .tc-row { display:flex; justify-content:space-between; align-items:center; gap:10px; }
-  #tips-card a { color:var(--accent); }
-  #tips-card button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:5px 14px; font:12px var(--font); cursor:pointer; }
-  #tips-card .tc-note { margin-top:8px; font-size:10.5px; color:var(--text-muted); }
 
   /* ── Minimap ── */
   #minimap {
@@ -1096,7 +1085,7 @@
   /* ── Print stylesheet ── */
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
-    #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend, #tips-card,
+    #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
@@ -1192,7 +1181,6 @@
       <button class="dd-item danger" onclick="newMap();closeDD()" title="Start a new empty map (your current map is backed up first)">New Map</button>
       <div class="dd-sep"></div>
       <button class="dd-item" onclick="openGuide();closeDD()" title="Open the full illustrated User Guide in your browser. It needs an internet connection; MindLoom itself never goes online on its own.">User Guide&hellip;</button>
-      <button class="dd-item" onclick="showTips();closeDD()" title="Show the short list of tips for getting started">Welcome Tips&hellip;</button>
       <button class="dd-item" onclick="showAbout();closeDD()" title="Version, features and information about MindLoom">About MindLoom</button>
     </div>
   </div>
@@ -1401,18 +1389,6 @@
   </div>
 </div>
 
-<div id="tips-card" role="dialog" aria-label="Welcome tips">
-  <h3>Welcome to MindLoom</h3>
-  <ul>
-    <li><kbd>Tab</kbd><span>add a child &middot; <kbd>Enter</kbd> add a sibling</span></li>
-    <li><kbd>F2</kbd><span>rename the selected node</span></li>
-    <li><kbd>I</kbd><span>add a status, owner and due date</span></li>
-    <li><kbd>Q</kbd><span>quick capture a task, e.g. <i>Call supplier fri #work</i></span></li>
-    <li><kbd class="tc-k">Ctrl+K</kbd><span>find any command</span></li>
-  </ul>
-  <div class="tc-row"><a href="https://healeychris.github.io/MindLoom/" target="_blank" rel="noopener noreferrer">Open the User Guide</a><button type="button" onclick="closeTips()">Got it</button></div>
-  <div class="tc-note">Show this again any time from File &rarr; Welcome Tips.</div>
-</div>
 <div id="qc-overlay" onclick="if(event.target===this)closeCapture()">
   <div id="qc-box" role="dialog" aria-label="Quick capture">
     <input type="text" id="qc-input" placeholder="Quick capture, e.g. Call supplier fri #work @sam" aria-label="Quick capture" autocomplete="off" spellcheck="false" maxlength="300">
@@ -1879,7 +1855,6 @@
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
-const HAD_DATA=(()=>{try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i)||'';if(k.startsWith('mindloom')||k.startsWith('mindmap'))return true;}}catch(e){}return false;})();
 
 // ── Filename helper: MindLoom-DDMMYYYY.ext ──
 function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindLoom-'+yyyy+mm+dd+'.'+ext;}
@@ -2279,7 +2254,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.38.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.38.1';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2288,7 +2263,7 @@ function storageSet(k,v){
   catch(e){if(!storageWarned){storageWarned=true;toast('Browser storage unavailable — use File > Save to keep your work');}return false;}
 }
 
-// ── Simple menus, User Guide link and welcome tips ──
+// ── Simple menus and User Guide link ──
 const GUIDE_URL='https://healeychris.github.io/MindLoom/';
 const PREFS_KEY=LEGACY_KEY+':prefs';
 let prefs={};try{prefs=JSON.parse(storageGet(PREFS_KEY)||'{}')||{};}catch(e){prefs={};}
@@ -2300,9 +2275,6 @@ function setSimpleMenus(v,quiet){
 }
 function toggleSimpleMenus(){setSimpleMenus(!prefs.simple);}
 function openGuide(){window.open(GUIDE_URL,'_blank','noopener,noreferrer');}
-function showTips(){$('#tips-card').classList.add('visible');}
-function closeTips(){$('#tips-card').classList.remove('visible');if(!prefs.tipsSeen){prefs.tipsSeen=1;savePrefs();}}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#tips-card').classList.contains('visible'))closeTips();});
 
 // ── Init ──
 function init(){
@@ -7806,7 +7778,7 @@ function selfTest(){
     ok('logText wording',logText({t:'due',from:'2026-03-01',to:'2026-03-13'}).includes('+12 days')&&logText({t:'status',from:'',to:'blocked'})==='Status None \u2192 Blocked');
     ok('cleanRepeat',cleanRepeat({n:2,u:'w'}).n===2&&cleanRepeat({n:0,u:'w'})===null&&cleanRepeat({n:1,u:'x'})===null);
     {const q=qcParse('Call supplier fri #work @sam'),tm=todayMs(),dd=dayMs(q.due);
-     ok('quick capture reads text, #tag, @owner and a weekday',q.text==='Call supplier'&&q.tags.join()==='work'&&q.owner==='sam'&&dd>tm&&dd<=tm+7*864e5&&new Date(dd).getUTCDay()===5);
+     ok('quick capture reads text, #tag, @owner and a weekday',q.text==='Call supplier'&&q.tags.join()==='work'&&q.owner.toLowerCase()==='sam'&&dd>tm&&dd<=tm+7*864e5&&new Date(dd).getUTCDay()===5);
      ok('quick capture leaves ordinary words alone',qcParse('Sat on the sofa').due===''&&qcParse('Sat on the sofa').text==='Sat on the sofa'&&qcParse('Friday').text==='Friday'&&qcParse('Friday').due==='');
      ok('quick capture +2w and ISO dates',qcParse('Review plan +2w').due===addToIso(new Date(tm).toISOString().slice(0,10),2,'w')&&qcParse('Ship it 2031-12-01').due==='2031-12-01'&&qcParse('Ship it 31/02/2031').due==='');}
     {const keep=COLORS.map(c=>c.label);applyLabels(LABEL_SETS['Task status']);const a=COLORS[3].label==='In progress'&&COLORS[4].label==='Blocked'&&COLORS[2].label==='Done';applyLabels(DEFAULT_LABELS);const b=COLORS[3].label==='In Progress'&&COLORS[1].label==='Primary';applyLabels(keep);
@@ -7824,9 +7796,6 @@ $('#selftest-btn').addEventListener('click',selfTest);
 $('#about-ver').textContent='Version '+APP_VERSION;
 init();
 setSimpleMenus(prefs.simple,true);
-if(/Mac|iPhone|iPad/.test(navigator.platform||''))$('#tips-card .tc-k').textContent='\u2318K';
-// the tips card opens by itself only in a browser that has never held MindLoom data, and only once
-if(!HAD_DATA&&!prefs.tipsSeen)setTimeout(showTips,700);
 </script>
 </body>
 </html>

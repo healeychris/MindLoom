@@ -150,7 +150,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h2>Quick start</h2>
   <p>Five minutes to your first useful map.</p>
   <ol class="steps">
-    <li><b>Open the file.</b> Double-click <code>MindLoom.html</code>. It opens in your normal browser and works without an internet connection. You start on a fresh map with one central idea. The first time you use MindLoom in a browser, a short <a href="#welcome-tips">Welcome tips</a> card appears.</li>
+    <li><b>Open the file.</b> Double-click <code>MindLoom.html</code>. It opens in your normal browser and works without an internet connection. You start on a fresh map with one central idea.</li>
     <li><b>Name the central idea.</b> Select it and press <kbd>F2</kbd>, type a name and press <kbd>Enter</kbd>.</li>
     <li><b>Add branches.</b> With a node selected, press <kbd>Tab</kbd> to add a child and <kbd>Enter</kbd> to add a sibling. Type, press <kbd>Enter</kbd>, and keep going.</li>
     <li><b>Capture ideas quickly.</b> Press <kbd>Q</kbd> from anywhere, type a task such as <i>Call supplier fri #work @sam</i> and press <kbd>Enter</kbd>. It is filed under an Inbox node for you to sort later (<a href="#basics">more on Quick capture</a>).</li>
@@ -482,7 +482,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Rolling backups</td><td>Your browser</td><td>File &rarr; Restore backup. Your previous map is kept here as "last session".</td></tr>
   </table>
   <p>MindLoom always opens on a fresh map. To continue earlier work, use <b>File &rarr; Load</b> or <b>Restore backup</b>.</p>
-  <figure class="small"><img src="img/menu-file.png" alt="The File menu" loading="lazy"><figcaption>The File menu. <b>User Guide</b> opens this guide in your browser, and <b>Welcome Tips</b> shows the getting-started card again.</figcaption></figure>
+  <figure class="small"><img src="img/menu-file.png" alt="The File menu" loading="lazy"><figcaption>The File menu. <b>User Guide</b> opens this guide in your browser.</figcaption></figure>
   <h3>Saving</h3>
   <ul>
     <li><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and <b>Save As</b> write a file in MindLoom's own format. Use this for your real work.</li>
@@ -538,11 +538,8 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <li><b>Ctrl+K still finds everything.</b> The <a href="#find">command palette</a> lists every command, including the hidden ones.</li>
     <li>To get the hidden items back, open <b>Settings</b> and switch <b>Simple Menus</b> off. That item always stays visible.</li>
   </ul>
-  <h3 id="welcome-tips">Welcome tips</h3>
-  <p>The first time MindLoom is opened in a browser that has never held a MindLoom map, a small card lists the handful of keys worth knowing. Click <b>Got it</b> (or press <kbd>Esc</kbd>) and it does not appear again by itself. A browser that already holds MindLoom data never shows it on its own. To see it any time, choose <b>File &rarr; Welcome Tips</b>.</p>
-  <figure><img src="img/welcome-tips.png" alt="The Welcome tips card on a blank map" loading="lazy"><figcaption>The Welcome tips card, with a link to this guide.</figcaption></figure>
   <h3>Opening this guide from MindLoom</h3>
-  <p><b>File &rarr; User Guide</b>, the About screen and the Welcome tips card all open this page in a new tab. MindLoom only goes online when you click one of them (or press <b>Check for updates</b>); it never connects by itself. If you work without a connection, download the project from GitHub (<b>Code &rarr; Download ZIP</b>) and open <code>docs/index.html</code> from the unzipped folder.</p>
+  <p><b>File &rarr; User Guide</b> and the link on the About screen open this page in a new tab. MindLoom only goes online when you click one of them (or press <b>Check for updates</b>); it never connects by itself. If you work without a connection, download the project from GitHub (<b>Code &rarr; Download ZIP</b>) and open <code>docs/index.html</code> from the unzipped folder.</p>
   <p>The <b>View</b> menu collects panels and view options in one place. Its <b>Panels</b> list includes the <b>Legend / Rename Colours</b> panel (see <a href="#basics">Colour</a>).</p>
   <figure class="small"><img src="img/menu-view.png" alt="The View menu" loading="lazy"><figcaption>The View menu.</figcaption></figure>
 </section>
@@ -619,7 +616,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <ul>
     <li><b>One file.</b> The whole application (HTML, CSS and JavaScript) is a single <code>MindLoom.html</code>, with no build step and no runtime dependencies.</li>
     <li><b>Offline.</b> It never loads scripts, fonts or data from the network.</li>
-    <li><b>Local data.</b> State is held in memory, backed up to the browser's <code>localStorage</code>, and saved by the user as a JSON file. Two personal preferences (Simple Menus, and whether the Welcome tips have been seen) are kept in the browser only and are never written to the map file.</li>
+    <li><b>Local data.</b> State is held in memory, backed up to the browser's <code>localStorage</code>, and saved by the user as a JSON file. One personal preference (Simple Menus) is kept in the browser only and is never written to the map file.</li>
     <li><b>Plain JavaScript</b> with no framework. The map is rendered as absolutely positioned DOM elements over an SVG layer for connectors.</li>
   </ul>
   <h3>Browser support</h3>
@@ -716,8 +713,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.38.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.38.0.</footer>
+  <pre><code>{ "version": "1.38.1", "date": "2026-11-16", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.38.1.</footer>
 </section>
 </main>
 </div>
