@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.38.1)
+# MINDLOOM FEATURES (v1.40.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,16 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.38
+WHAT'S NEW IN 1.40
+
+Nothing changes in how MindLoom looks or works. This release rebuilds the inside of the app so future updates are quicker and safer
+Undo uses far less memory on large maps
+File format 6: each node now carries an id, a last-changed time and (if you set your name) who changed it, and the map keeps a list
+  of recently deleted nodes. This is groundwork for merging two people's copies of a map in a later release.
+  Files from earlier versions open normally. MindLoom 1.38 and earlier open a format 6 file with a notice
+Development (source files, build tool and tests) now lives in a separate repository; this one holds the app you download
+
+EARLIER IN 1.38
 
 Simple Menus (Settings): hides the specialist items from the menus and toolbar, off by default. Ctrl+K still finds every command
 User Guide link: File > User Guide and the About screen open the online guide (only when clicked; MindLoom never goes online by itself)

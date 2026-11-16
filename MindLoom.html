@@ -1141,208 +1141,7 @@
 </head>
 <body>
 
-<div id="toolbar">
-  <span class="brand">MindLoom</span>
-  <div class="sep"></div>
-
-  <!-- File dropdown -->
-  <div class="dropdown" id="dd-file">
-    <button class="tb-btn" onclick="toggleDD('dd-file')" title="Save, load, import, export and print">File &#9662;</button>
-    <div class="dropdown-menu" id="ddm-file">
-      <button class="dd-item" onclick="saveToFile();closeDD()" title="Save the map to a file on your computer">Save <span class="shortcut">Ctrl+S</span></button>
-      <button class="dd-item" onclick="saveAsFile();closeDD()" title="Save a copy of the map under a new file name">Save As&hellip;</button>
-      <button class="dd-item" id="autofile-toggle" onclick="toggleAutoFile();closeDD()" title="Keep your file up to date automatically while this page is open (Chrome and Edge)">Auto-save to file: Off</button>
-      <button class="dd-item" onclick="loadFromFile();closeDD()" title="Open a previously saved map file">Load</button>
-      <div class="dd-submenu">
-        <button class="dd-item" id="backup-trigger" title="Go back to one of the automatic backups">Restore backup</button>
-        <div class="dd-submenu-items" id="backup-list"></div>
-      </div>
-      <div class="dd-sep"></div>
-      <div class="dd-submenu">
-        <button class="dd-item" title="Bring in nodes from a CSV or Markdown file">Import</button>
-        <div class="dd-submenu-items">
-          <button class="dd-item" onclick="importCSV();closeDD()" title="Create nodes from a CSV spreadsheet">Import CSV</button>
-          <button class="dd-item" onclick="importMarkdown();closeDD()" title="Create nodes from a Markdown outline (headings and bullets)">Import Markdown</button>
-        </div>
-      </div>
-      <div class="dd-submenu">
-        <button class="dd-item" title="Save the map as a picture or as text and spreadsheet files">Export</button>
-        <div class="dd-submenu-items">
-          <button class="dd-item" onclick="exportPNG();closeDD()" title="Save the whole map as a picture">Export PNG</button>
-          <button class="dd-item" onclick="exportSVG();closeDD()" title="Save the same picture as a vector image that stays sharp at any size and can be edited in PowerPoint or Inkscape">Export SVG</button>
-          <button class="dd-item adv" onclick="toggleExportPresets();closeDD()" title="Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click">Export Presets&hellip;</button>
-          <button class="dd-item" onclick="exportMarkdown();closeDD()" title="Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)">Export Markdown</button>
-          <button class="dd-item" onclick="exportCSV();closeDD()" title="Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)">Export CSV</button>
-        </div>
-      </div>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="printMap();closeDD()" title="Print the map">Print <span class="shortcut">Ctrl+P</span></button>
-      <div class="dd-sep"></div>
-      <button class="dd-item danger" onclick="newMap();closeDD()" title="Start a new empty map (your current map is backed up first)">New Map</button>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="openGuide();closeDD()" title="Open the full illustrated User Guide in your browser. It needs an internet connection; MindLoom itself never goes online on its own.">User Guide&hellip;</button>
-      <button class="dd-item" onclick="showAbout();closeDD()" title="Version, features and information about MindLoom">About MindLoom</button>
-    </div>
-  </div>
-
-  <!-- Edit dropdown -->
-  <div class="dropdown" id="dd-edit">
-    <button class="tb-btn" onclick="toggleDD('dd-edit')" title="Undo, redo, edit, copy and paste branches, duplicate, shift dates and delete">Edit &#9662;</button>
-    <div class="dropdown-menu" id="ddm-edit">
-      <button class="dd-item" onclick="undo();closeDD()" title="Undo the last change to the map: nodes, links, bookmarks and hidden trees (not saved views or display settings)">Undo <span class="shortcut">Ctrl+Z</span></button>
-      <button class="dd-item" onclick="redo();closeDD()" title="Redo the change you just undid">Redo <span class="shortcut">Ctrl+Y</span></button>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="editSelected();closeDD()" title="Rename the selected node">Edit node <span class="shortcut">F2</span></button>
-      <button class="dd-item" onclick="showDetailForSelected();closeDD()" title="Open the details panel (notes, owner, status, dates, tags) for the selected node">Notes / Details <span class="shortcut">I</span></button>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="copySelection();closeDD()" title="Copy the selected node and everything beneath it. It can also be pasted into another map or browser tab">Copy branch <span class="shortcut">Ctrl+C</span></button>
-      <button class="dd-item" onclick="cutSelection();closeDD()" title="Copy the selected node and everything beneath it, then remove it from this map">Cut branch <span class="shortcut">Ctrl+X</span></button>
-      <button class="dd-item" onclick="pasteSelection();closeDD()" title="Paste a copied branch under the selected node (or as a new tree if nothing is selected). Plain text becomes nodes, one per line">Paste <span class="shortcut">Ctrl+V</span></button>
-      <button class="dd-item" onclick="duplicateSelected();closeDD()" title="Copy the selected node together with everything beneath it">Duplicate subtree</button>
-      <button class="dd-item" onclick="openCapture();closeDD()" title="Type a task and press Enter: it goes under an Inbox node without you choosing where. Add a date (fri, tomorrow, +2w), #tag and @owner in the same line">Quick capture&hellip; <span class="shortcut">Q</span></button>
-      <button class="dd-item" onclick="openBulkAdd();closeDD()" title="Type or paste a list of names and create them all at once, as top-level nodes or under the selected node">Add several nodes&hellip;</button>
-      <div class="dd-sep"></div>
-      <button class="dd-item adv" onclick="openShiftDates();closeDD()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates (branch + links)&hellip;</button>
-      <div class="dd-sep"></div>
-      <button class="dd-item danger" onclick="deleteSelected();closeDD()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
-    </div>
-  </div>
-
-  <!-- View dropdown -->
-  <div class="dropdown" id="dd-view">
-    <button class="tb-btn" onclick="toggleDD('dd-view')" title="Zoom, panels, agenda, timeline, board, bookmarks and presentation">View &#9662;</button>
-    <div class="dropdown-menu" id="ddm-view">
-      <div class="dd-submenu">
-        <button class="dd-item" title="Collapse, expand, fit and centre the view">Zoom &amp; Collapse</button>
-        <div class="dd-submenu-items">
-          <button class="dd-item" onclick="collapseAll();closeDD()" title="Hide the children of every node">Collapse All</button>
-          <button class="dd-item" onclick="expandAll();closeDD()" title="Show the children of every node">Expand All</button>
-          <div class="dd-sep"></div>
-          <button class="dd-item" onclick="fitAll();closeDD()" title="Zoom and pan so every node is in view">Fit All <span class="shortcut">F</span></button>
-          <button class="dd-item" onclick="centreView();closeDD()" title="Reset the zoom and pan to the centre">Centre <span class="shortcut">Home</span></button>
-        </div>
-      </div>
-      <div class="dd-submenu">
-        <button class="dd-item" title="Show or hide side panels such as search, filter, legend and statistics">Panels</button>
-        <div class="dd-submenu-items">
-          <button class="dd-item adv" onclick="toggleFocusPanel();closeDD()" title="Show or hide whole root trees to concentrate on one">Focus Roots <span class="shortcut">G</span></button>
-          <button class="dd-item" onclick="toggleFilter();closeDD()" title="Dim nodes that don't match a status, colour, owner or tag">Filter Bar <span class="shortcut">Ctrl+F</span></button>
-          <button class="dd-item" onclick="toggleSearch();closeDD()" title="Find nodes by their title, notes, tags or date">Search <span class="shortcut">/</span></button>
-          <button class="dd-item" onclick="toggleLegend();closeDD()" title="Show or hide the colour key. Click any name in it to rename a category, pick a ready-made set (Task status, RAG, Workstream) or Reset. You can also double-click a colour on the colour bar. Names are saved with the map. The colours themselves don't change.">Legend / Rename Colours</button>
-          <button class="dd-item adv" onclick="toggleMinimap();closeDD()" title="Show or hide a small overview of the whole map">Minimap</button>
-          <button class="dd-item" onclick="toggleStatsPanel();closeDD()" title="Show counts and progress statistics for the map">Statistics <span class="shortcut">S</span></button>
-        </div>
-      </div>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="toggleAgenda();closeDD()" title="Your to-do list: overdue, due today, this week and under way, with checklists">Agenda <span class="shortcut">A</span></button>
-      <button class="dd-item" onclick="toggleTimeline();closeDD()" title="Gantt-style rows of start and due dates that you can drag to change">Timeline <span class="shortcut">T</span></button>
-      <button class="dd-item" onclick="toggleBoard();closeDD()" title="Kanban columns by status, owner or project. Drag cards between columns to change them">Board <span class="shortcut">K</span></button>
-      <button class="dd-item" onclick="toggleReport();closeDD()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed. Copy, download or print it">Status report <span class="shortcut">R</span></button>
-      <div class="dd-sep"></div>
-      <button class="dd-item adv" onclick="toggleBookmarks();closeDD()" title="Show your bookmarked nodes and jump to them">Bookmarks <span class="shortcut">B</span></button>
-      <button class="dd-item adv" onclick="toggleViews();closeDD()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position">Saved Views <span class="shortcut">V</span></button>
-      <div id="dep-menu-block" style="display:none">
-        <div class="dd-sep"></div>
-        <div class="dd-label">Dependencies</div>
-        <button class="dd-item" onclick="showImpactSelected();closeDD()" title="Highlight everything that relies on the selected node, and what it relies on">Show impact of selected</button>
-        <button class="dd-item" onclick="openDepCheck();closeDD()" title="List nodes with no links, no owner or no wave, and waves that look out of order">Dependency check&hellip;</button>
-      </div>
-      <div class="dd-sep"></div>
-      <button class="dd-item" onclick="startPresentation();closeDD()" title="Present the map full screen">Presentation Mode <span class="shortcut">P</span></button>
-    </div>
-  </div>
-
-  <!-- Settings dropdown -->
-  <div class="dropdown" id="dd-settings">
-    <button class="tb-btn" onclick="toggleDD('dd-settings')" title="Appearance, editing options, baselines and Date Axis settings">Settings &#9662;</button>
-    <div class="dropdown-menu" id="ddm-settings">
-      <div class="dd-label">Appearance</div>
-      <button class="dd-item" id="theme-toggle" onclick="toggleTheme();closeDD()" title="Switch between the dark and light theme">Theme: Dark</button>
-      <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
-      <button class="dd-item" id="simple-toggle" onclick="toggleSimpleMenus();closeDD()" title="Hide the specialist items (saved views, bookmarks, baselines, link types, activity history and so on) so only the everyday ones show. Ctrl+K still finds every command. Off by default; remembered in this browser">Simple Menus: Off</button>
-      <div class="dd-label">Background</div>
-      <div class="bg-row" id="bg-colors"></div>
-      <div class="dd-label">Pattern</div>
-      <div class="bg-row" id="bg-patterns"></div>
-      <div class="dd-sep"></div>
-      <div class="dd-label">Editing</div>
-      <button class="dd-item adv" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Advanced Activity &amp; Comments: Off</button>
-      <button class="dd-item adv" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
-      <button class="dd-item adv" id="dep-toggle" onclick="toggleDepMap();closeDD()" title="Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map">Application Mapping Structures: Off</button>
-      <button class="dd-item adv" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
-      <button class="dd-item adv" id="dpl-toggle" onclick="cycleDetailLayout();closeDD()" title="How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)">Details Layout: Classic</button>
-      <button class="dd-item adv" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
-      <button class="dd-item adv" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
-      <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
-      <div class="dd-sep"></div>
-      <div class="dd-label adv">Planning</div>
-      <button class="dd-item adv" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines&hellip;</button>
-      <div class="dd-submenu adv">
-        <button class="dd-item" id="dm-settings-trigger" title="Everything about how the Date Axis looks and behaves">Date Axis settings</button>
-        <div class="dd-submenu-items">
-          <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
-          <div class="dd-sep"></div>
-          <div class="dd-label">Layout</div>
-          <button class="dd-item" id="lanes-toggle" onclick="toggleLaneBands();closeDD()" title="Show or hide the tinted swimlane bands and pinned lane names">Lane Bands: On</button>
-          <button class="dd-item" id="undated-toggle" onclick="toggleShowUndated();closeDD()" title="Show or hide nodes that have no date">Undated Nodes: Hidden</button>
-          <button class="dd-item" id="linkvis-toggle" onclick="cycleLinkVis();closeDD()" title="Show no lines, only the selected node's lines, or every line">Lines: Selected</button>
-          <button class="dd-item" id="barcol-toggle" onclick="toggleBarColors();closeDD()" title="Colour bars by workstream, or by each node's own colour">Bar Colours: Workstream</button>
-          <div class="dd-sep"></div>
-          <div class="dd-label">Focus</div>
-          <button class="dd-item" id="crit-toggle" onclick="toggleCritOnly();closeDD()" title="Show only Critical Path items, their workstreams and the chain of dependencies between them">Critical Path Only: Off</button>
-          <button class="dd-item" id="slide-toggle" onclick="toggleSlide();closeDD()" title="A clean view for slides, with Critical Path items emphasised">Slide View: Off</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <button class="tb-btn" id="cmd-btn" onclick="openPalette()" title="Search every command (Ctrl+K)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="cmd-txt">Commands</span><kbd class="cmd-kbd" id="cmd-kbd">Ctrl K</kbd></button>
-  <div class="sep tb-wide"></div>
-
-  <button class="tb-btn tb-wide" onclick="addRootNode()" title="Add a new top-level (central) idea">+ Root</button>
-  <button class="tb-btn tb-wide needs-sel" title="Add a new node beneath the selected one (Tab)" onclick="addChild()">+ Child</button>
-  <button class="tb-btn tb-wide needs-sel" title="Add a new node beside the selected one, under the same parent (Enter)" onclick="addSibling()">+ Sibling</button>
-  <div class="sep tb-wide"></div>
-  <div class="dropdown tb-wide" id="dd-link">
-    <button class="tb-btn needs-sel" id="link-btn" onclick="toggleDD('dd-link')" title="Connect the selected node to another: a dashed cross-link, or a dependency (L)">Link &#9662;</button>
-    <div class="dropdown-menu" id="ddm-link">
-      <button class="dd-item" onclick="startLinkMode();closeDD()" title="Draw a dashed cross-link from the selected node to another node">Cross-link&hellip; <span class="shortcut">L</span></button>
-      <button class="dd-item" onclick="startDependency('dep');closeDD()" title="Choose a node that must be finished before the selected node can start">Depends on&hellip;</button>
-      <button class="dd-item" onclick="startDependency('need');closeDD()" title="Choose a node that cannot start until the selected node is finished">Needed by&hellip;</button>
-    </div>
-  </div>
-  <div class="sep tb-wide"></div>
-  <button class="tb-btn adv tb-view tb-wide" id="tb-focus" onclick="toggleFocusPanel()" title="Show or hide whole root trees so you can concentrate on one (G)">Focus</button>
-  <div class="dropdown tb-wide" id="dd-tidy">
-    <button class="tb-btn tb-view" onclick="toggleDD('dd-tidy')" title="Auto-arrange nodes into a tree, an outline, or date swimlanes when the Date Axis is on">Tidy &#9662;</button>
-    <div class="dropdown-menu" id="ddm-tidy">
-      <div class="dd-label">Whole map</div>
-      <button class="dd-item" onclick="tidyLayout('h','all');closeDD()" title="Arrange the whole map as a left-to-right tree, siblings ordered by due date">Horizontal tree &rarr;</button>
-      <button class="dd-item" onclick="tidyLayout('v','all');closeDD()" title="Arrange the whole map as a top-to-bottom tree, siblings ordered by due date">Vertical tree &darr;</button>
-      <button class="dd-item" onclick="tidyLayout('b','all');closeDD()" title="Root in the middle, branches split between the left and right sides. Best for large maps">Balanced (both sides) &harr;</button>
-      <button class="dd-item" onclick="autoLayoutOutline();closeDD()" title="Arrange the map as an indented list">Outline (indented list)</button>
-      <div class="dd-sep"></div>
-      <div class="dd-label">Selected branch only</div>
-      <button class="dd-item" onclick="tidyLayout('h','branch');closeDD()" title="Arrange only the selected branch as a left-to-right tree">Horizontal tree &rarr;</button>
-      <button class="dd-item" onclick="tidyLayout('v','branch');closeDD()" title="Arrange only the selected branch as a top-to-bottom tree">Vertical tree &darr;</button>
-      <button class="dd-item" onclick="tidyLayout('b','branch');closeDD()" title="Arrange only the selected branch with its children split between both sides">Balanced (both sides) &harr;</button>
-    </div>
-  </div>
-  <div class="sep tb-wide"></div>
-  <div class="tb-group tb-wide" role="group" aria-label="Views">
-    <button class="tb-btn tb-view" id="tb-agenda" onclick="toggleAgenda()" title="Your to-do list: overdue, due today, this week and under way, with checklists (A)">Agenda</button>
-    <button class="tb-btn tb-view" id="tb-timeline" onclick="toggleTimeline()" title="Gantt-style rows of start and due dates that you can drag to change (T)">Timeline</button>
-    <button class="tb-btn tb-view" id="date-btn" onclick="toggleDateMode()" title="Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map.">Date Axis</button>
-    <button class="tb-btn tb-view" id="tb-board" onclick="toggleBoard()" title="Kanban columns by status, owner or project. Drag cards to change them (K)">Board</button>
-    <button class="tb-btn tb-view" id="tb-report" onclick="toggleReport()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed (R)">Report</button>
-  </div>
-  <button class="tb-btn adv tb-view tb-wide" id="tb-saved" onclick="toggleViews()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)">Saved Views</button>
-
-  <div class="spacer"></div>
-  <button class="tb-btn sb-muted" id="save-badge" onclick="saveToFile()" title="Save status: click to save the map to a file"></button>
-  <button class="tb-btn" id="due-badge" style="display:none" onclick="showDueAttention()" title="Overdue and due-today items. Click to show only those."></button>
-  <div id="stats"></div>
-</div>
+<div id="toolbar"></div>
 
 <div id="mobile-bar" role="toolbar" aria-label="Quick actions">
   <button class="tb-btn" onclick="addRootNode()" title="Add a new top-level (central) idea">+ Root</button>
@@ -1611,33 +1410,7 @@
   <div class="dp-timestamps" id="dp-timestamps" style="--o:90"></div>
 </div>
 
-<div id="ctx-menu">
-  <button class="dd-item" onclick="showDetailForSelected();hideCtx()" title="Open the details panel (notes, owner, status, dates, tags) for the selected node">Edit details&hellip; <span class="shortcut">I</span></button>
-  <button class="dd-item" onclick="editSelected();hideCtx()" title="Rename the selected node">Rename <span class="shortcut">F2</span></button>
-  <button class="dd-item" id="cx-bm" onclick="toggleBookmarkSelected();hideCtx()" title="Add or remove the selected node from your bookmarks">Bookmark</button>
-  <div class="dd-sep"></div>
-  <div class="dd-label">Add</div>
-  <button class="dd-item" onclick="addChild();hideCtx()" title="Add a new node beneath the selected one">Child node <span class="shortcut">Tab</span></button>
-  <button class="dd-item" onclick="addSibling();hideCtx()" title="Add a new node beside the selected one, under the same parent">Sibling node <span class="shortcut">Enter</span></button>
-  <button class="dd-item" onclick="openBulkAdd();hideCtx()" title="Paste a list of names and create them all under this node. Indent a line to nest it">Several child nodes&hellip;</button>
-  <div class="dd-sep"></div>
-  <div class="dd-label">Connect</div>
-  <button class="dd-item" onclick="startDependency('dep');hideCtx()" title="Choose a node that must be finished before this one can start">Depends on&hellip;</button>
-  <button class="dd-item" onclick="startDependency('need');hideCtx()" title="Choose a node that cannot start until this one is finished">Needed by&hellip;</button>
-  <button class="dd-item" onclick="startLinkMode();hideCtx()" title="Draw a dashed cross-link from the selected node to another node">Cross-link from here <span class="shortcut">L</span></button>
-  <button class="dd-item" id="cx-impact" style="display:none" onclick="showImpactSelected();hideCtx()" title="Highlight everything that relies on this node">Show impact</button>
-  <div class="dd-sep"></div>
-  <div class="dd-label">Branch</div>
-  <button class="dd-item" id="cx-col" onclick="toggleCollapse();hideCtx()" title="Hide or show the children of the selected node">Collapse / Expand <span class="shortcut">Space</span></button>
-  <button class="dd-item" onclick="copySelection();hideCtx()" title="Copy this node and everything beneath it">Copy <span class="shortcut">Ctrl+C</span></button>
-  <button class="dd-item" onclick="cutSelection();hideCtx()" title="Copy this node and everything beneath it, then remove it">Cut <span class="shortcut">Ctrl+X</span></button>
-  <button class="dd-item" onclick="pasteSelection();hideCtx()" title="Paste a copied branch (or plain text) under this node">Paste as child <span class="shortcut">Ctrl+V</span></button>
-  <button class="dd-item" onclick="duplicateSelected();hideCtx()" title="Copy the selected node together with everything beneath it">Duplicate</button>
-  <button class="dd-item" onclick="openShiftDates();hideCtx()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates&hellip;</button>
-  <button class="dd-item" onclick="convertToRoot();hideCtx()" title="Detach this node and its branch from its parent so it becomes its own top-level idea">Detach as root</button>
-  <div class="dd-sep"></div>
-  <button class="dd-item danger" onclick="deleteSelected();hideCtx()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
-</div>
+<div id="ctx-menu"></div>
 
 <div id="impact-bar"><span>Impact view: <b id="ib-name"></b></span><button type="button" onclick="clearImpact()" title="Back to the normal map (Esc)">Clear</button></div>
 <div id="impact-panel" role="complementary" aria-label="Impact of the selected node"></div>
@@ -1742,39 +1515,7 @@
     <div class="about-columns">
       <div>
         <div class="about-section">Keyboard Shortcuts</div>
-        <div class="shortcut-grid">
-          <kbd>Tab</kbd><span>Add child node</span>
-          <kbd>Enter</kbd><span>Add sibling node</span>
-          <kbd>F2</kbd><span>Edit selected node</span>
-          <kbd>Del</kbd><span>Delete selected node</span>
-          <kbd>Space</kbd><span>Collapse / expand</span>
-          <kbd>I</kbd><span>Open notes &amp; details</span>
-          <kbd>L</kbd><span>Start cross-link</span>
-          <kbd>/</kbd><span>Search</span>
-          <kbd>F</kbd><span>Fit all nodes in view</span>
-          <kbd>Home</kbd><span>Centre &amp; reset zoom</span>
-          <kbd>Ctrl+F</kbd><span>Toggle filter bar</span>
-          <kbd>G</kbd><span>Focus — show/hide root trees</span>
-      <kbd>S</kbd><span>Statistics dashboard</span>
-          <kbd>Q</kbd><span>Quick capture to Inbox</span>
-          <kbd>A</kbd><span>Agenda (to-do list)</span>
-          <kbd>T</kbd><span>Timeline</span>
-          <kbd>Ctrl+S</kbd><span>Save to file</span>
-          <kbd>Ctrl+C / X / V</kbd><span>Copy, cut, paste branch</span>
-          <kbd>Ctrl+Z</kbd><span>Undo</span>
-          <kbd>Ctrl+Y</kbd><span>Redo</span>
-          <kbd>Arrows</kbd><span>Navigate between nodes</span>
-          <kbd>Shift+Click</kbd><span>Multi-select nodes</span>
-          <kbd>Ctrl+Drag</kbd><span>Reparent node</span>
-          <kbd>B</kbd><span>Toggle bookmarks panel</span>
-          <kbd>Ctrl+K</kbd><span>Command palette</span>
-          <kbd>V</kbd><span>Saved views</span>
-          <kbd>K</kbd><span>Board view</span>
-          <kbd>R</kbd><span>Status report</span>
-          <kbd>P</kbd><span>Presentation mode</span>
-          <kbd>Esc</kbd><span>Deselect / close panels</span>
-          <kbd>?</kbd><span>This screen</span>
-        </div>
+        <div class="shortcut-grid" id="about-keys"></div>
       </div>
       <div>
         <div class="about-section">Tips</div>
@@ -1854,6 +1595,487 @@
 <input type="file" id="md-input" accept=".md,.markdown,.txt" style="display:none">
 
 <script>
+// Built from src/ by tools/build.js. Edit src/, not this file.
+// ── Commands ──
+// The single list behind the toolbar menus, the right-click menu, the keyboard shortcuts, the Ctrl+K palette,
+// Simple Menus and the About screen's shortcut list. Each entry is one thing a person can do.
+//   id      stable name, never reused          fn, args   the function to run, and its arguments
+//   cls     the button's classes (default dd-item)      adv   true = a specialist item, hidden by Simple Menus       label, hint, tip   what the person reads
+//   elId    the element id other code looks up
+//   After a click the menu closes by itself: a right-click item closes that menu (id starts 'ctx.'), a toolbar button does not (tb., app.).
+const COMMANDS=[
+  {id:"file.saveToFile",fn:"saveToFile",label:"Save",hint:"Ctrl+S",tip:"Save the map to a file on your computer"},
+  {id:"file.saveAsFile",fn:"saveAsFile",label:"Save As&hellip;",tip:"Save a copy of the map under a new file name"},
+  {id:"file.toggleAutoFile",fn:"toggleAutoFile",elId:"autofile-toggle",label:"Auto-save to file: Off",tip:"Keep your file up to date automatically while this page is open (Chrome and Edge)"},
+  {id:"file.loadFromFile",fn:"loadFromFile",label:"Load",tip:"Open a previously saved map file"},
+  {id:"file.importCSV",fn:"importCSV",label:"Import CSV",tip:"Create nodes from a CSV spreadsheet"},
+  {id:"file.importMarkdown",fn:"importMarkdown",label:"Import Markdown",tip:"Create nodes from a Markdown outline (headings and bullets)"},
+  {id:"file.exportPNG",fn:"exportPNG",label:"Export PNG",tip:"Save the whole map as a picture"},
+  {id:"file.exportSVG",fn:"exportSVG",label:"Export SVG",tip:"Save the same picture as a vector image that stays sharp at any size and can be edited in PowerPoint or Inkscape"},
+  {id:"file.toggleExportPresets",fn:"toggleExportPresets",adv:true,label:"Export Presets&hellip;",tip:"Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click"},
+  {id:"file.exportMarkdown",fn:"exportMarkdown",label:"Export Markdown",tip:"Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)"},
+  {id:"file.exportCSV",fn:"exportCSV",label:"Export CSV",tip:"Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)"},
+  {id:"file.printMap",fn:"printMap",label:"Print",hint:"Ctrl+P",tip:"Print the map"},
+  {id:"file.newMap",fn:"newMap",cls:"dd-item danger",label:"New Map",tip:"Start a new empty map (your current map is backed up first)"},
+  {id:"file.openGuide",fn:"openGuide",label:"User Guide&hellip;",tip:"Open the full illustrated User Guide in your browser. It needs an internet connection; MindLoom itself never goes online on its own."},
+  {id:"file.showAbout",fn:"showAbout",label:"About MindLoom",tip:"Version, features and information about MindLoom"},
+  {id:"edit.undo",fn:"undo",label:"Undo",hint:"Ctrl+Z",tip:"Undo the last change to the map: nodes, links, bookmarks and hidden trees (not saved views or display settings)"},
+  {id:"edit.redo",fn:"redo",label:"Redo",hint:"Ctrl+Y",tip:"Redo the change you just undid"},
+  {id:"edit.editSelected",fn:"editSelected",label:"Edit node",hint:"F2",tip:"Rename the selected node"},
+  {id:"edit.showDetailForSelected",fn:"showDetailForSelected",label:"Notes / Details",hint:"I",tip:"Open the details panel (notes, owner, status, dates, tags) for the selected node"},
+  {id:"edit.copySelection",fn:"copySelection",label:"Copy branch",hint:"Ctrl+C",tip:"Copy the selected node and everything beneath it. It can also be pasted into another map or browser tab"},
+  {id:"edit.cutSelection",fn:"cutSelection",label:"Cut branch",hint:"Ctrl+X",tip:"Copy the selected node and everything beneath it, then remove it from this map"},
+  {id:"edit.pasteSelection",fn:"pasteSelection",label:"Paste",hint:"Ctrl+V",tip:"Paste a copied branch under the selected node (or as a new tree if nothing is selected). Plain text becomes nodes, one per line"},
+  {id:"edit.duplicateSelected",fn:"duplicateSelected",label:"Duplicate subtree",tip:"Copy the selected node together with everything beneath it"},
+  {id:"edit.openCapture",fn:"openCapture",label:"Quick capture&hellip;",hint:"Q",tip:"Type a task and press Enter: it goes under an Inbox node without you choosing where. Add a date (fri, tomorrow, +2w), #tag and @owner in the same line"},
+  {id:"edit.openBulkAdd",fn:"openBulkAdd",label:"Add several nodes&hellip;",tip:"Type or paste a list of names and create them all at once, as top-level nodes or under the selected node"},
+  {id:"edit.openShiftDates",fn:"openShiftDates",adv:true,label:"Shift dates (branch + links)&hellip;",tip:"Move the dates of the selected branch (and nodes linked to it) by days, weeks or months"},
+  {id:"edit.deleteSelected",fn:"deleteSelected",cls:"dd-item danger",label:"Delete",hint:"Del",tip:"Delete the selected node and everything beneath it"},
+  {id:"view.collapseAll",fn:"collapseAll",label:"Collapse All",tip:"Hide the children of every node"},
+  {id:"view.expandAll",fn:"expandAll",label:"Expand All",tip:"Show the children of every node"},
+  {id:"view.fitAll",fn:"fitAll",label:"Fit All",hint:"F",tip:"Zoom and pan so every node is in view"},
+  {id:"view.centreView",fn:"centreView",label:"Centre",hint:"Home",tip:"Reset the zoom and pan to the centre"},
+  {id:"view.toggleFocusPanel",fn:"toggleFocusPanel",adv:true,label:"Focus Roots",hint:"G",tip:"Show or hide whole root trees to concentrate on one"},
+  {id:"view.toggleFilter",fn:"toggleFilter",label:"Filter Bar",hint:"Ctrl+F",tip:"Dim nodes that don't match a status, colour, owner or tag"},
+  {id:"view.toggleSearch",fn:"toggleSearch",label:"Search",hint:"/",tip:"Find nodes by their title, notes, tags or date"},
+  {id:"view.toggleLegend",fn:"toggleLegend",label:"Legend / Rename Colours",tip:"Show or hide the colour key. Click any name in it to rename a category, pick a ready-made set (Task status, RAG, Workstream) or Reset. You can also double-click a colour on the colour bar. Names are saved with the map. The colours themselves don't change."},
+  {id:"view.toggleMinimap",fn:"toggleMinimap",adv:true,label:"Minimap",tip:"Show or hide a small overview of the whole map"},
+  {id:"view.toggleStatsPanel",fn:"toggleStatsPanel",label:"Statistics",hint:"S",tip:"Show counts and progress statistics for the map"},
+  {id:"view.toggleAgenda",fn:"toggleAgenda",label:"Agenda",hint:"A",tip:"Your to-do list: overdue, due today, this week and under way, with checklists"},
+  {id:"view.toggleTimeline",fn:"toggleTimeline",label:"Timeline",hint:"T",tip:"Gantt-style rows of start and due dates that you can drag to change"},
+  {id:"view.toggleBoard",fn:"toggleBoard",label:"Board",hint:"K",tip:"Kanban columns by status, owner or project. Drag cards between columns to change them"},
+  {id:"view.toggleReport",fn:"toggleReport",label:"Status report",hint:"R",tip:"A ready-to-send summary: overdue, blocked, due soon and recently completed. Copy, download or print it"},
+  {id:"view.toggleBookmarks",fn:"toggleBookmarks",adv:true,label:"Bookmarks",hint:"B",tip:"Show your bookmarked nodes and jump to them"},
+  {id:"view.toggleViews",fn:"toggleViews",adv:true,label:"Saved Views",hint:"V",tip:"Save and recall combinations of filters, hidden trees, collapsed branches and camera position"},
+  {id:"view.showImpactSelected",fn:"showImpactSelected",label:"Show impact of selected",tip:"Highlight everything that relies on the selected node, and what it relies on"},
+  {id:"view.openDepCheck",fn:"openDepCheck",label:"Dependency check&hellip;",tip:"List nodes with no links, no owner or no wave, and waves that look out of order"},
+  {id:"view.startPresentation",fn:"startPresentation",label:"Presentation Mode",hint:"P",tip:"Present the map full screen"},
+  {id:"settings.toggleTheme",fn:"toggleTheme",elId:"theme-toggle",label:"Theme: Dark",tip:"Switch between the dark and light theme"},
+  {id:"settings.toggleConnStyle",fn:"toggleConnStyle",elId:"conn-toggle",label:"Connectors: Curved",tip:"Switch the lines between curved and squared (right-angle) routing that goes around nodes"},
+  {id:"settings.toggleSimpleMenus",fn:"toggleSimpleMenus",elId:"simple-toggle",label:"Simple Menus: Off",tip:"Hide the specialist items (saved views, bookmarks, baselines, link types, activity history and so on) so only the everyday ones show. Ctrl+K still finds every command. Off by default; remembered in this browser"},
+  {id:"settings.toggleActivity",fn:"toggleActivity",adv:true,elId:"act-toggle",label:"Advanced Activity &amp; Comments: Off",tip:"Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map"},
+  {id:"settings.setAuthorName",fn:"setAuthorName",adv:true,elId:"author-btn",style:"display:none",label:"Your name: not set",tip:"Your name is added to the comments and changes you make, so a shared history shows who did what"},
+  {id:"settings.toggleDepMap",fn:"toggleDepMap",adv:true,elId:"dep-toggle",label:"Application Mapping Structures: Off",tip:"Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map"},
+  {id:"settings.toggleSnap",fn:"toggleSnap",adv:true,elId:"snap-toggle",label:"Snap to Grid: Off",tip:"Snap nodes to a grid when you drag them"},
+  {id:"settings.cycleDetailLayout",fn:"cycleDetailLayout",adv:true,elId:"dpl-toggle",label:"Details Layout: Classic",tip:"How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)"},
+  {id:"settings.toggleHoverPopup",fn:"toggleHoverPopup",adv:true,elId:"hover-toggle",label:"Hover Popups: Off",tip:"Show a details popup when you hover over a node"},
+  {id:"settings.toggleFocusSel",fn:"toggleFocusSel",adv:true,elId:"focussel-toggle",label:"Highlight Selection: On",tip:"When a node is selected, fade everything unrelated and show only its own links and dependencies"},
+  {id:"settings.toggleHideCompleted",fn:"toggleHideCompleted",elId:"completed-toggle",label:"Hide Completed: Off",tip:"Hide nodes marked Completed, along with their branches"},
+  {id:"settings.toggleBaselines",fn:"toggleBaselines",adv:true,elId:"baseline-open",label:"Baselines&hellip;",tip:"Save the planned dates as a baseline, and show where each Date Axis bar has slipped to"},
+  {id:"settings.toggleDateMode",fn:"toggleDateMode",elId:"datemode-toggle",label:"Date Axis: Off",tip:"Place nodes on a calendar axis at their dates, grouped in swimlanes"},
+  {id:"settings.toggleLaneBands",fn:"toggleLaneBands",elId:"lanes-toggle",label:"Lane Bands: On",tip:"Show or hide the tinted swimlane bands and pinned lane names"},
+  {id:"settings.toggleShowUndated",fn:"toggleShowUndated",elId:"undated-toggle",label:"Undated Nodes: Hidden",tip:"Show or hide nodes that have no date"},
+  {id:"settings.cycleLinkVis",fn:"cycleLinkVis",elId:"linkvis-toggle",label:"Lines: Selected",tip:"Show no lines, only the selected node's lines, or every line"},
+  {id:"settings.toggleBarColors",fn:"toggleBarColors",elId:"barcol-toggle",label:"Bar Colours: Workstream",tip:"Colour bars by workstream, or by each node's own colour"},
+  {id:"settings.toggleCritOnly",fn:"toggleCritOnly",elId:"crit-toggle",label:"Critical Path Only: Off",tip:"Show only Critical Path items, their workstreams and the chain of dependencies between them"},
+  {id:"settings.toggleSlide",fn:"toggleSlide",elId:"slide-toggle",label:"Slide View: Off",tip:"A clean view for slides, with Critical Path items emphasised"},
+  {id:"tb.addRootNode",fn:"addRootNode",cls:"tb-btn tb-wide",label:"+ Root",tip:"Add a new top-level (central) idea"},
+  {id:"tb.addChild",fn:"addChild",cls:"tb-btn tb-wide needs-sel",label:"+ Child",tip:"Add a new node beneath the selected one (Tab)"},
+  {id:"tb.addSibling",fn:"addSibling",cls:"tb-btn tb-wide needs-sel",label:"+ Sibling",tip:"Add a new node beside the selected one, under the same parent (Enter)"},
+  {id:"link.startLinkMode",fn:"startLinkMode",label:"Cross-link&hellip;",hint:"L",tip:"Draw a dashed cross-link from the selected node to another node"},
+  {id:"link.startDependencyDep",fn:"startDependency",args:["dep"],label:"Depends on&hellip;",tip:"Choose a node that must be finished before the selected node can start"},
+  {id:"link.startDependencyNeed",fn:"startDependency",args:["need"],label:"Needed by&hellip;",tip:"Choose a node that cannot start until the selected node is finished"},
+  {id:"tb.toggleFocusPanel",fn:"toggleFocusPanel",cls:"tb-btn tb-view tb-wide",adv:true,elId:"tb-focus",label:"Focus",tip:"Show or hide whole root trees so you can concentrate on one (G)"},
+  {id:"tidy.tidyLayoutHAll",fn:"tidyLayout",args:["h","all"],label:"Horizontal tree &rarr;",tip:"Arrange the whole map as a left-to-right tree, siblings ordered by due date"},
+  {id:"tidy.tidyLayoutVAll",fn:"tidyLayout",args:["v","all"],label:"Vertical tree &darr;",tip:"Arrange the whole map as a top-to-bottom tree, siblings ordered by due date"},
+  {id:"tidy.tidyLayoutBAll",fn:"tidyLayout",args:["b","all"],label:"Balanced (both sides) &harr;",tip:"Root in the middle, branches split between the left and right sides. Best for large maps"},
+  {id:"tidy.autoLayoutOutline",fn:"autoLayoutOutline",label:"Outline (indented list)",tip:"Arrange the map as an indented list"},
+  {id:"tidy.tidyLayoutHBranch",fn:"tidyLayout",args:["h","branch"],label:"Horizontal tree &rarr;",tip:"Arrange only the selected branch as a left-to-right tree"},
+  {id:"tidy.tidyLayoutVBranch",fn:"tidyLayout",args:["v","branch"],label:"Vertical tree &darr;",tip:"Arrange only the selected branch as a top-to-bottom tree"},
+  {id:"tidy.tidyLayoutBBranch",fn:"tidyLayout",args:["b","branch"],label:"Balanced (both sides) &harr;",tip:"Arrange only the selected branch with its children split between both sides"},
+  {id:"tb.toggleAgenda",fn:"toggleAgenda",cls:"tb-btn tb-view",elId:"tb-agenda",label:"Agenda",tip:"Your to-do list: overdue, due today, this week and under way, with checklists (A)"},
+  {id:"tb.toggleTimeline",fn:"toggleTimeline",cls:"tb-btn tb-view",elId:"tb-timeline",label:"Timeline",tip:"Gantt-style rows of start and due dates that you can drag to change (T)"},
+  {id:"tb.toggleDateMode",fn:"toggleDateMode",cls:"tb-btn tb-view",elId:"date-btn",label:"Date Axis",tip:"Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map."},
+  {id:"tb.toggleBoard",fn:"toggleBoard",cls:"tb-btn tb-view",elId:"tb-board",label:"Board",tip:"Kanban columns by status, owner or project. Drag cards to change them (K)"},
+  {id:"tb.toggleReport",fn:"toggleReport",cls:"tb-btn tb-view",elId:"tb-report",label:"Report",tip:"A ready-to-send summary: overdue, blocked, due soon and recently completed (R)"},
+  {id:"tb.toggleViews",fn:"toggleViews",cls:"tb-btn tb-view tb-wide",adv:true,elId:"tb-saved",label:"Saved Views",tip:"Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)"},
+  {id:"ctx.showDetailForSelected",fn:"showDetailForSelected",label:"Edit details&hellip;",hint:"I",tip:"Open the details panel (notes, owner, status, dates, tags) for the selected node"},
+  {id:"ctx.editSelected",fn:"editSelected",label:"Rename",hint:"F2",tip:"Rename the selected node"},
+  {id:"ctx.toggleBookmarkSelected",fn:"toggleBookmarkSelected",elId:"cx-bm",label:"Bookmark",tip:"Add or remove the selected node from your bookmarks"},
+  {id:"ctx.addChild",fn:"addChild",label:"Child node",hint:"Tab",tip:"Add a new node beneath the selected one"},
+  {id:"ctx.addSibling",fn:"addSibling",label:"Sibling node",hint:"Enter",tip:"Add a new node beside the selected one, under the same parent"},
+  {id:"ctx.openBulkAdd",fn:"openBulkAdd",label:"Several child nodes&hellip;",tip:"Paste a list of names and create them all under this node. Indent a line to nest it"},
+  {id:"ctx.startDependencyDep",fn:"startDependency",args:["dep"],label:"Depends on&hellip;",tip:"Choose a node that must be finished before this one can start"},
+  {id:"ctx.startDependencyNeed",fn:"startDependency",args:["need"],label:"Needed by&hellip;",tip:"Choose a node that cannot start until this one is finished"},
+  {id:"ctx.startLinkMode",fn:"startLinkMode",label:"Cross-link from here",hint:"L",tip:"Draw a dashed cross-link from the selected node to another node"},
+  {id:"ctx.showImpactSelected",fn:"showImpactSelected",elId:"cx-impact",style:"display:none",label:"Show impact",tip:"Highlight everything that relies on this node"},
+  {id:"ctx.toggleCollapse",fn:"toggleCollapse",elId:"cx-col",label:"Collapse / Expand",hint:"Space",tip:"Hide or show the children of the selected node"},
+  {id:"ctx.copySelection",fn:"copySelection",label:"Copy",hint:"Ctrl+C",tip:"Copy this node and everything beneath it"},
+  {id:"ctx.cutSelection",fn:"cutSelection",label:"Cut",hint:"Ctrl+X",tip:"Copy this node and everything beneath it, then remove it"},
+  {id:"ctx.pasteSelection",fn:"pasteSelection",label:"Paste as child",hint:"Ctrl+V",tip:"Paste a copied branch (or plain text) under this node"},
+  {id:"ctx.duplicateSelected",fn:"duplicateSelected",label:"Duplicate",tip:"Copy the selected node together with everything beneath it"},
+  {id:"ctx.openShiftDates",fn:"openShiftDates",label:"Shift dates&hellip;",tip:"Move the dates of the selected branch (and nodes linked to it) by days, weeks or months"},
+  {id:"ctx.convertToRoot",fn:"convertToRoot",label:"Detach as root",tip:"Detach this node and its branch from its parent so it becomes its own top-level idea"},
+  {id:"ctx.deleteSelected",fn:"deleteSelected",cls:"dd-item danger",label:"Delete",hint:"Del",tip:"Delete the selected node and everything beneath it"}
+,
+  {id:"app.openPalette",fn:"openPalette"},
+  {id:"app.exitPresentation",fn:"exitPresentation"},
+  {id:"app.presNext",fn:"presNav",args:[1]},
+  {id:"app.presPrev",fn:"presNav",args:[-1]}
+];
+const CMD={};COMMANDS.forEach(c=>{if(CMD[c.id])throw new Error('duplicate command id '+c.id);CMD[c.id]=c;});
+const cmdCall=c=>c.fn+'('+(c.args||[]).map(a=>typeof a==='string'?"'"+a+"'":a).join(',')+')';
+const cmdClose=c=>{const p=c.id.split('.')[0];return p==='ctx'?'ctx':(p==='tb'||p==='app')?'':'dd';};
+function cmdHtml(c){
+  // 'adv' (a specialist item, hidden by Simple Menus) is a field on the command; it becomes the second class
+  const base=c.cls||'dd-item',cl=c.adv?base.replace(/^(\S+)/,'$1 adv'):base,close=cmdClose(c);
+  return '<button class="'+cl+'"'+(c.elId?' id="'+c.elId+'"':'')+(c.style?' style="'+c.style+'"':'')
+    +' onclick="'+cmdCall(c)+(close==='dd'?';closeDD()':close==='ctx'?';hideCtx()':'')+'"'
+    +(c.tip!==undefined?' title="'+c.tip+'"':'')+' data-cmd="'+c.id+'">'+c.label+(c.hint?' <span class="shortcut">'+c.hint+'</span>':'')+'</button>';
+}
+// The menus are page markup with a {{command id}} where each command goes. Menu order is the order written here.
+const MENU_TOOLBAR=`
+  <span class="brand">MindLoom</span>
+  <div class="sep"></div>
+
+  <!-- File dropdown -->
+  <div class="dropdown" id="dd-file">
+    <button class="tb-btn" onclick="toggleDD('dd-file')" title="Save, load, import, export and print">File &#9662;</button>
+    <div class="dropdown-menu" id="ddm-file">
+      {{file.saveToFile}}
+      {{file.saveAsFile}}
+      {{file.toggleAutoFile}}
+      {{file.loadFromFile}}
+      <div class="dd-submenu">
+        <button class="dd-item" id="backup-trigger" title="Go back to one of the automatic backups">Restore backup</button>
+        <div class="dd-submenu-items" id="backup-list"></div>
+      </div>
+      <div class="dd-sep"></div>
+      <div class="dd-submenu">
+        <button class="dd-item" title="Bring in nodes from a CSV or Markdown file">Import</button>
+        <div class="dd-submenu-items">
+          {{file.importCSV}}
+          {{file.importMarkdown}}
+        </div>
+      </div>
+      <div class="dd-submenu">
+        <button class="dd-item" title="Save the map as a picture or as text and spreadsheet files">Export</button>
+        <div class="dd-submenu-items">
+          {{file.exportPNG}}
+          {{file.exportSVG}}
+          {{file.toggleExportPresets}}
+          {{file.exportMarkdown}}
+          {{file.exportCSV}}
+        </div>
+      </div>
+      <div class="dd-sep"></div>
+      {{file.printMap}}
+      <div class="dd-sep"></div>
+      {{file.newMap}}
+      <div class="dd-sep"></div>
+      {{file.openGuide}}
+      {{file.showAbout}}
+    </div>
+  </div>
+
+  <!-- Edit dropdown -->
+  <div class="dropdown" id="dd-edit">
+    <button class="tb-btn" onclick="toggleDD('dd-edit')" title="Undo, redo, edit, copy and paste branches, duplicate, shift dates and delete">Edit &#9662;</button>
+    <div class="dropdown-menu" id="ddm-edit">
+      {{edit.undo}}
+      {{edit.redo}}
+      <div class="dd-sep"></div>
+      {{edit.editSelected}}
+      {{edit.showDetailForSelected}}
+      <div class="dd-sep"></div>
+      {{edit.copySelection}}
+      {{edit.cutSelection}}
+      {{edit.pasteSelection}}
+      {{edit.duplicateSelected}}
+      {{edit.openCapture}}
+      {{edit.openBulkAdd}}
+      <div class="dd-sep"></div>
+      {{edit.openShiftDates}}
+      <div class="dd-sep"></div>
+      {{edit.deleteSelected}}
+    </div>
+  </div>
+
+  <!-- View dropdown -->
+  <div class="dropdown" id="dd-view">
+    <button class="tb-btn" onclick="toggleDD('dd-view')" title="Zoom, panels, agenda, timeline, board, bookmarks and presentation">View &#9662;</button>
+    <div class="dropdown-menu" id="ddm-view">
+      <div class="dd-submenu">
+        <button class="dd-item" title="Collapse, expand, fit and centre the view">Zoom &amp; Collapse</button>
+        <div class="dd-submenu-items">
+          {{view.collapseAll}}
+          {{view.expandAll}}
+          <div class="dd-sep"></div>
+          {{view.fitAll}}
+          {{view.centreView}}
+        </div>
+      </div>
+      <div class="dd-submenu">
+        <button class="dd-item" title="Show or hide side panels such as search, filter, legend and statistics">Panels</button>
+        <div class="dd-submenu-items">
+          {{view.toggleFocusPanel}}
+          {{view.toggleFilter}}
+          {{view.toggleSearch}}
+          {{view.toggleLegend}}
+          {{view.toggleMinimap}}
+          {{view.toggleStatsPanel}}
+        </div>
+      </div>
+      <div class="dd-sep"></div>
+      {{view.toggleAgenda}}
+      {{view.toggleTimeline}}
+      {{view.toggleBoard}}
+      {{view.toggleReport}}
+      <div class="dd-sep"></div>
+      {{view.toggleBookmarks}}
+      {{view.toggleViews}}
+      <div id="dep-menu-block" style="display:none">
+        <div class="dd-sep"></div>
+        <div class="dd-label">Dependencies</div>
+        {{view.showImpactSelected}}
+        {{view.openDepCheck}}
+      </div>
+      <div class="dd-sep"></div>
+      {{view.startPresentation}}
+    </div>
+  </div>
+
+  <!-- Settings dropdown -->
+  <div class="dropdown" id="dd-settings">
+    <button class="tb-btn" onclick="toggleDD('dd-settings')" title="Appearance, editing options, baselines and Date Axis settings">Settings &#9662;</button>
+    <div class="dropdown-menu" id="ddm-settings">
+      <div class="dd-label">Appearance</div>
+      {{settings.toggleTheme}}
+      {{settings.toggleConnStyle}}
+      {{settings.toggleSimpleMenus}}
+      <div class="dd-label">Background</div>
+      <div class="bg-row" id="bg-colors"></div>
+      <div class="dd-label">Pattern</div>
+      <div class="bg-row" id="bg-patterns"></div>
+      <div class="dd-sep"></div>
+      <div class="dd-label">Editing</div>
+      {{settings.toggleActivity}}
+      {{settings.setAuthorName}}
+      {{settings.toggleDepMap}}
+      {{settings.toggleSnap}}
+      {{settings.cycleDetailLayout}}
+      {{settings.toggleHoverPopup}}
+      {{settings.toggleFocusSel}}
+      {{settings.toggleHideCompleted}}
+      <div class="dd-sep"></div>
+      <div class="dd-label adv">Planning</div>
+      {{settings.toggleBaselines}}
+      <div class="dd-submenu adv">
+        <button class="dd-item" id="dm-settings-trigger" title="Everything about how the Date Axis looks and behaves">Date Axis settings</button>
+        <div class="dd-submenu-items">
+          {{settings.toggleDateMode}}
+          <div class="dd-sep"></div>
+          <div class="dd-label">Layout</div>
+          {{settings.toggleLaneBands}}
+          {{settings.toggleShowUndated}}
+          {{settings.cycleLinkVis}}
+          {{settings.toggleBarColors}}
+          <div class="dd-sep"></div>
+          <div class="dd-label">Focus</div>
+          {{settings.toggleCritOnly}}
+          {{settings.toggleSlide}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="tb-btn" id="cmd-btn" onclick="openPalette()" title="Search every command (Ctrl+K)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="cmd-txt">Commands</span><kbd class="cmd-kbd" id="cmd-kbd">Ctrl K</kbd></button>
+  <div class="sep tb-wide"></div>
+
+  {{tb.addRootNode}}
+  {{tb.addChild}}
+  {{tb.addSibling}}
+  <div class="sep tb-wide"></div>
+  <div class="dropdown tb-wide" id="dd-link">
+    <button class="tb-btn needs-sel" id="link-btn" onclick="toggleDD('dd-link')" title="Connect the selected node to another: a dashed cross-link, or a dependency (L)">Link &#9662;</button>
+    <div class="dropdown-menu" id="ddm-link">
+      {{link.startLinkMode}}
+      {{link.startDependencyDep}}
+      {{link.startDependencyNeed}}
+    </div>
+  </div>
+  <div class="sep tb-wide"></div>
+  {{tb.toggleFocusPanel}}
+  <div class="dropdown tb-wide" id="dd-tidy">
+    <button class="tb-btn tb-view" onclick="toggleDD('dd-tidy')" title="Auto-arrange nodes into a tree, an outline, or date swimlanes when the Date Axis is on">Tidy &#9662;</button>
+    <div class="dropdown-menu" id="ddm-tidy">
+      <div class="dd-label">Whole map</div>
+      {{tidy.tidyLayoutHAll}}
+      {{tidy.tidyLayoutVAll}}
+      {{tidy.tidyLayoutBAll}}
+      {{tidy.autoLayoutOutline}}
+      <div class="dd-sep"></div>
+      <div class="dd-label">Selected branch only</div>
+      {{tidy.tidyLayoutHBranch}}
+      {{tidy.tidyLayoutVBranch}}
+      {{tidy.tidyLayoutBBranch}}
+    </div>
+  </div>
+  <div class="sep tb-wide"></div>
+  <div class="tb-group tb-wide" role="group" aria-label="Views">
+    {{tb.toggleAgenda}}
+    {{tb.toggleTimeline}}
+    {{tb.toggleDateMode}}
+    {{tb.toggleBoard}}
+    {{tb.toggleReport}}
+  </div>
+  {{tb.toggleViews}}
+
+  <div class="spacer"></div>
+  <button class="tb-btn sb-muted" id="save-badge" onclick="saveToFile()" title="Save status: click to save the map to a file"></button>
+  <button class="tb-btn" id="due-badge" style="display:none" onclick="showDueAttention()" title="Overdue and due-today items. Click to show only those."></button>
+  <div id="stats"></div>`;
+const MENU_CTX=`
+  {{ctx.showDetailForSelected}}
+  {{ctx.editSelected}}
+  {{ctx.toggleBookmarkSelected}}
+  <div class="dd-sep"></div>
+  <div class="dd-label">Add</div>
+  {{ctx.addChild}}
+  {{ctx.addSibling}}
+  {{ctx.openBulkAdd}}
+  <div class="dd-sep"></div>
+  <div class="dd-label">Connect</div>
+  {{ctx.startDependencyDep}}
+  {{ctx.startDependencyNeed}}
+  {{ctx.startLinkMode}}
+  {{ctx.showImpactSelected}}
+  <div class="dd-sep"></div>
+  <div class="dd-label">Branch</div>
+  {{ctx.toggleCollapse}}
+  {{ctx.copySelection}}
+  {{ctx.cutSelection}}
+  {{ctx.pasteSelection}}
+  {{ctx.duplicateSelected}}
+  {{ctx.openShiftDates}}
+  {{ctx.convertToRoot}}
+  <div class="dd-sep"></div>
+  {{ctx.deleteSelected}}`;
+const renderMenu=t=>t.replace(/\{\{([\w.]+)\}\}/g,(m,id)=>{if(!CMD[id])throw new Error('unknown command '+id);return cmdHtml(CMD[id]);});
+document.getElementById('toolbar').innerHTML=renderMenu(MENU_TOOLBAR);
+document.getElementById('ctx-menu').innerHTML=renderMenu(MENU_CTX);
+
+// ── Keyboard shortcuts ──
+// One row per binding: s scope(s), k key(s), c Ctrl/Cmd (true needed, false must not be held, absent either),
+// g guard ('text' = not while in a field or list, 'input' = not in a text box), pd preventDefault first,
+// do a command id or a function (event, key). 'any' rows run first in every scope but pres. 230-keyboard.js picks the scope.
+const KEYS=[
+  // Presentation mode owns the keyboard
+  {s:'pres',k:'s',c:true,pd:1,do:'file.saveToFile'},
+  {s:'pres',k:'Escape',do:'app.exitPresentation'},
+  {s:'pres',k:['ArrowRight','ArrowDown',' ','PageDown'],pd:1,do:'app.presNext'},
+  {s:'pres',k:['ArrowLeft','ArrowUp','PageUp'],pd:1,do:'app.presPrev'},
+  // Everywhere else
+  {s:'any',k:'k',c:true,pd:1,do:'app.openPalette'},
+  // Board and Status report
+  {s:['board','report'],k:'s',c:true,pd:1,do:'file.saveToFile'},
+  {s:'board',k:'Escape',pd:1,do:()=>toggleBoard()},
+  {s:'report',k:'Escape',pd:1,do:()=>toggleReport()},
+  {s:'board',k:['z','y'],c:true,g:'input',pd:1,do:(e,k)=>{if(k==='y'||e.shiftKey)redo();else undo();buildBoard(true);}},
+  {s:'board',k:'k',c:false,g:'text',pd:1,do:'view.toggleBoard'},
+  {s:'report',k:'r',c:false,g:'text',pd:1,do:'view.toggleReport'},
+  {s:['board','report'],k:'q',c:false,g:'text',pd:1,do:'edit.openCapture'},
+  // Timeline
+  {s:'timeline',k:'s',c:true,pd:1,do:'file.saveToFile'},
+  {s:'timeline',k:'Escape',pd:1,do:()=>{if(tlDrag)tlDragCancel();else toggleTimeline();}},
+  {s:'timeline',k:['z','y'],c:true,g:'input',pd:1,do:(e,k)=>{if(tlDrag)tlDragCancel();if(k==='y'||e.shiftKey)redo();else undo();buildTimeline(true);}},
+  {s:'timeline',k:['+','='],c:false,g:'text',pd:1,do:()=>tlZoom(1.4)},
+  {s:'timeline',k:'-',c:false,g:'text',pd:1,do:()=>tlZoom(1/1.4)},
+  {s:'timeline',k:'t',c:false,g:'text',pd:1,do:'view.toggleTimeline'},
+  {s:'timeline',k:'0',c:false,g:'text',pd:1,do:()=>{tlPx=0;buildTimeline();}},
+  {s:'timeline',k:'q',c:false,g:'text',pd:1,do:'edit.openCapture'},
+  // The map. Ctrl rows first (the handler runs only those when Ctrl/Cmd is held)
+  {s:'map',k:'s',c:true,pd:1,do:'file.saveToFile'},
+  {s:'map',k:'z',c:true,pd:1,do:(e)=>{if(e.shiftKey)redo();else undo();}},
+  {s:'map',k:'y',c:true,pd:1,do:'edit.redo'},
+  {s:'map',k:'f',c:true,pd:1,do:'view.toggleFilter'},
+  {s:'map',k:'p',c:true,pd:1,do:'file.printMap'},
+  {s:'map',k:'Tab',c:false,do:(e)=>{if(e.shiftKey)return;e.preventDefault();keyRun('tb.addChild');}},
+  {s:'map',k:'Enter',c:false,pd:1,do:'tb.addSibling'},
+  {s:'map',k:['Delete','Backspace'],c:false,pd:1,do:'edit.deleteSelected'},
+  {s:'map',k:'F2',c:false,pd:1,do:'edit.editSelected'},
+  {s:'map',k:' ',c:false,pd:1,do:'ctx.toggleCollapse'},
+  {s:'map',k:'Home',c:false,pd:1,do:'view.centreView'},
+  {s:'map',k:'Escape',c:false,do:()=>escapeMap()},
+  {s:'map',k:'i',c:false,pd:1,do:'edit.showDetailForSelected'},
+  {s:'map',k:'l',c:false,pd:1,do:'link.startLinkMode'},
+  {s:'map',k:'g',c:false,pd:1,do:'view.toggleFocusPanel'},
+  {s:'map',k:'s',c:false,pd:1,do:'view.toggleStatsPanel'},
+  {s:'map',k:'q',c:false,pd:1,do:'edit.openCapture'},
+  {s:'map',k:'a',c:false,pd:1,do:'view.toggleAgenda'},
+  {s:'map',k:'t',c:false,pd:1,do:'view.toggleTimeline'},
+  {s:'map',k:'k',c:false,pd:1,do:'view.toggleBoard'},
+  {s:'map',k:'r',c:false,pd:1,do:'view.toggleReport'},
+  {s:'map',k:'?',c:false,pd:1,do:'file.showAbout'},
+  {s:'map',k:'b',c:false,pd:1,do:'view.toggleBookmarks'},
+  {s:'map',k:'v',c:false,pd:1,do:'view.toggleViews'},
+  {s:'map',k:'p',c:false,pd:1,do:'view.startPresentation'},
+  {s:'map',k:'f',c:false,pd:1,do:'view.fitAll'},
+  {s:'map',k:'/',c:false,pd:1,do:'view.toggleSearch'},
+  {s:'map',k:['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'],c:false,pd:1,do:(e,k)=>navigateArrow(k)}
+];
+KEYS.forEach(r=>{if(typeof r.do==='string'&&!CMD[r.do])throw new Error('key row names unknown command '+r.do);});
+// Run a command by id. The function is looked up by name at the moment of the call.
+function keyRun(id){const c=CMD[id];window[c.fn].apply(null,c.args||[]);}
+// Find and run the first row for this scope that matches the key. Returns true if one ran.
+function keyDo(scope,e,k,ctrl){
+  const ae=document.activeElement,tag=ae?ae.tagName:'';
+  for(const r of KEYS){
+    if(r.s!==scope&&!(Array.isArray(r.s)&&r.s.includes(scope)))continue;
+    if(!(r.k===k||(Array.isArray(r.k)&&r.k.includes(k))))continue;
+    if(r.c!==undefined&&r.c!==ctrl)continue;
+    if(r.g==='text'&&(tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA'))continue;
+    if(r.g==='input'&&(tag==='INPUT'||tag==='TEXTAREA'))continue;
+    if(r.pd)e.preventDefault();
+    if(typeof r.do==='string')keyRun(r.do);else r.do(e,k);
+    return true;
+  }
+  return false;
+}
+
+// ── Help list ──
+// The rows of the About screen's shortcut list and the User Guide's shortcut table.
+//   k      the key as shown (a <kbd>)        t   the About screen's wording; a row without t is not on that screen
+//   g      the guide's wording               gk  a different key label for the guide
+//   gp     position in the guide's two-column table: L1..L16 down the left, R1..R16 down the right
+//   cmd    the command (or commands) this row describes, or null for mouse actions and Esc.
+//          The self-test fails if a command with a map key is not listed here.
+const HELP=[
+  {k:'Tab',t:'Add child node',g:'Add child',gp:'L1',cmd:'tb.addChild'},
+  {k:'Enter',t:'Add sibling node',g:'Add sibling',gp:'L2',cmd:'tb.addSibling'},
+  {k:'F2',t:'Edit selected node',g:'Edit node',gp:'L3',cmd:'edit.editSelected'},
+  {k:'Del',t:'Delete selected node',g:'Delete node',gp:'L4',cmd:'edit.deleteSelected'},
+  {k:'Space',t:'Collapse / expand',g:'Collapse / expand',gp:'L5',cmd:'ctx.toggleCollapse'},
+  {k:'I',t:'Open notes &amp; details',g:'Notes and details',gp:'L6',cmd:'edit.showDetailForSelected'},
+  {k:'L',t:'Start cross-link',g:'Start a cross-link',gp:'L7',cmd:'link.startLinkMode'},
+  {k:'/',t:'Search',g:'Search',gp:'L8',cmd:'view.toggleSearch'},
+  {k:'F',t:'Fit all nodes in view',g:'Fit all in view',gp:'L9',cmd:'view.fitAll'},
+  {k:'Home',t:'Centre &amp; reset zoom',g:'Centre and reset zoom',gp:'L10',cmd:'view.centreView'},
+  {k:'Ctrl+F',t:'Toggle filter bar',g:'Filter bar',gp:'L11',cmd:'view.toggleFilter'},
+  {k:'G',t:'Focus — show/hide root trees',g:'Focus roots',gp:'R6',cmd:'view.toggleFocusPanel'},
+  {k:'S',t:'Statistics dashboard',g:'Statistics',gp:'R5',cmd:'view.toggleStatsPanel'},
+  {k:'Q',t:'Quick capture to Inbox',g:'Quick capture: add a task to the Inbox',gp:'L16',cmd:'edit.openCapture'},
+  {k:'A',t:'Agenda (to-do list)',g:'Agenda',gp:'R1',cmd:'view.toggleAgenda'},
+  {k:'T',t:'Timeline',g:'Timeline',gp:'R2',cmd:'view.toggleTimeline'},
+  {k:'Ctrl+S',t:'Save to file',g:'Save to file',gp:'L12',cmd:'file.saveToFile'},
+  {k:'Ctrl+C / X / V',t:'Copy, cut, paste branch',g:'Copy, cut, paste branch',gp:'L13',cmd:['edit.copySelection','edit.cutSelection','edit.pasteSelection']},
+  {k:'Ctrl+Z',t:'Undo',gk:'Ctrl+Z / Y',g:'Undo, redo',gp:'R13',cmd:'edit.undo'},
+  {k:'Ctrl+Y',t:'Redo',cmd:'edit.redo'},
+  {k:'Arrows',t:'Navigate between nodes',g:'Move between nodes',gp:'L15',cmd:null},
+  {k:'Shift+Click',t:'Multi-select nodes',g:'Multi-select',gp:'L14',cmd:null},
+  {k:'Ctrl+Drag',t:'Reparent node',g:'Re-parent a node',gp:'R14',cmd:null},
+  {k:'B',t:'Toggle bookmarks panel',g:'Bookmarks',gp:'R8',cmd:'view.toggleBookmarks'},
+  {k:'Ctrl+K',t:'Command palette',g:'Command palette',gp:'R11',cmd:'app.openPalette'},
+  {k:'V',t:'Saved views',g:'Saved views',gp:'R7',cmd:'view.toggleViews'},
+  {k:'K',t:'Board view',g:'Board',gp:'R3',cmd:'view.toggleBoard'},
+  {k:'R',t:'Status report',g:'Status report',gp:'R4',cmd:'view.toggleReport'},
+  {k:'P',t:'Presentation mode',g:'Presentation mode',gp:'R9',cmd:'view.startPresentation'},
+  {k:'Esc',t:'Deselect / close panels',g:'Deselect / close panels',gp:'R10',cmd:null},
+  {k:'?',t:'This screen',g:'Help and shortcuts',gp:'R15',cmd:'file.showAbout'},
+  {k:'Ctrl+P',g:'Print',gp:'R12',cmd:'file.printMap'},
+  {k:'Enter / Esc',g:'In Quick capture: add / close',gp:'R16',cmd:null}
+];
+document.getElementById('about-keys').innerHTML=HELP.filter(r=>r.t).map(r=>'<kbd>'+r.k+'</kbd><span>'+r.t+'</span>').join('\n');
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 
 // ── Filename helper: MindLoom-DDMMYYYY.ext ──
@@ -2024,7 +2246,7 @@ COLORS.forEach(c=>{
   const lbl=document.createElement('span');lbl.className='swatch-label';lbl.textContent=c.label;
   sw.appendChild(lbl);
   sw.addEventListener('click',e=>{if(e.detail>1)return;swHit=selectedId?{id:selectedId,col:gn(selectedId).colorId}:null;setNodeColor(c.id);});
-  sw.addEventListener('dblclick',()=>{if(swHit&&gn(swHit.id)){gn(swHit.id).colorId=swHit.col;undoStack.pop();render();autoSave();}swHit=null;editCatLabel(c,sw);});
+  sw.addEventListener('dblclick',()=>{if(swHit&&gn(swHit.id)){gn(swHit.id).colorId=swHit.col;dropUndoStep();render();autoSave();}swHit=null;editCatLabel(c,sw);});
   colorBar.appendChild(sw);
 });
 
@@ -2066,8 +2288,8 @@ function toggleMinimap(){minimapVisible=!minimapVisible;$('#minimap').classList.
 // `full` also captures the per-map extras (saved views, report state, baselines, the two opt-in modes). Only the snapshots
 // taken before a Load, Restore or New Map use it, so ordinary edits never roll back a baseline made in between.
 function snapState(full){
-  const o={nodes,crossLinks,nextId,bookmarks,hiddenRoots:[...hiddenRoots]};
-  if(full)o.extras={savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets};
+  const o=docCollect(f=>f.undo===1);
+  if(full)o.extras=docCollect(f=>f.undo===2);
   return JSON.stringify(o);
 }
 function hasExtras(str){try{return JSON.parse(str).extras!==undefined;}catch(e){return false;}}
@@ -2078,19 +2300,52 @@ function restoreState(str){
   if(Array.isArray(s.hiddenRoots))hiddenRoots=new Set(s.hiddenRoots);
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
   if(s.extras&&typeof s.extras==='object'){
-    const x=s.extras;
-    savedViews=sanitizeViews(x.savedViews);exportPresets=sanitizePresets(x.exportPresets);buildPresetList();reportState=cleanReportState(x.reportState);baselines=cleanBaselines(x.baselines);
-    activeBaseline=baselines.some(b=>b.id===Number(x.activeBaseline))?Number(x.activeBaseline):0;
-    trackActivity=x.trackActivity===true;depMap=x.depMap===true;impactId=null;
-    buildViewList();updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();
+    docLoad(s.extras,f=>f.undo===2);docExtrasUI();stampReset();
   }
   selectedId=null;
   if(focusPanelVisible)buildFocusList();
   if($('#bookmarks-panel').classList.contains('visible'))buildBookmarkList();
 }
-function snap(full){undoStack.push(snapState(full===true));if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}
-function undo(){if(!undoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const prev=undoStack.pop();redoStack.push(snapState(hasExtras(prev)));restoreState(prev);render();autoSave();toast('Undo');}
-function redo(){if(!redoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const nxt=redoStack.pop();undoStack.push(snapState(hasExtras(nxt)));restoreState(nxt);render();autoSave();toast('Redo');}
+// The newest step on each stack is a whole snapshot. Older steps are small records of what differed (changed nodes as
+// they were, node order, other fields), rebuilt exactly from the snapshot above when they reach the top. Full snapshots
+// (before Load, Restore backup, New Map) are kept whole.
+function stepDiff(C,T){ // the record that turns snapshot C back into snapshot T
+  const cBy=new Map(C.nodes.map(n=>[n.id,n])),n={};let sameOrder=C.nodes.length===T.nodes.length;
+  T.nodes.forEach((t,i)=>{const c=cBy.get(t.id);if(!c||JSON.stringify(c)!==JSON.stringify(t))n[t.id]=t;if(sameOrder&&C.nodes[i].id!==t.id)sameOrder=false;});
+  const p={n,x:{}};if(!sameOrder)p.order=T.nodes.map(t=>t.id);
+  for(const k of Object.keys(T)){if(k!=='nodes'&&JSON.stringify(C[k])!==JSON.stringify(T[k]))p.x[k]=T[k];}
+  return p;
+}
+function stepApply(C,p){
+  const cBy=p.order?new Map(C.nodes.map(n=>[n.id,n])):null,o={};
+  for(const k of Object.keys(C)){
+    if(k==='extras')continue;
+    if(k==='nodes')o.nodes=p.order?p.order.map(id=>p.n[id]||cBy.get(id)):C.nodes.map(c=>p.n[c.id]||c);
+    else o[k]=(k in p.x)?p.x[k]:C[k];
+  }
+  return o;
+}
+function stepPush(stack,str){
+  const top=stack.length?stack[stack.length-1]:null;
+  if(typeof top==='string'){
+    // shrink the step underneath to a record of its differences, but only if that record rebuilds it exactly
+    try{const T=JSON.parse(top);if(T.extras===undefined){const C=JSON.parse(str),p=stepDiff(C,T);if(JSON.stringify(stepApply(C,p))===top)stack[stack.length-1]=p;}}catch(e){}
+  }
+  stack.push(str);
+}
+function stepPop(stack){
+  const s=stack.pop(),nx=stack.length?stack[stack.length-1]:null;
+  if(nx&&typeof nx!=='string')stack[stack.length-1]=JSON.stringify(stepApply(JSON.parse(s),nx));
+  return s;
+}
+function snap(full){stepPush(undoStack,snapState(full===true));if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}
+// The usual way to make an undoable change: remember the map as it is, run the edit, then redraw and save.
+// An edit that returns false changed nothing: no redraw or save.
+function change(edit){snap();if(edit()!==false){render();autoSave();}}
+// Forget the newest undo step; the map itself is unchanged
+function dropUndoStep(){stepPop(undoStack);}
+function undo(){if(!undoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const prev=stepPop(undoStack);stepPush(redoStack,snapState(hasExtras(prev)));restoreState(prev);render();autoSave();toast('Undo');}
+function redo(){if(!redoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const nxt=stepPop(redoStack);stepPush(undoStack,snapState(hasExtras(nxt)));restoreState(nxt);render();autoSave();toast('Redo');}
 
 // ── Dates ──
 const pad2=n=>String(n).padStart(2,'0');
@@ -2193,6 +2448,8 @@ function stampDone(arr){
   for(const n of (arr||nodes)){if(n.status==='completed'){if(!n.doneAt)n.doneAt=now;}else if(n.doneAt)n.doneAt='';}
 }
 // Returns a clean copy of the node list: unique integer ids, typed fields, parents that exist, no cycles
+const cleanUid=v=>(typeof v==='string'&&/^[\w-]{3,60}$/.test(v))?v:'';
+const makeUid=(id,created)=>{const t=Date.parse(created);return Number(id).toString(36)+'-'+(Number.isFinite(t)?t.toString(36):'0');};
 function sanitizeNodes(raw){
   if(!Array.isArray(raw))return [];
   const now=new Date().toISOString(),seen=new Set(),out=[];
@@ -2218,6 +2475,10 @@ function sanitizeNodes(raw){
       doneAt:r.status==='completed'?(cleanIso(r.doneAt)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now):''
     });
     {const lg=cleanLog(r.log);if(lg.length)out[out.length-1].log=lg;}
+    // Merge bookkeeping (see 035-doc.js). A file from before format 6 has none, so the id is worked out from the node's
+    // number and creation time: everyone who opens the same old file gets the same ids
+    {const n=out[out.length-1];n.uid=cleanUid(r.uid)||makeUid(id,r.createdAt);n.mod=cleanIso(r.mod)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now;
+     if(typeof r.modBy==='string'&&r.modBy.trim())n.modBy=r.modBy.trim().slice(0,40);}
   }
   const byId=new Map(out.map(n=>[n.id,n]));
   out.forEach(n=>{if(n.parentId!==null&&(!byId.has(n.parentId)||n.parentId===n.id))n.parentId=null;});
@@ -2254,13 +2515,104 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.38.1';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.40.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function storageSet(k,v){
   try{localStorage.setItem(k,v);return true;}
   catch(e){if(!storageWarned){storageWarned=true;toast('Browser storage unavailable — use File > Save to keep your work');}return false;}
+}
+
+// ── Map fields ──
+// The one description of what a map is made of. Saving to a file, saving to the browser, loading, undo, the
+// "unsaved changes" check, New Map and start-up all read this table, so a new field is added here and nowhere else.
+//   k     the name in the saved file            get   the current value
+//   load  take the value from loaded data d and apply it (settings also update their menu label). Called with {} it
+//         gives the field's empty value, which is how New Map and start-up clear per-map content
+//   undo  1 = part of every undo step, 2 = only in the full snapshots taken before Load, Restore backup and New Map
+//   sig   1 = a change here counts as "unsaved"       map  1 = per-map content, cleared by New Map and at start-up
+//   file  0 = kept in the browser only, never written to a file
+// nodes, crossLinks and nextId have no load: the loaders check and place those first, by hand.
+// Row order is the order of the keys in a saved file. Keep it.
+const DOC_FIELDS=[
+  {k:'nodes',get:()=>nodes,undo:1,sig:1},
+  {k:'crossLinks',get:()=>crossLinks,undo:1,sig:1},
+  {k:'nextId',get:()=>nextId,undo:1},
+  {k:'colorLabels',get:()=>COLORS.map(c=>({id:c.id,label:c.label})),
+   load:d=>{applyLabels(DEFAULT_LABELS);if(d.colorLabels)d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();rebuildColorFilter();}},
+  {k:'bgColorId',get:()=>bgColorId,load:d=>{if(d.bgColorId)setBgColor(d.bgColorId);}},
+  {k:'bgPatternId',get:()=>bgPatternId,load:d=>{if(d.bgPatternId)setBgPattern(d.bgPatternId);}},
+  {k:'bookmarks',get:()=>bookmarks,undo:1,map:1,load:d=>{bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);}},
+  {k:'hiddenRoots',get:()=>[...hiddenRoots],undo:1,map:1,load:d=>{hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));}},
+  {k:'lightTheme',get:()=>lightTheme,load:d=>{if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}}},
+  {k:'connStyle',get:()=>connStyle,load:d=>{if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);}},
+  {k:'dateMode',get:()=>dateMode,load:d=>setDateMode(!!d.dateMode,true)},
+  {k:'dateOrigin',get:()=>dateOrigin,map:1,load:d=>{dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';}},
+  {k:'laneBands',get:()=>laneBands,load:d=>setLaneBands(d.laneBands!==false,true)},
+  {k:'focusSel',get:()=>focusSel,load:d=>setFocusSel(d.focusSel!==false,true)},
+  {k:'linkVis',get:()=>linkVis,load:d=>setLinkVis(d.linkVis||'selected',true)},
+  {k:'barColors',get:()=>barColors,load:d=>setBarColors(d.barColors||'lane',true)},
+  {k:'showUndated',get:()=>showUndated,load:d=>setShowUndated(!!d.showUndated,true)},
+  {k:'critOnly',get:()=>critOnly,load:d=>setCritOnly(!!d.critOnly,true)},
+  {k:'axSlide',get:()=>axSlide,load:d=>setSlide(!!d.axSlide,true)},
+  {k:'snapToGrid',get:()=>snapToGrid,load:d=>{if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}}},
+  {k:'hoverPopup',get:()=>hoverPopup,load:d=>{if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}}},
+  {k:'hideCompleted',get:()=>hideCompleted,load:d=>{if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}}},
+  {k:'savedViews',get:()=>savedViews,undo:2,sig:1,map:1,load:d=>{savedViews=sanitizeViews(d.savedViews);}},
+  {k:'reportState',get:()=>reportState,undo:2,sig:1,map:1,load:d=>{reportState=cleanReportState(d.reportState);}},
+  {k:'baselines',get:()=>baselines,undo:2,sig:1,map:1,load:d=>{baselines=cleanBaselines(d.baselines);}},
+  {k:'activeBaseline',get:()=>activeBaseline,undo:2,map:1,load:d=>{activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;}},
+  {k:'trackActivity',get:()=>trackActivity,undo:2,sig:1,map:1,load:d=>{trackActivity=d.trackActivity===true;}},
+  {k:'depMap',get:()=>depMap,undo:2,sig:1,map:1,load:d=>{depMap=d.depMap===true;}},
+  {k:'exportPresets',get:()=>exportPresets,undo:2,sig:1,map:1,load:d=>{exportPresets=sanitizePresets(d.exportPresets);}},
+  {k:'detailLayout',get:()=>dpLayout,load:d=>{if(typeof d.detailLayout==='string')setDetailLayout(d.detailLayout,true);}},
+  {k:'deleted',get:()=>deleted,undo:2,map:1,load:d=>{deleted=cleanDeleted(d.deleted);}},
+  {k:'panX',get:()=>panX,file:0},
+  {k:'panY',get:()=>panY,file:0},
+  {k:'zoom',get:()=>zoom,file:0}
+];
+// Collect the current values of the rows that pass `pick`, as {name: value}, on top of `into`
+function docCollect(pick,into){const o=into||{};for(const f of DOC_FIELDS)if(pick(f))o[f.k]=f.get();return o;}
+// Apply loaded data d to the rows that pass `pick`
+function docLoad(d,pick){for(const f of DOC_FIELDS)if(f.load&&pick(f))f.load(d);}
+// Clear the per-map content (bookmarks, hidden trees, saved views, baselines, the opt-in modes ...)
+function docResetMap(){docLoad({},f=>f.map);stampReset();}
+// After the per-map extras change (load, restore, New Map, a full undo): bring their panels and buttons up to date
+function docExtrasUI(){impactId=null;buildViewList();buildPresetList();updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();}
+
+// ── Merge bookkeeping (file format 6) ──
+// Groundwork for merging two people's copies of a map (merging itself is not built yet). Every node carries uid (an id
+// unique across people; node numbers are not), mod (when it last changed) and modBy (Settings > Your name, if set). The
+// map keeps `deleted`: {uid, at} for nodes removed in the last 90 days. All of it is worked out here by comparing the
+// nodes with how they were at the last check, so no editing code has to set it.
+let deleted=[],stampShadow=null;
+function cleanDeleted(a){
+  const cut=Date.now()-90*864e5,seen=new Set(),out=[];
+  for(const d of (Array.isArray(a)?a:[])){
+    if(!d||!cleanUid(d.uid)||!cleanIso(d.at)||Date.parse(d.at)<cut||seen.has(d.uid))continue;
+    seen.add(d.uid);out.push({uid:d.uid,at:d.at});
+  }
+  return out.slice(-5000);
+}
+const stampKey=n=>{const {mod,modBy,...rest}=n;return JSON.stringify(rest);};
+// Start again from the map as it now stands (after a load, New Map, or a full undo): nothing counts as changed or deleted
+function stampReset(){stampShadow=null;}
+function stampChanges(){
+  const now=new Date().toISOString(),who=(typeof logAuthor==='string'&&logAuthor)||'',was=stampShadow,next=new Map();
+  const touch=n=>{n.mod=now;if(who)n.modBy=who;else delete n.modBy;};
+  for(const n of nodes){
+    if(!n.uid||next.has(n.uid)){ // a new node, or a copy that still carries the original's id
+      const base=makeUid(n.id,n.createdAt);let u=base,i=1;while(next.has(u))u=base+'-'+(i++);
+      n.uid=u;touch(n);
+    }
+    const k=stampKey(n);
+    if(was?was.get(n.uid)!==k:!n.mod)touch(n);
+    next.set(n.uid,k);
+  }
+  if(was)for(const u of was.keys())if(!next.has(u))deleted.push({uid:u,at:now});
+  if(deleted.length)deleted=cleanDeleted(deleted.filter(d=>!next.has(d.uid))); // a node that came back (undo) is no longer deleted
+  stampShadow=next;
 }
 
 // ── Simple menus and User Guide link ──
@@ -2310,13 +2662,10 @@ function init(){
       // The backup must carry everything a saved file would: report state, baselines and the two opt-in modes are
       // read back in first, then cleared again for the fresh map
       if(nodes.length>1){
-        reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);
-        activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;
-        trackActivity=d.trackActivity===true;depMap=d.depMap===true;exportPresets=sanitizePresets(d.exportPresets);
+        docLoad(d,f=>f.undo===2);
         dateMode=!!d.dateMode;pushBackup('last session',true);dateMode=false;prevCount=nodes.length;
       }
-      createDefault();bookmarks=[];savedViews=[];hiddenRoots=new Set();dateOrigin='';
-      reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;exportPresets=[];
+      createDefault();docResetMap();
     }catch(e){createDefault();}
   }else createDefault();
   setBgColor(bgColorId); setBgPattern(bgPatternId);
@@ -2349,8 +2698,8 @@ function viewSave(){
 function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
-  const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  storageSet(STORE_KEY,JSON.stringify({nodes,crossLinks,nextId,panX,panY,zoom,colorLabels,bgColorId,bgPatternId,hiddenRoots:[...hiddenRoots],snapToGrid,hoverPopup,hideCompleted,lightTheme,bookmarks,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets,detailLayout:dpLayout}));
+  stampChanges();
+  storageSet(STORE_KEY,JSON.stringify(docCollect(()=>true)));
   updateSaveBadge();pushBackup('auto',false);
 }
 // Two tabs of the same file share one browser store: warn instead of silently overwriting each other
@@ -2367,14 +2716,14 @@ let currentFileHandle=null;
 let autoFile=false,autoBusy=false;
 
 function getSaveData(compact){
-  const colorLabels=COLORS.map(c=>({id:c.id,label:c.label}));
-  return JSON.stringify({format:FORMAT_NAME,version:FORMAT_VERSION,nodes,crossLinks,nextId,colorLabels,bgColorId,bgPatternId,bookmarks,hiddenRoots:[...hiddenRoots],lightTheme,connStyle,dateMode,dateOrigin,laneBands,focusSel,linkVis,barColors,showUndated,critOnly,axSlide,snapToGrid,hoverPopup,hideCompleted,savedViews,reportState,baselines,activeBaseline,trackActivity,depMap,exportPresets,detailLayout:dpLayout},null,compact?0:2);
+  stampChanges();
+  return JSON.stringify(docCollect(f=>f.file!==0,{format:FORMAT_NAME,version:FORMAT_VERSION}),null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
 // "Dirty" means the map differs from the last file save (or, if never saved to a file, from how it was when the page opened).
 // It compares content, so panning and zooming never count as changes.
-const sigOf=()=>JSON.stringify([nodes,crossLinks,savedViews,reportState,baselines,trackActivity,depMap,exportPresets]);
+const sigOf=()=>{stampChanges();return JSON.stringify(DOC_FIELDS.filter(f=>f.sig).map(f=>f.get()));};
 function hashStr(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return h+':'+t.length;}
 const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 function refreshDirty(){
@@ -2535,25 +2884,14 @@ function applyLoadedData(text,name){
     if(Number(d.version)>FORMAT_VERSION)toast('This file was saved by a newer MindLoom (v'+d.version+'). Some details may be ignored');
     hideDetail();pushBackup('before load',true);snap(true);
     nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);logSync();
-    // Reset per-map view state so stale IDs from the previous map cannot leak in
-    hiddenRoots=new Set((Array.isArray(d.hiddenRoots)?d.hiddenRoots:[]).filter(Number.isInteger));
-    bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
-    savedViews=sanitizeViews(d.savedViews);buildViewList();exportPresets=sanitizePresets(d.exportPresets);buildPresetList();reportState=cleanReportState(d.reportState);baselines=cleanBaselines(d.baselines);trackActivity=d.trackActivity===true;depMap=d.depMap===true;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;updateBlButton();
+    // Every other field comes from the table, so stale values from the previous map cannot leak in
+    docLoad(d,()=>true);docExtrasUI();stampReset();
     multiSelected.clear();updateBulkBar();
-    if(d.lightTheme!==undefined){lightTheme=!!d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
-    applyLabels(DEFAULT_LABELS);if(d.colorLabels)d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();rebuildColorFilter();
-    if(d.bgColorId)setBgColor(d.bgColorId);if(d.bgPatternId)setBgPattern(d.bgPatternId);
-    if(d.connStyle!==undefined)setConnStyle(d.connStyle,true);
-    dateOrigin=(typeof d.dateOrigin==='string')?d.dateOrigin:'';setLaneBands(d.laneBands!==false,true);setFocusSel(d.focusSel!==false,true);setLinkVis(d.linkVis||'selected',true);setBarColors(d.barColors||'lane',true);setShowUndated(!!d.showUndated,true);setCritOnly(!!d.critOnly,true);setSlide(!!d.axSlide,true);setDateMode(!!d.dateMode,true);
-    if(d.snapToGrid!==undefined){snapToGrid=!!d.snapToGrid;$('#snap-toggle').textContent='Snap to Grid: '+(snapToGrid?'On':'Off');}
-    if(typeof d.detailLayout==='string')setDetailLayout(d.detailLayout,true);
-    if(d.hoverPopup!==undefined){hoverPopup=!!d.hoverPopup;$('#hover-toggle').textContent='Hover Popups: '+(hoverPopup?'On':'Off');}
-    if(d.hideCompleted!==undefined){hideCompleted=!!d.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');}
     selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap(true);setDateMode(false,true);createDefault();dateOrigin='';selectedId=null;hiddenRoots.clear();bookmarks=[];savedViews=[];exportPresets=[];buildPresetList();reportState=cleanReportState(null);baselines=[];activeBaseline=0;trackActivity=false;depMap=false;impactId=null;updateActButtons();updateDepUI();closeAct();hideWhy();updateBlButton();buildViewList();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap(true);setDateMode(false,true);createDefault();selectedId=null;docResetMap();docExtrasUI();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2601,7 +2939,7 @@ function isHidden(n){
 function isRoot(n){return n.parentId===null;}
 function getRoots(){return nodes.filter(n=>n.parentId===null);}
 
-function setNodeColor(cid){if(!selectedId)return;snap();gn(selectedId).colorId=cid;render();autoSave();}
+function setNodeColor(cid){if(!selectedId)return;change(()=>{gn(selectedId).colorId=cid;});}
 function updateColorBarActive(){const n=selectedId?gn(selectedId):null;colorBar.querySelectorAll('.color-swatch').forEach(sw=>{sw.classList.toggle('active',n&&n.colorId===sw.dataset.colorId);});}
 function updateStats(){
   const roots=getRoots().length,total=nodes.length,links=crossLinks.length,wn=nodes.filter(n=>n.notes&&n.notes.trim()).length;
@@ -2650,14 +2988,12 @@ function addDependency(depId,preId){
   if(depId===preId){toast('A node cannot depend on itself');return false;}
   if(depsOf(d).includes(preId)){toast('That dependency already exists');return false;}
   if(depWouldLoop(depId,preId)){toast('That would make a loop of dependencies');return false;}
-  snap();d.deps=[...depsOf(d),preId];d.modifiedAt=new Date().toISOString();
-  render();autoSave();
+  change(()=>{d.deps=[...depsOf(d),preId];d.modifiedAt=new Date().toISOString();});
   toast('"'+pr.text+'" must be finished before "'+d.text+'"');return true;
 }
 function removeDependency(depId,preId){
   const d=gn(depId);if(!d)return;
-  snap();d.deps=depsOf(d).filter(x=>x!==preId);d.modifiedAt=new Date().toISOString();
-  hideDetail();render();autoSave();toast('Dependency removed');
+  change(()=>{d.deps=depsOf(d).filter(x=>x!==preId);d.modifiedAt=new Date().toISOString();hideDetail();});toast('Dependency removed');
 }
 function startDependency(kind){ // 'dep': selected node depends on the one you click; 'need': selected node is needed by the one you click
   if(!selectedId){toast('Select a node first');return;}
@@ -3726,7 +4062,7 @@ function dismissDetail(){
   detailPanel.classList.remove('visible');detailNodeId=null;detailPinned=false;detailSnapped=false;
 }
 function showDetailForSelected(){if(!selectedId)return;const el=elOf(selectedId);if(el)showDetail(selectedId,el,true);}
-function removeCrossLink(f,t){snap();crossLinks=crossLinks.filter(l=>!(l.from===f&&l.to===t));hideDetail();render();autoSave();toast('Link removed');}
+function removeCrossLink(f,t){change(()=>{crossLinks=crossLinks.filter(l=>!(l.from===f&&l.to===t));hideDetail();});toast('Link removed');}
 // Used by search results, bookmarks and cross-link clicks: same behaviour as the Agenda jump
 // (expands collapsed parents with an undo step, un-hides a hidden root, explains if Hide Completed is hiding it)
 function focusNode(id){jumpToNode(id);}
@@ -3884,7 +4220,7 @@ function deleteSelected(skipConfirm){
   const all=new Set();
   ids.forEach(id=>{if(gn(id)){all.add(id);gdesc(id).forEach(d=>all.add(d));}});
   if(all.size>5&&!skipConfirm&&!confirm('Delete '+all.size+' nodes (the selection and everything beneath it)?\nYou can undo this with Ctrl+Z.'))return;
-  snap();
+  change(()=>{
   const first=gn(ids[0]);
   nodes=nodes.filter(n=>!all.has(n.id));
   crossLinks=crossLinks.filter(l=>!all.has(l.from)&&!all.has(l.to));
@@ -3892,7 +4228,8 @@ function deleteSelected(skipConfirm){
   bookmarks=bookmarks.filter(b=>!all.has(b));
   selectedId=(ids.length===1&&first&&first.parentId!==null&&gn(first.parentId))?first.parentId:null;
   multiSelected.clear();updateBulkBar();
-  hideDetail();render();autoSave();
+  hideDetail();
+  });
 }
 
 function duplicateSelected(){
@@ -3916,10 +4253,8 @@ function duplicateSelected(){
 function convertToRoot(){
   if(!selectedId)return;
   const n=gn(selectedId);if(!n||n.parentId===null){toast('Already a root node');return;}
-  snap();
-  setParentId(n,null);
-  n.modifiedAt=new Date().toISOString();
-  render();autoSave();toast('Detached as root node');
+  change(()=>{setParentId(n,null);n.modifiedAt=new Date().toISOString();});
+  toast('Detached as root node');
 }
 
 // ── Theme Toggle ──
@@ -4037,7 +4372,7 @@ function typeColor(t){const k=String(t||'').toLowerCase();const f=LINK_TYPES.fin
 function linkText(l){const t=(depMap&&l.type)?l.type:'';return t?(l.label?t+' \u00B7 '+l.label:t):(l.label||'');}
 const WAVE_RE=/^wave\s*(\d{1,2})$/i;
 function waveOf(n){for(const t of getNodeTags(n)){const m=WAVE_RE.exec(String(t).trim());if(m)return +m[1];}return 0;}
-function setWave(id,w){const n=gn(id);if(!n)return;snap();const keep=getNodeTags(n).filter(t=>!WAVE_RE.test(String(t).trim()));if(w)keep.push('Wave '+w);setNodeTags(id,keep);n.modifiedAt=new Date().toISOString();render();autoSave();if(detailNodeId===id)renderDetailTags(id);}
+function setWave(id,w){const n=gn(id);if(!n)return;change(()=>{const keep=getNodeTags(n).filter(t=>!WAVE_RE.test(String(t).trim()));if(w)keep.push('Wave '+w);setNodeTags(id,keep);n.modifiedAt=new Date().toISOString();});if(detailNodeId===id)renderDetailTags(id);}
 function relEdges(){
   const E=[];
   nodes.forEach(n=>depsOf(n).forEach(p=>{if(gn(p)&&p!==n.id)E.push({a:n.id,b:p,t:'',lab:'',k:'dep'});}));
@@ -4182,7 +4517,7 @@ function saveLinkType(){
   const type=($('#lt-custom').value.trim()||s.type||'').slice(0,40),note=$('#lt-note').value.trim().slice(0,120);
   if(s.existing){
     const l=crossLinks.find(x=>x.from===s.of&&x.to===s.ot);if(!l){closeLinkType();return;}
-    snap();l.type=type;l.label=note;if(s.from!==s.of){l.from=s.from;l.to=s.to;}closeLinkType();render();autoSave();toast('Link updated');return;
+    change(()=>{l.type=type;l.label=note;if(s.from!==s.of){l.from=s.from;l.to=s.to;}closeLinkType();});toast('Link updated');return;
   }
   if(crossLinks.some(l=>(l.from===s.from&&l.to===s.to)||(l.from===s.to&&l.to===s.from))){closeLinkType();toast('Link exists');return;}
   snap();crossLinks.push({from:s.from,to:s.to,label:note,type});
@@ -4709,10 +5044,11 @@ function boardMove(id,value,group){
   const n=gn(id);if(!n)return;
   const cur=group==='status'?(n.status||''):boardKey(n,group);
   if(cur===value){return;}
-  snap();
-  const was=n.status;n[group]=value;n.modifiedAt=new Date().toISOString();
-  if(group==='status'&&value==='completed'){const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);}
-  render();autoSave();buildBoard(true);
+  change(()=>{
+    const was=n.status;n[group]=value;n.modifiedAt=new Date().toISOString();
+    if(group==='status'&&value==='completed'){const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);}
+  });
+  buildBoard(true);
   const again=$('#board-body').querySelector('.bd-card[data-id="'+id+'"]');if(again)again.focus({preventScroll:false});
   toast('Moved "'+n.text+'" to '+(value||(group==='status'?'No status':group==='owner'?'Unassigned':'No project')));
 }
@@ -5522,21 +5858,23 @@ $('#qc-input').addEventListener('keydown',e=>{
 });
 
 // ── Command palette ──
-// The list is read from the menus and toolbar themselves each time it opens, so it can never fall out of step with them
+// Every menu item is made from a command in the registry (005-commands.js), so the palette identifies each one by its
+// command id. The menus supply the position (the category) and the live label ("Theme: Dark"), the registry the rest.
 let cmdAll=[],cmdShown=[],cmdSel=0,cmdRecentN=0;
 const RECENT_KEY=STORE_KEY+':recentCmds';
 let cmdRecent=[];try{const r=JSON.parse(storageGet(RECENT_KEY)||'[]');if(Array.isArray(r))cmdRecent=r.filter(x=>typeof x==='string').slice(0,6);}catch(e){}
+// Recent commands were once stored as the menu item's click text, e.g. "toggleAgenda()". Turn those into command ids.
+{const byCall={};COMMANDS.forEach(c=>{const k=cmdCall(c);if(!(k in byCall))byCall[k]=c.id;});
+ cmdRecent=cmdRecent.map(x=>CMD[x]?x:byCall[x]).filter(Boolean);}
 if(/Mac|iPhone|iPad/.test(navigator.platform||''))document.getElementById('cmd-kbd').textContent='\u2318K';
 function collectCommands(){
   const out=[],seen=new Set();
-  const norm=b=>(b.getAttribute('onclick')||'').replace(/closeDD\(\);?|hideCtx\(\);?/g,'').replace(/[;\s]+$/,'');
   const add=(b,cat)=>{
-    const oc=norm(b);if(!oc||b.disabled)return;
-    if(seen.has(oc))return;seen.add(oc);
-    const sc=b.querySelector('.shortcut');
+    const c=CMD[b.dataset.cmd];if(!c||b.disabled)return;
+    const key=cmdCall(c);if(seen.has(key))return;seen.add(key); // the same action in two places is listed once, at its first place
     const cl=b.cloneNode(true);cl.querySelectorAll('.shortcut').forEach(x=>x.remove());
     const label=cl.textContent.replace(/\s+/g,' ').trim();if(!label)return;
-    out.push({id:oc,label,cat,hint:sc?sc.textContent.trim():'',tip:b.title||'',btn:b});
+    out.push({id:c.id,label,cat,hint:c.hint||'',tip:b.title||'',btn:b});
   };
   document.querySelectorAll('#toolbar .dropdown').forEach(dd=>{
     const head=dd.querySelector(':scope > .tb-btn'),top=head?head.textContent.replace(/[▾▸]/g,'').trim():'';
@@ -5548,7 +5886,7 @@ function collectCommands(){
       add(b,cat);
     });
   });
-  document.querySelectorAll('#toolbar > .tb-btn, #toolbar > .tb-group > .tb-btn').forEach(b=>{if(!['cmd-btn','save-badge','due-badge'].includes(b.id))add(b,'Toolbar');});
+  document.querySelectorAll('#toolbar > .tb-btn, #toolbar > .tb-group > .tb-btn').forEach(b=>add(b,'Toolbar'));
   document.querySelectorAll('#ctx-menu .dd-item').forEach(b=>add(b,'Selected node'));
   return out;
 }
@@ -5823,7 +6161,7 @@ function startEdit(id){
   el.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el.blur();}if(e.key==='Escape'){cancelled=true;el.blur();}e.stopPropagation();});
 }
 function toggleCollapse(){if(selectedId)toggleCollapseNode(selectedId);}
-function toggleCollapseNode(id){snap();const n=gn(id);if(n){n.collapsed=!n.collapsed;render();autoSave();}}
+function toggleCollapseNode(id){change(()=>{const n=gn(id);if(!n)return false;n.collapsed=!n.collapsed;});}
 
 // ── Shift dates (bulk move a node, its sub-nodes and cross-linked nodes) ──
 let shiftRootId=null;
@@ -6492,41 +6830,11 @@ document.addEventListener('keydown',e=>{
   const k=e.key.length===1?e.key.toLowerCase():e.key;
 
   // Presentation mode owns the keyboard while it is open
-  if(presMode){
-    if(ctrl&&k==='s'){e.preventDefault();saveToFile();return;}
-    if(k==='Escape'){exitPresentation();}
-    else if(k==='ArrowRight'||k==='ArrowDown'||k===' '||k==='PageDown'){e.preventDefault();presNav(1);}
-    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'){e.preventDefault();presNav(-1);}
-    return;
-  }
+  if(presMode){keyDo('pres',e,k,ctrl);return;}
   if(editingId)return;
-  if(ctrl&&k==='k'){e.preventDefault();openPalette();return;}
-  if(boardVisible||reportVisible){
-    const t1=document.activeElement?document.activeElement.tagName:'';
-    if(ctrl&&k==='s'){e.preventDefault();saveToFile();return;}
-    if(k==='Escape'){e.preventDefault();if(boardVisible)toggleBoard();else toggleReport();}
-    else if(boardVisible&&ctrl&&(k==='z'||k==='y')&&t1!=='INPUT'&&t1!=='TEXTAREA'){e.preventDefault();if(k==='y'||e.shiftKey)redo();else undo();buildBoard(true);}
-    else if(!ctrl&&t1!=='INPUT'&&t1!=='SELECT'&&t1!=='TEXTAREA'){
-      if(k==='k'&&boardVisible){e.preventDefault();toggleBoard();}
-      else if(k==='r'&&reportVisible){e.preventDefault();toggleReport();}
-      else if(k==='q'){e.preventDefault();openCapture();}
-    }
-    return;
-  }
-  if(tlVisible){
-    const t0=document.activeElement?document.activeElement.tagName:'';
-    if(ctrl&&k==='s'){e.preventDefault();saveToFile();return;}
-    if(k==='Escape'){e.preventDefault();if(tlDrag)tlDragCancel();else toggleTimeline();}
-    else if(ctrl&&(k==='z'||k==='y')&&t0!=='INPUT'&&t0!=='TEXTAREA'){e.preventDefault();if(tlDrag)tlDragCancel();if(k==='y'||e.shiftKey)redo();else undo();buildTimeline(true);}
-    else if(!ctrl&&t0!=='INPUT'&&t0!=='SELECT'&&t0!=='TEXTAREA'){
-      if(k==='+'||k==='='){e.preventDefault();tlZoom(1.4);}
-      else if(k==='-'){e.preventDefault();tlZoom(1/1.4);}
-      else if(k==='t'){e.preventDefault();toggleTimeline();}
-      else if(k==='0'){e.preventDefault();tlPx=0;buildTimeline();}
-      else if(k==='q'){e.preventDefault();openCapture();}
-    }
-    return; // never let map shortcuts (Delete, Tab ...) act on the map underneath
-  }
+  if(keyDo('any',e,k,ctrl))return;
+  if(boardVisible||reportVisible){keyDo(boardVisible?'board':'report',e,k,ctrl);return;}
+  if(tlVisible){keyDo('timeline',e,k,ctrl);return;} // never let map shortcuts (Delete, Tab ...) act on the map underneath
 
   const ae=document.activeElement,tag=ae?ae.tagName:'';
   if(k==='Escape'&&ae&&ae.id==='search-input'){toggleSearch();return;}
@@ -6539,40 +6847,12 @@ document.addEventListener('keydown',e=>{
   }
 
   // Ctrl/Cmd shortcuts: handle only the ones the app advertises, leave the rest to the browser
-  if(ctrl){
-    if(k==='s'){e.preventDefault();saveToFile();}
-    else if(k==='z'){e.preventDefault();if(e.shiftKey)redo();else undo();}
-    else if(k==='y'){e.preventDefault();redo();}
-    else if(k==='f'){e.preventDefault();toggleFilter();}
-    else if(k==='p'){e.preventDefault();printMap();}
-    return;
-  }
+  if(ctrl){keyDo('map',e,k,true);return;}
   if(e.altKey)return;
-
-  if(k==='Tab'){if(e.shiftKey)return;e.preventDefault();addChild();}
-  else if(k==='Enter'){e.preventDefault();addSibling();}
-  else if(k==='Delete'||k==='Backspace'){e.preventDefault();deleteSelected();}
-  else if(k==='F2'){e.preventDefault();editSelected();}
-  else if(k===' '){e.preventDefault();toggleCollapse();}
-  else if(k==='Home'){e.preventDefault();centreView();}
-  else if(k==='Escape'){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if($('#xp-panel').classList.contains('visible'))toggleExportPresets();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
-  else if(k==='i'){e.preventDefault();showDetailForSelected();}
-  else if(k==='l'){e.preventDefault();startLinkMode();}
-  else if(k==='g'){e.preventDefault();toggleFocusPanel();}
-  else if(k==='s'){e.preventDefault();toggleStatsPanel();}
-  else if(k==='q'){e.preventDefault();openCapture();}
-  else if(k==='a'){e.preventDefault();toggleAgenda();}
-  else if(k==='t'){e.preventDefault();toggleTimeline();}
-  else if(k==='k'){e.preventDefault();toggleBoard();}
-  else if(k==='r'){e.preventDefault();toggleReport();}
-  else if(k==='?'){e.preventDefault();showAbout();}
-  else if(k==='b'){e.preventDefault();toggleBookmarks();}
-  else if(k==='v'){e.preventDefault();toggleViews();}
-  else if(k==='p'){e.preventDefault();startPresentation();}
-  else if(k==='f'){e.preventDefault();fitAll();}
-  else if(k==='/'){e.preventDefault();toggleSearch();}
-  else if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k)){e.preventDefault();navigateArrow(k);}
+  keyDo('map',e,k,false);
 });
+// Escape on the map: deselect and close whatever is open
+function escapeMap(){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if($('#xp-panel').classList.contains('visible'))toggleExportPresets();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
 function navigateArrow(key){if(!selectedId){selectNode(nodes[0]?.id);return;}const n=gn(selectedId);if(!n)return;if(key==='ArrowRight'){const ch=gch(selectedId).filter(c=>!isHidden(c));if(ch.length)selectNode(ch[0].id);}else if(key==='ArrowLeft'){if(n.parentId)selectNode(n.parentId);}else if(key==='ArrowDown'||key==='ArrowUp'){if(n.parentId===null){const roots=getRoots();const idx=roots.findIndex(r=>r.id===selectedId);if(key==='ArrowDown'&&idx<roots.length-1)selectNode(roots[idx+1].id);if(key==='ArrowUp'&&idx>0)selectNode(roots[idx-1].id);return;}const sibs=gch(n.parentId).filter(c=>!isHidden(c));const idx=sibs.findIndex(s=>s.id===selectedId);if(key==='ArrowDown'&&idx<sibs.length-1)selectNode(sibs[idx+1].id);if(key==='ArrowUp'&&idx>0)selectNode(sibs[idx-1].id);}}
 
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
@@ -6626,7 +6906,7 @@ function buildAgenda(){
     for(const [n,i] of items){
       const row=document.createElement('div');row.className='md-row '+key;
       const cb=document.createElement('input');cb.type='checkbox';cb.title='Mark as completed';
-      cb.addEventListener('change',()=>{snap();const was=n.status;n.status='completed';n.modifiedAt=new Date().toISOString();const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);render();autoSave();});
+      cb.addEventListener('change',()=>{change(()=>{const was=n.status;n.status='completed';n.modifiedAt=new Date().toISOString();const nx=rollRecurring(n,was);if(nx)rollToast(n,nx);});});
       const main=document.createElement('div');main.className='md-main';
       const t=document.createElement('div');t.className='md-title';t.textContent=n.text;
       const par=n.parentId!==null?gn(n.parentId):null;
@@ -6640,7 +6920,7 @@ function buildAgenda(){
         n.checks.forEach(it=>{
           const lab=document.createElement('label');lab.className='md-ck'+(it.d?' done':'');
           const c2=document.createElement('input');c2.type='checkbox';c2.checked=it.d;
-          c2.addEventListener('change',()=>{snap();it.d=c2.checked;n.modifiedAt=new Date().toISOString();render();autoSave();if(detailNodeId===n.id)renderDetailChecks();});
+          c2.addEventListener('change',()=>{change(()=>{it.d=c2.checked;n.modifiedAt=new Date().toISOString();});if(detailNodeId===n.id)renderDetailChecks();});
           c2.addEventListener('click',e=>e.stopPropagation());
           const sp=document.createElement('span');sp.textContent=it.t;
           lab.appendChild(c2);lab.appendChild(sp);cl.appendChild(lab);
@@ -6664,8 +6944,8 @@ function jumpToNode(id){
   while(p){anc.push(p);p=p.parentId!==null?gn(p.parentId):null;}
   const root=anc.length?anc[anc.length-1]:n;
   if(anc.some(a=>a.collapsed)||hiddenRoots.has(root.id)){
-    snap();anc.forEach(a=>{a.collapsed=false;});hiddenRoots.delete(root.id);
-    render();autoSave();if(focusPanelVisible)buildFocusList();
+    change(()=>{anc.forEach(a=>{a.collapsed=false;});hiddenRoots.delete(root.id);});
+    if(focusPanelVisible)buildFocusList();
   }
   if(isHidden(n)){toast('Hidden by "Hide Completed" \u2014 turn that off in Settings to see it');return;}
   selectNode(id);
@@ -7031,8 +7311,8 @@ function printMap(){
 }
 
 // ── Collapse All / Expand All ──
-function collapseAll(){snap();nodes.forEach(n=>{if(gch(n.id).length)n.collapsed=true;});render();autoSave();toast('All collapsed');}
-function expandAll(){snap();nodes.forEach(n=>n.collapsed=false);render();autoSave();toast('All expanded');}
+function collapseAll(){change(()=>{nodes.forEach(n=>{if(gch(n.id).length)n.collapsed=true;});});toast('All collapsed');}
+function expandAll(){change(()=>{nodes.forEach(n=>n.collapsed=false);});toast('All expanded');}
 
 // ── Snap to Grid ──
 function toggleSnap(){
@@ -7205,8 +7485,7 @@ function buildFocusList(){
 }
 function focusShowAll(){
   if(!hiddenRoots.size){toast('All roots already visible');return;}
-  snap();hiddenRoots.clear();
-  render();autoSave();buildFocusList();
+  change(()=>{hiddenRoots.clear();});buildFocusList();
   toast('All roots visible');
 }
 function focusSoloSelected(){
@@ -7215,9 +7494,7 @@ function focusSoloSelected(){
   let r=gn(selectedId);if(!r)return;
   while(r.parentId!==null){const p=gn(r.parentId);if(!p)break;r=p;}
   // Hide all roots except this one
-  snap();hiddenRoots.clear();
-  getRoots().forEach(root=>{if(root.id!==r.id)hiddenRoots.add(root.id);});
-  render();autoSave();buildFocusList();
+  change(()=>{hiddenRoots.clear();getRoots().forEach(root=>{if(root.id!==r.id)hiddenRoots.add(root.id);});});buildFocusList();
   toast('Solo: '+r.text);
 }
 function focusFitVisible(){fitAll();}
@@ -7549,7 +7826,7 @@ function loadDemo(key){
     const r0=getRoots()[0],cv=document.getElementById('canvas')||document.body;
     if(r0){zoom=0.5;panX=60-r0.x*zoom;panY=(cv.clientHeight||innerHeight)/2-r0.y*zoom;updateTransform();autoSave();}
   }
-  undoStack.pop(); // loading + arranging counts as one step, so one Undo returns the previous map
+  dropUndoStep(); // loading + arranging counts as one step, so one Undo returns the previous map
   const mark=nodes.find(n=>n.parentId===null);if(mark)selectNode(mark.id);
   return true;
 }
@@ -7786,6 +8063,40 @@ function selfTest(){
     {const was=!!prefs.simple;setSimpleMenus(true,true);const hid=getComputedStyle($('#dep-toggle')).display==='none'&&getComputedStyle($('#tb-saved')).display==='none'&&getComputedStyle($('#simple-toggle')).display!=='none';
      setSimpleMenus(false,true);const back=getComputedStyle($('#dep-toggle')).display!=='none';setSimpleMenus(was,true);
      ok('simple menus hide specialist items and keep the switch visible',hid&&back);}
+    // The command list (005-commands.js): everything the menus, keys, palette and help screens read from
+    {const dup=COMMANDS.length===new Set(COMMANDS.map(c=>c.id)).size;
+     const missing=COMMANDS.filter(c=>typeof window[c.fn]!=='function').map(c=>c.id);
+     ok('every command names a real function'+(missing.length?' (missing: '+missing.join(', ')+')':''),dup&&!missing.length);}
+    {const bad=[];
+     COMMANDS.forEach(c=>{if(!c.cls)return;const el=document.querySelector('[data-cmd="'+c.id+'"]');
+       if(!el)bad.push(c.id+' has no menu item');else if(el.classList.contains('adv')!==!!c.adv)bad.push(c.id+' adv flag');});
+     document.querySelectorAll('[data-cmd]').forEach(el=>{if(!CMD[el.dataset.cmd])bad.push('unknown '+el.dataset.cmd);});
+     ok('every menu item comes from a command, and the adv flags agree'+(bad.length?' ('+bad.slice(0,3).join('; ')+')':''),!bad.length);}
+    {const seen=new Set(),dups=[];
+     KEYS.forEach(r=>{[].concat(r.s).forEach(sc=>[].concat(r.k).forEach(k=>{const id=sc+'|'+k+'|'+r.c;if(seen.has(id))dups.push(id);seen.add(id);}));});
+     ok('no key is bound twice in the same scope'+(dups.length?' ('+dups.slice(0,3).join(', ')+')':''),!dups.length);}
+    {const listed=new Set();HELP.forEach(r=>{if(r.cmd)[].concat(r.cmd).forEach(id=>listed.add(id));});
+     const bad=[];HELP.forEach(r=>{if(r.cmd)[].concat(r.cmd).forEach(id=>{if(!CMD[id])bad.push(id);});});
+     const unlisted=KEYS.filter(r=>[].concat(r.s).includes('map')&&typeof r.do==='string'&&!listed.has(r.do)).map(r=>r.do);
+     ok('every mapped shortcut is in the help list'+(unlisted.length?' (missing: '+unlisted.join(', ')+')':bad.length?' (unknown: '+bad.join(', ')+')':''),!unlisted.length&&!bad.length);}
+    ok('the About screen lists every help row that has an About wording',document.querySelectorAll('#about-keys > kbd').length===HELP.filter(r=>r.t).length);
+    // Merge bookkeeping, on stand-in nodes so the open map is untouched
+    {const keepN=nodes,keepD=deleted,keepS=stampShadow;
+     try{
+       nodes=sanitizeNodes([{id:1,text:'a',createdAt:'2026-01-02T03:04:05.000Z'},{id:2,text:'b',parentId:1,createdAt:'2026-01-02T03:04:06.000Z'}]);deleted=[];stampShadow=null;
+       const u1=nodes[0].uid,again=sanitizeNodes([{id:1,text:'a',createdAt:'2026-01-02T03:04:05.000Z'}])[0].uid;
+       ok('merge ids are the same each time an old file is opened',!!u1&&u1===again&&nodes[1].uid!==u1);
+       stampChanges();const m0=nodes[0].mod,m1=nodes[1].mod;
+       nodes[1].text='changed';nodes[1].mod='2000-01-01T00:00:00.000Z';nodes[0].mod='2000-01-01T00:00:00.000Z';
+       nodes.push({id:3,text:'copy',parentId:1,uid:nodes[1].uid,createdAt:'2026-01-02T03:04:07.000Z'});stampChanges();
+       ok('only a changed node gets a new change time',nodes[0].mod==='2000-01-01T00:00:00.000Z'&&nodes[1].mod>'2000-01-02');
+       ok('a copy gets its own merge id',nodes[2].uid&&nodes[2].uid!==nodes[1].uid&&!!nodes[2].mod);
+       const goneUid=nodes[1].uid,gone=nodes[1];nodes=[nodes[0],nodes[2]];stampChanges();
+       const listed=deleted.some(d=>d.uid===goneUid);
+       nodes=[nodes[0],gone,nodes[1]];stampChanges();
+       ok('a deleted node is listed until it comes back',listed&&!deleted.some(d=>d.uid===goneUid));
+       ok('old entries leave the deleted list',cleanDeleted([{uid:'abc-1',at:new Date(Date.now()-91*864e5).toISOString()},{uid:'abc-2',at:new Date().toISOString()}]).length===1);
+     }finally{nodes=keepN;deleted=keepD;stampShadow=keepS;}}
   }catch(e){ok('self-test crashed: '+e.message,false);}
   const bad=res.filter(r=>!r[1]);
   console.log('MindLoom self-test\n'+res.map(r=>(r[1]?'PASS ':'FAIL ')+r[0]).join('\n'));
