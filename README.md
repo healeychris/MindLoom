@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.37.1)
+# MINDLOOM FEATURES (v1.38.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,13 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.37
+WHAT'S NEW IN 1.38
+
+Simple Menus (Settings): hides the specialist items from the menus and toolbar, off by default. Ctrl+K still finds every command
+Welcome tips: a short card shown once in a browser that has never held a MindLoom map; reopen it from File > Welcome Tips
+User Guide link: File > User Guide, the About screen and the tips card open the online guide (only when clicked; MindLoom never goes online by itself)
+
+EARLIER IN 1.37
 
 Quick capture (key Q, or Edit > Quick capture): a one-line box that adds a task under an Inbox node without choosing where.
   Add #tags, an @owner and a trailing date (today, tomorrow, fri, +2w, 27/11) in the same line; a live preview shows

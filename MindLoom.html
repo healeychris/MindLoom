@@ -432,6 +432,20 @@
   .legend-tools select { flex:1; }
   .cat-edit { position:fixed; z-index:300; width:120px; background:var(--surface); color:var(--text); border:1px solid var(--accent); border-radius:5px; padding:4px 6px; font:12px var(--font); outline:none; box-shadow:0 4px 14px rgba(0,0,0,0.4); }
 
+  /* ── Simple menus and welcome tips ── */
+  body.simple-menus .adv { display:none !important; }
+  #tips-card { position:fixed; top:78px; right:16px; width:310px; z-index:130; display:none; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,0.4); padding:14px 16px 12px; font-size:12.5px; line-height:1.5; color:var(--text); }
+  #tips-card.visible { display:block; }
+  #tips-card h3 { margin:0 0 8px; font-size:14px; }
+  #tips-card ul { list-style:none; margin:0 0 10px; padding:0; }
+  #tips-card li { display:flex; gap:10px; align-items:baseline; padding:2px 0; }
+  #tips-card li > kbd { flex:0 0 52px; text-align:center; }
+  #tips-card kbd { font:11px var(--font); background:var(--surface-hover); border:1px solid var(--border); border-radius:4px; padding:1px 6px; white-space:nowrap; }
+  #tips-card .tc-row { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  #tips-card a { color:var(--accent); }
+  #tips-card button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:5px 14px; font:12px var(--font); cursor:pointer; }
+  #tips-card .tc-note { margin-top:8px; font-size:10.5px; color:var(--text-muted); }
+
   /* ── Minimap ── */
   #minimap {
     position:fixed; bottom:16px; left:16px; width:180px; height:120px;
@@ -1082,7 +1096,7 @@
   /* ── Print stylesheet ── */
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
-    #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
+    #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend, #tips-card,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
@@ -1167,7 +1181,7 @@
         <div class="dd-submenu-items">
           <button class="dd-item" onclick="exportPNG();closeDD()" title="Save the whole map as a picture">Export PNG</button>
           <button class="dd-item" onclick="exportSVG();closeDD()" title="Save the same picture as a vector image that stays sharp at any size and can be edited in PowerPoint or Inkscape">Export SVG</button>
-          <button class="dd-item" onclick="toggleExportPresets();closeDD()" title="Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click">Export Presets&hellip;</button>
+          <button class="dd-item adv" onclick="toggleExportPresets();closeDD()" title="Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click">Export Presets&hellip;</button>
           <button class="dd-item" onclick="exportMarkdown();closeDD()" title="Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)">Export Markdown</button>
           <button class="dd-item" onclick="exportCSV();closeDD()" title="Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)">Export CSV</button>
         </div>
@@ -1177,6 +1191,8 @@
       <div class="dd-sep"></div>
       <button class="dd-item danger" onclick="newMap();closeDD()" title="Start a new empty map (your current map is backed up first)">New Map</button>
       <div class="dd-sep"></div>
+      <button class="dd-item" onclick="openGuide();closeDD()" title="Open the full illustrated User Guide in your browser. It needs an internet connection; MindLoom itself never goes online on its own.">User Guide&hellip;</button>
+      <button class="dd-item" onclick="showTips();closeDD()" title="Show the short list of tips for getting started">Welcome Tips&hellip;</button>
       <button class="dd-item" onclick="showAbout();closeDD()" title="Version, features and information about MindLoom">About MindLoom</button>
     </div>
   </div>
@@ -1198,7 +1214,7 @@
       <button class="dd-item" onclick="openCapture();closeDD()" title="Type a task and press Enter: it goes under an Inbox node without you choosing where. Add a date (fri, tomorrow, +2w), #tag and @owner in the same line">Quick capture&hellip; <span class="shortcut">Q</span></button>
       <button class="dd-item" onclick="openBulkAdd();closeDD()" title="Type or paste a list of names and create them all at once, as top-level nodes or under the selected node">Add several nodes&hellip;</button>
       <div class="dd-sep"></div>
-      <button class="dd-item" onclick="openShiftDates();closeDD()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates (branch + links)&hellip;</button>
+      <button class="dd-item adv" onclick="openShiftDates();closeDD()" title="Move the dates of the selected branch (and nodes linked to it) by days, weeks or months">Shift dates (branch + links)&hellip;</button>
       <div class="dd-sep"></div>
       <button class="dd-item danger" onclick="deleteSelected();closeDD()" title="Delete the selected node and everything beneath it">Delete <span class="shortcut">Del</span></button>
     </div>
@@ -1221,11 +1237,11 @@
       <div class="dd-submenu">
         <button class="dd-item" title="Show or hide side panels such as search, filter, legend and statistics">Panels</button>
         <div class="dd-submenu-items">
-          <button class="dd-item" onclick="toggleFocusPanel();closeDD()" title="Show or hide whole root trees to concentrate on one">Focus Roots <span class="shortcut">G</span></button>
+          <button class="dd-item adv" onclick="toggleFocusPanel();closeDD()" title="Show or hide whole root trees to concentrate on one">Focus Roots <span class="shortcut">G</span></button>
           <button class="dd-item" onclick="toggleFilter();closeDD()" title="Dim nodes that don't match a status, colour, owner or tag">Filter Bar <span class="shortcut">Ctrl+F</span></button>
           <button class="dd-item" onclick="toggleSearch();closeDD()" title="Find nodes by their title, notes, tags or date">Search <span class="shortcut">/</span></button>
           <button class="dd-item" onclick="toggleLegend();closeDD()" title="Show or hide the colour key. Click any name in it to rename a category, pick a ready-made set (Task status, RAG, Workstream) or Reset. You can also double-click a colour on the colour bar. Names are saved with the map. The colours themselves don't change.">Legend / Rename Colours</button>
-          <button class="dd-item" onclick="toggleMinimap();closeDD()" title="Show or hide a small overview of the whole map">Minimap</button>
+          <button class="dd-item adv" onclick="toggleMinimap();closeDD()" title="Show or hide a small overview of the whole map">Minimap</button>
           <button class="dd-item" onclick="toggleStatsPanel();closeDD()" title="Show counts and progress statistics for the map">Statistics <span class="shortcut">S</span></button>
         </div>
       </div>
@@ -1235,8 +1251,8 @@
       <button class="dd-item" onclick="toggleBoard();closeDD()" title="Kanban columns by status, owner or project. Drag cards between columns to change them">Board <span class="shortcut">K</span></button>
       <button class="dd-item" onclick="toggleReport();closeDD()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed. Copy, download or print it">Status report <span class="shortcut">R</span></button>
       <div class="dd-sep"></div>
-      <button class="dd-item" onclick="toggleBookmarks();closeDD()" title="Show your bookmarked nodes and jump to them">Bookmarks <span class="shortcut">B</span></button>
-      <button class="dd-item" onclick="toggleViews();closeDD()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position">Saved Views <span class="shortcut">V</span></button>
+      <button class="dd-item adv" onclick="toggleBookmarks();closeDD()" title="Show your bookmarked nodes and jump to them">Bookmarks <span class="shortcut">B</span></button>
+      <button class="dd-item adv" onclick="toggleViews();closeDD()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position">Saved Views <span class="shortcut">V</span></button>
       <div id="dep-menu-block" style="display:none">
         <div class="dd-sep"></div>
         <div class="dd-label">Dependencies</div>
@@ -1255,24 +1271,25 @@
       <div class="dd-label">Appearance</div>
       <button class="dd-item" id="theme-toggle" onclick="toggleTheme();closeDD()" title="Switch between the dark and light theme">Theme: Dark</button>
       <button class="dd-item" id="conn-toggle" onclick="toggleConnStyle();closeDD()" title="Switch the lines between curved and squared (right-angle) routing that goes around nodes">Connectors: Curved</button>
+      <button class="dd-item" id="simple-toggle" onclick="toggleSimpleMenus();closeDD()" title="Hide the specialist items (saved views, bookmarks, baselines, link types, activity history and so on) so only the everyday ones show. Ctrl+K still finds every command. Off by default; remembered in this browser">Simple Menus: Off</button>
       <div class="dd-label">Background</div>
       <div class="bg-row" id="bg-colors"></div>
       <div class="dd-label">Pattern</div>
       <div class="bg-row" id="bg-patterns"></div>
       <div class="dd-sep"></div>
       <div class="dd-label">Editing</div>
-      <button class="dd-item" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Advanced Activity &amp; Comments: Off</button>
-      <button class="dd-item" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
-      <button class="dd-item" id="dep-toggle" onclick="toggleDepMap();closeDD()" title="Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map">Application Mapping Structures: Off</button>
-      <button class="dd-item" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
-      <button class="dd-item" id="dpl-toggle" onclick="cycleDetailLayout();closeDD()" title="How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)">Details Layout: Classic</button>
-      <button class="dd-item" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
-      <button class="dd-item" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
+      <button class="dd-item adv" id="act-toggle" onclick="toggleActivity();closeDD()" title="Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map">Advanced Activity &amp; Comments: Off</button>
+      <button class="dd-item adv" id="author-btn" style="display:none" onclick="setAuthorName();closeDD()" title="Your name is added to the comments and changes you make, so a shared history shows who did what">Your name: not set</button>
+      <button class="dd-item adv" id="dep-toggle" onclick="toggleDepMap();closeDD()" title="Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map">Application Mapping Structures: Off</button>
+      <button class="dd-item adv" id="snap-toggle" onclick="toggleSnap();closeDD()" title="Snap nodes to a grid when you drag them">Snap to Grid: Off</button>
+      <button class="dd-item adv" id="dpl-toggle" onclick="cycleDetailLayout();closeDD()" title="How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)">Details Layout: Classic</button>
+      <button class="dd-item adv" id="hover-toggle" onclick="toggleHoverPopup();closeDD()" title="Show a details popup when you hover over a node">Hover Popups: Off</button>
+      <button class="dd-item adv" id="focussel-toggle" onclick="toggleFocusSel();closeDD()" title="When a node is selected, fade everything unrelated and show only its own links and dependencies">Highlight Selection: On</button>
       <button class="dd-item" id="completed-toggle" onclick="toggleHideCompleted();closeDD()" title="Hide nodes marked Completed, along with their branches">Hide Completed: Off</button>
       <div class="dd-sep"></div>
-      <div class="dd-label">Planning</div>
-      <button class="dd-item" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines&hellip;</button>
-      <div class="dd-submenu">
+      <div class="dd-label adv">Planning</div>
+      <button class="dd-item adv" id="baseline-open" onclick="toggleBaselines();closeDD()" title="Save the planned dates as a baseline, and show where each Date Axis bar has slipped to">Baselines&hellip;</button>
+      <div class="dd-submenu adv">
         <button class="dd-item" id="dm-settings-trigger" title="Everything about how the Date Axis looks and behaves">Date Axis settings</button>
         <div class="dd-submenu-items">
           <button class="dd-item" id="datemode-toggle" onclick="toggleDateMode();closeDD()" title="Place nodes on a calendar axis at their dates, grouped in swimlanes">Date Axis: Off</button>
@@ -1307,7 +1324,7 @@
     </div>
   </div>
   <div class="sep tb-wide"></div>
-  <button class="tb-btn tb-view tb-wide" id="tb-focus" onclick="toggleFocusPanel()" title="Show or hide whole root trees so you can concentrate on one (G)">Focus</button>
+  <button class="tb-btn adv tb-view tb-wide" id="tb-focus" onclick="toggleFocusPanel()" title="Show or hide whole root trees so you can concentrate on one (G)">Focus</button>
   <div class="dropdown tb-wide" id="dd-tidy">
     <button class="tb-btn tb-view" onclick="toggleDD('dd-tidy')" title="Auto-arrange nodes into a tree, an outline, or date swimlanes when the Date Axis is on">Tidy &#9662;</button>
     <div class="dropdown-menu" id="ddm-tidy">
@@ -1331,7 +1348,7 @@
     <button class="tb-btn tb-view" id="tb-board" onclick="toggleBoard()" title="Kanban columns by status, owner or project. Drag cards to change them (K)">Board</button>
     <button class="tb-btn tb-view" id="tb-report" onclick="toggleReport()" title="A ready-to-send summary: overdue, blocked, due soon and recently completed (R)">Report</button>
   </div>
-  <button class="tb-btn tb-view tb-wide" id="tb-saved" onclick="toggleViews()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)">Saved Views</button>
+  <button class="tb-btn adv tb-view tb-wide" id="tb-saved" onclick="toggleViews()" title="Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)">Saved Views</button>
 
   <div class="spacer"></div>
   <button class="tb-btn sb-muted" id="save-badge" onclick="saveToFile()" title="Save status: click to save the map to a file"></button>
@@ -1384,6 +1401,18 @@
   </div>
 </div>
 
+<div id="tips-card" role="dialog" aria-label="Welcome tips">
+  <h3>Welcome to MindLoom</h3>
+  <ul>
+    <li><kbd>Tab</kbd><span>add a child &middot; <kbd>Enter</kbd> add a sibling</span></li>
+    <li><kbd>F2</kbd><span>rename the selected node</span></li>
+    <li><kbd>I</kbd><span>add a status, owner and due date</span></li>
+    <li><kbd>Q</kbd><span>quick capture a task, e.g. <i>Call supplier fri #work</i></span></li>
+    <li><kbd class="tc-k">Ctrl+K</kbd><span>find any command</span></li>
+  </ul>
+  <div class="tc-row"><a href="https://healeychris.github.io/MindLoom/" target="_blank" rel="noopener noreferrer">Open the User Guide</a><button type="button" onclick="closeTips()">Got it</button></div>
+  <div class="tc-note">Show this again any time from File &rarr; Welcome Tips.</div>
+</div>
 <div id="qc-overlay" onclick="if(event.target===this)closeCapture()">
   <div id="qc-box" role="dialog" aria-label="Quick capture">
     <input type="text" id="qc-input" placeholder="Quick capture, e.g. Call supplier fri #work @sam" aria-label="Quick capture" autocomplete="off" spellcheck="false" maxlength="300">
@@ -1706,6 +1735,7 @@
       <span id="upd-msg" role="status" aria-live="polite">Not checked. Needs an internet connection; nothing is checked automatically.</span>
     </div>
 
+    <div style="margin-bottom:12px"><a href="https://healeychris.github.io/MindLoom/" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Open the User Guide</a> <span style="color:var(--text-muted);font-size:11px">&nbsp;with screenshots and step-by-step recipes (needs an internet connection)</span></div>
     <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
     <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
@@ -1849,6 +1879,7 @@
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const HAD_DATA=(()=>{try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i)||'';if(k.startsWith('mindloom')||k.startsWith('mindmap'))return true;}}catch(e){}return false;})();
 
 // ── Filename helper: MindLoom-DDMMYYYY.ext ──
 function dfn(ext){const d=new Date();const dd=String(d.getDate()).padStart(2,'0');const mm=String(d.getMonth()+1).padStart(2,'0');const yyyy=d.getFullYear();return 'MindLoom-'+yyyy+mm+dd+'.'+ext;}
@@ -2248,7 +2279,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.37.1';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=5,APP_VERSION='1.38.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2256,6 +2287,22 @@ function storageSet(k,v){
   try{localStorage.setItem(k,v);return true;}
   catch(e){if(!storageWarned){storageWarned=true;toast('Browser storage unavailable — use File > Save to keep your work');}return false;}
 }
+
+// ── Simple menus, User Guide link and welcome tips ──
+const GUIDE_URL='https://healeychris.github.io/MindLoom/';
+const PREFS_KEY=LEGACY_KEY+':prefs';
+let prefs={};try{prefs=JSON.parse(storageGet(PREFS_KEY)||'{}')||{};}catch(e){prefs={};}
+function savePrefs(){storageSet(PREFS_KEY,JSON.stringify(prefs));}
+function setSimpleMenus(v,quiet){
+  prefs.simple=!!v;document.body.classList.toggle('simple-menus',prefs.simple);
+  const b=$('#simple-toggle');if(b)b.textContent='Simple Menus: '+(prefs.simple?'On':'Off');
+  savePrefs();if(!quiet)toast(prefs.simple?'Simple menus on. Ctrl+K still finds every command':'Simple menus off');
+}
+function toggleSimpleMenus(){setSimpleMenus(!prefs.simple);}
+function openGuide(){window.open(GUIDE_URL,'_blank','noopener,noreferrer');}
+function showTips(){$('#tips-card').classList.add('visible');}
+function closeTips(){$('#tips-card').classList.remove('visible');if(!prefs.tipsSeen){prefs.tipsSeen=1;savePrefs();}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#tips-card').classList.contains('visible'))closeTips();});
 
 // ── Init ──
 function init(){
@@ -7764,6 +7811,9 @@ function selfTest(){
      ok('quick capture +2w and ISO dates',qcParse('Review plan +2w').due===addToIso(new Date(tm).toISOString().slice(0,10),2,'w')&&qcParse('Ship it 2031-12-01').due==='2031-12-01'&&qcParse('Ship it 31/02/2031').due==='');}
     {const keep=COLORS.map(c=>c.label);applyLabels(LABEL_SETS['Task status']);const a=COLORS[3].label==='In progress'&&COLORS[4].label==='Blocked'&&COLORS[2].label==='Done';applyLabels(DEFAULT_LABELS);const b=COLORS[3].label==='In Progress'&&COLORS[1].label==='Primary';applyLabels(keep);
      ok('colour label sets apply and reset',a&&b&&Object.values(LABEL_SETS).every(x=>x.length===COLORS.length));}
+    {const was=!!prefs.simple;setSimpleMenus(true,true);const hid=getComputedStyle($('#dep-toggle')).display==='none'&&getComputedStyle($('#tb-saved')).display==='none'&&getComputedStyle($('#simple-toggle')).display!=='none';
+     setSimpleMenus(false,true);const back=getComputedStyle($('#dep-toggle')).display!=='none';setSimpleMenus(was,true);
+     ok('simple menus hide specialist items and keep the switch visible',hid&&back);}
   }catch(e){ok('self-test crashed: '+e.message,false);}
   const bad=res.filter(r=>!r[1]);
   console.log('MindLoom self-test\n'+res.map(r=>(r[1]?'PASS ':'FAIL ')+r[0]).join('\n'));
@@ -7773,6 +7823,10 @@ function selfTest(){
 $('#selftest-btn').addEventListener('click',selfTest);
 $('#about-ver').textContent='Version '+APP_VERSION;
 init();
+setSimpleMenus(prefs.simple,true);
+if(/Mac|iPhone|iPad/.test(navigator.platform||''))$('#tips-card .tc-k').textContent='\u2318K';
+// the tips card opens by itself only in a browser that has never held MindLoom data, and only once
+if(!HAD_DATA&&!prefs.tipsSeen)setTimeout(showTips,700);
 </script>
 </body>
 </html>
