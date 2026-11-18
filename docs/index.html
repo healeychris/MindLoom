@@ -296,6 +296,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><b>Property List</b></td><td>A quiet list that shows input boxes only when you hover or edit, which keeps a busy panel tidy.</td></tr>
   </table>
   <figure class="small"><img src="img/details-sections.png" alt="The Sections details layout" loading="lazy"><figcaption>The Sections layout.</figcaption></figure>
+  <figure class="small"><img src="img/details-props.png" alt="The Property List details layout" loading="lazy"><figcaption>The Property List layout: values read as plain text until you hover or click to edit them.</figcaption></figure>
   <h3>Bookmarks</h3>
   <p>Right-click a node and choose <b>Bookmark</b>, then press <kbd>B</kbd> to jump straight to any bookmarked node, which is useful in very large maps.</p>
 </section>
@@ -318,10 +319,12 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <ul>
     <li><b>Horizontal tree</b>: left to right, siblings ordered by due date.</li>
     <li><b>Vertical tree</b>: top to bottom.</li>
-    <li><b>Balanced tree</b>: the root in the middle and branches split left and right. Best for large maps.</li>
+    <li><b>Balanced tree</b>: the root in the middle and branches split left and right. Best for large maps, and a good choice when cross-links or dependencies matter, because the linked nodes end up on both sides and the lines between them stay visible.</li>
+    <li><b>Outline (indented list)</b>: every node in one column, each level indented under its parent, like a table of contents. Useful for reading a plan top to bottom or for pasting into a document. It applies to the whole map.</li>
   </ul>
+  <p>The <b>Tidy</b> menu has two groups, <b>Whole map</b> and <b>Selected branch</b>. Choose the second to arrange only the branch you have selected and leave the rest where it is. Tidy is one undo step.</p>
   <figure><img src="img/balanced.png" alt="A balanced tree layout" loading="lazy"><figcaption>Balanced tree: branches fan out on both sides of the root.</figcaption></figure>
-  <p><b>Snap to grid</b> and lane bands (Settings) keep manual layouts neat. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
+  <p><b>Snap to grid</b> (Settings) keeps manual layouts neat. <b>Lane Bands</b> do the same job on the Date Axis. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
   <h3>Presentation mode</h3>
   <p>Press <kbd>P</kbd> to walk through your map one node at a time with the arrow keys, with <kbd>Esc</kbd> to leave. It is handy for talking a team through a plan.</p>
 </section>
@@ -412,8 +415,9 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
 <section class="sec" id="mapping">
   <h2>Application Mapping Structures <span class="pill opt">Optional</span></h2>
   <p>Use this to show how systems depend on each other, for example during a migration, so that nothing breaks or gets forgotten. It is <b>off by default</b>, so people who just want a mind map never see it.</p>
-  <figure><img src="img/map-off.png" alt="A map with the feature off" loading="lazy"><figcaption>Off (the default): the map looks like any other MindLoom map.</figcaption></figure>
-  <figure><img src="img/map-on.png" alt="The same map with the feature on" loading="lazy"><figcaption>On: the same map now shows link types in colour and migration waves on each application.</figcaption></figure>
+  <figure><img src="img/map-off.png" alt="A map with the feature off" loading="lazy"><figcaption>Off (the default): the map looks like any other MindLoom map. Here it has been arranged with Tidy &rarr; Balanced tree.</figcaption></figure>
+  <figure><img src="img/map-on.png" alt="The same map with the feature on" loading="lazy"><figcaption>On: the same map now shows each link as a coloured arrow with its type, and a migration wave on each application.</figcaption></figure>
+  <div class="callout tip"><b class="t">Tip: lay the map out so the links show</b>Links are drawn straight between the two nodes, so nodes stacked in one tight column can hide them. Use <b>Tidy &rarr; Balanced tree</b> to spread the map to both sides of the root, then drag any linked nodes a little further apart. The screenshots in this section are laid out that way.</div>
   <h3>Turning it on</h3>
   <p>Open <b>Settings &rarr; Application Mapping Structures</b> and switch it to On. The setting is saved in the file, so it belongs to that map. Turning it off again hides the extra features but keeps the information in the file.</p>
   <figure class="small"><img src="img/map-settings.png" alt="Settings menu with the feature switched on" loading="lazy"><figcaption>The switch is in the Settings menu, under Editing.</figcaption></figure>
@@ -444,7 +448,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <li><b>This relies on</b>: everything this application needs in order to work.</li>
     <li><b>Both</b>: the whole picture.</li>
   </ul>
-  <figure><img src="img/impact-up.png" alt="Impact view, relies on this" loading="lazy"><figcaption>The impact view follows your selection: click another node and it updates. Press <kbd>Esc</kbd> to clear it.</figcaption></figure>
+  <figure><img src="img/impact-up.png" alt="Impact view in both directions" loading="lazy"><figcaption>In this picture the impact view is set to <b>Both</b>. It follows your selection: click another node and it updates. Press <kbd>Esc</kbd> to clear it.</figcaption></figure>
   <h3>Dependency check</h3>
   <p>Once the feature is on, the <b>View</b> menu gains a Dependencies section with <b>Show impact of selected</b> and <b>Dependency check</b>. The check looks for things that are easy to forget.</p>
   <figure class="small"><img src="img/map-viewmenu.png" alt="View menu with the Dependencies section" loading="lazy"><figcaption>The Dependencies section appears in the View menu only while the feature is on.</figcaption></figure>
@@ -488,7 +492,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h3>Saving</h3>
   <ul>
     <li><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and <b>Save As</b> write a file in MindLoom's own format. Use this for your real work.</li>
-    <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). The toolbar shows the status.</li>
+    <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). The toolbar shows the status. If several people use the same file in a synced folder, turn on <a href="#shared-map">Shared map</a> as well, so each save merges in the others' changes instead of overwriting them. <b>File &rarr; New Map</b> starts an empty map; your current one is backed up first.</li>
     <li>The save badge on the toolbar tells you when there are unsaved changes, and reminds you every ten minutes.</li>
   </ul>
   <h3>Export and import</h3>
@@ -565,8 +569,22 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Snap to Grid</td><td>Keeps nodes aligned when you drag</td></tr>
     <tr><td>Hover Popups</td><td>Show a preview when you hover a node (off by default)</td></tr>
     <tr><td>Highlight Selection</td><td>Fade everything unrelated to the selected node</td></tr>
+    <tr><td>Your name</td><td>Added to the changes and comments you make, so a shared map shows who did what. Also used by <a href="#merge">Merge from file</a> and <a href="#shared-map">Shared map</a></td></tr>
     <tr><td>Hide Completed</td><td>Remove finished items from view</td></tr>
-    <tr><td>Baselines, Date Axis settings</td><td>Planning options (<a href="#dateaxis">details</a>)</td></tr>
+    <tr><td>Baselines</td><td>Save and compare planned dates (<a href="#dateaxis">details</a>)</td></tr>
+    <tr><td>Date Axis settings</td><td>A submenu of options for the Date Axis (table below)</td></tr>
+  </table>
+  <h3>Date Axis settings</h3>
+  <p>These sit in <b>Settings &rarr; Date Axis settings</b>. Most of them are also buttons on the Date Axis itself (<a href="#dateaxis">details</a>). They are saved with the map.</p>
+  <table>
+    <tr><th>Setting</th><th>What it does</th></tr>
+    <tr><td>Date Axis</td><td>Place nodes on a calendar at their dates, grouped in swimlanes. Switch off to put the map back as it was</td></tr>
+    <tr><td>Lane Bands</td><td>Show or hide the tinted swimlane bands and the pinned lane names</td></tr>
+    <tr><td>Undated Nodes</td><td>Show or hide nodes that have no date. Hidden by default; a button on the Date Axis shows how many are hidden</td></tr>
+    <tr><td>Lines</td><td>Cycle between no lines, only the selected node's lines, or every dependency line</td></tr>
+    <tr><td>Bar Colours</td><td>Colour bars by workstream, or by each node's own colour</td></tr>
+    <tr><td>Critical Path Only</td><td>Show only Critical Path items, their workstreams and the dependencies between them</td></tr>
+    <tr><td>Slide View</td><td>A clean layout with a legend for slides, with Critical Path items emphasised</td></tr>
   </table>
   <figure><img src="img/light.png" alt="Light theme" loading="lazy"><figcaption>The light theme, a good choice for printing and projectors.</figcaption></figure>
   <h3 id="simple-menus">Simple menus</h3>
@@ -575,10 +593,10 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <table>
     <tr><th>Menu</th><th>Hidden while Simple Menus is on</th></tr>
     <tr><td>Toolbar</td><td>Focus and Saved Views</td></tr>
-    <tr><td>File</td><td>Export Presets</td></tr>
+    <tr><td>File</td><td>Export Presets, Merge from file and Shared map</td></tr>
     <tr><td>Edit</td><td>Shift dates</td></tr>
     <tr><td>View</td><td>Focus Roots, Minimap, Bookmarks and Saved Views</td></tr>
-    <tr><td>Settings</td><td>Advanced Activity &amp; Comments, Application Mapping Structures, Snap to Grid, Details Layout, Hover Popups, Highlight Selection, Baselines and the Date Axis settings</td></tr>
+    <tr><td>Settings</td><td>Advanced Activity &amp; Comments, Application Mapping Structures, Your name, Snap to Grid, Details Layout, Hover Popups, Highlight Selection, Baselines and the Date Axis settings</td></tr>
   </table>
   <ul>
     <li><b>Nothing is lost.</b> Maps keep all their data, and the Agenda, Timeline, Date Axis, Board and Report buttons stay where they are.</li>
@@ -799,8 +817,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     var q=this.value.trim().toLowerCase(),shown=0;
     secs.forEach(function(s,i){
       var ok=!q||texts[i].indexOf(q)>-1;s.classList.toggle('hide',!ok);if(ok)shown++;
-      var a=$('#side a[href="#'+s.id+'"]');if(a)a.classList.toggle('hide',!ok);
     });
+    links.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1)),sc=t&&t.closest('section.sec');a.classList.toggle('hide',!!sc&&sc.classList.contains('hide'));}); // sub-links follow their section
     none.style.display=shown?'none':'block';
   });
   // scroll spy
