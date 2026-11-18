@@ -116,6 +116,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h4>Everyday use</h4>
   <a href="#files">Saving, files and backups</a>
   <a href="#merge">&nbsp;&nbsp;Merging two copies</a>
+  <a href="#shared-map">&nbsp;&nbsp;Shared map</a>
   <a href="#settings">Settings and appearance</a>
   <a href="#simple-menus">&nbsp;&nbsp;Simple menus</a>
   <a href="#shortcuts">Keyboard shortcuts</a>
@@ -530,6 +531,22 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   </ul>
   <h3>Using a shared folder, OneDrive or SharePoint</h3>
   <p>Keep the map file in a folder that syncs to each person's computer. If two people save the same file before it has synced, OneDrive keeps both and adds the computer name to one of them. Open the main file, merge the duplicate into it, save, then delete the duplicate.</p>
+  <h3 id="shared-map">Shared map (automatic merging)</h3>
+  <p>If everyone keeps the same map file in a synced folder, <b>Shared map</b> does the merging for you. It works in Edge and Chrome, is off by default, and is hidden when <a href="#simple-menus">Simple Menus</a> is on.</p>
+  <ol>
+    <li>Everyone opens the shared file with <b>File &rarr; Open</b> (the first person can use <b>Save As</b> to create it).</li>
+    <li>Choose <b>File &rarr; Shared map: Off</b> to switch it on, and allow the browser to write to the file when it asks.</li>
+    <li>From then on, about every 15 seconds and whenever you press <kbd>Ctrl</kbd>+<kbd>S</kbd>, MindLoom reads the file, merges in what others changed, and writes the result back. The save badge shows <b>Shared</b>, and a message tells you when others' changes arrive.</li>
+  </ol>
+  <ul>
+    <li>The merge rules are the ones above, field by field, so two people editing different fields of one item both keep their changes.</li>
+    <li>It never overwrites the file blindly: if the file cannot be read (for example while it is half-synced), it is left alone and tried again.</li>
+    <li>It waits while you are typing in a box or dragging a node, and your selection stays where it is.</li>
+    <li>Changes from others do not add Undo steps, so <b>Undo</b> only ever reverses your own edits.</li>
+    <li>It switches off if you open another file, start a new map, or the file turns out to be a different map. It lasts for this visit only, so switch it on again next time.</li>
+    <li>Saved views, baselines, bookmarks, colour names and settings are still not merged.</li>
+  </ul>
+  <p>MindLoom still never goes online by itself: this only reads and writes the one file you chose, in your own folder. Two people changing the very same field at the very same moment is settled by the more recent change, and a change you make in the seconds before another person's sync can lose to theirs if their clock is ahead.</p>
   <div class="callout warn"><b class="t">Things to know</b>"More recent" goes by each computer's clock, so a clock that is badly wrong can pick the wrong change. Deletions are remembered for 90 days. A file last saved by MindLoom 1.38 or earlier has no record of deletions or of which fields changed, so its whole items are compared by their last-changed time. Merging needs both copies to come from the same original map.</div>
 </section>
 
@@ -620,7 +637,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h3>My map has disappeared.</h3>
   <p>MindLoom opens on a fresh map each visit. Your previous map is under <b>File &rarr; Restore backup</b> (look for "last session"). If you saved a file, use <b>File &rarr; Load</b>.</p>
   <h3>Can several people work on one map at the same time?</h3>
-  <p>Not live. MindLoom is an offline tool, so two people cannot see each other's changes as they type. From version 1.41 each person can work on their own copy and then combine them with <a href="#merge">Merge from file</a>, which also rescues the duplicate that OneDrive makes when two people save the same file.</p>
+  <p>Not live as they type, but close. MindLoom is an offline tool. From version 1.41 each person can work on their own copy and combine them with <a href="#merge">Merge from file</a>, which also rescues the duplicate that OneDrive makes when two people save the same file. From version 1.42, <a href="#shared-map">Shared map</a> does the merging automatically every 15 seconds for people who keep one file in a synced folder.</p>
   <h3>Is my data sent anywhere?</h3>
   <p>No. Everything stays in your browser and in files you save. The only time MindLoom contacts the internet is when you press <b>Check for updates</b> in the About screen.</p>
   <h3>The save badge says "Browser copy only".</h3>
@@ -747,8 +764,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.41.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.41.0.</footer>
+  <pre><code>{ "version": "1.42.0", "date": "2026-11-18", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.42.0.</footer>
 </section>
 </main>
 </div>

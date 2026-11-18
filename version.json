@@ -1,1 +1,1 @@
-{"version":"1.41.0","date":"2026-11-16","notes":"Merge from file (File > Import): combine a colleague's copy of a map, or a OneDrive duplicate, into yours item by item, with a preview first."}
+{"version":"1.42.0","date":"2026-11-18","notes":"Shared map (File menu, Edge and Chrome): people who keep one map file in a synced folder get each other's changes merged in automatically, about every 15 seconds and on save."}

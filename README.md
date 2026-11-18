@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.41.0)
+# MINDLOOM FEATURES (v1.42.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,15 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.41
+WHAT'S NEW IN 1.42
+
+Shared map (File > Shared map, Edge and Chrome, off by default): people who keep one map file in a synced folder (OneDrive, for example)
+  get each other's changes merged in automatically, about every 15 seconds and when they save
+  Everyone opens the shared file, then switches Shared map on. The same field-by-field rules as Merge from file apply
+  It waits while you type or drag, never adds Undo steps for others' changes, and leaves an unreadable file alone
+  See "Shared map" in the User Guide
+
+EARLIER IN 1.41
 
 Merge from file (File > Import > Merge from file): combine another copy of a map, from a colleague or a OneDrive duplicate, into yours.
   A preview shows what will be added, updated or deleted before anything changes, and the merge is one undo step

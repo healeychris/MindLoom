@@ -1620,6 +1620,7 @@
 const COMMANDS=[
   {id:"file.saveToFile",fn:"saveToFile",label:"Save",hint:"Ctrl+S",tip:"Save the map to a file on your computer"},
   {id:"file.saveAsFile",fn:"saveAsFile",label:"Save As&hellip;",tip:"Save a copy of the map under a new file name"},
+  {id:"file.toggleShared",fn:"toggleShared",adv:true,elId:"shared-toggle",label:"Shared map: Off",tip:"Several people share one map file in a synced folder: each save first merges in the others' changes (Chrome and Edge)"},
   {id:"file.toggleAutoFile",fn:"toggleAutoFile",elId:"autofile-toggle",label:"Auto-save to file: Off",tip:"Keep your file up to date automatically while this page is open (Chrome and Edge)"},
   {id:"file.loadFromFile",fn:"loadFromFile",label:"Load",tip:"Open a previously saved map file"},
   {id:"file.importCSV",fn:"importCSV",label:"Import CSV",tip:"Create nodes from a CSV spreadsheet"},
@@ -1750,6 +1751,7 @@ const MENU_TOOLBAR=`
       {{file.saveToFile}}
       {{file.saveAsFile}}
       {{file.toggleAutoFile}}
+      {{file.toggleShared}}
       {{file.loadFromFile}}
       <div class="dd-submenu">
         <button class="dd-item" id="backup-trigger" title="Go back to one of the automatic backups">Restore backup</button>
@@ -2534,7 +2536,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.41.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.42.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2753,7 +2755,7 @@ window.addEventListener('beforeunload',flushSave);
 window.addEventListener('pagehide',flushSave);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave();});
 let currentFileHandle=null;
-let autoFile=false,autoBusy=false;
+let autoFile=false,autoBusy=false,sharedMap=false;
 
 function getSaveData(compact){
   stampChanges();
@@ -2781,7 +2783,8 @@ function updateSaveBadge(){
   const dirty=refreshDirty(),everSaved=lastFileSig!==null;
   const mins=dirtySince?Math.floor((Date.now()-dirtySince)/60000):0;
   let txt,cls,tip;
-  if(autoFile&&everSaved&&!dirty){txt='\u2713 Auto-saved';cls='sb-ok';tip=(lastFileName||'File')+' \u00B7 '+fmtClock(lastFileSavedAt)+'. Auto-save to file is on.';}
+  if(sharedMap&&everSaved){txt=dirty?'\u25CF Syncing soon\u2026':'\u2713 Shared';cls=dirty?'sb-warn':'sb-ok';tip='Shared map: '+(lastFileName||'File')+' \u00B7 synced '+fmtClock(lastFileSavedAt)+'. Others\u2019 changes are merged in about every 15 seconds.';}
+  else if(autoFile&&everSaved&&!dirty){txt='\u2713 Auto-saved';cls='sb-ok';tip=(lastFileName||'File')+' \u00B7 '+fmtClock(lastFileSavedAt)+'. Auto-save to file is on.';}
   else if(autoFile&&everSaved){txt='\u25CF Saving soon\u2026';cls='sb-warn';tip='Auto-save to file is on. Changes are written about every 15 seconds.';}
   else if(everSaved&&!dirty){txt='\u2713 Saved to file';cls='sb-ok';tip=(lastFileName||'File')+' \u00B7 '+fmtClock(lastFileSavedAt)+'. Click to save again.';}
   else if(everSaved){txt='\u25CF Unsaved changes';cls=mins>=15?'sb-stale':'sb-warn';tip='Changed for '+mins+' min since '+(lastFileName||'the file')+' was saved at '+fmtClock(lastFileSavedAt)+'. Click to save (Ctrl+S).';}
@@ -2844,6 +2847,7 @@ function restoreBackup(i){
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 async function saveToFile(){
+  if(sharedMap&&autoFile&&currentFileHandle){await sharedSync(true);toast('Synced '+currentFileHandle.name);return;}
   // If we have a handle and it's still the same day, reuse it
   if(currentFileHandle && window.showSaveFilePicker){
     try{
@@ -4715,9 +4719,10 @@ function removeBookmark(id){
 // ── Auto-save to file ──
 // Writes to the file you saved or opened, about every 15 seconds while there are changes. It lasts for this visit only and is
 // switched off when you start a new map or open a different file, so it can never overwrite a file you did not choose.
-function updateAutoUI(){const b=document.getElementById('autofile-toggle');if(b)b.textContent='Auto-save to file: '+(autoFile?'On':'Off');updateSaveBadge();}
-function stopAutoFile(quiet){if(!autoFile)return;autoFile=false;updateAutoUI();if(!quiet)toast('Auto-save to file is off');}
+function updateAutoUI(){const b=document.getElementById('autofile-toggle');if(b)b.textContent='Auto-save to file: '+(autoFile?'On':'Off');const s=document.getElementById('shared-toggle');if(s)s.textContent='Shared map: '+(sharedMap?'On':'Off');updateSaveBadge();}
+function stopAutoFile(quiet){if(!autoFile)return;autoFile=false;sharedMap=false;updateAutoUI();if(!quiet)toast('Auto-save to file is off');}
 async function autoFileWrite(){
+  if(sharedMap)return sharedSync();
   if(!autoFile||autoBusy||!currentFileHandle||!refreshDirty())return;
   autoBusy=true;
   const data=getSaveData(),sig=sigOf(); // anything edited while the write is under way stays "unsaved" and goes next time
@@ -7627,15 +7632,19 @@ let mgPlan=null;
 function openMerge(){$('#merge-input').click();}
 function closeMerge(){$('#mg-overlay').classList.remove('visible');mgPlan=null;}
 // Read another copy and show what merging it would do. Nothing changes until Merge is pressed
-function mergeFromText(text,name){
-  let d,theirs;
+function mgParse(text){
   try{
-    d=JSON.parse(text);
-    if(!d||typeof d!=='object'||!Array.isArray(d.nodes)||(d.format!==undefined&&d.format!==FORMAT_NAME))throw 0;
-    const tn=sanitizeNodes(d.nodes);if(!tn.length)throw 0;
+    const d=JSON.parse(text);
+    if(!d||typeof d!=='object'||!Array.isArray(d.nodes)||(d.format!==undefined&&d.format!==FORMAT_NAME))return null;
+    const tn=sanitizeNodes(d.nodes);if(!tn.length)return null;
     const seen=new Set();tn.forEach((n,i)=>{if(seen.has(n.uid))n.uid=makeUid(n.id,n.createdAt)+'-d'+i;seen.add(n.uid);});
-    theirs={nodes:tn,crossLinks:sanitizeLinks(d.crossLinks,tn),deleted:cleanDeleted(d.deleted)};
-  }catch(e){toast('That is not a MindLoom map file');return false;}
+    return {d,theirs:{nodes:tn,crossLinks:sanitizeLinks(d.crossLinks,tn),deleted:cleanDeleted(d.deleted)}};
+  }catch(e){return null;}
+}
+function mergeFromText(text,name){
+  const pr=mgParse(text);
+  if(!pr){toast('That is not a MindLoom map file');return false;}
+  const d=pr.d,theirs=pr.theirs;
   closeDD();hideCtx();stampChanges();
   mgPlan=mergePlan({nodes,crossLinks,deleted,nextId},theirs);
   const r=mgPlan.rep,sec=(title,a,note)=>a.length?'<div class="dc-sec"><h4>'+title+' <span>('+a.length+')'+(note?' '+note:'')+'</span></h4>'+a.slice(0,8).map(t=>'<div class="mg-row">'+esc(t||'(no name)')+'</div>').join('')+(a.length>8?'<div class="mg-row mg-more">and '+(a.length-8)+' more</div>':'')+'</div>':'';
@@ -7652,19 +7661,68 @@ function mergeFromText(text,name){
   $('#mg-overlay').classList.add('visible');(r.changes?$('#mg-apply'):$('#mg-cancel')).focus();
   return true;
 }
-function applyMerge(){
-  const p=mgPlan;if(!p)return;closeMerge();
-  hideDetail();pushBackup('before merge',true);snap(true);
+// quiet = Shared map: no backup or undo step, and the selection stays where it is
+function mgApply(p,quiet){
+  if(quiet)dismissDetail();else{hideDetail();pushBackup('before merge',true);snap(true);}
   nodes=sanitizeNodes(p.nodes);crossLinks=sanitizeLinks(p.crossLinks,nodes);nextId=nextIdFor(nodes,p.nextId);deleted=p.deleted;logSync();
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
-  selectedId=null;multiSelected.clear();updateBulkBar();stampReset();
+  if(!quiet||!gn(selectedId))selectedId=null;[...multiSelected].forEach(i=>{if(!gn(i))multiSelected.delete(i);});updateBulkBar();stampReset();
   render();autoSave();
+}
+function applyMerge(){
+  const p=mgPlan;if(!p)return;closeMerge();mgApply(p);
   const r=p.rep,b=[];if(r.added.length+r.back.length)b.push((r.added.length+r.back.length)+' added');if(r.updated.length)b.push(r.updated.length+' updated');if(r.deleted.length)b.push(r.deleted.length+' deleted');
   toast('Merged'+(b.length?': '+b.join(', '):''));
 }
 $('#merge-input').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=ev=>mergeFromText(ev.target.result,f.name);rd.readAsText(f);});
 $('#mg-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeMerge();}});
 
+
+// ── Shared map ──
+// Several people keep one map file in a synced folder (OneDrive, SharePoint sync, Dropbox). Every 15 seconds, and when you save,
+// the file is read and merged into your map first, then written back, so nobody's changes are overwritten. Edge and Chrome only.
+let sharedMod=0;
+const sharedBusyEl=()=>{const a=document.activeElement,t=a?a.tagName:'';return t==='INPUT'||t==='TEXTAREA'||t==='SELECT'||(a&&a.isContentEditable)||editingId||dragNode;};
+function stopShared(msg){sharedMap=false;updateAutoUI();if(msg)toast(msg);}
+async function sharedSync(manual){
+  if(!sharedMap||!autoFile||autoBusy||!currentFileHandle)return;
+  if(!manual&&sharedBusyEl())return;
+  autoBusy=true;
+  try{
+    const f=await currentFileHandle.getFile();
+    if(!manual&&f.lastModified===sharedMod&&!refreshDirty())return;
+    const text=await f.text();let got=0;const wasDirty=lastFileSig===null||refreshDirty();
+    if(text.trim()){
+      const pr=mgParse(text);
+      if(!pr)return; // half-synced or damaged: leave it alone and look again next time
+      stampChanges();
+      const p=mergePlan({nodes,crossLinks,deleted,nextId},pr.theirs),r=p.rep;
+      if(!r.common&&nodes.length>1){stopShared('That file is a different map, so Shared map is off');return;}
+      if(r.changes){got=r.added.length+r.updated.length+r.deleted.length+r.back.length+r.moved+r.minor+r.lAdd+r.lUpd+r.lDel;const dn=detailNodeId,dp=detailPinned;mgApply(p,true);if(dn&&gn(dn)&&elOf(dn))showDetail(dn,elOf(dn),dp);}
+    }
+    if(wasDirty||!text.trim()){
+      const out=getSaveData();
+      if((await currentFileHandle.getFile()).lastModified!==f.lastModified){setTimeout(()=>sharedSync(true),3000);return;} // changed while we were reading: go round again
+      const w=await currentFileHandle.createWritable();await w.write(out);await w.close();
+    }
+    sharedMod=(await currentFileHandle.getFile()).lastModified;
+    lastFileSig=sigOf();lastFileSavedAt=Date.now();lastFileName=currentFileHandle.name;refreshDirty();updateSaveBadge();
+    if(got)toast('Shared map: '+got+' change'+(got>1?'s':'')+' from others');
+  }catch(e){
+    if(e&&(e.name==='NotAllowedError'||e.name==='SecurityError')){autoFile=false;stopShared('Shared map stopped: no permission for the file. Press Ctrl+S to save again');}
+  }finally{autoBusy=false;}
+}
+async function toggleShared(){
+  if(sharedMap){stopShared('Shared map is off');return;}
+  if(!window.showSaveFilePicker){toast('Shared map needs Chrome or Edge');return;}
+  if(!currentFileHandle){toast('Open the shared map file first (File > Open), or Save As to start a new one, then switch this on');return;}
+  try{
+    if(currentFileHandle.requestPermission&&await currentFileHandle.requestPermission({mode:'readwrite'})!=='granted'){toast('Permission was not given, so Shared map is off');return;}
+  }catch(e){toast('Could not get permission to write to the file');return;}
+  autoFile=true;sharedMap=true;sharedMod=0;updateAutoUI();toast('Shared map is on ('+currentFileHandle.name+'). Others\u2019 changes are merged in about every 15 seconds');
+  sharedSync(true);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sharedSync();});
 // ── About ──
 const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/main/version.json',REPO_URL='https://github.com/healeychris/mindloom';
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1;}return 0;}
