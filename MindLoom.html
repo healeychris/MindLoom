@@ -922,12 +922,12 @@
   #impact-panel .ip-warn { background:rgba(255,107,87,0.1); border:1px solid rgba(255,107,87,0.4); border-radius:6px; padding:5px 8px; margin-bottom:5px; line-height:1.4; }
   #impact-panel .ip-ok { color:var(--text-muted); }
   #impact-panel .ip-link { background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font); font-size:11.5px; padding:0; text-decoration:underline; }
-  #lt-overlay, #dc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
-  #lt-overlay.visible, #dc-overlay.visible { display:flex; }
-  #lt-box, #dc-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:480px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
-  #lt-box h2, #dc-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
-  #lt-box .lt-sub, #dc-box .dc-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; word-break:break-word; }
-  #lt-box .lt-close, #dc-box .dc-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
+  #lt-overlay, #dc-overlay, #mg-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
+  #lt-overlay.visible, #dc-overlay.visible, #mg-overlay.visible { display:flex; }
+  #lt-box, #dc-box, #mg-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:480px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
+  #lt-box h2, #dc-box h2, #mg-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
+  #lt-box .lt-sub, #dc-box .dc-sub, #mg-box .dc-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; word-break:break-word; }
+  #lt-box .lt-close, #dc-box .dc-close, #mg-box .dc-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
   #lt-types { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
   #lt-types button { background:var(--bg); border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; border-radius:14px; padding:3px 10px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
   #lt-types button i { width:9px; height:9px; border-radius:50%; display:inline-block; }
@@ -938,12 +938,15 @@
   .lt-actions .r { display:flex; gap:8px; }
   .lt-btn { background:none; border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; padding:5px 14px; border-radius:6px; cursor:pointer; }
   .lt-btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
-  #dc-box .dc-sec { margin-top:12px; }
-  #dc-box .dc-sec h4 { font-size:12px; margin:0 0 4px; }
-  #dc-box .dc-sec h4 span { color:var(--text-muted); font-weight:400; }
+  #dc-box .dc-sec, #mg-box .dc-sec { margin-top:12px; }
+  #dc-box .dc-sec h4, #mg-box .dc-sec h4 { font-size:12px; margin:0 0 4px; }
+  #dc-box .dc-sec h4 span, #mg-box .dc-sec h4 span { color:var(--text-muted); font-weight:400; }
   #dc-box .dc-row { padding:3px 4px; border-bottom:1px solid var(--border); cursor:pointer; line-height:1.4; }
   #dc-box .dc-row:hover { background:var(--bg); }
-  #dc-box .dc-ok { color:var(--text-muted); margin-top:10px; }
+  #dc-box .dc-ok, #mg-box .dc-ok { color:var(--text-muted); margin-top:10px; }
+  #mg-box .mg-row { padding:2px 4px; border-bottom:1px solid var(--border); line-height:1.4; }
+  #mg-box .mg-more { color:var(--text-muted); border:none; }
+  #mg-box .mg-warn { border:1px solid var(--border); border-left:3px solid #e0a030; border-radius:6px; padding:6px 8px; margin-bottom:8px; line-height:1.4; }
   .dp-wave { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
   .dp-wave select { background:var(--bg); border:1px solid var(--border); border-radius:5px; color:var(--text); font-family:var(--font); font-size:12px; padding:2px 6px; }
   .dp-link-row .link-edit { margin-left:6px; cursor:pointer; color:var(--text-muted); }
@@ -1086,7 +1089,7 @@
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
-    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #search-box, #focus-panel,
+    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #mg-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
@@ -1436,6 +1439,16 @@
   </div>
 </div>
 
+<div id="mg-overlay" onclick="if(event.target===this)closeMerge()">
+  <div id="mg-box" role="dialog" aria-label="Merge changes from file">
+    <button class="dc-close" onclick="closeMerge()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>Merge changes from file</h2>
+    <div class="dc-sub" id="mg-from"></div>
+    <div id="mg-body"></div>
+    <div class="lt-actions"><span></span><div class="r"><button class="lt-btn" id="mg-cancel" type="button" onclick="closeMerge()">Close</button><button class="lt-btn primary" id="mg-apply" type="button" onclick="applyMerge()">Merge</button></div></div>
+  </div>
+</div>
+
 <div id="bulk-overlay" onclick="if(event.target===this)closeBulkAdd()">
   <div id="bulk-box" role="dialog" aria-label="Add several nodes">
     <button class="bk-close" onclick="closeBulkAdd()" title="Close (Esc)" aria-label="Close">&times;</button>
@@ -1592,6 +1605,7 @@
 <div id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="file-input" accept=".json" style="display:none">
 <input type="file" id="csv-input" accept=".csv" style="display:none">
+<input type="file" id="merge-input" accept=".json" style="display:none">
 <input type="file" id="md-input" accept=".md,.markdown,.txt" style="display:none">
 
 <script>
@@ -1610,6 +1624,7 @@ const COMMANDS=[
   {id:"file.loadFromFile",fn:"loadFromFile",label:"Load",tip:"Open a previously saved map file"},
   {id:"file.importCSV",fn:"importCSV",label:"Import CSV",tip:"Create nodes from a CSV spreadsheet"},
   {id:"file.importMarkdown",fn:"importMarkdown",label:"Import Markdown",tip:"Create nodes from a Markdown outline (headings and bullets)"},
+  {id:"file.openMerge",fn:"openMerge",adv:true,label:"Merge from file&hellip;",tip:"Combine another copy of this map into yours, item by item: a colleague's copy, or a duplicate made by OneDrive. You see what will change before anything happens"},
   {id:"file.exportPNG",fn:"exportPNG",label:"Export PNG",tip:"Save the whole map as a picture"},
   {id:"file.exportSVG",fn:"exportSVG",label:"Export SVG",tip:"Save the same picture as a vector image that stays sharp at any size and can be edited in PowerPoint or Inkscape"},
   {id:"file.toggleExportPresets",fn:"toggleExportPresets",adv:true,label:"Export Presets&hellip;",tip:"Save named combinations of export settings (Slide view, Critical path, Lines, Bar Colours, background) and export with one click"},
@@ -1746,6 +1761,8 @@ const MENU_TOOLBAR=`
         <div class="dd-submenu-items">
           {{file.importCSV}}
           {{file.importMarkdown}}
+          <div class="dd-sep adv"></div>
+          {{file.openMerge}}
         </div>
       </div>
       <div class="dd-submenu">
@@ -2448,7 +2465,7 @@ function stampDone(arr){
   for(const n of (arr||nodes)){if(n.status==='completed'){if(!n.doneAt)n.doneAt=now;}else if(n.doneAt)n.doneAt='';}
 }
 // Returns a clean copy of the node list: unique integer ids, typed fields, parents that exist, no cycles
-const cleanUid=v=>(typeof v==='string'&&/^[\w-]{3,60}$/.test(v))?v:'';
+const cleanUid=v=>(typeof v==='string'&&/^[\w-]{3,140}$/.test(v))?v:'';
 const makeUid=(id,created)=>{const t=Date.parse(created);return Number(id).toString(36)+'-'+(Number.isFinite(t)?t.toString(36):'0');};
 function sanitizeNodes(raw){
   if(!Array.isArray(raw))return [];
@@ -2478,7 +2495,8 @@ function sanitizeNodes(raw){
     // Merge bookkeeping (see 035-doc.js). A file from before format 6 has none, so the id is worked out from the node's
     // number and creation time: everyone who opens the same old file gets the same ids
     {const n=out[out.length-1];n.uid=cleanUid(r.uid)||makeUid(id,r.createdAt);n.mod=cleanIso(r.mod)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now;
-     if(typeof r.modBy==='string'&&r.modBy.trim())n.modBy=r.modBy.trim().slice(0,40);}
+     if(typeof r.modBy==='string'&&r.modBy.trim())n.modBy=r.modBy.trim().slice(0,40);
+     if(r.fm&&typeof r.fm==='object'){const fm={};for(const k of Object.keys(r.fm))if(/^\w{1,20}$/.test(k)&&/^[0-9a-z]{1,12}$/.test(String(r.fm[k])))fm[k]=String(r.fm[k]);if(Object.keys(fm).length)n.fm=fm;}}
   }
   const byId=new Map(out.map(n=>[n.id,n]));
   out.forEach(n=>{if(n.parentId!==null&&(!byId.has(n.parentId)||n.parentId===n.id))n.parentId=null;});
@@ -2506,6 +2524,7 @@ function sanitizeLinks(raw,list){
     if(!ids.has(f)||!ids.has(t)||f===t||seen.has(f+'>'+t))continue;
     seen.add(f+'>'+t);
     out.push({from:f,to:t,label:String(l.label||''),type:String(l.type||'').slice(0,40)});
+    {const m=cleanIso(l.mod);if(m)out[out.length-1].mod=m;}
   }
   return out;
 }
@@ -2515,7 +2534,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.40.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.41.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2583,8 +2602,9 @@ function docExtrasUI(){impactId=null;buildViewList();buildPresetList();updateAct
 
 // ── Merge bookkeeping (file format 6) ──
 // Groundwork for merging two people's copies of a map (merging itself is not built yet). Every node carries uid (an id
-// unique across people; node numbers are not), mod (when it last changed) and modBy (Settings > Your name, if set). The
-// map keeps `deleted`: {uid, at} for nodes removed in the last 90 days. All of it is worked out here by comparing the
+// unique across people; node numbers are not), mod (when it last changed), fm (when each field last changed) and modBy
+// (Settings > Your name, if set). The
+// map keeps `deleted`: {uid, at} for nodes and links removed in the last 90 days; links also carry mod. All of it is worked out here by comparing the
 // nodes with how they were at the last check, so no editing code has to set it.
 let deleted=[],stampShadow=null;
 function cleanDeleted(a){
@@ -2595,20 +2615,40 @@ function cleanDeleted(a){
   }
   return out.slice(-5000);
 }
-const stampKey=n=>{const {mod,modBy,...rest}=n;return JSON.stringify(rest);};
+const linkUid=(a,b)=>'L_'+a+'_'+b;
+// A node's fields as text, for comparing: name -> value. The four position numbers count as one field, `pos`.
+// ref turns a node number (in parentId and deps) into whatever the caller compares by
+const FM_SKIP=['id','uid','mod','modBy','fm'],FM_POS=['x','y','px','py'];
+function nodeFields(n,ref){
+  const f={pos:JSON.stringify(FM_POS.map(k=>n[k]))};
+  for(const k of Object.keys(n)){
+    if(n[k]===undefined||FM_SKIP.includes(k)||FM_POS.includes(k))continue;
+    f[k]=JSON.stringify(k==='parentId'?(n[k]===null?null:ref(n[k])):k==='deps'?(n[k]||[]).map(ref).filter(x=>x!=null).sort():n[k]);
+  }
+  return f;
+}
 // Start again from the map as it now stands (after a load, New Map, or a full undo): nothing counts as changed or deleted
 function stampReset(){stampShadow=null;}
 function stampChanges(){
-  const now=new Date().toISOString(),who=(typeof logAuthor==='string'&&logAuthor)||'',was=stampShadow,next=new Map();
+  const now=new Date().toISOString(),t36=Date.now().toString(36),who=(typeof logAuthor==='string'&&logAuthor)||'',was=stampShadow,next=new Map();
   const touch=n=>{n.mod=now;if(who)n.modBy=who;else delete n.modBy;};
   for(const n of nodes){
     if(!n.uid||next.has(n.uid)){ // a new node, or a copy that still carries the original's id
       const base=makeUid(n.id,n.createdAt);let u=base,i=1;while(next.has(u))u=base+'-'+(i++);
       n.uid=u;touch(n);
     }
-    const k=stampKey(n);
-    if(was?was.get(n.uid)!==k:!n.mod)touch(n);
-    next.set(n.uid,k);
+    // fm records when each field last changed (as a short number), so a merge can take one person's owner and another's date
+    const f=nodeFields(n,x=>x),old=was&&was.get(n.uid);
+    if(old){let ch=false;for(const k of new Set([...Object.keys(f),...Object.keys(old)]))if(f[k]!==old[k]){(n.fm||(n.fm={}))[k]=t36;ch=true;}if(ch)touch(n);}
+    else if(was||!n.mod)touch(n);
+    next.set(n.uid,f);
+  }
+  // Links: known by the pair of node ids they join. A changed label or type gets a new change time
+  const uidOf=new Map(nodes.map(n=>[n.id,n.uid]));
+  for(const l of crossLinks){
+    const u=linkUid(uidOf.get(l.from),uidOf.get(l.to)),k=JSON.stringify([l.label||'',l.type||'']);
+    if(was?was.get(u)!==k:!l.mod)l.mod=now;
+    next.set(u,k);
   }
   if(was)for(const u of was.keys())if(!next.has(u))deleted.push({uid:u,at:now});
   if(deleted.length)deleted=cleanDeleted(deleted.filter(d=>!next.has(d.uid))); // a node that came back (undo) is no longer deleted
@@ -7499,6 +7539,132 @@ function focusSoloSelected(){
 }
 function focusFitVisible(){fitAll();}
 
+// ── Merge changes from another copy of the map ──
+// Combines another saved copy (a colleague's, or a duplicate made by a sync tool) into the open map, item by item,
+// using the merge bookkeeping in 035-doc.js. The rules give the same result whichever copy does the merging:
+//   an item in both copies: taken field by field (name, owner, status, dates, parent ...); where a field differs,
+//     the copy that changed that field more recently wins
+//   an item in one copy only: it stays, unless the other copy deleted it after it was last changed
+//   a deleted item comes back if something that survives sits beneath it
+//   links follow the same rules. Saved views, baselines, bookmarks and settings are not merged.
+const MG_LAY=['pos','collapsed'],MG_NAME={text:'name',parentId:'parent',deps:'dependencies',due:'due date',start:'start date',colorId:'colour',checks:'checklist',log:'history',modifiedAt:'',doneAt:'',lastDone:'',createdAt:''};
+// uid -> the node, its fields as text with node numbers turned into uids (so two copies can be compared), parent and deps as uids
+function mgView(list){
+  const uidOf=new Map(list.map(n=>[n.id,n.uid])),by=new Map();
+  for(const n of list)by.set(n.uid,{n,f:nodeFields(n,id=>uidOf.get(id)||null),par:n.parentId===null?null:(uidOf.get(n.parentId)||null),deps:(n.deps||[]).map(d=>uidOf.get(d)).filter(Boolean)});
+  return by;
+}
+const mgNewer=(am,ak,bm,bk)=>am>bm||(am===bm&&ak>bk); // is a newer than b? An exact tie goes by the value
+const mgTime=(e,k)=>{const v=e.n.fm&&e.n.fm[k];return v?parseInt(v,36):0;};
+// mine, theirs: {nodes, crossLinks, deleted, nextId}. Changes neither; returns the merged map and a report
+function mergePlan(mine,theirs){
+  const M=mgView(mine.nodes),T=mgView(theirs.nodes);
+  const mDel=new Map((mine.deleted||[]).map(d=>[d.uid,d.at])),tDel=new Map((theirs.deleted||[]).map(d=>[d.uid,d.at]));
+  const rep={added:[],back:[],updated:[],kept:[],deleted:[],moved:0,minor:0,lAdd:0,lUpd:0,lDel:0,common:0},pick=new Map();
+  for(const [u,m] of M){
+    const t=T.get(u);
+    if(!t){const at=tDel.get(u);pick.set(u,{v:m,mine:1,par:m.par,deps:m.deps,dead:at!==undefined&&at>=m.n.mod});continue;}
+    rep.common++;
+    // field by field: the copy that changed a field later wins it. With no field times (older files) the node's own
+    // change time decides, and an exact tie goes by the value itself, so both sides always choose the same
+    const take=[],keep=[];
+    for(const k of new Set([...Object.keys(m.f),...Object.keys(t.f)])){
+      if(m.f[k]===t.f[k])continue;
+      const a=mgTime(t,k),b=mgTime(m,k);
+      ((a!==b?a>b:t.n.mod!==m.n.mod?t.n.mod>m.n.mod:(t.f[k]||'')>(m.f[k]||''))?take:keep).push(k);
+    }
+    const names=a=>a.filter(k=>!MG_LAY.includes(k)&&MG_NAME[k]!=='').map(k=>MG_NAME[k]||k),tn=names(take),kn=names(keep);
+    if(tn.length)rep.updated.push((take.includes('text')?t.n.text:m.n.text)+' ('+tn.join(', ')+')');
+    else if(take.some(k=>MG_LAY.includes(k)))rep.moved++;else if(take.length)rep.minor++;
+    if(kn.length)rep.kept.push(m.n.text+' ('+kn.join(', ')+')');
+    pick.set(u,{v:m,mine:1,o:t,take,par:take.includes('parentId')?t.par:m.par,deps:take.includes('deps')?t.deps:m.deps});
+  }
+  for(const [u,t] of T){if(M.has(u))continue;const at=mDel.get(u);pick.set(u,{v:t,par:t.par,deps:t.deps,dead:at!==undefined&&at>=t.n.mod,wasDel:at!==undefined});}
+  // nothing that survives may be left without its parent
+  for(let again=true;again;){again=false;for(const p of pick.values()){const q=!p.dead&&p.par?pick.get(p.par):null;if(q&&q.dead){q.dead=false;again=true;}}}
+  const idOf=new Map();let nextId=mine.nextId;
+  for(const n of mine.nodes)if(!pick.get(n.uid).dead)idOf.set(n.uid,n.id);
+  for(const n of theirs.nodes)if(!M.has(n.uid)&&!pick.get(n.uid).dead)idOf.set(n.uid,nextId++);
+  const out=[];
+  for(const [u,p] of pick){
+    if(p.dead){if(p.mine)rep.deleted.push(p.v.n.text);continue;}
+    if(!p.mine)(p.wasDel?rep.back:rep.added).push(p.v.n.text);
+    const n=JSON.parse(JSON.stringify(p.v.n));
+    n.id=idOf.get(u);n.parentId=p.par&&idOf.has(p.par)?idOf.get(p.par):null;n.deps=p.deps.filter(d=>idOf.has(d)).map(d=>idOf.get(d));
+    if(p.take&&p.take.length){
+      const o=p.o.n,set=(k)=>{if(o[k]===undefined)delete n[k];else n[k]=JSON.parse(JSON.stringify(o[k]));};
+      for(const k of p.take){
+        if(k==='pos')FM_POS.forEach(set);else if(k!=='parentId'&&k!=='deps')set(k);
+        if(o.fm&&o.fm[k])(n.fm||(n.fm={}))[k]=o.fm[k];
+      }
+    }
+    if(p.o&&p.o.n.mod>n.mod){n.mod=p.o.n.mod;if(p.o.n.modBy)n.modBy=p.o.n.modBy;else delete n.modBy;}
+    out.push(n);
+  }
+  // links, known by the uids of the two nodes they join
+  const lk=(a,by)=>{const uidOf=new Map(by.nodes.map(n=>[n.id,n.uid])),m=new Map();for(const l of a){const f=uidOf.get(l.from),t=uidOf.get(l.to);if(f&&t)m.set(f+'>'+t,{l,f,t});}return m;};
+  const ML=lk(mine.crossLinks,mine),TL=lk(theirs.crossLinks,theirs),links=[],liveL=new Set();
+  const lkey=l=>JSON.stringify([l.label||'',l.type||'']);
+  const put=(e,l)=>{const o={from:idOf.get(e.f),to:idOf.get(e.t),label:l.label||'',type:l.type||''};if(l.mod)o.mod=l.mod;links.push(o);liveL.add(linkUid(e.f,e.t));};
+  for(const [k,e] of ML){
+    if(!idOf.has(e.f)||!idOf.has(e.t))continue;
+    const o=TL.get(k);
+    if(o){const tw=lkey(o.l)!==lkey(e.l)&&mgNewer(o.l.mod||'',lkey(o.l),e.l.mod||'',lkey(e.l));if(tw)rep.lUpd++;put(e,tw?o.l:e.l);}
+    else{const at=tDel.get(linkUid(e.f,e.t));if(at!==undefined&&at>=(e.l.mod||''))rep.lDel++;else put(e,e.l);}
+  }
+  for(const [k,e] of TL){
+    if(ML.has(k)||!idOf.has(e.f)||!idOf.has(e.t))continue;
+    const at=mDel.get(linkUid(e.f,e.t));if(at!==undefined&&at>=(e.l.mod||''))continue;
+    rep.lAdd++;put(e,e.l);
+  }
+  // the deleted list: both lists together, without anything that is alive in the result
+  const del=new Map(mDel);for(const [u,at] of tDel)if(!del.has(u)||at>del.get(u))del.set(u,at);
+  const deleted=cleanDeleted([...del].filter(([u])=>!idOf.has(u)&&!liveL.has(u)).map(([uid,at])=>({uid,at})));
+  rep.changes=rep.added.length+rep.back.length+rep.updated.length+rep.deleted.length+rep.moved+rep.minor+rep.lAdd+rep.lUpd+rep.lDel;
+  return {nodes:out,crossLinks:links,deleted,nextId,rep};
+}
+let mgPlan=null;
+function openMerge(){$('#merge-input').click();}
+function closeMerge(){$('#mg-overlay').classList.remove('visible');mgPlan=null;}
+// Read another copy and show what merging it would do. Nothing changes until Merge is pressed
+function mergeFromText(text,name){
+  let d,theirs;
+  try{
+    d=JSON.parse(text);
+    if(!d||typeof d!=='object'||!Array.isArray(d.nodes)||(d.format!==undefined&&d.format!==FORMAT_NAME))throw 0;
+    const tn=sanitizeNodes(d.nodes);if(!tn.length)throw 0;
+    const seen=new Set();tn.forEach((n,i)=>{if(seen.has(n.uid))n.uid=makeUid(n.id,n.createdAt)+'-d'+i;seen.add(n.uid);});
+    theirs={nodes:tn,crossLinks:sanitizeLinks(d.crossLinks,tn),deleted:cleanDeleted(d.deleted)};
+  }catch(e){toast('That is not a MindLoom map file');return false;}
+  closeDD();hideCtx();stampChanges();
+  mgPlan=mergePlan({nodes,crossLinks,deleted,nextId},theirs);
+  const r=mgPlan.rep,sec=(title,a,note)=>a.length?'<div class="dc-sec"><h4>'+title+' <span>('+a.length+')'+(note?' '+note:'')+'</span></h4>'+a.slice(0,8).map(t=>'<div class="mg-row">'+esc(t||'(no name)')+'</div>').join('')+(a.length>8?'<div class="mg-row mg-more">and '+(a.length-8)+' more</div>':'')+'</div>':'';
+  let h='';
+  if(!r.common)h+='<div class="mg-warn">This looks like a different map: none of its items match yours. Merging will add all '+theirs.nodes.length+' of them.</div>';
+  if(!(Number(d.version)>=6))h+='<div class="mg-warn">That file was saved by an older MindLoom, so items deleted in it cannot be detected.</div>';
+  if(!r.changes)h+='<div class="dc-ok">Nothing to merge: your map already has everything in that file.</div>';
+  h+=sec('Added',r.added)+sec('Updated from that copy',r.updated)+sec('Deleted in that copy',r.deleted)+sec('Brought back',r.back,'changed there after you deleted them')+sec('Yours kept',r.kept,'you changed these more recently');
+  const bits=[];if(r.moved)bits.push(r.moved+' moved');if(r.minor)bits.push(r.minor+' small update'+(r.minor>1?'s':''));if(r.lAdd)bits.push(r.lAdd+' link'+(r.lAdd>1?'s':'')+' added');if(r.lUpd)bits.push(r.lUpd+' link'+(r.lUpd>1?'s':'')+' updated');if(r.lDel)bits.push(r.lDel+' link'+(r.lDel>1?'s':'')+' removed');
+  if(bits.length)h+='<div class="dc-sec"><h4>Also <span>'+bits.join(', ')+'</span></h4></div>';
+  h+='<div class="dc-ok">Saved views, baselines, bookmarks and settings are not merged: yours stay as they are. One Undo reverses the merge.</div>';
+  $('#mg-from').textContent='From '+name+'. Nothing changes until you press Merge.';
+  $('#mg-body').innerHTML=h;$('#mg-apply').style.display=r.changes?'':'none';
+  $('#mg-overlay').classList.add('visible');(r.changes?$('#mg-apply'):$('#mg-cancel')).focus();
+  return true;
+}
+function applyMerge(){
+  const p=mgPlan;if(!p)return;closeMerge();
+  hideDetail();pushBackup('before merge',true);snap(true);
+  nodes=sanitizeNodes(p.nodes);crossLinks=sanitizeLinks(p.crossLinks,nodes);nextId=nextIdFor(nodes,p.nextId);deleted=p.deleted;logSync();
+  bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
+  selectedId=null;multiSelected.clear();updateBulkBar();stampReset();
+  render();autoSave();
+  const r=p.rep,b=[];if(r.added.length+r.back.length)b.push((r.added.length+r.back.length)+' added');if(r.updated.length)b.push(r.updated.length+' updated');if(r.deleted.length)b.push(r.deleted.length+' deleted');
+  toast('Merged'+(b.length?': '+b.join(', '):''));
+}
+$('#merge-input').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=ev=>mergeFromText(ev.target.result,f.name);rd.readAsText(f);});
+$('#mg-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeMerge();}});
+
 // ── About ──
 const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/main/version.json',REPO_URL='https://github.com/healeychris/mindloom';
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1;}return 0;}
@@ -8097,6 +8263,15 @@ function selfTest(){
        ok('a deleted node is listed until it comes back',listed&&!deleted.some(d=>d.uid===goneUid));
        ok('old entries leave the deleted list',cleanDeleted([{uid:'abc-1',at:new Date(Date.now()-91*864e5).toISOString()},{uid:'abc-2',at:new Date().toISOString()}]).length===1);
      }finally{nodes=keepN;deleted=keepD;stampShadow=keepS;}}
+    // Merging: two copies changed apart end up the same, whichever does the merging
+    {const c='2026-01-02T03:04:05.000Z',now=new Date().toISOString(),mk=()=>sanitizeNodes([{id:1,text:'r',createdAt:c},{id:2,text:'x',parentId:1,createdAt:c},{id:3,text:'y',parentId:1,createdAt:c}]);
+     const A=mk().concat(sanitizeNodes([{id:4,text:'new',uid:'zz-new',createdAt:c,mod:'2026-01-03T00:00:00.000Z'}]));A[3].parentId=1;A[1].owner='Ann';A[1].fm={owner:'b'};A[1].mod='2026-01-03T00:00:00.000Z';
+     const B=mk(),goneUid=B[2].uid;B[1].status='ongoing';B[1].fm={status:'c'};B[1].mod='2026-01-04T00:00:00.000Z';B.pop();
+     const a={nodes:A,crossLinks:[],deleted:[],nextId:5},b={nodes:B,crossLinks:[],deleted:[{uid:goneUid,at:now}],nextId:4};
+     const p=mergePlan(a,b),q=mergePlan(b,a),x=l=>l.nodes.find(n=>n.text==='x'),sum=l=>l.nodes.map(n=>n.uid+n.text+n.owner+n.status).sort().join('|');
+     ok('a merge keeps one person\'s owner and another\'s status on the same item',x(p).owner==='Ann'&&x(p).status==='ongoing');
+     ok('a merge adds new items and removes deleted ones',p.nodes.some(n=>n.text==='new')&&!p.nodes.some(n=>n.text==='y')&&q.nodes.some(n=>n.text==='new'&&n.parentId===1));
+     ok('both sides of a merge end up the same',sum(p)===sum(q)&&A.length===4&&B.length===2);}
   }catch(e){ok('self-test crashed: '+e.message,false);}
   const bad=res.filter(r=>!r[1]);
   console.log('MindLoom self-test\n'+res.map(r=>(r[1]?'PASS ':'FAIL ')+r[0]).join('\n'));

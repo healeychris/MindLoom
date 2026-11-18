@@ -115,6 +115,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <a href="#activity">Advanced Activity &amp; Comments</a>
   <h4>Everyday use</h4>
   <a href="#files">Saving, files and backups</a>
+  <a href="#merge">&nbsp;&nbsp;Merging two copies</a>
   <a href="#settings">Settings and appearance</a>
   <a href="#simple-menus">&nbsp;&nbsp;Simple menus</a>
   <a href="#shortcuts">Keyboard shortcuts</a>
@@ -503,6 +504,35 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <div class="callout warn"><b class="t">Use Save for the full picture</b>CSV and Markdown carry the text, status, dates and structure, but only a saved MindLoom file keeps everything, including links, baselines, saved views and activity history.</div>
 </section>
 
+<section class="sec" id="merge">
+  <h2>Merging two copies of a map</h2>
+  <p>When two people have each changed their own copy of the same map, <b>File &rarr; Import &rarr; Merge from file</b> combines the other copy into the one you have open. It is hidden when <a href="#simple-menus">Simple Menus</a> is on; <kbd>Ctrl</kbd>+<kbd>K</kbd> still finds it.</p>
+  <ol>
+    <li>Open your copy. Choose <b>Merge from file</b> and pick the other copy.</li>
+    <li>A preview lists what will happen. Nothing changes until you press <b>Merge</b>.</li>
+    <li>Save. Send the merged file back, or let it sync, so the other person can merge it too. After that both copies match.</li>
+  </ol>
+  <figure><img src="img/merge.png" alt="The merge preview" loading="lazy"><figcaption>The preview: what is added, updated and deleted, and where your own newer change was kept.</figcaption></figure>
+  <h3>How it decides</h3>
+  <table>
+    <tr><th>Situation</th><th>Result</th></tr>
+    <tr><td>An item is in both copies and differs</td><td>It is combined field by field: name, owner, status, dates, notes, parent and so on. If one person changed the owner and the other the due date, both changes are kept. If both changed the same field, the more recent change wins and the other is listed under <b>Yours kept</b> or <b>Updated from that copy</b>.</td></tr>
+    <tr><td>An item is only in the other copy</td><td>It is added, unless you deleted it after it was last changed.</td></tr>
+    <tr><td>An item was deleted in the other copy</td><td>It is deleted from yours, unless you changed it after that.</td></tr>
+    <tr><td>A deleted item has something new beneath it</td><td>It is kept, so nothing is left without its parent.</td></tr>
+    <tr><td>Links</td><td>Follow the same rules.</td></tr>
+  </table>
+  <ul>
+    <li>The rules give the same result whichever person does the merging.</li>
+    <li>One <b>Undo</b> reverses a merge, and your map is backed up first (<b>File &rarr; Restore backup</b>).</li>
+    <li>Saved views, baselines, bookmarks, colour names and settings are not merged. Yours stay as they are.</li>
+    <li>Set <b>Settings &rarr; Your name</b> if you want changes to record who made them.</li>
+  </ul>
+  <h3>Using a shared folder, OneDrive or SharePoint</h3>
+  <p>Keep the map file in a folder that syncs to each person's computer. If two people save the same file before it has synced, OneDrive keeps both and adds the computer name to one of them. Open the main file, merge the duplicate into it, save, then delete the duplicate.</p>
+  <div class="callout warn"><b class="t">Things to know</b>"More recent" goes by each computer's clock, so a clock that is badly wrong can pick the wrong change. Deletions are remembered for 90 days. A file last saved by MindLoom 1.38 or earlier has no record of deletions or of which fields changed, so its whole items are compared by their last-changed time. Merging needs both copies to come from the same original map.</div>
+</section>
+
 <section class="sec" id="settings">
   <h2>Settings and appearance</h2>
   <figure class="small"><img src="img/menu-settings.png" alt="The Settings menu" loading="lazy"><figcaption>The Settings menu, grouped into Appearance, Editing and Planning.</figcaption></figure>
@@ -590,7 +620,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h3>My map has disappeared.</h3>
   <p>MindLoom opens on a fresh map each visit. Your previous map is under <b>File &rarr; Restore backup</b> (look for "last session"). If you saved a file, use <b>File &rarr; Load</b>.</p>
   <h3>Can several people work on one map at the same time?</h3>
-  <p>No. MindLoom is a single-user, offline tool. To share, save a file and send it, or place it on a shared drive. Agree who has the latest copy, as the last person to save wins.</p>
+  <p>Not live. MindLoom is an offline tool, so two people cannot see each other's changes as they type. From version 1.41 each person can work on their own copy and then combine them with <a href="#merge">Merge from file</a>, which also rescues the duplicate that OneDrive makes when two people save the same file.</p>
   <h3>Is my data sent anywhere?</h3>
   <p>No. Everything stays in your browser and in files you save. The only time MindLoom contacts the internet is when you press <b>Check for updates</b> in the About screen.</p>
   <h3>The save badge says "Browser copy only".</h3>
@@ -641,7 +671,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
 <section class="sec" id="fileformat">
   <h2>File format</h2>
   <p>A saved map is plain, human-readable JSON. The file records its format name (<code>MindLoom</code>) and a numeric version (currently <code>6</code>). Older files open normally. Older programs ignore parts they do not know about.</p>
-  <p>Version 6 adds bookkeeping that will let two people's copies of a map be merged in a later release: each node carries <code>uid</code> (an id that stays unique across people), <code>mod</code> (when it last changed) and, if you have set your name, <code>modBy</code>. The map also keeps <code>deleted</code>, a list of nodes removed in the last 90 days. Nothing changes in how you use MindLoom. A version 6 file opens in MindLoom 1.38 and earlier with a notice, and those versions drop the new fields when they save.</p>
+  <p>Version 6 adds the bookkeeping behind <a href="#merge">merging two copies of a map</a>: each node carries <code>uid</code> (an id that stays unique across people), <code>mod</code> (when it last changed), <code>fm</code> (when each field last changed) and, if you have set your name, <code>modBy</code>. Links carry <code>mod</code> too. The map also keeps <code>deleted</code>, a list of nodes and links removed in the last 90 days. A version 6 file opens in MindLoom 1.38 and earlier with a notice, and those versions drop the new fields when they save.</p>
   <pre><code>{
   "format": "MindLoom",
   "version": 6,
@@ -717,8 +747,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.40.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.40.0.</footer>
+  <pre><code>{ "version": "1.41.0", "date": "2026-11-16", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.41.0.</footer>
 </section>
 </main>
 </div>

@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.40.0)
+# MINDLOOM FEATURES (v1.41.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,16 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.40
+WHAT'S NEW IN 1.41
+
+Merge from file (File > Import > Merge from file): combine another copy of a map, from a colleague or a OneDrive duplicate, into yours.
+  A preview shows what will be added, updated or deleted before anything changes, and the merge is one undo step
+  Item by item, field by field: if one person changes an owner and the other a due date, both changes are kept
+  The same result whichever of you does the merge. Needs files saved by 1.40 or later for the best result
+  Not merged: saved views, baselines, bookmarks, colour names and settings. Yours stay as they are
+  See "Merging two copies of a map" in the User Guide
+
+EARLIER IN 1.40
 
 Nothing changes in how MindLoom looks or works. This release rebuilds the inside of the app so future updates are quicker and safer
 Undo uses far less memory on large maps

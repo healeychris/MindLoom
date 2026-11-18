@@ -1,1 +1,1 @@
-{"version":"1.40.0","date":"2026-11-16","notes":"No change to how MindLoom works. Rebuilt inside for easier future updates; undo uses far less memory on large maps; file format 6 adds groundwork for merging maps (older versions open these files with a notice)."}
+{"version":"1.41.0","date":"2026-11-16","notes":"Merge from file (File > Import): combine a colleague's copy of a map, or a OneDrive duplicate, into yours item by item, with a preview first."}
