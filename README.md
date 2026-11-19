@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.42.0)
+# MINDLOOM FEATURES (v1.58.1)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,23 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.42
+WHAT'S NEW IN 1.58
+
+Start screen: MindLoom opens on a gallery of ready-made maps. Pick one, choose Continue last session, or Open existing map. Untick Show on startup to skip it
+Templates (File > New from template): Blank, Mind map, Programme roadmap, Risk and issue tree, Stakeholders and RACI, Workshop, Requirements trace and
+  Application landscape. Save your own with File > Save as template. Each one opens laid out so you can see what the map is for
+Map types: a chip beside the views sets the kind of map (Plan, Mind map, Workshop, Stakeholders, Application landscape). It tidies the toolbar to the
+  views that suit that kind of map. Nothing is switched off: everything is still in the View menu and Ctrl+K
+Workshop mode (Settings): capture a meeting live into an Inbox of sticky notes, then drag each one onto a theme
+Coverage (View > Coverage): a docked panel that checks the map is connected the way you expect, for example every requirement has a test. Gaps are ringed on the map
+Stakeholders and RACI: people as pills with initials and role, R, A, C and I links with letter badges, a key, a warning for a deliverable with no Accountable,
+  and View > RACI matrix. Press R, A, C or I while drawing a link to set its type
+Application landscape turns Application Mapping Structures on while you use it
+Auto-save to file switches on by itself the first time you Save. Switching on Shared map now explains first that the file must be in a synced folder
+Saved Views have moved off the toolbar (still in the View menu, and V). Presentation mode has been removed
+All of the above is hidden by Simple Menus where it is a specialist feature, and off until you use it. See the User Guide
+
+EARLIER IN 1.42
 
 Shared map (File > Shared map, Edge and Chrome, off by default): people who keep one map file in a synced folder (OneDrive, for example)
   get each other's changes merged in automatically, about every 15 seconds and when they save

@@ -112,6 +112,11 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <a href="#find">Finding things</a>
   <h4>Optional features</h4>
   <a href="#mapping">Application Mapping Structures</a>
+  <a href="#uses">Templates and Workshop</a>
+  <a href="#templates">&nbsp;&nbsp;Templates</a>
+  <a href="#coverage">&nbsp;&nbsp;Coverage</a>
+  <a href="#map-type">&nbsp;&nbsp;Map type</a>
+  <a href="#workshop">&nbsp;&nbsp;Workshop mode</a>
   <a href="#activity">Advanced Activity &amp; Comments</a>
   <h4>Everyday use</h4>
   <a href="#files">Saving, files and backups</a>
@@ -325,8 +330,6 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <p>The <b>Tidy</b> menu has two groups, <b>Whole map</b> and <b>Selected branch</b>. Choose the second to arrange only the branch you have selected and leave the rest where it is. Tidy is one undo step.</p>
   <figure><img src="img/balanced.png" alt="A balanced tree layout" loading="lazy"><figcaption>Balanced tree: branches fan out on both sides of the root.</figcaption></figure>
   <p><b>Snap to grid</b> (Settings) keeps manual layouts neat. <b>Lane Bands</b> do the same job on the Date Axis. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
-  <h3>Presentation mode</h3>
-  <p>Press <kbd>P</kbd> to walk through your map one node at a time with the arrow keys, with <kbd>Esc</kbd> to leave. It is handy for talking a team through a plan.</p>
 </section>
 
 <section class="sec" id="views">
@@ -462,6 +465,56 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <div class="callout tip"><b class="t">Tip: keep it high level</b>One node per application, a few link types, a wave and an owner is usually enough to catch most migration surprises. Add detail only where it helps a decision.</div>
 </section>
 
+<section class="sec" id="uses">
+  <h2>Templates and Workshop mode</h2>
+  <p>Both are <b>opt-in</b>. They are hidden by <a href="#simple-menus">Simple Menus</a>, nothing changes on a map until you use them, and each one is saved in the map file so it travels with it. Ctrl+K finds them whether or not Simple Menus is on.</p>
+  <h3 id="templates">Templates</h3>
+  <p><b>File &rarr; New from template</b> opens a gallery of ready-made starting maps: Blank, Mind map, Programme roadmap, Risk and issue tree, Stakeholders and RACI, Workshop, Requirements trace and Application landscape. Each card has a small picture of the layout. The list on the left filters them by kind. Click a card, then <b>Use template</b>:</p>
+  <ul>
+    <li>Normally the template <b>replaces the open map</b>. It is backed up first and one <b>Undo</b> brings it back.</li>
+    <li>Tick <b>Add to current map as a new root</b> to paste it as a new tree beside what you already have instead.</li>
+  </ul>
+  <p>The gallery is also the <b>start screen</b>: it opens when MindLoom does. Pick a template, choose <b>Continue last session</b> (shown when MindLoom has a copy of the map you last had open) to carry on where you left off, choose <b>Open existing map&hellip;</b> to load a saved file instead, or close it (Esc) to start on a blank map. On an untouched blank map a template loads without asking first. Untick <b>Show on startup</b> if you would rather open straight onto the map; <b>File &rarr; New from template</b> still brings it back.</p>
+  <p>The Stakeholders and RACI template links people to deliverables with links typed <b>R</b>, <b>A</b>, <b>C</b> and <b>I</b> (Responsible, Accountable, Consulted, Informed). With the <b>Stakeholders</b> map type on, people are shown as pills with their initials and role (the node's first tag), each link is a coloured line with a letter badge, and a key at the right lists the four letters. If a deliverable does not have exactly one Accountable, a warning card names it and the deliverable is outlined in red dashes; click the card to jump to it. While drawing a link (<kbd>L</kbd>), press <kbd>R</kbd>, <kbd>A</kbd>, <kbd>C</kbd> or <kbd>I</kbd> to set its type. <b>View &rarr; RACI matrix</b> shows the same links as a grid: click a cell to cycle R, A, C, I and blank, or copy it for Excel. Both need <a href="#mapping">Application Mapping Structures</a>, which the Stakeholders type turns on for you. If you close the key with the &times;, bring it back with <b>View &rarr; RACI key</b>.</p>
+  <figure><img src="img/raci.png" alt="The Stakeholders and RACI map" loading="lazy"><figcaption>Stakeholders and RACI: people on the left, deliverables on the right, a key and a warning for the deliverable with no Accountable.</figcaption></figure>
+  <figure><img src="img/templates.png" alt="The template gallery" loading="lazy"><figcaption>The template gallery. Your own templates are listed on the left.</figcaption></figure>
+  <p>Everything in a template is ordinary nodes and links, so change it however you like. To keep your own, set a map up the way you want and choose <b>File &rarr; Save as template</b>, or <b>+ Save current map as template</b> in the gallery. Your templates appear under <b>Your templates</b> on the left and are kept in this browser, not in the map file. Use the &times; beside one to delete it.</p>
+  <h3 id="coverage">Coverage</h3>
+  <p><b>View &rarr; Coverage</b> opens a panel at the right that checks things are connected the way you expect. A rule reads <i>every [kind of node] needs [something] [direction]</i>: for example every <i>Requirement</i> needs a <i>&ldquo;verified by&rdquo; link going out</i>, or every node with no sub-nodes needs an owner. The quickest way to see it is <b>File &rarr; New from template &rarr; Requirements trace</b>.</p>
+  <figure><img src="img/coverage.png" alt="The Coverage panel beside a requirements map" loading="lazy"><figcaption>Each rule shows how many nodes pass. The ones that do not are listed under Gaps and ringed on the map with a red badge.</figcaption></figure>
+  <ul>
+    <li><b>Kind of node</b> can be any node, a node with no sub-nodes, a colour (using your colour names) or a tag.</li>
+    <li><b>Needs</b> can be a link of any type or of one particular type, a dependency, a sub-node, an owner or a due date. For links and dependencies you choose <i>going out</i>, <i>coming in</i> or <i>either direction</i>.</li>
+    <li>Click a rule to edit it or to see its gaps. <b>Highlight on map</b> switches the red rings on and off. Click a gap, or <b>Go to</b>, to jump to that node.</li>
+    <li><b>Select gaps</b> selects them all on the map, and <b>Copy as table</b> puts every rule's gaps on the clipboard for a spreadsheet.</li>
+    <li>The panel updates as you change the map. Rules are saved with the map, so a template can bring its own; the Requirements trace template does.</li>
+    <li>Coverage is off the toolbar and hidden when <a href="#simple-menus">Simple Menus</a> is on. It never changes your map; it only reports.</li>
+  </ul>
+  <h3 id="map-type">Map type</h3>
+  <p>Each map has a type, which decides which views the toolbar shows. The template sets it, it is saved in the file, and you can change it at any time from the chip at the start of the views in the toolbar (it shows <b>Plan</b> for an ordinary map) or <b>View &rarr; Map type</b>. Nothing is ever switched off: a view hidden from the toolbar is still in the View menu and Ctrl+K.</p>
+  <table><tr><th>Type</th><th>Set by</th><th>Toolbar</th></tr>
+    <tr><td>Plan</td><td>Blank map, roadmap, risk, requirements, older files</td><td>Everything, as before.</td></tr>
+    <tr><td>Mind map</td><td>Mind map template</td><td>Just the map: Agenda, Timeline, Date Axis, Board and Report are tucked away</td></tr>
+    <tr><td>Workshop</td><td>Workshop template</td><td>As Mind map, and switches Workshop mode on. Changing to another type switches Workshop mode off again, unless you turned it on yourself under Settings. <b>Carry on as a plan</b> in the Workshop panel ends the session and makes the map a Plan.</td></tr>
+    <tr><td>Application landscape</td><td>Application landscape template</td><td>As Mind map, and switches <b>Application Mapping Structures</b> on. Changing to another type switches them off again (your links stay in the file), except for Stakeholders, which needs them, or if you turned them on yourself under Settings.</td></tr>
+    <tr><td>Stakeholders</td><td>Stakeholders and RACI template</td><td>Keeps Agenda; hides Timeline, Date Axis, Board and Report</td></tr></table>
+  <p>Switching to a type that hides the Date Axis turns the Date Axis off first, so the map is never left in a view whose button has gone.</p>
+  <h3 id="workshop">Workshop mode</h3>
+  <p>For capturing a meeting live. Switch on <b>Settings &rarr; Workshop mode</b>, or start from the Workshop template, which sets up an <b>Inbox</b> on the left and a <b>Themes</b> tree to sort into.</p>
+  <figure><img src="img/workshop.png" alt="Workshop mode: sticky notes in the Inbox, themes, the capture box and the side panel" loading="lazy"><figcaption>Workshop mode: sticky notes in the Inbox, the themes they are filed into, the capture box and the panel.</figcaption></figure>
+  <ul>
+    <li><b>Capture box.</b> Type an idea in the box at the bottom of the map and press <kbd>Enter</kbd>. It is added to the Inbox and the cursor stays in the box for the next one. End a line with <b>!</b> for a <i>quick win</i> (green) or <b>?</b> for a <i>question</i> (pink); <b>#word</b> adds a tag and <b>@name</b> an owner, as in <a href="#find">Quick capture</a>, which understands the same markers.</li>
+    <li><b>Sticky notes.</b> The Inbox is drawn as a frame of sticky notes, each showing who wrote it and when. Set your name with <b>Capturing as</b> (the same as <b>Settings &rarr; Your name</b>) so your notes are signed.</li>
+    <li><b>Filing.</b> Drag a sticky onto a theme, or select it and press <kbd>1</kbd> to <kbd>9</kbd> for the first nine themes. It becomes an ordinary node under that theme, and each theme shows how many items it holds. One <b>Undo</b> puts it back.</li>
+    <li><b>Session</b> is a countdown for the current agenda item, with <b>Start</b> and <b>Pause</b>, and <b>Next</b> to move on. Click an agenda line to jump to it. <b>Edit</b> changes the agenda: names and minutes, separated by semicolons.</li>
+    <li><b>Captured by</b> counts the notes from each person, and how many are still in the Inbox, quick wins and questions.</li>
+    <li><b>Turn quick wins into tasks</b> gives every quick win without a due date a date a week away and marks it Ongoing.</li>
+    <li><b>End and write summary</b> copies the outcome as text: each theme, what is left in the Inbox, the quick wins and the questions, with owners and dates.</li>
+    <li>The &times; hides the panel; the <b>Workshop</b> button in the toolbar brings it back. Switch the mode off in Settings. Your notes stay on the map as ordinary nodes.</li>
+  </ul>
+  <div class="callout"><b class="t">Several people capturing</b>Each person can capture in their own copy, then combine them afterwards with <a href="#merge">Merge from file</a>, or use <a href="#shared-map">Shared map</a>. The stickies keep the name of whoever wrote them.</div>
+</section>
+
 <section class="sec" id="activity">
   <h2>Advanced Activity &amp; Comments <span class="pill opt">Optional</span></h2>
   <p>Switch this on to keep a history of changes and comments on each item. It is off by default and saved per map.</p>
@@ -492,7 +545,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h3>Saving</h3>
   <ul>
     <li><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and <b>Save As</b> write a file in MindLoom's own format. Use this for your real work.</li>
-    <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). The toolbar shows the status. If several people use the same file in a synced folder, turn on <a href="#shared-map">Shared map</a> as well, so each save merges in the others' changes instead of overwriting them. <b>File &rarr; New Map</b> starts an empty map; your current one is backed up first.</li>
+    <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). It switches on by itself the first time you <b>Save</b> or <b>Save As</b> a file, and the toolbar shows the status. Choose <b>File &rarr; Auto-save to file</b> to switch it off; it then stays off until you open a different file or start a new map. If several people use the same file in a synced folder, turn on <a href="#shared-map">Shared map</a> as well, so each save merges in the others' changes instead of overwriting them. <b>File &rarr; New Map</b> starts an empty map; your current one is backed up first.</li>
     <li>The save badge on the toolbar tells you when there are unsaved changes, and reminds you every ten minutes.</li>
   </ul>
   <h3>Export and import</h3>
@@ -536,10 +589,10 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h3>Using a shared folder, OneDrive or SharePoint</h3>
   <p>Keep the map file in a folder that syncs to each person's computer. If two people save the same file before it has synced, OneDrive keeps both and adds the computer name to one of them. Open the main file, merge the duplicate into it, save, then delete the duplicate.</p>
   <h3 id="shared-map">Shared map (automatic merging)</h3>
-  <p>If everyone keeps the same map file in a synced folder, <b>Shared map</b> does the merging for you. It works in Edge and Chrome, is off by default, and is hidden when <a href="#simple-menus">Simple Menus</a> is on.</p>
+  <p>If everyone keeps the same map file in a synced folder, <b>Shared map</b> does the merging for you. It works in Edge and Chrome, is off by default, and is hidden when <a href="#simple-menus">Simple Menus</a> is on. When you switch it on, a short message explains what it does and that the file must be in a shared location that is replicated between everyone, such as a OneDrive or SharePoint folder synced to your computer. Tick <b>Don't show this again</b> to skip it next time.</p>
   <ol>
     <li>Everyone opens the shared file with <b>File &rarr; Open</b> (the first person can use <b>Save As</b> to create it).</li>
-    <li>Choose <b>File &rarr; Shared map: Off</b> to switch it on, and allow the browser to write to the file when it asks.</li>
+    <li>Choose <b>File &rarr; Shared map: Off</b> to switch it on (if no file is open yet, the message button asks where to save one), and allow the browser to write to the file when it asks.</li>
     <li>From then on, about every 15 seconds and whenever you press <kbd>Ctrl</kbd>+<kbd>S</kbd>, MindLoom reads the file, merges in what others changed, and writes the result back. The save badge shows <b>Shared</b>, and a message tells you when others' changes arrive.</li>
   </ol>
   <ul>
@@ -592,11 +645,11 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <figure class="small"><img src="img/menu-settings-simple.png" alt="The Settings menu with Simple Menus on" loading="lazy"><figcaption>With Simple Menus on, the Settings menu shrinks to the everyday items.</figcaption></figure>
   <table>
     <tr><th>Menu</th><th>Hidden while Simple Menus is on</th></tr>
-    <tr><td>Toolbar</td><td>Focus and Saved Views</td></tr>
-    <tr><td>File</td><td>Export Presets, Merge from file and Shared map</td></tr>
+    <tr><td>Toolbar</td><td>Focus</td></tr>
+    <tr><td>File</td><td>Export Presets, Merge from file, Shared map, New from template and Save as template</td></tr>
     <tr><td>Edit</td><td>Shift dates</td></tr>
-    <tr><td>View</td><td>Focus Roots, Minimap, Bookmarks and Saved Views</td></tr>
-    <tr><td>Settings</td><td>Advanced Activity &amp; Comments, Application Mapping Structures, Your name, Snap to Grid, Details Layout, Hover Popups, Highlight Selection, Baselines and the Date Axis settings</td></tr>
+    <tr><td>View</td><td>Focus Roots, Minimap, Bookmarks, Saved Views, Coverage, RACI matrix and RACI key</td></tr>
+    <tr><td>Settings</td><td>Advanced Activity &amp; Comments, Application Mapping Structures, Workshop mode, Your name, Snap to Grid, Details Layout, Hover Popups, Highlight Selection, Baselines and the Date Axis settings</td></tr>
   </table>
   <ul>
     <li><b>Nothing is lost.</b> Maps keep all their data, and the Agenda, Timeline, Date Axis, Board and Report buttons stay where they are.</li>
@@ -623,14 +676,14 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><kbd>I</kbd></td><td>Notes and details</td><td><kbd>G</kbd></td><td>Focus roots</td></tr>
     <tr><td><kbd>L</kbd></td><td>Start a cross-link</td><td><kbd>V</kbd></td><td>Saved views</td></tr>
     <tr><td><kbd>/</kbd></td><td>Search</td><td><kbd>B</kbd></td><td>Bookmarks</td></tr>
-    <tr><td><kbd>F</kbd></td><td>Fit all in view</td><td><kbd>P</kbd></td><td>Presentation mode</td></tr>
-    <tr><td><kbd>Home</kbd></td><td>Centre and reset zoom</td><td><kbd>Esc</kbd></td><td>Deselect / close panels</td></tr>
-    <tr><td><kbd>Ctrl+F</kbd></td><td>Filter bar</td><td><kbd>Ctrl+K</kbd></td><td>Command palette</td></tr>
-    <tr><td><kbd>Ctrl+S</kbd></td><td>Save to file</td><td><kbd>Ctrl+P</kbd></td><td>Print</td></tr>
-    <tr><td><kbd>Ctrl+C / X / V</kbd></td><td>Copy, cut, paste branch</td><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo, redo</td></tr>
-    <tr><td><kbd>Shift+Click</kbd></td><td>Multi-select</td><td><kbd>Ctrl+Drag</kbd></td><td>Re-parent a node</td></tr>
-    <tr><td><kbd>Arrows</kbd></td><td>Move between nodes</td><td><kbd>?</kbd></td><td>Help and shortcuts</td></tr>
-    <tr><td><kbd>Q</kbd></td><td>Quick capture: add a task to the Inbox</td><td><kbd>Enter</kbd> / <kbd>Esc</kbd></td><td>In Quick capture: add / close</td></tr>
+    <tr><td><kbd>F</kbd></td><td>Fit all in view</td><td><kbd>Esc</kbd></td><td>Deselect / close panels</td></tr>
+    <tr><td><kbd>Home</kbd></td><td>Centre and reset zoom</td><td><kbd>Ctrl+K</kbd></td><td>Command palette</td></tr>
+    <tr><td><kbd>Ctrl+F</kbd></td><td>Filter bar</td><td><kbd>Ctrl+P</kbd></td><td>Print</td></tr>
+    <tr><td><kbd>Ctrl+S</kbd></td><td>Save to file</td><td><kbd>Ctrl+Z / Y</kbd></td><td>Undo, redo</td></tr>
+    <tr><td><kbd>Ctrl+C / X / V</kbd></td><td>Copy, cut, paste branch</td><td><kbd>Ctrl+Drag</kbd></td><td>Re-parent a node</td></tr>
+    <tr><td><kbd>Shift+Click</kbd></td><td>Multi-select</td><td><kbd>?</kbd></td><td>Help and shortcuts</td></tr>
+    <tr><td><kbd>Arrows</kbd></td><td>Move between nodes</td><td><kbd>Enter</kbd> / <kbd>Esc</kbd></td><td>In Quick capture: add / close</td></tr>
+    <tr><td><kbd>Q</kbd></td><td>Quick capture: add a task to the Inbox</td><td></td><td></td></tr>
     <!-- shortcuts:end -->
   </table>
   <figure><img src="img/about.png" alt="The About screen" loading="lazy"><figcaption>The About screen (press <kbd>?</kbd>) lists shortcuts and tips, and has a "Check for updates" button.</figcaption></figure>
@@ -718,6 +771,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   "baselines": [ ... ],
   "trackActivity": false,
   "depMap": false,
+  "workshop": null,
   ...
 }</code></pre>
   <h3>Top-level keys</h3>
@@ -731,6 +785,8 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td><code>baselines</code>, <code>activeBaseline</code>, <code>reportState</code></td><td>Planned dates and the last-report snapshot</td></tr>
     <tr><td><code>exportPresets</code>, <code>detailLayout</code></td><td>Saved export presets and the chosen details layout</td></tr>
     <tr><td><code>trackActivity</code>, <code>depMap</code></td><td>Whether the optional features are on for this map</td></tr>
+    <tr><td><code>workshop</code></td><td>The Workshop agenda (null when Workshop mode is off)</td></tr>
+    <tr><td><code>by</code> (on a node)</td><td>Who captured it in Workshop mode. Only present when set</td></tr>
   </table>
   <h3>A node</h3>
   <pre><code>{
@@ -782,8 +838,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.42.0", "date": "2026-11-18", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.42.0.</footer>
+  <pre><code>{ "version": "1.58.1", "date": "2026-11-19", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.58.1.</footer>
 </section>
 </main>
 </div>

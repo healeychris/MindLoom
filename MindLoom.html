@@ -870,19 +870,6 @@
   .vw-hint { color:var(--text-muted); font-size:11px; margin-top:8px; line-height:1.4; }
   .bm-title { font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
 
-  /* ── Presentation mode ── */
-  #pres-overlay {
-    position:fixed; inset:0; background:var(--bg); z-index:600; display:none;
-    flex-direction:column;
-  }
-  #pres-overlay.visible { display:flex; }
-  #pres-bar { display:flex; align-items:center; gap:10px; padding:12px 20px; background:var(--surface); border-bottom:1px solid var(--border); }
-  #pres-bar .pres-title { font-size:14px; font-weight:600; color:var(--accent); flex:1; }
-  #pres-bar .pres-counter { font-size:13px; color:var(--text-muted); }
-  .pres-btn { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:var(--font); font-size:13px; padding:6px 14px; border-radius:6px; cursor:pointer; }
-  .pres-btn:hover { color:var(--text); border-color:var(--text-muted); }
-  #pres-content { flex:1; display:flex; align-items:center; justify-content:center; padding:40px; overflow-y:auto; }
-
   /* ── Timestamp display in detail ── */
   .dp-timestamps { font-size:10px; color:var(--text-muted); margin-top:6px; padding-top:4px; border-top:1px solid var(--border); display:flex; gap:12px; }
 
@@ -922,18 +909,102 @@
   #impact-panel .ip-warn { background:rgba(255,107,87,0.1); border:1px solid rgba(255,107,87,0.4); border-radius:6px; padding:5px 8px; margin-bottom:5px; line-height:1.4; }
   #impact-panel .ip-ok { color:var(--text-muted); }
   #impact-panel .ip-link { background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font); font-size:11.5px; padding:0; text-decoration:underline; }
-  #lt-overlay, #dc-overlay, #mg-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
-  #lt-overlay.visible, #dc-overlay.visible, #mg-overlay.visible { display:flex; }
-  #lt-box, #dc-box, #mg-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:480px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
-  #lt-box h2, #dc-box h2, #mg-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
-  #lt-box .lt-sub, #dc-box .dc-sub, #mg-box .dc-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; word-break:break-word; }
-  #lt-box .lt-close, #dc-box .dc-close, #mg-box .dc-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
+  #ws-panel { position:fixed; right:12px; top:56px; bottom:12px; width:220px; overflow-y:auto; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px 16px; z-index:300; display:none; flex-direction:column; font-size:12px; box-shadow:0 8px 28px rgba(0,0,0,0.4); }
+  #ws-panel.visible { display:flex; } #ws-panel .dc-close { position:absolute; top:8px; right:10px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:16px; }
+  #ws-panel hr { border:none; border-top:1px solid var(--border); margin:14px 0 2px; width:100%; }
+  #ws-panel .ws-lbl { margin:8px 0 6px; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); } #ws-panel .ws-time { font-size:30px; font-weight:600; font-variant-numeric:tabular-nums; margin:2px 0 4px; } #ws-panel .ws-sub { color:var(--text-muted); line-height:1.6; } #ws-panel .ws-sub a { color:var(--accent); }
+  #ws-panel .ws-row { display:flex; gap:6px; margin-top:10px; } #ws-panel .ws-who { line-height:1.8; }
+  #ws-panel .ws-ag { padding:3px 2px; cursor:pointer; border-radius:4px; color:var(--text-muted); } #ws-panel .ws-ag:hover { background:var(--bg); } #ws-panel .ws-ag s { text-decoration:none; display:inline-block; width:16px; } #ws-panel .ws-ag.done s { color:#5ac98a; } #ws-panel .ws-ag.on { font-weight:600; color:var(--text); } #ws-panel i { color:var(--text-muted); font-style:normal; font-weight:400; font-size:11px; }
+  #ws-panel .ws-fill { flex:1; min-height:14px; } #ws-panel > .lt-btn { width:100%; margin-top:6px; padding:8px; }
+  #ws-bar { position:fixed; left:24px; right:256px; bottom:16px; z-index:290; display:none; background:var(--surface); border:1px solid var(--accent); border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,0.4); }
+  #ws-bar.visible { display:block; } #ws-bar .ws-hint { position:absolute; right:10px; bottom:100%; margin-bottom:6px; color:var(--text-muted); font-size:11px; }
+  #ws-input { width:100%; box-sizing:border-box; background:none; border:none; outline:none; color:var(--text); font-size:15px; padding:14px 16px 12px; }
+  #ws-bar .ws-keys { display:flex; align-items:center; gap:8px; border-top:1px solid var(--border); padding:8px 16px; color:var(--text-muted); font-size:11px; } #ws-bar .ws-keys span { flex:1; }
+  #ws-bar kbd { border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-family:inherit; margin-left:6px; } #ws-bar kbd:first-child { margin-left:0; }
+  #ws-name { background:none; border:none; color:var(--text-muted); cursor:pointer; font:inherit; } #ws-name b { color:var(--text); }
+  .tb-btn.tb-ws { border:1px solid transparent; } .tb-btn.tb-ws::before { content:''; display:inline-block; width:7px; height:7px; border-radius:50%; background:#f0b44c; margin-right:6px; vertical-align:1px; } .tb-btn.tb-ws.on { background:rgba(240,180,76,.14); color:#f0b44c; border-color:rgba(240,180,76,.35); }
+  body.light-theme .tb-btn.tb-ws.on { color:#9a6510; }
+  .node.ws-frame { background:transparent!important; border:2px dashed var(--border)!important; border-radius:14px; box-shadow:none!important; padding:10px 14px; z-index:0; }
+  .node.ws-frame.selected { border-color:var(--accent)!important; }
+  .node.ws-frame .label { font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); }
+  .node.ws-frame .collapse-btn, .node.ws-frame .more-btn, .node.ws-frame .info-dot, .node.ws-frame .node-tags, .node.ws-frame .status-icon { display:none; }
+  .node.ws-sticky { width:170px; height:66px; box-sizing:border-box; padding:8px 10px; border:none!important; border-radius:3px; color:#1d222c; transform:rotate(var(--tilt,0deg)); box-shadow:0 3px 10px rgba(0,0,0,.35); z-index:2; overflow:hidden; }
+  .node.ws-sticky.ws-y { background:#f0b44c!important; } .node.ws-sticky.ws-g { background:#a4d8a8!important; } .node.ws-sticky.ws-p { background:#ffa3a8!important; }
+  .node.ws-sticky.selected { box-shadow:0 0 0 2px var(--accent),0 6px 16px rgba(0,0,0,.4); }
+  .node.ws-sticky .label { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:12px; line-height:1.35; white-space:normal; color:#1d222c; }
+  .node.ws-sticky .ws-meta { position:absolute; left:10px; bottom:6px; font-size:10px; color:rgba(29,34,42,.7); }
+  .node.ws-sticky .node-tags, .node.ws-sticky .info-dot, .node.ws-sticky .node-due, .node.ws-sticky .status-icon, .node.ws-sticky .collapse-btn { display:none; } .node.ws-sticky .more-btn { color:#1d222c; }
+  .node.ws-sticky.fdim, .node.ws-frame.fdim { opacity:1!important; filter:none!important; }
+  .ws-cnt { align-self:flex-start; display:inline-block; margin-top:6px; font-size:10px; padding:1px 7px; border:1px solid currentColor; border-radius:4px; opacity:.6; }
+  #tp-overlay #tp-box { width:1040px; }
+  #tp-box .tp-main { display:flex; gap:18px; margin-top:4px; }
+  #tp-side { width:180px; flex:none; display:flex; flex-direction:column; gap:2px; }
+  #tp-side h4 { margin:2px 0 4px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); font-weight:500; }
+  #tp-side hr { border:none; border-top:1px solid var(--border); margin:8px 0; }
+  .tp-cat, .tp-mine { display:flex; align-items:center; padding:6px 10px; border-radius:6px; color:var(--text-muted); cursor:pointer; }
+  .tp-cat:hover, .tp-mine:hover { color:var(--text); background:var(--bg); }
+  .tp-cat.sel, .tp-mine.sel { background:color-mix(in srgb,var(--accent) 16%,transparent); color:var(--text); }
+  .tp-mine span { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tp-none { padding:4px 10px; color:var(--text-muted); opacity:.7; }
+  .tp-save { padding:6px 10px; color:var(--accent); cursor:pointer; }
+  .tp-del { text-decoration:none; color:var(--text-muted); font-size:15px; margin-left:6px; } .tp-del:hover { color:#ff7b86; }
+  #tp-grid { flex:1; display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; align-content:start; }
+  .tp-card { display:flex; flex-direction:column; gap:7px; padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+  .tp-card:hover, .tp-card:focus-visible { border-color:var(--accent); outline:none; }
+  .tp-card.sel { border:2px solid var(--accent); padding:11px; }
+  .tp-pic { height:70px; display:flex; align-items:center; justify-content:center; background:var(--surface); border-radius:6px; }
+  .tp-blank { width:46px; height:22px; border:2px dashed var(--border); border-radius:6px; }
+  .tp-card b { font-size:13px; display:flex; align-items:center; gap:6px; }
+  .tp-card em { font-style:normal; font-weight:400; font-size:10px; padding:1px 6px; border-radius:4px; background:color-mix(in srgb,var(--accent) 16%,transparent); color:var(--accent); }
+  .tp-card span { color:var(--text-muted); line-height:1.4; } .tp-card i { color:var(--text-muted); font-size:11px; font-style:normal; opacity:.8; }
+  .tp-last { background:var(--accent); color:#fff; border-radius:8px; padding:9px 11px; margin-bottom:10px; cursor:pointer; line-height:1.4; }
+  .tp-last b { display:block; font-size:12px; }
+  .tp-last span { font-size:11px; opacity:.85; }
+  .tp-last:hover { filter:brightness(1.1); }
+  body.mt-mind #tb-views, body.mt-work #tb-views, body.mt-apps #tb-views, body.mt-people #tb-timeline, body.mt-people #date-btn, body.mt-people #tb-board, body.mt-people #tb-report { display:none !important; }
+  .tb-btn.tb-type { border:1px solid var(--border); border-radius:12px; padding:3px 10px; font-size:11.5px; color:var(--accent); }
+  .dd-item.on { color:var(--accent); }
+  #cv-panel { position:fixed; right:16px; top:56px; bottom:16px; width:408px; max-width:calc(100vw - 32px); z-index:480; display:none; flex-direction:column; box-sizing:border-box; background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.6); padding:18px; font-size:13px; }
+  #cv-panel.visible { display:flex; }
+  #cv-panel .cv-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; } #cv-panel .cv-title b { font-size:15px; font-weight:600; color:var(--text); }
+  #cv-panel .cv-x { background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:20px; line-height:1; }
+  #cv-body { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:10px; padding-right:2px; }
+  #cv-panel .cv-h { font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); font-weight:500; margin-top:6px; }
+  #cv-panel .cv-rule { display:flex; flex-direction:column; gap:5px; padding:10px 12px; background:var(--bg); border:1px solid var(--border); border-radius:8px; cursor:pointer; }
+  #cv-panel .cv-rule.sel { border-color:color-mix(in srgb,var(--accent) 50%,var(--border)); background:var(--surface-hover); }
+  #cv-panel .cv-top { display:flex; align-items:baseline; gap:8px; } #cv-panel .cv-top span { flex:1; font-weight:500; } #cv-panel .cv-top b { font-weight:600; }
+  #cv-panel .cv-top i { color:var(--text-muted); font-style:normal; font-size:12px; }
+  #cv-panel .cv-top u { text-decoration:none; color:var(--text-muted); font-size:15px; line-height:1; margin-left:2px; } #cv-panel .cv-top u:hover { color:#ff7b86; }
+  #cv-panel .cv-bar { height:6px; border-radius:6px; background:var(--border); overflow:hidden; } #cv-panel .cv-bar div { height:100%; border-radius:6px; }
+  #cv-panel .cv-add { color:var(--accent); font-size:12px; text-decoration:none; align-self:flex-start; }
+  #cv-panel .cv-edit { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:13px; }
+  #cv-panel .cv-pick { position:relative; display:inline-block; } #cv-panel .cv-pick::after { content:'\25BE'; position:absolute; right:7px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:11px; }
+  #cv-panel .cv-pick select { appearance:none; -webkit-appearance:none; max-width:230px; padding:3px 22px 3px 8px; border:1px solid var(--border); border-radius:6px; background:var(--bg); color:var(--text); font:inherit; font-size:13px; cursor:pointer; }
+  #cv-panel .cv-gap { display:flex; align-items:center; gap:8px; padding:6px 4px; border-bottom:1px solid var(--border); cursor:pointer; font-size:13px; }
+  #cv-panel .cv-gap i { width:8px; height:8px; border-radius:50%; background:#ff7b86; flex:none; } #cv-panel .cv-gap span { flex:1; }
+  #cv-panel .cv-gap em { font-style:normal; color:var(--text-muted); font-size:12px; } #cv-panel .cv-gap a { color:var(--accent); text-decoration:none; font-size:12px; }
+  #cv-panel .cv-ok { color:var(--text-muted); padding:6px 4px; }
+  #cv-panel .cv-foot { display:flex; gap:8px; margin-top:12px; } #cv-panel .cv-foot span { flex:1; }
+  #cv-panel .lt-btn { white-space:nowrap; padding:7px 14px; font-size:13px; font-weight:500; border-radius:7px; background:var(--bg); }
+  #cv-panel .lt-btn.primary { background:var(--accent); border-color:var(--accent); color:#0b1220; }
+  body.light-theme #cv-panel .lt-btn.primary { color:#fff; }
+  .node.cov-gap { box-shadow:0 0 0 3px rgba(255,123,134,0.55); }
+  .node .cov-badge { align-self:flex-start; margin-top:5px; font-size:11px; font-weight:400; padding:1px 6px; border-radius:4px; border:1px solid #ff7b86; color:#ff7b86; line-height:1.4; }
+  .tp-left { display:flex; align-items:center; gap:16px; }
+  .tp-chk { display:flex; align-items:center; gap:6px; color:var(--text-muted); cursor:pointer; }
+  #lt-overlay, #dc-overlay, #mg-overlay, #tp-overlay, #sh-overlay, #rc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:520; display:none; align-items:center; justify-content:center; }
+  #lt-overlay.visible, #dc-overlay.visible, #mg-overlay.visible, #tp-overlay.visible, #sh-overlay.visible, #rc-overlay.visible { display:flex; }
+  #lt-box, #dc-box, #mg-box, #tp-box, #sh-box, #rc-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; width:480px; max-width:94vw; max-height:90vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.5); position:relative; font-size:12px; }
+  #lt-box h2, #dc-box h2, #mg-box h2, #tp-box h2, #sh-box h2, #rc-box h2 { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:2px; }
+  #lt-box .lt-sub, #dc-box .dc-sub, #mg-box .dc-sub, #tp-box .dc-sub, #sh-box .dc-sub, #rc-box .dc-sub { color:var(--text-muted); margin-bottom:10px; line-height:1.5; word-break:break-word; }
+  #lt-box .lt-close, #dc-box .dc-close, #mg-box .dc-close, #tp-box .dc-close, #sh-box .dc-close, #rc-box .dc-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px; }
   #lt-types { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
   #lt-types button { background:var(--bg); border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; border-radius:14px; padding:3px 10px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
   #lt-types button i { width:9px; height:9px; border-radius:50%; display:inline-block; }
   #lt-types button.on { border-color:var(--accent); background:rgba(110,168,255,0.15); }
   #lt-box input[type=text] { width:100%; box-sizing:border-box; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:var(--font); font-size:12.5px; padding:6px 8px; outline:none; margin-bottom:8px; }
   #lt-box input[type=text]:focus { border-color:var(--accent); }
+  #sh-box .sh-sec { margin-top:10px; line-height:1.5; } #sh-box h4 { font-size:12px; margin:0 0 3px; } #sh-box p { margin:0 0 6px; }
   .lt-actions { display:flex; justify-content:space-between; gap:8px; margin-top:8px; }
   .lt-actions .r { display:flex; gap:8px; }
   .lt-btn { background:none; border:1px solid var(--border); color:var(--text); font-family:var(--font); font-size:12px; padding:5px 14px; border-radius:6px; cursor:pointer; }
@@ -1089,9 +1160,9 @@
   @media print {
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
-    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #mg-overlay, #search-box, #focus-panel,
+    #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #mg-overlay, #tp-overlay, #ws-panel, #ws-bar, #cv-panel, #rc-panel, #rc-overlay, #search-box, #focus-panel,
     #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
-    #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #pres-overlay, #due-badge, #dm-tip,
+    #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
     body.print-report > *:not(#report-overlay) { display:none !important; }
     body.print-report #report-overlay { display:block !important; position:static !important; transform:none !important; width:auto !important; box-shadow:none !important; border:0 !important; background:#fff !important; }
@@ -1140,6 +1211,28 @@
     #connectors circle { fill:#999 !important; }
     @page { margin:1cm; size:landscape; }
   }
+
+  #rc-overlay #rc-box { width:760px; } #rc-box .rc-wrap { overflow-x:auto; } #rc-box table.rc { border-collapse:collapse; width:100%; } #rc-box .rc th, #rc-box .rc td { border:1px solid var(--border); padding:6px 8px; text-align:center; } #rc-box .rc th { font-weight:500; cursor:pointer; } #rc-box .rc th:first-child { text-align:left; } #rc-box .rc-c { cursor:pointer; } #rc-box .rc-c:hover { background:var(--bg); }
+  #rc-box .dc-ok { color:var(--text-muted); margin-top:10px; }
+  /* RACI view: people are pills with initials, links carry a letter badge, a key and a warning card sit at the right */
+  #rc-panel { position:fixed; right:16px; top:56px; width:250px; z-index:470; display:none; flex-direction:column; gap:10px; font-size:12px; }
+  #rc-panel.visible { display:flex; }
+  #rc-panel .rc-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px; box-sizing:border-box; }
+  #rc-panel .rc-card.warn { border-color:#ff7b86; gap:4px; cursor:pointer; }
+  #rc-panel .rc-h { display:flex; justify-content:space-between; align-items:center; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); font-weight:500; }
+  #rc-panel .rc-x { background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:16px; line-height:1; padding:0; }
+  #rc-panel .rc-key { display:flex; align-items:center; gap:8px; }
+  #rc-panel .rc-key i, .rc-badge { width:22px; height:22px; border-radius:11px; border:1.5px solid; font-size:11px; font-weight:600; font-style:normal; display:flex; align-items:center; justify-content:center; flex:none; box-sizing:border-box; }
+  #rc-panel .rc-hint { color:var(--text-muted); border-top:1px solid var(--border); padding-top:8px; }
+  #rc-panel .rc-mx { background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font); font-size:12px; padding:0; text-align:left; }
+  #rc-panel .rc-warn-t { color:#ff7b86; font-weight:600; } #rc-panel .rc-warn-d { color:var(--text-muted); }
+  .node.rc-person { border-radius:30px; display:grid; grid-template-columns:32px auto; column-gap:10px; align-items:center; padding:6px 16px 6px 6px; min-width:200px; font-size:13px; }
+  .node.rc-person .node-row { grid-column:2; grid-row:1; } .node.rc-person .rc-role { grid-column:2; grid-row:2; } .node.rc-person .rc-av { grid-row:1 / span 2; }
+  .node.rc-person .node-due, .node.rc-person .node-wait, .node.rc-person .node-ck { display:none; }
+  .node.rc-person .node-tags, .node.rc-person .info-dot { display:none; }
+  .node.rc-person .rc-av { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:12px; color:#fff; flex:none; }
+  .node.rc-person .rc-role { display:block; color:rgba(255,255,255,.62); font-size:11px; font-weight:400; }
+  .node.rc-gap { outline:2px dashed #ff7b86; outline-offset:3px; }
 </style>
 </head>
 <body>
@@ -1439,6 +1532,53 @@
   </div>
 </div>
 
+<div id="rc-overlay" onclick="if(event.target===this)closeRaci()">
+  <div id="rc-box" role="dialog" aria-label="RACI matrix">
+    <button class="dc-close" onclick="closeRaci()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>RACI matrix</h2>
+    <div class="dc-sub">Click a cell to cycle R, A, C, I and blank. The link on the map changes with it.</div>
+    <div id="rc-body"></div>
+    <div class="lt-actions"><span></span><div class="r"><button class="lt-btn primary" id="rc-copy" type="button" onclick="raciCopy()">Copy for Excel</button></div></div>
+  </div>
+</div>
+
+<div id="rc-panel" aria-label="RACI key"></div>
+
+<div id="cv-panel" role="dialog" aria-label="Coverage">
+  <div class="cv-title"><b>Coverage</b><button type="button" class="cv-x" onclick="closeCoverage()" title="Close (Esc)" aria-label="Close">&times;</button></div>
+  <div id="cv-body"></div>
+  <div class="cv-foot"><button class="lt-btn" type="button" onclick="covSelectGaps()">Select gaps</button><button class="lt-btn" type="button" onclick="covCopy()">Copy as table</button><span></span><button class="lt-btn primary" id="cv-hi" type="button" onclick="covToggleHi()" title="Ring the gaps of the chosen rule on the map">Highlight on map</button></div>
+</div>
+<div id="ws-panel" aria-label="Workshop"></div>
+<div id="ws-bar">
+  <div class="ws-hint">Drag a sticky onto a theme, or press 1&ndash;9 to file the selected sticky</div>
+  <input id="ws-input" type="text" maxlength="300" autocomplete="off" placeholder="Type an idea and press Enter" aria-label="Add a sticky note">
+  <div class="ws-keys"><kbd>Enter</kbd> add and keep typing <kbd>!</kbd> quick win <kbd>?</kbd> question <kbd>#</kbd> tag<span></span>Capturing as <button type="button" id="ws-name" title="Change your name (Settings &rsaquo; Your name)"><b id="ws-who"></b> &#9662;</button></div>
+</div>
+
+<div id="tp-overlay" onclick="if(event.target===this)closeTemplates()">
+  <div id="tp-box" role="dialog" aria-label="New map from template">
+    <button class="dc-close" onclick="closeTemplates()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>New map from template</h2>
+    <div class="dc-sub">Pick a starting point. Everything in a template is ordinary nodes and links, so change it however you like.</div>
+    <div class="tp-main"><div id="tp-side"></div><div id="tp-grid"></div></div>
+    <div class="lt-actions"><div class="tp-left"><button class="lt-btn" id="tp-open" type="button" onclick="loadFromFile()" title="Open a saved MindLoom map (.json) instead">Open existing map&hellip;</button><label class="tp-chk"><input type="checkbox" id="tp-addto"> Add to current map as a new root</label></div><div class="r"><label class="tp-chk" title="Untick to open straight onto a blank map"><input type="checkbox" id="tp-start"> Show on startup</label><button class="lt-btn" type="button" onclick="closeTemplates()">Cancel</button><button class="lt-btn primary" id="tp-use" type="button" onclick="tplApply($('#tp-addto').checked)">Use template</button></div></div>
+  </div>
+</div>
+
+<div id="sh-overlay" onclick="if(event.target===this)closeSharedIntro()">
+  <div id="sh-box" role="dialog" aria-label="Shared map">
+    <button class="dc-close" onclick="closeSharedIntro()" title="Close (Esc)" aria-label="Close">&times;</button>
+    <h2>Shared map</h2>
+    <div class="dc-sub">Several people work on one map file at the same time.</div>
+    <div class="sh-sec"><h4>What it does</h4><p>About every 15 seconds, and whenever you save, MindLoom reads the file, merges in what the others have changed, then writes the result back. Nobody&rsquo;s changes are overwritten, and the Activity panel shows who changed what.</p></div>
+    <div class="sh-sec"><h4>What you need</h4>
+      <p><b>Save the file in a shared location that is replicated between everyone</b>, such as a OneDrive or SharePoint folder synced to your computer (Dropbox works too). Everyone then opens that same file.</p>
+      <p>A file kept only on your own computer, or on a drive that does not sync, will not be shared with anyone.</p>
+      <p>Use Chrome or Edge, and set your name under Settings so changes are signed.</p></div>
+    <div class="lt-actions"><label class="tp-chk"><input type="checkbox" id="sh-seen"> Don&rsquo;t show this again</label><div class="r"><button class="lt-btn" type="button" onclick="closeSharedIntro()">Cancel</button><button class="lt-btn primary" id="sh-go" type="button" onclick="sharedIntroGo()">Turn on Shared map</button></div></div>
+  </div>
+</div>
 <div id="mg-overlay" onclick="if(event.target===this)closeMerge()">
   <div id="mg-box" role="dialog" aria-label="Merge changes from file">
     <button class="dc-close" onclick="closeMerge()" title="Close (Esc)" aria-label="Close">&times;</button>
@@ -1520,7 +1660,7 @@
       Undo/redo &middot; PNG, SVG, Markdown &amp; CSV export with named export presets &middot; JSON save/load &middot;
       CSV &amp; Markdown import &middot; Customisable background &middot; Snap to grid &middot;
       Multi-select &amp; bulk ops &middot; Reparent by Ctrl+drag &middot; Focus roots &middot;
-      Statistics dashboard &middot; Bookmarks &middot; Presentation mode &middot;
+      Statistics dashboard &middot; Bookmarks &middot;
       Dark/Light theme &middot; Node timestamps &middot; Duplicate subtree &middot;
       Three details-panel layouts &middot; Hide completed &middot; Due dates with overdue flags, an Agenda view and a draggable Timeline (Gantt) view &middot; Clickable links in notes &middot; Tidy tree layouts &middot; Bulk date shift for a branch and its links &middot; Copy, cut and paste branches (also between maps, or paste plain text as nodes) &middot; Saved views &middot; Dependencies (prerequisite arrows and a waiting badge) &middot; Board (kanban) view &middot; Status report you can copy, download or print &middot; Command palette (Ctrl+K) that finds every action &middot; Save indicator, optional auto-save to your file and rolling backups &middot; Date Axis roadmap with swimlanes, milestones, Slide view and Critical-path view &middot; Dependencies between items &middot; Baselines that show how dates have slipped &middot; Checklists and progress &middot; Recurring tasks &middot; Board (kanban) view &middot; Saved views &middot; Status report (Markdown, HTML or print) &middot; Optional comments and change history &middot; Optional application mapping (link types, migration waves, impact view) &middot; Touch support &middot; Print support &middot; Keyboard-driven workflow
     </p>
@@ -1550,7 +1690,6 @@
           &bull; Snap to Grid (Settings menu) for tidy alignment<br>
           &bull; Import CSV or Markdown from File &gt; Import<br>
           &bull; Right-click a node to bookmark or duplicate subtree<br>
-          &bull; Press P for presentation mode (arrows to navigate)<br>
           &bull; Switch between the dark and light theme from the Settings menu<br>
           &bull; Set a due date in the details panel (press I); overdue and due-today nodes are flagged and counted in the toolbar<br>
           &bull; Touch: drag to move or pan, pinch to zoom, long-press for the menu, double-tap to edit or add
@@ -1591,17 +1730,6 @@
   <div class="vw-hint">A baseline is a copy of every start and due date at one moment. The Date Axis then draws a dashed ghost where each bar was planned, with the slip in days. It is saved in your file.</div>
 </div>
 
-<div id="pres-overlay">
-  <div id="pres-bar">
-    <span class="pres-title">Presentation Mode</span>
-    <span id="pres-counter"></span>
-    <button class="pres-btn" onclick="presNav(-1)">&#9664; Prev</button>
-    <button class="pres-btn" onclick="presNav(1)">Next &#9654;</button>
-    <button class="pres-btn" onclick="exitPresentation()">Exit <kbd>Esc</kbd></button>
-  </div>
-  <div id="pres-content"></div>
-</div>
-
 <div id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="file-input" accept=".json" style="display:none">
 <input type="file" id="csv-input" accept=".csv" style="display:none">
@@ -1632,6 +1760,8 @@ const COMMANDS=[
   {id:"file.exportMarkdown",fn:"exportMarkdown",label:"Export Markdown",tip:"Export an indented Markdown outline: text, status, owner, project, dates, tags, notes and cross-links. Dependencies, checklists, progress and recurrence are not included (use Save for those)"},
   {id:"file.exportCSV",fn:"exportCSV",label:"Export CSV",tip:"Export nodes as a spreadsheet: text, parent, category, project, owner, status, dates, tags and notes. Cross-links, dependencies, checklists, progress and recurrence are not included (use Save for those)"},
   {id:"file.printMap",fn:"printMap",label:"Print",hint:"Ctrl+P",tip:"Print the map"},
+  {id:"file.openTemplates",fn:"openTemplates",adv:true,label:"New from template&hellip;",tip:"Start from a ready-made map (roadmap, risk tree, stakeholders, workshop, requirements, applications) or one of your own saved templates"},
+  {id:"file.saveAsTemplate",fn:"saveAsTemplate",adv:true,label:"Save as template&hellip;",tip:"Keep the current map as a template in this browser, to start new maps from later"},
   {id:"file.newMap",fn:"newMap",cls:"dd-item danger",label:"New Map",tip:"Start a new empty map (your current map is backed up first)"},
   {id:"file.openGuide",fn:"openGuide",label:"User Guide&hellip;",tip:"Open the full illustrated User Guide in your browser. It needs an internet connection; MindLoom itself never goes online on its own."},
   {id:"file.showAbout",fn:"showAbout",label:"About MindLoom",tip:"Version, features and information about MindLoom"},
@@ -1665,12 +1795,12 @@ const COMMANDS=[
   {id:"view.toggleViews",fn:"toggleViews",adv:true,label:"Saved Views",hint:"V",tip:"Save and recall combinations of filters, hidden trees, collapsed branches and camera position"},
   {id:"view.showImpactSelected",fn:"showImpactSelected",label:"Show impact of selected",tip:"Highlight everything that relies on the selected node, and what it relies on"},
   {id:"view.openDepCheck",fn:"openDepCheck",label:"Dependency check&hellip;",tip:"List nodes with no links, no owner or no wave, and waves that look out of order"},
-  {id:"view.startPresentation",fn:"startPresentation",label:"Presentation Mode",hint:"P",tip:"Present the map full screen"},
   {id:"settings.toggleTheme",fn:"toggleTheme",elId:"theme-toggle",label:"Theme: Dark",tip:"Switch between the dark and light theme"},
   {id:"settings.toggleConnStyle",fn:"toggleConnStyle",elId:"conn-toggle",label:"Connectors: Curved",tip:"Switch the lines between curved and squared (right-angle) routing that goes around nodes"},
   {id:"settings.toggleSimpleMenus",fn:"toggleSimpleMenus",elId:"simple-toggle",label:"Simple Menus: Off",tip:"Hide the specialist items (saved views, bookmarks, baselines, link types, activity history and so on) so only the everyday ones show. Ctrl+K still finds every command. Off by default; remembered in this browser"},
   {id:"settings.toggleActivity",fn:"toggleActivity",adv:true,elId:"act-toggle",label:"Advanced Activity &amp; Comments: Off",tip:"Keep comments and a history of changes (status, dates, owner) for each item. Off by default; saved with this map"},
   {id:"settings.setAuthorName",fn:"setAuthorName",adv:true,elId:"author-btn",style:"display:none",label:"Your name: not set",tip:"Your name is added to the comments and changes you make, so a shared history shows who did what"},
+  {id:"settings.toggleWorkshop",fn:"toggleWorkshop",adv:true,elId:"workshop-toggle",label:"Workshop mode: Off",tip:"For capturing a meeting live: quick capture markers (! quick win, ? question), a session timer and agenda, and number keys to file items into themes. Off by default; saved with the map"},
   {id:"settings.toggleDepMap",fn:"toggleDepMap",adv:true,elId:"dep-toggle",label:"Application Mapping Structures: Off",tip:"Adds link types, migration waves, an impact view and a dependency check for mapping how systems rely on each other. Off by default; saved with this map"},
   {id:"settings.toggleSnap",fn:"toggleSnap",adv:true,elId:"snap-toggle",label:"Snap to Grid: Off",tip:"Snap nodes to a grid when you drag them"},
   {id:"settings.cycleDetailLayout",fn:"cycleDetailLayout",adv:true,elId:"dpl-toggle",label:"Details Layout: Classic",tip:"How the details panel is laid out: Classic, Sections (a summary line and collapsible rows) or Property List (a quiet list that shows boxes only when you hover or edit)"},
@@ -1699,12 +1829,20 @@ const COMMANDS=[
   {id:"tidy.tidyLayoutHBranch",fn:"tidyLayout",args:["h","branch"],label:"Horizontal tree &rarr;",tip:"Arrange only the selected branch as a left-to-right tree"},
   {id:"tidy.tidyLayoutVBranch",fn:"tidyLayout",args:["v","branch"],label:"Vertical tree &darr;",tip:"Arrange only the selected branch as a top-to-bottom tree"},
   {id:"tidy.tidyLayoutBBranch",fn:"tidyLayout",args:["b","branch"],label:"Balanced (both sides) &harr;",tip:"Arrange only the selected branch with its children split between both sides"},
+  {id:"view.openRaci",fn:"openRaci",adv:true,label:"RACI matrix&hellip;",tip:"Who is Responsible, Accountable, Consulted and Informed for what, built from links of type R, A, C and I. Click a cell to change it"},
+  {id:"view.toggleRaciKey",fn:"toggleRaciKey",adv:true,label:"RACI key",tip:"Show or hide the key and the warnings about deliverables without exactly one Accountable (Stakeholders map type)"},
+  {id:"view.openCoverage",fn:"openCoverage",adv:true,label:"Coverage",tip:"Check that things are connected the way you expect, for example every requirement has a test or every task has an owner. Gaps are listed and ringed on the map"},
+  {id:"type.plan",fn:"setMapType",args:[""],elId:"mt-plan",label:"Plan",tip:"Every tool: Date Axis, Board, Timeline, Agenda and Report in the toolbar"},
+  {id:"type.mind",fn:"setMapType",args:["mind"],elId:"mt-mind",label:"Mind map",tip:"Just the map: hides the planning views from the toolbar (they stay in this menu and Ctrl+K)"},
+  {id:"type.work",fn:"setMapType",args:["work"],elId:"mt-work",label:"Workshop",tip:"Sticky notes and themes: switches Workshop mode on and hides the planning views from the toolbar"},
+  {id:"type.apps",fn:"setMapType",args:["apps"],elId:"mt-apps",label:"Application landscape",tip:"Systems and links: switches Application Mapping Structures on and hides the planning views from the toolbar"},
+  {id:"type.people",fn:"setMapType",args:["people"],elId:"mt-people",label:"Stakeholders",tip:"People and RACI links: keeps Agenda, hides Date Axis, Board, Timeline and Report from the toolbar"},
   {id:"tb.toggleAgenda",fn:"toggleAgenda",cls:"tb-btn tb-view",elId:"tb-agenda",label:"Agenda",tip:"Your to-do list: overdue, due today, this week and under way, with checklists (A)"},
   {id:"tb.toggleTimeline",fn:"toggleTimeline",cls:"tb-btn tb-view",elId:"tb-timeline",label:"Timeline",tip:"Gantt-style rows of start and due dates that you can drag to change (T)"},
   {id:"tb.toggleDateMode",fn:"toggleDateMode",cls:"tb-btn tb-view",elId:"date-btn",label:"Date Axis",tip:"Calendar roadmap: place nodes on a date axis at their dates, grouped in swimlanes. Click again to return to the normal map."},
   {id:"tb.toggleBoard",fn:"toggleBoard",cls:"tb-btn tb-view",elId:"tb-board",label:"Board",tip:"Kanban columns by status, owner or project. Drag cards to change them (K)"},
   {id:"tb.toggleReport",fn:"toggleReport",cls:"tb-btn tb-view",elId:"tb-report",label:"Report",tip:"A ready-to-send summary: overdue, blocked, due soon and recently completed (R)"},
-  {id:"tb.toggleViews",fn:"toggleViews",cls:"tb-btn tb-view tb-wide",adv:true,elId:"tb-saved",label:"Saved Views",tip:"Save and recall combinations of filters, hidden trees, collapsed branches and camera position (V)"},
+  {id:"tb.wsTogglePanel",fn:"wsTogglePanel",cls:"tb-btn tb-ws",elId:"tb-ws",style:"display:none",label:"Workshop",tip:"Workshop mode is on: show or hide the Workshop panel"},
   {id:"ctx.showDetailForSelected",fn:"showDetailForSelected",label:"Edit details&hellip;",hint:"I",tip:"Open the details panel (notes, owner, status, dates, tags) for the selected node"},
   {id:"ctx.editSelected",fn:"editSelected",label:"Rename",hint:"F2",tip:"Rename the selected node"},
   {id:"ctx.toggleBookmarkSelected",fn:"toggleBookmarkSelected",elId:"cx-bm",label:"Bookmark",tip:"Add or remove the selected node from your bookmarks"},
@@ -1725,9 +1863,6 @@ const COMMANDS=[
   {id:"ctx.deleteSelected",fn:"deleteSelected",cls:"dd-item danger",label:"Delete",hint:"Del",tip:"Delete the selected node and everything beneath it"}
 ,
   {id:"app.openPalette",fn:"openPalette"},
-  {id:"app.exitPresentation",fn:"exitPresentation"},
-  {id:"app.presNext",fn:"presNav",args:[1]},
-  {id:"app.presPrev",fn:"presNav",args:[-1]}
 ];
 const CMD={};COMMANDS.forEach(c=>{if(CMD[c.id])throw new Error('duplicate command id '+c.id);CMD[c.id]=c;});
 const cmdCall=c=>c.fn+'('+(c.args||[]).map(a=>typeof a==='string'?"'"+a+"'":a).join(',')+')';
@@ -1780,6 +1915,8 @@ const MENU_TOOLBAR=`
       <div class="dd-sep"></div>
       {{file.printMap}}
       <div class="dd-sep"></div>
+      {{file.openTemplates}}
+      {{file.saveAsTemplate}}
       {{file.newMap}}
       <div class="dd-sep"></div>
       {{file.openGuide}}
@@ -1812,7 +1949,7 @@ const MENU_TOOLBAR=`
 
   <!-- View dropdown -->
   <div class="dropdown" id="dd-view">
-    <button class="tb-btn" onclick="toggleDD('dd-view')" title="Zoom, panels, agenda, timeline, board, bookmarks and presentation">View &#9662;</button>
+    <button class="tb-btn" onclick="toggleDD('dd-view')" title="Zoom, panels, agenda, timeline, board, bookmarks and more">View &#9662;</button>
     <div class="dropdown-menu" id="ddm-view">
       <div class="dd-submenu">
         <button class="dd-item" title="Collapse, expand, fit and centre the view">Zoom &amp; Collapse</button>
@@ -1835,11 +1972,24 @@ const MENU_TOOLBAR=`
           {{view.toggleStatsPanel}}
         </div>
       </div>
+      <div class="dd-submenu">
+        <button class="dd-item" title="Map type decides which views the toolbar shows">Map type</button>
+        <div class="dd-submenu-items">
+          {{type.plan}}
+          {{type.mind}}
+          {{type.work}}
+          {{type.apps}}
+          {{type.people}}
+        </div>
+      </div>
       <div class="dd-sep"></div>
       {{view.toggleAgenda}}
       {{view.toggleTimeline}}
       {{view.toggleBoard}}
       {{view.toggleReport}}
+      {{view.openCoverage}}
+        {{view.openRaci}}
+        {{view.toggleRaciKey}}
       <div class="dd-sep"></div>
       {{view.toggleBookmarks}}
       {{view.toggleViews}}
@@ -1850,7 +2000,6 @@ const MENU_TOOLBAR=`
         {{view.openDepCheck}}
       </div>
       <div class="dd-sep"></div>
-      {{view.startPresentation}}
     </div>
   </div>
 
@@ -1871,6 +2020,7 @@ const MENU_TOOLBAR=`
       {{settings.toggleActivity}}
       {{settings.setAuthorName}}
       {{settings.toggleDepMap}}
+      {{settings.toggleWorkshop}}
       {{settings.toggleSnap}}
       {{settings.cycleDetailLayout}}
       {{settings.toggleHoverPopup}}
@@ -1931,14 +2081,15 @@ const MENU_TOOLBAR=`
     </div>
   </div>
   <div class="sep tb-wide"></div>
-  <div class="tb-group tb-wide" role="group" aria-label="Views">
+  <div class="dropdown tb-wide" id="tb-type"><button class="tb-btn tb-type" onclick="mtMenu()" title="Map type: decides which views the toolbar shows. Every view stays in the View menu and Ctrl+K">Plan &#9662;</button><div class="dropdown-menu" id="ddm-type"></div></div>
+  <div class="tb-group tb-wide" id="tb-views" role="group" aria-label="Views">
     {{tb.toggleAgenda}}
     {{tb.toggleTimeline}}
     {{tb.toggleDateMode}}
     {{tb.toggleBoard}}
     {{tb.toggleReport}}
   </div>
-  {{tb.toggleViews}}
+  {{tb.wsTogglePanel}}
 
   <div class="spacer"></div>
   <button class="tb-btn sb-muted" id="save-badge" onclick="saveToFile()" title="Save status: click to save the map to a file"></button>
@@ -1979,11 +2130,6 @@ document.getElementById('ctx-menu').innerHTML=renderMenu(MENU_CTX);
 // g guard ('text' = not while in a field or list, 'input' = not in a text box), pd preventDefault first,
 // do a command id or a function (event, key). 'any' rows run first in every scope but pres. 230-keyboard.js picks the scope.
 const KEYS=[
-  // Presentation mode owns the keyboard
-  {s:'pres',k:'s',c:true,pd:1,do:'file.saveToFile'},
-  {s:'pres',k:'Escape',do:'app.exitPresentation'},
-  {s:'pres',k:['ArrowRight','ArrowDown',' ','PageDown'],pd:1,do:'app.presNext'},
-  {s:'pres',k:['ArrowLeft','ArrowUp','PageUp'],pd:1,do:'app.presPrev'},
   // Everywhere else
   {s:'any',k:'k',c:true,pd:1,do:'app.openPalette'},
   // Board and Status report
@@ -2015,6 +2161,7 @@ const KEYS=[
   {s:'map',k:'F2',c:false,pd:1,do:'edit.editSelected'},
   {s:'map',k:' ',c:false,pd:1,do:'ctx.toggleCollapse'},
   {s:'map',k:'Home',c:false,pd:1,do:'view.centreView'},
+  {s:'map',k:['1','2','3','4','5','6','7','8','9'],c:false,g:'text',do:(e,k)=>wsFile(+k)},
   {s:'map',k:'Escape',c:false,do:()=>escapeMap()},
   {s:'map',k:'i',c:false,pd:1,do:'edit.showDetailForSelected'},
   {s:'map',k:'l',c:false,pd:1,do:'link.startLinkMode'},
@@ -2028,7 +2175,6 @@ const KEYS=[
   {s:'map',k:'?',c:false,pd:1,do:'file.showAbout'},
   {s:'map',k:'b',c:false,pd:1,do:'view.toggleBookmarks'},
   {s:'map',k:'v',c:false,pd:1,do:'view.toggleViews'},
-  {s:'map',k:'p',c:false,pd:1,do:'view.startPresentation'},
   {s:'map',k:'f',c:false,pd:1,do:'view.fitAll'},
   {s:'map',k:'/',c:false,pd:1,do:'view.toggleSearch'},
   {s:'map',k:['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'],c:false,pd:1,do:(e,k)=>navigateArrow(k)}
@@ -2078,21 +2224,20 @@ const HELP=[
   {k:'T',t:'Timeline',g:'Timeline',gp:'R2',cmd:'view.toggleTimeline'},
   {k:'Ctrl+S',t:'Save to file',g:'Save to file',gp:'L12',cmd:'file.saveToFile'},
   {k:'Ctrl+C / X / V',t:'Copy, cut, paste branch',g:'Copy, cut, paste branch',gp:'L13',cmd:['edit.copySelection','edit.cutSelection','edit.pasteSelection']},
-  {k:'Ctrl+Z',t:'Undo',gk:'Ctrl+Z / Y',g:'Undo, redo',gp:'R13',cmd:'edit.undo'},
+  {k:'Ctrl+Z',t:'Undo',gk:'Ctrl+Z / Y',g:'Undo, redo',gp:'R12',cmd:'edit.undo'},
   {k:'Ctrl+Y',t:'Redo',cmd:'edit.redo'},
   {k:'Arrows',t:'Navigate between nodes',g:'Move between nodes',gp:'L15',cmd:null},
   {k:'Shift+Click',t:'Multi-select nodes',g:'Multi-select',gp:'L14',cmd:null},
-  {k:'Ctrl+Drag',t:'Reparent node',g:'Re-parent a node',gp:'R14',cmd:null},
+  {k:'Ctrl+Drag',t:'Reparent node',g:'Re-parent a node',gp:'R13',cmd:null},
   {k:'B',t:'Toggle bookmarks panel',g:'Bookmarks',gp:'R8',cmd:'view.toggleBookmarks'},
-  {k:'Ctrl+K',t:'Command palette',g:'Command palette',gp:'R11',cmd:'app.openPalette'},
+  {k:'Ctrl+K',t:'Command palette',g:'Command palette',gp:'R10',cmd:'app.openPalette'},
   {k:'V',t:'Saved views',g:'Saved views',gp:'R7',cmd:'view.toggleViews'},
   {k:'K',t:'Board view',g:'Board',gp:'R3',cmd:'view.toggleBoard'},
   {k:'R',t:'Status report',g:'Status report',gp:'R4',cmd:'view.toggleReport'},
-  {k:'P',t:'Presentation mode',g:'Presentation mode',gp:'R9',cmd:'view.startPresentation'},
-  {k:'Esc',t:'Deselect / close panels',g:'Deselect / close panels',gp:'R10',cmd:null},
-  {k:'?',t:'This screen',g:'Help and shortcuts',gp:'R15',cmd:'file.showAbout'},
-  {k:'Ctrl+P',g:'Print',gp:'R12',cmd:'file.printMap'},
-  {k:'Enter / Esc',g:'In Quick capture: add / close',gp:'R16',cmd:null}
+  {k:'Esc',t:'Deselect / close panels',g:'Deselect / close panels',gp:'R9',cmd:null},
+  {k:'?',t:'This screen',g:'Help and shortcuts',gp:'R14',cmd:'file.showAbout'},
+  {k:'Ctrl+P',g:'Print',gp:'R11',cmd:'file.printMap'},
+  {k:'Enter / Esc',g:'In Quick capture: add / close',gp:'R15',cmd:null}
 ];
 document.getElementById('about-keys').innerHTML=HELP.filter(r=>r.t).map(r=>'<kbd>'+r.k+'</kbd><span>'+r.t+'</span>').join('\n');
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
@@ -2231,7 +2376,7 @@ let agendaVisible=false,mdOwner='';
 let lastFileSig=null,lastFileSavedAt=0,lastFileName='',dirtySince=null,lastNudge=0,curSig='',initSig='',lastBackupAt=0,lastBackupSig='';
 let searchHits=null;
 let legendVisible=false,minimapVisible=false;
-let linkMode=false,linkSourceId=null,linkKind='link';
+let linkMode=false,linkSourceId=null,linkKind='link',linkPre='';
 let undoStack=[],redoStack=[],maxUndo=50;
 let searchActive=false;
 let hiddenRoots=new Set();
@@ -2249,8 +2394,7 @@ let trackActivity=false; // per map: keep comments and change history (see Activ
 let baselines=[],activeBaseline=0; // saved plans (see Baselines); activeBaseline is the one the Date Axis compares with
 let reportState={note:'',snap:null}; // report headline text and the snapshot the next report compares against
 let savedViews=[];
-let exportPresets=[]; // per map: named export settings (see Export presets)
-let presMode=false, presNodes=[], presIdx=0;
+let workshop=null,exportPresets=[],mapType='',coverage=[]; // mapType: '' is Plan (every tool); see Map type // per map: named export settings (see Export presets)
 
 const canvas=$('#canvas'),wrap=$('#canvas-wrap'),svgEl=$('#connectors');
 const ctxMenu=$('#ctx-menu'),colorBar=$('#color-bar'),detailPanel=$('#detail-panel');
@@ -2498,6 +2642,7 @@ function sanitizeNodes(raw){
     // number and creation time: everyone who opens the same old file gets the same ids
     {const n=out[out.length-1];n.uid=cleanUid(r.uid)||makeUid(id,r.createdAt);n.mod=cleanIso(r.mod)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now;
      if(typeof r.modBy==='string'&&r.modBy.trim())n.modBy=r.modBy.trim().slice(0,40);
+     if(typeof r.by==='string'&&r.by.trim())n.by=r.by.trim().slice(0,40); // who captured it (Workshop mode)
      if(r.fm&&typeof r.fm==='object'){const fm={};for(const k of Object.keys(r.fm))if(/^\w{1,20}$/.test(k)&&/^[0-9a-z]{1,12}$/.test(String(r.fm[k])))fm[k]=String(r.fm[k]);if(Object.keys(fm).length)n.fm=fm;}}
   }
   const byId=new Map(out.map(n=>[n.id,n]));
@@ -2536,7 +2681,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.42.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.58.1';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2585,8 +2730,11 @@ const DOC_FIELDS=[
   {k:'baselines',get:()=>baselines,undo:2,sig:1,map:1,load:d=>{baselines=cleanBaselines(d.baselines);}},
   {k:'activeBaseline',get:()=>activeBaseline,undo:2,map:1,load:d=>{activeBaseline=baselines.some(b=>b.id===Number(d.activeBaseline))?Number(d.activeBaseline):0;}},
   {k:'trackActivity',get:()=>trackActivity,undo:2,sig:1,map:1,load:d=>{trackActivity=d.trackActivity===true;}},
-  {k:'depMap',get:()=>depMap,undo:2,sig:1,map:1,load:d=>{depMap=d.depMap===true;}},
+  {k:'depMap',get:()=>depMap,undo:2,sig:1,map:1,load:d=>{depMap=d.depMap===true;depKeep=false;depAuto=false;}},
+  {k:'coverage',get:()=>coverage,undo:2,sig:1,map:1,load:d=>{coverage=cleanCoverage(d.coverage);covSel=0;covOn=false;covFail=null;$('#cv-panel').classList.remove('visible');}},
+  {k:'mapType',get:()=>mapType,undo:2,sig:1,map:1,load:d=>setMapType(d.mapType,true)},
   {k:'exportPresets',get:()=>exportPresets,undo:2,sig:1,map:1,load:d=>{exportPresets=sanitizePresets(d.exportPresets);}},
+  {k:'workshop',get:()=>workshop,undo:2,sig:1,map:1,load:d=>{workshop=cleanWorkshop(d.workshop);wsKeep=false;wsUI();}},
   {k:'detailLayout',get:()=>dpLayout,load:d=>{if(typeof d.detailLayout==='string')setDetailLayout(d.detailLayout,true);}},
   {k:'deleted',get:()=>deleted,undo:2,map:1,load:d=>{deleted=cleanDeleted(d.deleted);}},
   {k:'panX',get:()=>panX,file:0},
@@ -2719,6 +2867,7 @@ function init(){
   const _bk=readBackups();lastBackupSig=_bk.length?_bk[0].h:'';
   pushBackup('on open',true);
   updateSaveBadge();setInterval(saveTick,30000);
+  if(!prefs.nostart)openTemplates();
 }
 function createDefault(){
   const cx=window.innerWidth/2,cy=(window.innerHeight-44)/2;
@@ -2729,7 +2878,7 @@ function createDefault(){
 // ── Save/Load ──
 let saveTimer=null;
 function autoSave(){
-  updateStats();if(minimapVisible)drawMinimap();
+  updateStats();if(minimapVisible)drawMinimap();if(covOn)covRefresh();
   clearTimeout(saveTimer);saveTimer=setTimeout(flushSave,300);
 }
 // Panning and zooming change only the view: skip the stats / agenda rebuild that a content change needs
@@ -2755,7 +2904,7 @@ window.addEventListener('beforeunload',flushSave);
 window.addEventListener('pagehide',flushSave);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave();});
 let currentFileHandle=null;
-let autoFile=false,autoBusy=false,sharedMap=false;
+let autoFile=false,autoBusy=false,sharedMap=false,autoOptOut=false;
 
 function getSaveData(compact){
   stampChanges();
@@ -2855,7 +3004,7 @@ async function saveToFile(){
       await writable.write(getSaveData());
       await writable.close();
       markSaved(currentFileHandle.name);
-      toast('Saved '+currentFileHandle.name);
+      toast('Saved '+currentFileHandle.name+(autoOnAfterSave()?'. Auto-save is on':''));
       return;
     }catch(err){
       // Handle was revoked or permission denied — fall through to prompt
@@ -2877,7 +3026,7 @@ async function saveAsFile(){
       await writable.close();
       currentFileHandle=handle;
       markSaved(handle.name);
-      toast('Saved as '+handle.name);
+      toast('Saved as '+handle.name+(autoOnAfterSave()?'. Auto-save is on':''));
     }catch(err){if(err.name!=='AbortError')toast('Save failed');}
   }else{
     // Fallback for browsers without File System Access API
@@ -2914,7 +3063,7 @@ $('#file-input').addEventListener('change',e=>{
 
 // Forget which file the map came from, so Ctrl+S / auto-save can never overwrite a file with a map that replaced it
 function detachFile(){
-  stopAutoFile(true);currentFileHandle=null;lastFileSig=null;lastFileSavedAt=0;lastFileName='';dirtySince=null;lastNudge=0;
+  stopAutoFile(true);autoOptOut=false;currentFileHandle=null;lastFileSig=null;lastFileSavedAt=0;lastFileName='';dirtySince=null;lastNudge=0;
   initSig=sigOf();updateSaveBadge();
 }
 function applyLoadedData(text,name){
@@ -2931,7 +3080,7 @@ function applyLoadedData(text,name){
     // Every other field comes from the table, so stale values from the previous map cannot leak in
     docLoad(d,()=>true);docExtrasUI();stampReset();
     multiSelected.clear();updateBulkBar();
-    selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);
+    selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);closeTemplates();
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
@@ -2988,7 +3137,7 @@ function updateColorBarActive(){const n=selectedId?gn(selectedId):null;colorBar.
 function updateStats(){
   const roots=getRoots().length,total=nodes.length,links=crossLinks.length,wn=nodes.filter(n=>n.notes&&n.notes.trim()).length;
   statsEl.innerHTML='<span>'+roots+' root'+(roots!==1?'s':'')+'</span><span>'+total+' nodes</span><span>'+links+' link'+(links!==1?'s':'')+'</span><span>'+wn+' noted</span>';
-  updateDueBadge();refreshAgenda();if(blPanelOpen())buildBaselineList();
+  updateDueBadge();refreshAgenda();if(workshop)wsDraw();if(blPanelOpen())buildBaselineList();
 }
 
 // ── Due-date monitoring ──
@@ -3057,14 +3206,14 @@ function render(){
   _dmHid=null;stampDone();logChanges();
   impactMap=(depMap&&impactId!==null&&gn(impactId))?computeImpact():null;if(!impactMap&&impactId!==null){impactId=null;}updateImpactUI();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
-  applyDateLayout();
+  applyDateLayout();wsLayout();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
   const kids=buildKids(),fActive=filterActive();elMap=new Map();
   const descInfo=id=>{let c=0,u=false;const st=[id];while(st.length){const k=kids.get(st.pop())||[];c+=k.length;for(const x of k){st.push(x.id);if(!u){const ds=dueInfo(x).state;if(ds==='overdue'||ds==='today')u=true;}}}return{c,u};};
   const defs=svgEl.querySelector('defs');svgEl.innerHTML='';svgEl.appendChild(defs);
 
   const _par=new Set();for(const n of nodes)if(n.parentId!==null)_par.add(n.parentId);
-  const rootList=nodes.filter(n=>n.parentId===null);
+  const rootList=nodes.filter(n=>n.parentId===null),_ws=wsCtx();
   for(const node of nodes){
     if(isHidden(node))continue;
     const c=gc(node.colorId),depth=gdepth(node);
@@ -3171,9 +3320,12 @@ function render(){
     el.addEventListener('mousedown',e=>onNodeMouseDown(e,node));
     el.addEventListener('dblclick',e=>{e.stopPropagation();startEdit(node.id);});
     el.addEventListener('contextmenu',e=>onNodeContext(e,node));
+    if(_ws)wsDecorate(el,node,_ws);
+    if(covFail)covDecorate(el,node);
+    if(mapType==='people')raciDecorate(el,node);
     canvas.appendChild(el);elMap.set(node.id,el);
   }
-  slideApply();
+  slideApply();raciRefresh();
   if(dateMode){dmComputeLanes();dmShiftLabels();}
   applyFocus();
   if(dateMode){dmUpdateUndatedBtn();dmFixOverlaps();}
@@ -3698,9 +3850,10 @@ function drawConnectors(){
   const fw=(n)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
   const fx=(a,b)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(a)||FS.core.has(b))?1:0):FS?((FS.core.has(a)||FS.core.has(b))?1:0):(quietDM?0.5:1);
 
-  // Parent-child wires
+  // Parent-child wires (none into the Workshop Inbox frame: its items are sticky notes)
+  const _wsIb=workshop&&!dateMode&&wsInbox();
   for(const node of nodes){
-    if(critView||isHidden(node)||node.parentId===null)continue;
+    if(critView||isHidden(node)||node.parentId===null||(_wsIb&&node.parentId===_wsIb.id))continue;
     const parent=gn(node.parentId);if(!parent||isHidden(parent))continue;
     const pEl=elOf(parent.id);
     const cEl=elOf(node.id);
@@ -3764,6 +3917,17 @@ function drawConnectors(){
     const eB=elOf(nB.id);
     if(!eA||!eB)continue;
 
+    if(depMap&&mapType==='people'&&raciOf(link)&&!critView&&!ie){ // R/A/C/I line: right edge of the left node to the left edge of the right one, with a letter badge
+      const L=nA.x<=nB.x?[nA,eA,nB,eB]:[nB,eB,nA,eA],x1=L[0].x+L[1].offsetWidth,y1=L[0].y+L[1].offsetHeight/2,x2=L[2].x,y2=L[2].y+L[3].offsetHeight/2,mx=(x1+x2)/2,col=RACI_COL[raciOf(link)];
+      const pa=document.createElementNS('http://www.w3.org/2000/svg','path');pa.setAttribute('d','M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2);
+      pa.setAttribute('stroke',col);pa.setAttribute('stroke-width','2');pa.setAttribute('fill','none');svgEl.appendChild(pa);
+      const bg=document.createElementNS('http://www.w3.org/2000/svg','rect'),tx=document.createElementNS('http://www.w3.org/2000/svg','text'),by0=(y1+y2)/2;
+      bg.setAttribute('x',mx-13);bg.setAttribute('y',by0-10);bg.setAttribute('width',26);bg.setAttribute('height',20);bg.setAttribute('rx',10);bg.setAttribute('stroke',col);bg.setAttribute('style','fill:var(--bg)');
+      tx.setAttribute('x',mx);tx.setAttribute('y',by0+4);tx.setAttribute('text-anchor','middle');tx.setAttribute('font-size','11');tx.setAttribute('font-weight','600');tx.setAttribute('fill',col);tx.setAttribute('font-family','system-ui,sans-serif');tx.textContent=raciOf(link);
+      svgEl.appendChild(bg);svgEl.appendChild(tx);
+      if(_fl<1)for(let i=_g0;i<svgEl.childNodes.length;i++)svgEl.childNodes[i].setAttribute('opacity',_fl);
+      continue;
+    }
     let ax=nA.x+eA.offsetWidth/2, ay=nA.y+eA.offsetHeight/2;
     let bx=nB.x+eB.offsetWidth/2, by=nB.y+eB.offsetHeight/2;
 
@@ -3782,7 +3946,7 @@ function drawConnectors(){
     const lcol=ie?(ie==='up'?'#ff8a3d':'#3ec9c0'):critView?'#f5c518':tcol||'rgba(255,200,60,0.6)';
     path.setAttribute('stroke',lcol);
     path.setAttribute('stroke-width',(critView||ie)?'4':tcol?'3':'2.5');
-    if(!critView&&!ie&&!tcol)path.setAttribute('stroke-dasharray','10 5');
+    if(!critView&&!ie&&(!tcol||(TYPE_STYLE[String(link.type||'').toLowerCase()]||[])[1]))path.setAttribute('stroke-dasharray','10 5');
     path.setAttribute('fill','none');
     path.setAttribute('stroke-linecap','round');
     path.setAttribute('marker-end',arrowFor(lcol));
@@ -3822,9 +3986,10 @@ function drawConnectors(){
 // ── Link mode ──
 const LINK_BANNERS={link:'Click a second node to complete the cross-link \u00B7 Press Esc to cancel',dep:'Click the node that must be finished FIRST \u00B7 Press Esc to cancel',need:'Click the node that is waiting on this one \u00B7 Press Esc to cancel'};
 function startLinkMode(kind){if(!selectedId){toast('Select a node first');return;}linkKind=(kind==='dep'||kind==='need')?kind:'link';linkMode=true;linkSourceId=selectedId;wrap.classList.add('linking');$('#link-btn').classList.add('active');const b=$('#link-banner');b.textContent=LINK_BANNERS[linkKind];b.classList.add('visible');render();}
-function cancelLinkMode(){linkMode=false;linkSourceId=null;linkKind='link';wrap.classList.remove('linking');$('#link-btn').classList.remove('active');$('#link-banner').classList.remove('visible');render();}
+function cancelLinkMode(){linkPre='';linkMode=false;linkSourceId=null;linkKind='link';wrap.classList.remove('linking');$('#link-btn').classList.remove('active');$('#link-banner').classList.remove('visible');render();}
 function completeCrossLink(tid){
   if(tid===linkSourceId){cancelLinkMode();return;}
+  if(linkPre&&linkKind==='link'&&!crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){const f=linkSourceId,t=linkPre;cancelLinkMode();snap();crossLinks.push({from:f,to:tid,label:'',type:t});render();autoSave();toast('Linked as '+t);return;}
   if(linkKind!=='link'){const src=linkSourceId,kind=linkKind;cancelLinkMode();if(kind==='dep')addDependency(src,tid);else addDependency(tid,src);return;}
   if(crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){toast('Link exists');cancelLinkMode();return;}
   if(depMap){const src=linkSourceId;cancelLinkMode();openLinkType(src,tid,false);return;}
@@ -4332,6 +4497,7 @@ function buildClip(){
   tops.forEach(add);
   const x0=Math.min(...tops.map(n=>n.x)),y0=Math.min(...tops.map(n=>n.y));
   const items=order.map(n=>({text:n.text,rx:Math.round(n.x-x0),ry:Math.round(n.y-y0),parent:topSet.has(n.id)?-1:idx.get(n.parentId),collapsed:!!n.collapsed,colorId:n.colorId,notes:n.notes||'',project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',deps:depsOf(n).filter(d=>idx.has(d)).map(d=>idx.get(d))}));
+  items.forEach((it,i)=>{if(order[i].by)it.by=order[i].by;});
   const links=crossLinks.filter(l=>idx.has(l.from)&&idx.has(l.to)).map(l=>({from:idx.get(l.from),to:idx.get(l.to),label:l.label||'',type:l.type||''}));
   const outside=crossLinks.filter(l=>idx.has(l.from)!==idx.has(l.to)).length;
   return {text:JSON.stringify({mindloom:CLIP_MARK,nodes:items,links}),count:order.length,outside};
@@ -4355,6 +4521,7 @@ function parseClip(text){
       tags:cleanTags(r.tags),due:normDate(r.due),start:normDate(r.start),
       deps:[...new Set((Array.isArray(r.deps)?r.deps:[]).filter(d=>Number.isInteger(d)&&d>=0&&d<d_len&&d!==i))]
     });
+    if(typeof r.by==='string'&&r.by.trim())out[out.length-1].by=r.by.trim().slice(0,40);
   }
   const links=(Array.isArray(d.links)?d.links:[]).filter(l=>l&&Number.isInteger(l.from)&&Number.isInteger(l.to)&&l.from>=0&&l.to>=0&&l.from<out.length&&l.to<out.length&&l.from!==l.to).map(l=>({from:l.from,to:l.to,label:String(l.label||''),type:String(l.type||'').slice(0,40)}));
   return {nodes:out,links};
@@ -4390,7 +4557,7 @@ function pasteClip(clip,forceRoot){
     if(ch.length)by=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));
   }else{const o=importOrigin();bx=o.x;by=o.y;}
   by=freeY(bx,by,bw,bh);
-  clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});});
+  clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});if(r.by)nodes[nodes.length-1].by=r.by;});
   clip.links.forEach(l=>{crossLinks.push({from:ids[l.from],to:ids[l.to],label:l.label,type:l.type||''});});
   render();
   const first=clip.nodes.findIndex(r=>r.parent<0);
@@ -4412,7 +4579,10 @@ function pasteText(text){
 // A relation reads "A relies on B": a dependency (A must wait for B) or a cross-link drawn from A to B.
 // Link types and waves only show while the setting is on; they stay saved in the file either way.
 const LINK_TYPES=[['builds from','#ff8a3d'],['deploys to','#4da3ff'],['authenticates via','#c8a8ff'],['sends data to','#3ec9c0'],['reads from','#8fd16b'],['calls (API)','#ff6fa8'],['webhook','#ffd24d'],['monitored by','#9aa3b5'],['scheduled by','#d9a066']];
-function typeColor(t){const k=String(t||'').toLowerCase();const f=LINK_TYPES.find(x=>x[0]===k);return f?f[1]:'#c8a8ff';}
+// Types the templates use that are not in the picker above: colour, and 1 if the line stays dashed
+const TYPE_STYLE={'verified by':['#f0b44c',1]};
+const RACI=['R','A','C','I'],RACI_COL={R:'#5ac98a',A:'#ff7b86',C:'#f0b44c',I:'#9aa3b5'}; // link types for who does, signs off, advises and is told (see 268-raci.js)
+function typeColor(t){const k=String(t||'').toLowerCase();const f=LINK_TYPES.find(x=>x[0]===k);return f?f[1]:RACI_COL[String(t||'').trim().toUpperCase()]||(TYPE_STYLE[k]||[])[0]||'#c8a8ff';}
 function linkText(l){const t=(depMap&&l.type)?l.type:'';return t?(l.label?t+' \u00B7 '+l.label:t):(l.label||'');}
 const WAVE_RE=/^wave\s*(\d{1,2})$/i;
 function waveOf(n){for(const t of getNodeTags(n)){const m=WAVE_RE.exec(String(t).trim());if(m)return +m[1];}return 0;}
@@ -4574,8 +4744,10 @@ function updateDepUI(){
   const b=$('#dep-menu-block');if(b)b.style.display=depMap?'':'none';
   const c=$('#cx-impact');if(c&&!depMap)c.style.display='none';
 }
-function toggleDepMap(){
-  depMap=!depMap;
+// `auto` is a Map type switching it on or off. Turning it on yourself from the menu marks it as wanted, so changing type leaves it alone.
+let depKeep=false,depAuto=false;
+function toggleDepMap(auto){
+  depMap=!depMap;depKeep=!auto&&depMap;depAuto=!!auto&&depMap;
   if(!depMap){impactId=null;closeDepCheck();closeLinkType();}
   hideDetail();updateDepUI();render();autoSave();
   toast(depMap?'Application Mapping Structures on. Link types, waves and the impact view are now available for this map':'Application Mapping Structures off. Link types and waves are kept in the file but hidden');
@@ -4654,7 +4826,7 @@ function pasteSelection(){
 function clipEventAllowed(){
   const a=document.activeElement,t=a?a.tagName:'';
   if(t==='TEXTAREA'||t==='INPUT'||t==='SELECT'||(a&&a.isContentEditable))return false;
-  if(editingId||presMode||tlVisible||boardVisible||reportVisible)return false;
+  if(editingId||tlVisible||boardVisible||reportVisible)return false;
   return !(window.getSelection&&window.getSelection().toString());
 }
 document.addEventListener('copy',e=>{
@@ -4736,8 +4908,11 @@ async function autoFileWrite(){
     toast('Auto-save to file stopped. Press Ctrl+S to save again');
   }finally{autoBusy=false;}
 }
+// Saving to a file switches auto-save on (the save has just proved we can write to it), unless you switched it off this visit
+function autoOnAfterSave(){if(autoFile||autoOptOut||!currentFileHandle||!window.showSaveFilePicker)return false;autoFile=true;updateAutoUI();return true;}
 async function toggleAutoFile(){
-  if(autoFile){stopAutoFile();return;}
+  if(autoFile){autoOptOut=true;stopAutoFile();return;}
+  autoOptOut=false;
   if(!window.showSaveFilePicker){toast('Auto-save to file needs Chrome or Edge. Your map is still auto-saved in this browser');return;}
   if(!currentFileHandle)await saveAsFile();
   if(!currentFileHandle)return;
@@ -5851,11 +6026,14 @@ function qcParse(raw){
     else if((m=/^@([^\s#@]{1,40})$/.exec(w)))owner=m[1].replace(/_/g,' ');
     else keep.push(w);
   }
-  let due='';
+  let due='',kind='';
+  const mk=()=>{if(workshop&&keep.length>1&&(keep[keep.length-1]==='!'||keep[keep.length-1]==='?'))kind=keep.pop();};
+  mk();
   // only a date word at the end counts, and never the only word, so "Sat on the sofa" or "Friday" stay as written
   if(keep.length>1){const d=qcDate(keep[keep.length-1]);if(d){due=d;keep.pop();}}
+  mk();
   if(owner){const o=nodes.find(n=>(n.owner||'').toLowerCase()===owner.toLowerCase());if(o)owner=o.owner;}
-  return {text:keep.join(' ').slice(0,200),tags:cleanTags(tags),owner,due};
+  return {text:keep.join(' ').slice(0,200),tags:cleanTags(tags.concat(kind==='!'?['quick-win']:kind==='?'?['question']:[])),owner,due,kind};
 }
 function qcInbox(){
   const isIn=n=>String(n.text||'').trim().toLowerCase()==='inbox';
@@ -5879,17 +6057,18 @@ function openCapture(){
   const i=$('#qc-input');i.value='';qcShowPreview();i.focus();
 }
 function closeCapture(){$('#qc-overlay').classList.remove('visible');}
-function qcAdd(){
-  const inp=$('#qc-input'),p=qcParse(inp.value);if(!p.text)return;
+function qcAdd(box){
+  const inp=box||$('#qc-input'),p=qcParse(inp.value);if(!p.text)return;
   hideDetail();snap();
   const ib=qcInbox();ib.collapsed=false;
   const pEl=elOf(ib.id),pw=pEl?pEl.offsetWidth:120,ch=gch(ib.id).filter(c=>!isHidden(c)),nx=ib.x+pw+60;
   let y0=ib.y;if(ch.length)y0=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));
   const now=new Date().toISOString();
-  const n={id:nextId++,text:p.text,x:nx,y:freeY(nx,y0,120,38),parentId:ib.id,collapsed:false,colorId:ib.colorId||'default',notes:'',project:'',owner:p.owner,status:'',tags:p.tags,due:p.due,start:'',createdAt:now,modifiedAt:now};
+  const n={id:nextId++,text:p.text,x:nx,y:freeY(nx,y0,120,38),parentId:ib.id,collapsed:false,colorId:p.kind==='!'?'green':p.kind==='?'?'pink':(ib.colorId||'default'),notes:'',project:'',owner:p.owner,status:'',tags:p.tags,due:p.due,start:'',createdAt:now,modifiedAt:now};
+  if(workshop&&logAuthor)n.by=logAuthor;
   nodes.push(n);render();autoSave();
   refreshAgenda();if(boardVisible)buildBoard(true);if(tlVisible)buildTimeline(true);
-  inp.value='';qcShowPreview();
+  inp.value='';if(box){inp.focus();return;}qcShowPreview();
   const L=$('#qc-last');L.textContent='';
   const t=document.createElement('span');t.textContent='Added \u201C'+n.text+'\u201D'+(hiddenRoots.has(ib.id)?' (the Inbox is hidden by Focus)':'');L.appendChild(t);
   const g=document.createElement('button');g.type='button';g.className='dp-mini';g.textContent='Show in map';g.addEventListener('click',()=>{closeCapture();focusNode(n.id);});L.appendChild(g);
@@ -6000,43 +6179,6 @@ $('#cmd-input').addEventListener('keydown',e=>{
   }
   else if((e.ctrlKey||e.metaKey)&&k.toLowerCase()==='k'){e.preventDefault();closePalette();}
 });
-
-// ── Presentation Mode ──
-function startPresentation(){
-  presNodes=[];
-  function collect(n){if(!isHidden(n)){presNodes.push(n);gch(n.id).filter(c=>!isHidden(c)).forEach(collect);}}
-  getRoots().forEach(collect);
-  if(!presNodes.length){toast('No visible nodes');return;}
-  presIdx=0;presMode=true;
-  const ov=$('#pres-overlay');ov.classList.add('visible');
-  showPresSlide();
-}
-function exitPresentation(){
-  presMode=false;$('#pres-overlay').classList.remove('visible');
-}
-function showPresSlide(){
-  const n=presNodes[presIdx];if(!n)return;
-  const c=gc(n.colorId);
-  const depth=gdepth(n);
-  const parent=n.parentId?gn(n.parentId):null;
-  let html='<div style="text-align:center;max-width:800px;margin:0 auto">';
-  if(parent)html+='<div style="font-size:14px;color:var(--text-muted);margin-bottom:12px">'+esc(parent.text)+' →</div>';
-  html+='<div style="font-size:'+(depth===0?'48px':'36px')+';font-weight:700;color:'+c.border+';margin-bottom:24px">'+esc(n.text)+'</div>';
-  if(n.notes)html+='<div style="font-size:18px;color:var(--text);line-height:1.6;white-space:pre-wrap">'+linkifyHtml(n.notes)+'</div>';
-  if(n.status)html+='<div style="margin-top:16px;font-size:14px;color:var(--text-muted)">Status: '+esc(n.status==='critical'?'Critical Path':n.status)+'</div>';
-  if(dayMs(n.due)!==null){const di=dueInfo(n);html+='<div style="margin-top:8px;font-size:14px;color:'+(di.state==='overdue'?'#e05252':di.state==='today'?'#d98a1f':'var(--text-muted)')+'">Due: '+esc(fmtDay(n.due,true))+(di.state==='overdue'?' (overdue)':di.state==='today'?' (today)':'')+'</div>';}
-  const tags=getNodeTags(n).filter(t=>t);
-  if(tags.length)html+='<div style="margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">'+tags.map(t=>'<span style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:2px 10px;font-size:12px">'+esc(t)+'</span>').join('')+'</div>';
-  html+='</div>';
-  $('#pres-content').innerHTML=html;
-  $('#pres-counter').textContent=(presIdx+1)+' / '+presNodes.length;
-}
-function presNav(dir){
-  presIdx+=dir;
-  if(presIdx<0)presIdx=0;
-  if(presIdx>=presNodes.length)presIdx=presNodes.length-1;
-  showPresSlide();
-}
 
 // ── Import CSV ──
 function importCSV(){$('#csv-input').click();}
@@ -6320,7 +6462,8 @@ function tidyLayout(orient,scope,opts){
   // Order siblings by Due date (earliest first); undated ones follow, keeping their current order
   const byStart=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
   const ordered=list=>list.map((n,i)=>[n,i]).sort((a,b)=>byStart(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
-  const kids=n=>n.collapsed?[]:ordered(gch(n.id).filter(c=>!isHidden(c)));
+  const wsIb=workshop&&wsInbox(); // the Workshop Inbox lays out its own stickies
+  const kids=n=>n.collapsed||(wsIb&&n.id===wsIb.id)?[]:ordered(gch(n.id).filter(c=>!isHidden(c)));
   const span=new Map(),kidsTotal=new Map(),levelSize=[];
   function measure(n,lvl){
     levelSize[lvl]=Math.max(levelSize[lvl]||0,depthOf(n));
@@ -6341,6 +6484,7 @@ function tidyLayout(orient,scope,opts){
   const first=tops[0];
   let cs=(H?first.y:first.x)-span.get(first.id)/2+crossOf(first)/2;
   tops.forEach(t=>{place(t,0,cs);cs+=span.get(t.id)+TREEGAP;});
+  if(wsIb&&scope==='all')wsPlace();
   render();autoSave();
   if(opts.quiet)return;
   if(scope==='all')fitAll();
@@ -6402,7 +6546,7 @@ function autoLayoutOutline(){hideDetail();snap();const INDENT=60,VGAP=14;
   render();autoSave();toast('Outline layout applied');
 }
 
-function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),vw=_vr.width,inset=dateMode?52:0,vh=_vr.height-inset;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
+function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),_wp=workshop&&!dateMode?$('#ws-panel'):null,wsR=(_wp&&_wp.classList.contains('visible')?_wp.offsetWidth+24:0)+(covOn?432:0)+(raciOn()&&!rcHide?270:0),wsB=workshop&&!dateMode?110:0,dl=dateMode?150:0,vw=_vr.width-wsR-dl,inset=dateMode?52:0,vh=_vr.height-inset-wsB;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=dl+vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
 
 function centreView(){panX=0;panY=0;zoom=1;updateTransform();autoSave();}
 
@@ -6722,7 +6866,8 @@ function onPointerUp(e){
     // Reparent on Ctrl+drop
     if(ctrlDragging&&dragMoved){
       const target=findDropTarget(e.clientX,e.clientY,dragNode);
-      if(target) reparentNode(dragNode,target,true);
+      if(wsSticky(dragNode)){if(!(target&&wsFileTo(dragNode,target,true)))render();}
+      else if(target) reparentNode(dragNode,target,true);
     }
     elOf(dragNode)?.classList.remove('dragging');
     if(connDragFast){connDragFast=false;if(connRaf){cancelAnimationFrame(connRaf);connRaf=0;}drawConnectors();}
@@ -6842,7 +6987,7 @@ function onNodeMouseDown(e,node){
   }
 
   selectNode(node.id);hideCtx();
-  ctrlDragging=!!(e.ctrlKey||e.metaKey);
+  ctrlDragging=!!(e.ctrlKey||e.metaKey)||wsSticky(node.id); // a Workshop sticky is dragged onto a theme to file it
   dragNode=node.id;dragMoved=false;dragStart={x:e.clientX,y:e.clientY};
   const _pt=toCanvas(e.clientX,e.clientY);dragOffX=_pt.x-node.x;
   dragOffY=_pt.y-node.y;
@@ -6874,9 +7019,8 @@ document.addEventListener('keydown',e=>{
   const ctrl=e.ctrlKey||e.metaKey;
   const k=e.key.length===1?e.key.toLowerCase():e.key;
 
-  // Presentation mode owns the keyboard while it is open
-  if(presMode){keyDo('pres',e,k,ctrl);return;}
   if(editingId)return;
+  if(linkMode&&linkKind==='link'&&depMap&&!ctrl&&!e.altKey&&'racRACI'.includes(k)&&k.length===1&&'RACI'.includes(k.toUpperCase())){e.preventDefault();linkPre=k.toUpperCase();$('#link-banner').textContent='Click a second node to link as '+linkPre+' \u00B7 Press Esc to cancel';return;}
   if(keyDo('any',e,k,ctrl))return;
   if(boardVisible||reportVisible){keyDo(boardVisible?'board':'report',e,k,ctrl);return;}
   if(tlVisible){keyDo('timeline',e,k,ctrl);return;} // never let map shortcuts (Delete, Tab ...) act on the map underneath
@@ -7496,7 +7640,6 @@ function updateToolbarEnabled(){
 function syncToolbarState(){
   const set=(id,on)=>{const b=document.getElementById(id);if(b){b.classList.toggle('active',!!on);b.setAttribute('aria-pressed',on?'true':'false');}};
   set('tb-focus',focusPanelVisible);set('tb-agenda',agendaVisible);set('tb-timeline',tlVisible);set('tb-board',boardVisible);set('tb-report',reportVisible);
-  const vp=document.getElementById('views-panel');set('tb-saved',vp&&vp.classList.contains('visible'));
 }
 function toggleFocusPanel(){
   focusPanelVisible=!focusPanelVisible;
@@ -7552,7 +7695,7 @@ function focusFitVisible(){fitAll();}
 //   an item in one copy only: it stays, unless the other copy deleted it after it was last changed
 //   a deleted item comes back if something that survives sits beneath it
 //   links follow the same rules. Saved views, baselines, bookmarks and settings are not merged.
-const MG_LAY=['pos','collapsed'],MG_NAME={text:'name',parentId:'parent',deps:'dependencies',due:'due date',start:'start date',colorId:'colour',checks:'checklist',log:'history',modifiedAt:'',doneAt:'',lastDone:'',createdAt:''};
+const MG_LAY=['pos','collapsed'],MG_NAME={text:'name',parentId:'parent',deps:'dependencies',due:'due date',start:'start date',colorId:'colour',checks:'checklist',log:'history',by:'captured by',modifiedAt:'',doneAt:'',lastDone:'',createdAt:''};
 // uid -> the node, its fields as text with node numbers turned into uids (so two copies can be compared), parent and deps as uids
 function mgView(list){
   const uidOf=new Map(list.map(n=>[n.id,n.uid])),by=new Map();
@@ -7712,8 +7855,22 @@ async function sharedSync(manual){
     if(e&&(e.name==='NotAllowedError'||e.name==='SecurityError')){autoFile=false;stopShared('Shared map stopped: no permission for the file. Press Ctrl+S to save again');}
   }finally{autoBusy=false;}
 }
-async function toggleShared(){
+// First, say what Shared map does and where the file has to live. "Don't show again" is remembered.
+function toggleShared(){
   if(sharedMap){stopShared('Shared map is off');return;}
+  if(prefs.sharedSeen)return startShared();
+  $('#sh-go').textContent=currentFileHandle?'Turn on Shared map':'Choose where to save\u2026';
+  $('#sh-seen').checked=false;$('#sh-overlay').classList.add('visible');$('#sh-go').focus();
+}
+function closeSharedIntro(){$('#sh-overlay').classList.remove('visible');}
+async function sharedIntroGo(){
+  if($('#sh-seen').checked){prefs.sharedSeen=true;savePrefs();}
+  closeSharedIntro();
+  if(!currentFileHandle){await saveAsFile();if(!currentFileHandle)return;}
+  startShared();
+}
+$('#sh-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeSharedIntro();}});
+async function startShared(){
   if(!window.showSaveFilePicker){toast('Shared map needs Chrome or Edge');return;}
   if(!currentFileHandle){toast('Open the shared map file first (File > Open), or Save As to start a new one, then switch this on');return;}
   try{
@@ -7755,7 +7912,7 @@ function buildDemo(spec){
   const out=[],keys={},pendingDeps=[],now=new Date().toISOString();let id=1;
   const walk=(item,parentId,defOwner,defProj)=>{
     const o=item[1],kids=item[2],owner=o.o||defOwner||'',proj=o.p||defProj||'';
-    const n={id:id++,text:item[0],x:0,y:0,parentId,collapsed:!!o.k,colorId:o.c||DEMO_COLOUR[o.s]||'default',notes:o.n||'',project:proj,owner,status:o.s||'',tags:[...(o.t||[])],due:o.d===undefined||o.d===null?'':isoFromToday(o.d),deps:[],createdAt:now,modifiedAt:now};
+    const n={id:id++,text:item[0],x:o.x||0,y:o.y||0,parentId,collapsed:!!o.k,colorId:o.c||DEMO_COLOUR[o.s]||'default',notes:o.n||'',project:proj,owner,status:o.s||'',tags:[...(o.t||[])],due:o.d===undefined||o.d===null?'':isoFromToday(o.d),deps:[],createdAt:now,modifiedAt:now};
     out.push(n);if(o.key)keys[o.key]=n.id;if(o.dep)pendingDeps.push([n,o.dep]);
     kids.forEach(k=>walk(k,n.id,owner,proj));
   };
@@ -7781,7 +7938,7 @@ function buildDemo(spec){
     if(so!==null)n.start=isoFromToday(so);
   }
   const need=k=>{if(!(k in keys))throw new Error('demo key '+k);return keys[k];};
-  return {nodes:out,crossLinks:(spec.links||[]).map(l=>({from:need(l[0]),to:need(l[1]),label:l[2]||''})),nextId:id,bookmarks:(spec.bookmarks||[]).map(need),hiddenRoots:[],dateMode:!!spec.dateMode,dateOrigin:spec.dateOrigin||''};
+  return {nodes:out,crossLinks:(spec.links||[]).map(l=>({from:need(l[0]),to:need(l[1]),label:l[2]||'',type:l[3]||''})),depMap:!!spec.depMap,coverage:spec.coverage||[],mapType:spec.type||'',workshop:spec.workshop?{agenda:WS_AGENDA}:null,colorLabels:spec.labels?Object.keys(spec.labels).map(id=>({id,label:spec.labels[id]})):undefined,nextId:id,bookmarks:(spec.bookmarks||[]).map(need),hiddenRoots:[],dateMode:!!spec.dateMode,dateOrigin:spec.dateOrigin||''};
 }
 const DEMOS={
 simple:()=>({roots:[
@@ -8057,6 +8214,467 @@ function loadDemo(key){
 document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>loadDemo(b.dataset.demo)));
 (function(){let c=0,t=0;$('#about-ver').addEventListener('click',()=>{const now=Date.now();c=(now-t>3000)?1:c+1;t=now;if(c>=5){$('#demo-section').classList.add('show');c=0;}});})();
 
+// ── Templates ──
+// File > New from template: a few ready-made starter maps, plus the person's own saved templates. A starter is a
+// demo-style spec (see buildDemo in 260-about-demo.js): T(text, status, dueDays, owner, tags, extra, children), links as
+// [fromKey, toKey, label, type]. "Use as new map" replaces the map (backed up first, one Undo step); "Add to this map"
+// pastes the template as a new tree beside what is already there. Opt-in: the menu item is hidden by Simple Menus.
+const TPL=[
+ {id:'mind',cat:'',pop:1,type:'mind',lay:'b',name:'Mind map',desc:'A central idea with branches on both sides. Just ideas: the planning views are tucked away until you want them.',uses:'Map type: Mind map',spec:()=>({noStarts:true,type:'mind',roots:[T('Central Idea','',null,'',[],{c:'blue'},[T('Branch 1','',null,'',[],{c:'purple'}),T('Branch 2','',null,'',[],{c:'teal'}),T('Branch 3','',null,'',[],{c:'amber'}),T('Branch 4','',null,'',[],{c:'pink'})])]})},
+ {id:'blank',cat:'',name:'Blank map',desc:'One root and nothing else.',uses:'No extras',spec:()=>({noStarts:true,roots:[T('Central Idea','',null,'',[],{c:'blue'})]})},
+ {id:'road',cat:'proj',pop:1,name:'Programme roadmap',desc:'Workstreams on the Date Axis with milestones and dependencies. Set a baseline after your first review.',uses:'Date Axis · Lane Bands',spec:()=>({dateMode:true,roots:[
+  T('Programme','ongoing',120,'Programme lead',[],{c:'blue',p:'Programme',b:-2},[
+   T('Mobilise','ongoing',20,'',[],{c:'amber',b:-2},[T('Kick-off','',-2,'',['milestone'],{key:'ko'}),T('Plan agreed','',16,'',['milestone'],{key:'plan',dep:['ko']})]),
+   T('Build','',80,'',[],{c:'teal',b:20},[T('Design','',46,'',[],{key:'des',dep:['plan'],b:20}),T('Build and test','',80,'',[],{key:'bld',dep:['des'],b:48})]),
+   T('Launch','',120,'',[],{c:'purple',b:84},[T('Go-live','',90,'',['milestone'],{key:'gl',dep:['bld']}),T('Handover to support','',120,'',[],{dep:['gl'],b:84})])])]})},
+ {id:'risk',cat:'proj',keep:1,name:'Risk and issue tree',desc:'A bow-tie for each risk: what causes it on the left, what reduces it above or below, and what it threatens on the right.',uses:'Link types: causes, mitigates, threatens',spec:()=>({noStarts:true,depMap:true,roots:[
+  T('Programme risks','',null,'',[],{c:'blue',x:440,y:130},[
+   T('Key person unavailable','',null,'',[],{c:'red',key:'r1',x:440,y:0}),
+   T('Supplier delay','',null,'',[],{c:'red',key:'r2',x:440,y:260}),
+   T('Go-live date','',null,'',['milestone'],{c:'amber',key:'gl',x:880,y:130})]),
+  T('Cause: single point of knowledge','',null,'',[],{key:'c1',x:0,y:0}),
+  T('Cause: late contract signature','',null,'',[],{key:'c2',x:0,y:260}),
+  T('Mitigation: cross-train a deputy','ongoing',14,'',[],{c:'green',key:'m1',x:440,y:-140}),
+  T('Mitigation: weekly supplier call','ongoing',7,'',[],{c:'green',key:'m2',x:440,y:400})],
+  links:[['c1','r1','','causes'],['c2','r2','','causes'],['m1','r1','','mitigates'],['m2','r2','','mitigates'],['r1','gl','','threatens'],['r2','gl','','threatens']]})},
+ {id:'raci',cat:'people',keep:1,name:'Stakeholders and RACI',desc:'People on the left, deliverables on the right, and a lettered line for each role: R does it, A signs it off, C is asked, I is told. Warns when a deliverable has no Accountable.',uses:'Link types: R · A · C · I · RACI matrix',spec:()=>({noStarts:true,type:'people',depMap:true,labels:{purple:'Person',blue:'Deliverable'},roots:[
+  T('Stakeholders','',null,'',[],{x:-260,y:230},[
+   T('Priya Shah','',null,'',['Programme Director'],{c:'purple',key:'p1',x:0,y:0}),T('Tom Reid','',null,'',['Delivery Lead'],{c:'purple',key:'p2',x:0,y:120}),T('Ana Costa','',null,'',['Head of Finance'],{c:'purple',key:'p3',x:0,y:240}),
+   T('Lee Wong','',null,'',['Security Architect'],{c:'purple',key:'p4',x:0,y:360}),T('Service Desk','',null,'',['Team'],{c:'purple',key:'p5',x:0,y:480})]),
+  T('Deliverables','',null,'',[],{x:1120,y:230},[
+   T('Business case','ongoing',14,'',[],{c:'blue',key:'d1',x:680,y:40}),T('Cutover plan','',45,'',[],{c:'blue',key:'d2',x:680,y:220}),T('Security sign-off','',30,'',[],{c:'blue',key:'d3',x:680,y:400})])],
+  links:[['p1','d1','','A'],['p2','d1','','R'],['p3','d1','','C'],['p1','d2','','I'],['p2','d2','','A'],['p3','d2','','C'],['p5','d2','','R'],['p4','d3','','R'],['p5','d3','','I']]})},
+ {id:'work',cat:'work',name:'Workshop',desc:'Sticky notes in an Inbox, typed into a box at the bottom of the map, and theme branches to sort them into.',uses:'Workshop mode · timer and agenda',spec:()=>({noStarts:true,type:'work',workshop:true,labels:{green:'Quick win',pink:'Question'},roots:[
+  T('Inbox','',null,'',[],{c:'amber'}),
+  T('Themes','',null,'',[],{c:'blue'},[
+   T('Theme 1','',null,'',[],{c:'purple'}),T('Theme 2','',null,'',[],{c:'teal'}),T('Theme 3','',null,'',[],{c:'pink'}),
+   T('Actions and owners','',null,'',[],{c:'green'})])]})},
+ {id:'trace',cat:'proj',keep:1,cov:1,name:'Requirements trace',desc:'Needs, the requirements that meet them and the tests that prove them, with Coverage rules that show what has no test.',uses:'Coverage · Link types: verified by',spec:()=>({noStarts:true,depMap:true,labels:{blue:'Need',teal:'Requirement',amber:'Test'},roots:[
+  T('Customer can pay online','',null,'',[],{c:'blue',x:0,y:30},[T('R1 Card payments','',null,'',[],{c:'teal',key:'r1',x:300,y:0}),T('R2 Apple Pay','',null,'',[],{c:'teal',key:'r2',x:300,y:90})]),
+  T('Staff can refund','',null,'',[],{c:'blue',x:0,y:260},[T('R3 Refund within 30 days','',null,'',[],{c:'teal',key:'r3',x:300,y:220}),T('R4 Partial refunds','',null,'',[],{c:'teal',key:'r4',x:300,y:310})]),
+  T('Audit log kept','',null,'',[],{c:'blue',x:0,y:470},[T('R5 Log every change','',null,'',[],{c:'teal',key:'r5',x:300,y:420}),T('R6 Keep logs 7 years','',null,'',[],{c:'teal',key:'r6',x:300,y:510})]),
+  T('T-01 Card happy path','',null,'Priya',[],{c:'amber',key:'t1',x:640,y:0}),T('T-02 Wallet','',null,'',[],{c:'amber',key:'t2',x:640,y:90}),
+  T('T-07 Partial refund','',null,'Sam',[],{c:'amber',key:'t7',x:640,y:310}),T('T-12 Log written','',null,'',[],{c:'amber',key:'t12',x:640,y:420})],
+  links:[['r1','t1','','verified by'],['r2','t2','','verified by'],['r4','t7','','verified by'],['r5','t12','','verified by']],
+  coverage:[{name:'Requirements have a test',tag:'No test',who:'c:teal',need:'l:verified by',dir:'out'},{name:'Needs have a requirement',tag:'No requirement',who:'c:blue',need:'child',dir:'out'},{name:'Tests have an owner',tag:'No owner',who:'c:amber',need:'owner',dir:'out'}]})},
+ {id:'apps',cat:'proj',keep:1,name:'Application landscape',desc:'Current systems above, target systems below, with the data that flows between them. Select a system and use the impact view to see what depends on it.',uses:'Link types · Impact view · Waves',spec:()=>({noStarts:true,type:'apps',depMap:true,roots:[
+  T('Applications','',null,'',[],{c:'blue',x:-340,y:115},[
+   T('Current','',null,'',[],{c:'default',x:0,y:0},[T('Legacy CRM','',null,'',[],{key:'a1',x:300,y:0}),T('Billing system','',null,'',[],{key:'a2',x:640,y:0}),T('Reporting database','',null,'',[],{key:'a3',x:980,y:0})]),
+   T('Target','',null,'',[],{c:'teal',x:0,y:230},[T('New CRM','',null,'',['Wave 1'],{c:'teal',key:'b1',x:300,y:230}),T('Data platform','',null,'',['Wave 2'],{c:'teal',key:'b2',x:640,y:230})])])],
+  links:[['a1','a2','','sends data to'],['a2','a3','','sends data to'],['b1','b2','','sends data to'],['a1','b1','','sends data to'],['a3','b2','','reads from']]})},
+];
+// Card pictures (130x62 SVG): a sketch of each starter's layout
+const TPL_PIC={
+ mind:'<rect x="48" y="24" width="34" height="14" rx="7" fill="#3d72b8"/><path d="M48 31C34 31 34 14 22 14M48 31C34 31 34 48 22 48M82 31C96 31 96 14 108 14M82 31C96 31 96 48 108 48" stroke="#9aa3b5" fill="none"/><rect x="2" y="8" width="22" height="11" rx="5" fill="#8d44b5"/><rect x="2" y="43" width="22" height="11" rx="5" fill="#2a8f80"/><rect x="106" y="8" width="22" height="11" rx="5" fill="#c48f2c"/><rect x="106" y="43" width="22" height="11" rx="5" fill="#b8436f"/>',
+ road:'<rect x="6" y="10" width="50" height="7" rx="3" fill="#3d72b8"/><rect x="30" y="24" width="60" height="7" rx="3" fill="#c48f2c"/><rect x="70" y="38" width="44" height="7" rx="3" fill="#2a8f80"/><path d="M0 54H130" stroke="#3d4350"/>',
+ risk:'<rect x="4" y="26" width="30" height="14" rx="3" fill="#b8434f"/><path d="M34 33C50 33 50 12 66 12M34 33H66M34 33C50 33 50 54 66 54" stroke="#9aa3b5" fill="none"/><rect x="66" y="6" width="28" height="12" rx="3" fill="#c48f2c"/><rect x="66" y="27" width="28" height="12" rx="3" fill="#c48f2c"/><rect x="66" y="48" width="28" height="12" rx="3" fill="#c48f2c"/><path d="M94 12H112M94 33H112" stroke="#5ac98a" stroke-dasharray="3 2"/><rect x="112" y="6" width="16" height="12" rx="3" fill="#3f9a62"/><rect x="112" y="27" width="16" height="12" rx="3" fill="#3f9a62"/>',
+ raci:'<circle cx="14" cy="14" r="7" fill="#8d44b5"/><circle cx="14" cy="34" r="7" fill="#8d44b5"/><circle cx="14" cy="54" r="7" fill="#8d44b5"/><path d="M21 14L90 20M21 34L90 20M21 34L90 46M21 54L90 46" stroke="#9aa3b5"/><rect x="90" y="13" width="36" height="14" rx="3" fill="#3d72b8"/><rect x="90" y="39" width="36" height="14" rx="3" fill="#3d72b8"/>',
+ work:'<rect x="4" y="6" width="26" height="12" rx="2" fill="#f0b44c"/><rect x="34" y="6" width="26" height="12" rx="2" fill="#f0b44c"/><rect x="4" y="22" width="26" height="12" rx="2" fill="#f0b44c"/><rect x="74" y="8" width="52" height="14" rx="3" fill="#2a8f80"/><rect x="74" y="28" width="52" height="14" rx="3" fill="#8d44b5"/><rect x="74" y="48" width="52" height="14" rx="3" fill="#3d72b8"/><path d="M62 24H72M68 20L72 24L68 28" stroke="#9aa3b5" fill="none"/>',
+ trace:'<rect x="4" y="26" width="24" height="14" rx="3" fill="#3d72b8"/><rect x="38" y="8" width="24" height="12" rx="3" fill="#2a8f80"/><rect x="38" y="44" width="24" height="12" rx="3" fill="#2a8f80"/><rect x="74" y="8" width="24" height="12" rx="3" fill="#c48f2c"/><rect x="74" y="44" width="24" height="12" rx="3" fill="#c48f2c"/><path d="M28 33L38 14M28 33L38 50M62 14H74M62 50H74" stroke="#9aa3b5" fill="none"/>',
+ apps:'<rect x="6" y="6" width="34" height="14" rx="3" fill="#3d4350"/><rect x="6" y="26" width="34" height="14" rx="3" fill="#3d4350"/><rect x="6" y="46" width="34" height="14" rx="3" fill="#3d4350"/><rect x="88" y="16" width="36" height="14" rx="3" fill="#2a8f80"/><rect x="88" y="38" width="36" height="14" rx="3" fill="#2a8f80"/><path d="M40 13C64 13 64 23 88 23M40 33C64 33 64 23 88 23M40 53C64 53 64 45 88 45" stroke="#c48f2c" fill="none"/>'
+};
+const TPL_CAT=[['all','All'],['proj','Projects &amp; programmes'],['people','People'],['work','Workshops']];
+const tplPic=id=>TPL_PIC[id]?'<svg width="130" height="62" viewBox="0 0 130 62">'+TPL_PIC[id]+'</svg>':'<div class="tp-blank"></div>';
+const TPL_KEY='mindloom-templates';
+let tplSel=null,tplCat='all';
+function tplMine(){try{const a=JSON.parse(localStorage.getItem(TPL_KEY)||'[]');return Array.isArray(a)?a.filter(t=>t&&typeof t.name==='string'&&typeof t.data==='string'):[];}catch(e){return [];}}
+function tplStore(a){try{localStorage.setItem(TPL_KEY,JSON.stringify(a));return true;}catch(e){toast('Could not save: browser storage is full or blocked');return false;}}
+// The template as saved-file text: a starter is built from its spec, a saved one is stored that way
+function tplText(sel){
+  if(sel.k==='b'){const t=TPL.find(x=>x.id===sel.id),d=buildDemo(t.spec());return JSON.stringify(Object.assign({format:FORMAT_NAME,version:FORMAT_VERSION},d));}
+  const m=tplMine()[sel.i];return m?m.data:null;
+}
+function openTemplates(){tplSel=null;tplCat='all';closeDD();hideCtx();$('#tp-addto').checked=false;$('#tp-start').checked=!prefs.nostart;tplDraw();$('#tp-overlay').classList.add('visible');$('#tp-use').focus();}
+function closeTemplates(){$('#tp-overlay').classList.remove('visible');}
+// The copy of the map that was open when MindLoom last closed (kept in this browser, unsaved changes included)
+function lastSession(){return readBackups().find(b=>b.label==='last session')||null;}
+function continueLast(){const b=lastSession();if(b)applyLoadedData(b.data,'your last session');}
+function tplDraw(){
+  const ls=lastSession(),on=(k,i)=>tplSel&&tplSel.k===k&&tplSel.i===i,mine=tplMine();
+  $('#tp-side').innerHTML=(ls?'<div class="tp-last" data-last="1" tabindex="0" role="button" title="Reopen the map that was open when you last closed MindLoom, including changes you had not saved"><b>Continue last session</b><span>'+ls.count+' nodes &middot; '+esc(new Date(ls.t).toLocaleDateString([],{day:'numeric',month:'short'})+' '+fmtClock(ls.t))+'</span></div>':'')+TPL_CAT.map(c=>'<div class="tp-cat'+(tplCat===c[0]?' sel':'')+'" data-cat="'+c[0]+'">'+c[1]+'</div>').join('')
+    +'<hr><h4>Your templates</h4>'+(mine.length?mine.map((t,i)=>'<div class="tp-mine'+(on('m',i)?' sel':'')+'" data-k="m" data-i="'+i+'" title="'+esc(t.n+' nodes, saved '+t.at)+'"><span>'+esc(t.name)+'</span><u class="tp-del" title="Delete this template" data-del="'+i+'">&times;</u></div>').join(''):'<div class="tp-none">None yet</div>')
+    +'<div class="tp-save" onclick="saveAsTemplate()">+ Save current map as template</div>';
+  $('#tp-grid').innerHTML=TPL.map((t,i)=>tplCat!=='all'&&t.cat!==tplCat?'':'<div class="tp-card'+(on('b',i)?' sel':'')+'" data-k="b" data-i="'+i+'" data-id="'+t.id+'" tabindex="0" role="button"><div class="tp-pic">'+tplPic(t.id)+'</div><b>'+esc(t.name)+(t.pop?'<em>Popular</em>':'')+'</b><span>'+esc(t.desc)+'</span><i>'+esc(t.uses)+'</i></div>').join('');
+  $('#tp-use').disabled=!tplSel;
+}
+// Turn saved-file text into something paste can place: the nodes parents-first, links by position
+function tplClip(text){
+  const d=JSON.parse(text),ns=sanitizeNodes(d.nodes),by=new Map(ns.map(n=>[n.id,n])),order=[],ix=new Map();
+  const walk=n=>{ix.set(n.id,order.length);order.push(n);ns.filter(c=>c.parentId===n.id).forEach(walk);};
+  ns.filter(n=>n.parentId===null||!by.has(n.parentId)).forEach(walk);
+  return {nodes:order.map(n=>Object.assign({},n,{rx:0,ry:0,parent:ix.has(n.parentId)?ix.get(n.parentId):-1,deps:(n.deps||[]).map(x=>ix.get(x)).filter(x=>x!==undefined)})),
+    links:sanitizeLinks(d.crossLinks,ns).map(l=>({from:ix.get(l.from),to:ix.get(l.to),label:l.label,type:l.type}))};
+}
+function tplApply(add){
+  if(!tplSel)return;
+  const text=tplText(tplSel);if(!text){toast('That template is no longer there');return;}
+  if(add){
+    closeTemplates();
+    pasteClip(tplClip(text),true);
+    tidyLayout('h','branch',{noSnap:true,quiet:true});toast('Template added (Ctrl+Z to undo)');return;
+  }
+  const fresh=nodes.length===1&&nodes[0].text==='Central Idea'&&!nodes[0].notes;
+  if(!fresh&&!confirm('Replace the current map with this template?\nYour current map is backed up first (File > Restore backup), and Undo brings it back.'))return;
+  if(!applyLoadedData(text,'template'))return;
+  const bt=tplSel.k==='b'&&TPL.find(x=>x.id===tplSel.id);
+  closeTemplates();if(!(bt&&bt.keep))tidyLayout(bt&&bt.lay||'h','all');if(coverage.length&&bt&&bt.cov)openCoverage();fitAll();dropUndoStep();
+  const r=nodes.find(n=>n.parentId===null);if(r&&!(bt&&bt.keep))selectNode(r.id);
+}
+function saveAsTemplate(){
+  const name=(prompt('Name this template (it is saved in this browser):','')||'').trim().slice(0,60);if(!name)return;
+  const a=tplMine();a.push({name,at:new Date().toISOString().slice(0,10),n:nodes.length,data:getSaveData(true)});
+  if(tplStore(a)){tplDraw();toast('Saved as a template');}
+}
+const tplPick=e=>{
+  if(e.target.closest('[data-last]')){continueLast();return;}
+  const del=e.target.closest('[data-del]');
+  if(del){const a=tplMine(),i=+del.dataset.del;if(a[i]&&confirm('Delete the template "'+a[i].name+'"?')){a.splice(i,1);tplStore(a);tplSel=null;tplDraw();}return;}
+  const cat=e.target.closest('[data-cat]');if(cat){tplCat=cat.dataset.cat;tplDraw();return;}
+  const c=e.target.closest('[data-k]');if(!c)return;
+  tplSel={k:c.dataset.k,i:+c.dataset.i,id:c.dataset.id||''};tplDraw();
+};
+$('#tp-grid').addEventListener('click',tplPick);$('#tp-side').addEventListener('click',tplPick);
+$('#tp-side').addEventListener('dblclick',e=>{if(e.target.closest('.tp-mine')&&tplSel)tplApply($('#tp-addto').checked);});
+$('#tp-grid').addEventListener('dblclick',e=>{if(e.target.closest('.tp-card')&&tplSel)tplApply($('#tp-addto').checked);});
+$('#tp-side').addEventListener('keydown',e=>{if(e.target.closest('.tp-last')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();continueLast();}});
+$('#tp-grid').addEventListener('keydown',e=>{const c=e.target.closest('.tp-card');if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();c.click();}});
+$('#tp-start').addEventListener('change',e=>{prefs.nostart=!e.target.checked;savePrefs();});
+$('#tp-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeTemplates();}});
+
+// ── Map type ──
+// What the map is for. Set by the template and saved in the file, it hides the toolbar views that do not fit (CSS on body.mt-*).
+// Nothing is switched off: every command stays in the menus and in Ctrl+K. '' is Plan, which shows everything (older files too).
+function mtList(){return [['','Plan','Every tool: dates, board, timeline and report'],['mind','Mind map','Just the map: planning views tucked away'],['work','Workshop','Sticky notes and themes, with Workshop mode'],['apps','Application landscape','Systems and links, with the impact view'],['people','Stakeholders','People, owners and RACI links']];}
+function setMapType(t,quiet){
+  const L=mtList(),e=L.find(x=>x[0]===t)||L[0];
+  const was=mapType;mapType=e[0];if(mapType==='people')rcHide=false;L.forEach(x=>document.body.classList.toggle('mt-'+x[0],!!x[0]&&x[0]===mapType));
+  const c=document.getElementById('tb-type');if(c){c.firstElementChild.innerHTML=esc(e[1])+' &#9662;';}
+  L.forEach(x=>{const b=document.getElementById('mt-'+(x[0]||'plan'));if(b){b.classList.toggle('on',x[0]===mapType);b.textContent=(x[0]===mapType?'\u2713 ':'')+x[1];}});
+  if(quiet)return;
+  if(dateMode&&mapType&&mapType!=='people')setDateMode(false); // its button is about to be hidden
+  if(mapType!=='people'){const ov=['#board-overlay','#timeline-overlay','#report-overlay'].find(s=>$(s).classList.contains('visible'));if(ov)({'#board-overlay':toggleBoard,'#timeline-overlay':toggleTimeline,'#report-overlay':toggleReport})[ov]();}
+  // Application landscape and Stakeholders turn Application Mapping Structures on (link types, and the RACI links need them). Leaving turns them off again, except between those two, or if you switched them on yourself.
+  if((mapType==='apps'||mapType==='people')&&!depMap)toggleDepMap(true);
+  else if(depMap&&mapType!=='apps'&&mapType!=='people'&&(((was==='apps'||was==='people')&&!depKeep)||depAuto))toggleDepMap(true);
+  if(mapType==='work'&&!workshop)toggleWorkshop(true);
+  else if(was==='work'&&mapType!=='work'&&workshop&&!wsKeep)toggleWorkshop(true); // leaving a Workshop map ends Workshop mode, unless it was switched on by hand from the menu
+  autoSave();toast('Map type: '+e[1]+(mapType?'. Other views are still in the View menu and Ctrl+K':''));
+}
+// The toolbar chip (shown for every type but Plan) lists the types to switch between
+function mtMenu(){const m=$('#ddm-type');m.innerHTML='<div class="dd-label">Map type</div>'+mtList().map(x=>'<button class="dd-item'+(x[0]===mapType?' on':'')+'" data-t="'+x[0]+'" title="'+esc(x[2])+'">'+(x[0]===mapType?'\u2713 ':'')+esc(x[1])+'</button>').join('');toggleDD('tb-type');}
+$('#ddm-type').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b){closeDD();setMapType(b.dataset.t);}});
+// ── Coverage ──
+// View > Coverage: a panel at the right that checks the map is connected the way you expect. A rule reads "every <who> needs
+// <something> <direction>", for example "every Requirement-coloured node needs a 'verified by' link going out". Each rule shows how
+// many nodes pass; the ones that do not are listed as gaps and ringed on the map. Rules are saved with the map, so a template can
+// bring its own (a template rule may also carry a `name` and a `tag`, the badge shown on its gaps).
+//   who   'all' | 'leaf' (no sub-nodes) | 'c:<colour id>' | 't:<tag>'
+//   need  'link' (any cross-link) | 'l:<link type>' | 'dep' (a dependency) | 'child' (a sub-node) | 'owner' | 'due'
+//   dir   'out' | 'in' | 'any'   (for links and dependencies: out = from this node, in = to this node)
+let covSel=0,covOn=false,covHi=true,covFail=null,covT=0;
+function cleanCoverage(a){
+  return (Array.isArray(a)?a:[]).filter(r=>r&&typeof r.who==='string'&&typeof r.need==='string').slice(0,20)
+    .map(r=>{const o={who:r.who.slice(0,60),need:r.need.slice(0,60),dir:['out','in','any'].includes(r.dir)?r.dir:'out'};
+      if(typeof r.name==='string'&&r.name.trim())o.name=r.name.trim().slice(0,60);if(typeof r.tag==='string'&&r.tag.trim())o.tag=r.tag.trim().slice(0,30);return o;});
+}
+const covWho=w=>w==='all'?'Every node':w==='leaf'?'Every node with no sub-nodes':w.startsWith('c:')?'Every '+gc(w.slice(2)).label+' node':'Every node tagged '+w.slice(2);
+const covDirText={out:'going out',in:'coming in',any:'in either direction'};
+const covHasDir=n=>n==='link'||n==='dep'||n.startsWith('l:');
+function covNeed(r){
+  const n=r.need,d=covHasDir(n)?' '+covDirText[r.dir]:'';
+  return (n==='link'?'a link':n==='dep'?'a dependency':n==='child'?'a sub-node':n==='owner'?'an owner':n==='due'?'a due date':'a “'+n.slice(2)+'” link')+d;
+}
+const covName=r=>r.name||covWho(r.who)+' needs '+covNeed(r);
+// Why a node is a gap, and the badge it wears on the map
+function covReason(r){const n=r.need,w=r.dir==='out'?'outgoing ':r.dir==='in'?'incoming ':'';
+  return n==='dep'?'no '+w+'dependency':n==='child'?'no sub-node':n==='owner'?'no owner':n==='due'?'no due date':'no '+w+'link';}
+const covTag=r=>r.tag||'No '+(r.need==='dep'?'dependency':r.need==='child'?'sub-node':r.need==='owner'?'owner':r.need==='due'?'due date':'link');
+// Which nodes the rule applies to, and which of them pass
+function covEval(r){
+  const subj=nodes.filter(n=>r.who==='all'||(r.who==='leaf'&&!gch(n.id).length)||(r.who.startsWith('c:')&&n.colorId===r.who.slice(2))||(r.who.startsWith('t:')&&getNodeTags(n).includes(r.who.slice(2))));
+  const ty=r.need.startsWith('l:')?r.need.slice(2).toLowerCase():null;
+  const ok=n=>{
+    if(r.need==='owner')return !!(n.owner||'').trim();
+    if(r.need==='due')return !!n.due;
+    if(r.need==='child')return gch(n.id).length>0;
+    const o=r.dir!=='in',i=r.dir!=='out';
+    if(r.need==='dep')return (o&&(n.deps||[]).some(d=>gn(d)))||(i&&nodes.some(m=>(m.deps||[]).includes(n.id)));
+    return crossLinks.some(l=>(ty===null||(l.type||'').toLowerCase()===ty)&&gn(l.from)&&gn(l.to)&&((o&&l.from===n.id)||(i&&l.to===n.id)));
+  };
+  const pass=subj.filter(ok),fail=subj.filter(n=>!pass.includes(n));
+  return {total:subj.length,pass:pass.length,fail};
+}
+function openCoverage(){
+  if(covOn){closeCoverage();return;}
+  if(!coverage.length)coverage=[{who:'leaf',need:'owner',dir:'out'}];
+  if(covSel>=coverage.length)covSel=0;
+  closeDD();hideCtx();covOn=true;covHi=true;$('#cv-panel').classList.add('visible');covDraw();covMark();
+}
+function closeCoverage(){covOn=false;$('#cv-panel').classList.remove('visible');covMark();}
+// Gaps of the chosen rule, ringed on the map with their badge. Called by render() through covDecorate
+const covFailSet=()=>{if(!covOn||!covHi||!coverage[covSel])return null;return new Set(covEval(coverage[covSel]).fail.map(n=>n.id));};
+function covMark(){covFail=covFailSet();render();}
+function covDecorate(el,node){
+  if(!covFail||!covFail.has(node.id))return;
+  el.classList.add('cov-gap');const b=document.createElement('span');b.className='cov-badge';b.textContent=covTag(coverage[covSel]);el.appendChild(b);
+}
+// Redraw the panel (and the rings) after the map changes, unless a menu in the panel is open
+function covRefresh(){
+  if(!covOn||covT)return;
+  covT=setTimeout(()=>{covT=0;if(!covOn||$('#cv-panel').contains(document.activeElement)&&document.activeElement.tagName==='SELECT')return;const f=covFailSet(),a=covFail?[...covFail].sort().join():'',b=f?[...f].sort().join():'';covDraw();covFail=f;if(a!==b)render();},120);
+}
+const covPick=(f,cur,opts,pre)=>(pre||'')+'<label class="cv-pick"><select data-f="'+f+'">'+opts.map(([v,l])=>'<option value="'+esc(v)+'"'+(v===cur?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select></label>';
+function covDraw(){
+  const r=coverage[covSel],tags=[...new Set(nodes.flatMap(n=>getNodeTags(n)))].sort().slice(0,30);
+  const types=[...new Set([...crossLinks.map(l=>(l.type||'').trim()).filter(Boolean),...LINK_TYPES.map(t=>t[0])])].sort();
+  const who=[['all','node'],['leaf','node with no sub-nodes'],...COLORS.map(c=>['c:'+c.id,c.label+' node']),...tags.map(t=>['t:'+t,'node tagged '+t])];
+  const need=[['link','link (any type)'],...types.map(t=>['l:'+t,'“'+t+'” link']),['dep','dependency'],['child','sub-node'],['owner','owner'],['due','due date']];
+  const art=(r.need==='owner'?'an':'a');
+  let h='<div class="cv-h">Rules</div>';
+  coverage.forEach((q,i)=>{
+    const e=covEval(q),pc=e.total?Math.round(100*e.pass/e.total):100,col=pc===100?'#5ac98a':pc>=60?'#f0b44c':'#ff7b86';
+    h+='<div class="cv-rule'+(i===covSel?' sel':'')+'" data-i="'+i+'"><div class="cv-top"><span>'+esc(covName(q))+'</span><b style="color:'+col+'">'+pc+'%</b><i>'+e.pass+' of '+e.total+'</i><u data-del="'+i+'" title="Delete this rule">&times;</u></div><div class="cv-bar"><div style="width:'+pc+'%;background:'+col+'"></div></div></div>';
+  });
+  h+='<a class="cv-add" href="#" data-act="add">+ Add rule</a>';
+  h+='<div class="cv-h">Editing: '+esc(covName(r))+'</div><div class="cv-edit">Every '+covPick('who',r.who,who)+' needs '+art+' '+covPick('need',r.need,need)
+    +(covHasDir(r.need)?' '+covPick('dir',r.dir,[['out','going out'],['in','coming in'],['any','in either direction']]):'')+'</div>';
+  const e=covEval(r),why=covReason(r);
+  h+='<div class="cv-h">Gaps ('+e.fail.length+')</div><div class="cv-gaps">'+(e.fail.length?e.fail.slice(0,60).map(n=>'<div class="cv-gap" data-go="'+n.id+'"><i></i><span>'+esc(n.text||'(no name)')+'</span><em>'+why+'</em><a href="#">Go to</a></div>').join('')+(e.fail.length>60?'<div class="cv-gap"><span>and '+(e.fail.length-60)+' more</span></div>':''):'<div class="cv-ok">'+(e.total?'Every one passes.':'No nodes match this rule.')+'</div>')+'</div>';
+  $('#cv-body').innerHTML=h;
+  const hb=$('#cv-hi');hb.classList.toggle('primary',covHi);hb.setAttribute('aria-pressed',covHi?'true':'false');
+}
+$('#cv-body').addEventListener('change',e=>{
+  const f=e.target.dataset.f,r=coverage[covSel];if(!f||!r)return;
+  r[f]=e.target.value;if(f==='need'&&!covHasDir(r.need))r.dir='out';delete r.name;delete r.tag; // a changed rule no longer matches the template's wording
+  autoSave();covDraw();covMark();
+});
+$('#cv-body').addEventListener('click',e=>{
+  const d=e.target.closest('[data-del]'),a=e.target.closest('[data-act]'),g=e.target.closest('[data-go]'),q=e.target.closest('.cv-rule');
+  if(e.target.closest('a'))e.preventDefault();
+  if(d){coverage.splice(+d.dataset.del,1);if(!coverage.length)coverage=[{who:'leaf',need:'owner',dir:'out'}];if(covSel>=coverage.length)covSel=Math.max(0,coverage.length-1);autoSave();covDraw();covMark();return;}
+  if(a){coverage.push({who:'all',need:'link',dir:'any'});covSel=coverage.length-1;autoSave();covDraw();covMark();return;}
+  if(g){jumpToNode(+g.dataset.go);return;}
+  if(q){covSel=+q.dataset.i;covDraw();covMark();}
+});
+// Select every node that fails the chosen rule, on the map
+function covSelectGaps(){
+  const e=covEval(coverage[covSel]);
+  multiSelected=new Set(e.fail.map(n=>n.id));selectedId=null;updateBulkBar();render();refreshMultiClasses();
+  toast(e.fail.length+' node'+(e.fail.length===1?'':'s')+' selected');
+}
+// Every rule's gaps as tab-separated text, for a spreadsheet
+function covCopy(){
+  const rows=[['Rule','Node','Colour','Owner','Due']];
+  coverage.forEach(r=>covEval(r).fail.forEach(n=>rows.push([covName(r),n.text,gc(n.colorId).label,n.owner||'',n.due||''])));
+  writeClipboard(rows.map(r=>r.map(c=>String(c).replace(/[\t\r\n]+/g,' ')).join('\t')).join('\n')).then(()=>toast('Copied '+(rows.length-1)+' gap'+(rows.length===2?'':'s')+' as a table'),()=>toast('Could not copy'));
+}
+function covToggleHi(){covHi=!covHi;covDraw();covMark();}
+$('#cv-panel').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeCoverage();}else if(e.target.tagName==='SELECT'||e.target.tagName==='BUTTON')e.stopPropagation();});
+// ── RACI: map view and matrix ──
+// With the Stakeholders map type on, purple nodes are people (pills with initials and a role, taken from the first tag), R/A/C/I links
+// are drawn as coloured lines with a letter badge (090-connectors.js), and a key at the right warns about a deliverable that does not
+// have exactly one Accountable.
+// View > RACI matrix: who is Responsible, Accountable, Consulted and Informed for what. It is built from ordinary
+// links from a person to a deliverable whose type is R, A, C or I (colour-coded on the map when Application Mapping
+// Structures is on). Click a cell to cycle R, A, C, I, blank: the link on the map changes with it.
+const raciOf=l=>{const t=String(l.type||'').trim().toUpperCase();return RACI.includes(t)?t:'';};
+function raciData(){
+  const L=crossLinks.filter(l=>raciOf(l)&&gn(l.from)&&gn(l.to)),f=new Set(L.map(l=>l.from)),t=new Set(L.map(l=>l.to));
+  const rows=nodes.filter(n=>f.has(n.id)),cols=nodes.filter(n=>t.has(n.id));
+  return {rows,cols,get:(a,b)=>{const l=L.find(x=>x.from===a&&x.to===b);return l?raciOf(l):'';},links:L.length};
+}
+const raciCheck=(D,c)=>{const n=D.rows.filter(r=>D.get(r.id,c.id)==='A').length;return n===1?'✓':n?n+' A':'No A';};
+function openRaci(){closeDD();hideCtx();raciDraw();$('#rc-overlay').classList.add('visible');$('#rc-box .dc-close').focus();}
+function closeRaci(){$('#rc-overlay').classList.remove('visible');}
+function raciDraw(){
+  const D=raciData(),b=$('#rc-body');
+  if(!D.rows.length){b.innerHTML='<div class="dc-ok">No RACI links yet. Give links from people to deliverables the type R, A, C or I (set a link’s type with Application Mapping Structures on), or start from File > New from template > Stakeholders and RACI.</div>';$('#rc-copy').style.display='none';return;}
+  $('#rc-copy').style.display='';
+  const cell=v=>'<td'+(v?' style="color:'+RACI_COL[v]+'"':'')+'>'+(v||'·')+'</td>';
+  let h='<div class="rc-wrap"><table class="rc"><tr><th></th>'+D.cols.map(c=>'<th data-go="'+c.id+'">'+esc(c.text)+'</th>').join('')+'</tr>';
+  D.rows.forEach(r=>{h+='<tr><th data-go="'+r.id+'">'+esc(r.text)+'</th>'+D.cols.map(c=>{const v=D.get(r.id,c.id);return '<td class="rc-c" data-f="'+r.id+'" data-t="'+c.id+'"'+(v?' style="color:'+RACI_COL[v]+';font-weight:600"':'')+'>'+(v||'·')+'</td>';}).join('')+'</tr>';});
+  h+='<tr><th>Check</th>'+D.cols.map(c=>{const k=raciCheck(D,c);return '<td style="color:'+(k==='✓'?'#5ac98a':'#ff7b86')+'">'+k+'</td>';}).join('')+'</tr></table></div>';
+  const bad=D.cols.filter(c=>raciCheck(D,c)!=='✓').length;
+  b.innerHTML=h+'<div class="dc-sub" style="margin:8px 0 0">'+D.rows.length+' people, '+D.cols.length+' deliverables, '+D.links+' links'+(bad?'. <span style="color:#ff7b86">'+bad+' without exactly one Accountable</span>':'. Every deliverable has one Accountable')+'.</div>';
+}
+function raciCycle(f,t){
+  const l=crossLinks.find(x=>x.from===f&&x.to===t);
+  if(!l&&crossLinks.some(x=>x.from===t&&x.to===f)){toast('These two are already linked the other way round');return;}
+  const next=RACI[RACI.indexOf(l?raciOf(l):'')+1]||'';
+  change(()=>{
+    if(!l)crossLinks.push({from:f,to:t,label:'',type:'R'});
+    else if(next)l.type=next;
+    else crossLinks.splice(crossLinks.indexOf(l),1);
+  });
+  raciDraw();
+}
+function raciCopy(){
+  const D=raciData(),rows=[['',...D.cols.map(c=>c.text)],...D.rows.map(r=>[r.text,...D.cols.map(c=>D.get(r.id,c.id))])];
+  writeClipboard(rows.map(r=>r.map(c=>String(c).replace(/[\t\r\n]+/g,' ')).join('\t')).join('\n')).then(()=>toast('Copied the RACI matrix: paste it into a spreadsheet'),()=>toast('Could not copy'));
+}
+$('#rc-body').addEventListener('click',e=>{
+  const c=e.target.closest('.rc-c'),g=e.target.closest('[data-go]');
+  if(c)raciCycle(+c.dataset.f,+c.dataset.t);else if(g){closeRaci();jumpToNode(+g.dataset.go);}
+});
+$('#rc-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeRaci();}});
+
+// ── Stakeholders view ──
+let rcHide=false;
+function toggleRaciKey(){closeDD();if(!raciOn()){toast('The key shows on a Stakeholders map (Application Mapping Structures on)');return;}rcHide=!rcHide;raciRefresh();render();}
+const raciOn=()=>mapType==='people'&&depMap;
+const raciName=n=>String(n.text||'').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+function raciDecorate(el,node){
+  const D=raciOn()?raciData():null;if(!D)return;
+  if(node.colorId==='purple'){
+    el.classList.add('rc-person');
+    const av=document.createElement('span');av.className='rc-av';av.textContent=raciName(node);av.style.background=gc('purple').border;el.insertBefore(av,el.firstChild);
+    const role=getNodeTags(node)[0];if(role){const r=document.createElement('span');r.className='rc-role';r.textContent=role;el.appendChild(r);}
+  }else if(D.cols.includes(node)&&raciCheck(D,node)!=='✓')el.classList.add('rc-gap');
+}
+function raciRefresh(){
+  const p=$('#rc-panel'),on=raciOn()&&!rcHide&&!covOn;
+  p.classList.toggle('visible',on);if(!on){p.innerHTML='';return;}
+  const D=raciData(),bad=D.cols.filter(c=>raciCheck(D,c)!=='✓');
+  const info={R:'Responsible: does the work',A:'Accountable: signs it off',C:'Consulted: two-way',I:'Informed: kept up to date'};
+  let h='<div class="rc-card"><div class="rc-h">Link types<button class="rc-x" type="button" title="Hide this key" onclick="rcHide=true;raciRefresh()">&times;</button></div>'
+   +RACI.map(k=>'<div class="rc-key"><i style="color:'+RACI_COL[k]+';border-color:'+RACI_COL[k]+'">'+k+'</i>'+info[k]+'</div>').join('')
+   +'<div class="rc-hint">Press R, A, C or I while drawing a link to set its type.<br><button class="rc-mx" type="button" onclick="openRaci()">Open the RACI matrix&hellip;</button></div></div>';
+  bad.slice(0,3).forEach(c=>{const n=D.rows.filter(r=>D.get(r.id,c.id)==='A').length;
+    h+='<div class="rc-card warn" data-go="'+c.id+'"><div class="rc-warn-t">⚠ '+esc(c.text)+(n?' has '+n+' As':' has no A')+'</div><div class="rc-warn-d">Every deliverable needs exactly one Accountable. Pick a person or link from the RACI view.</div></div>';});
+  if(bad.length>3)h+='<div class="rc-card warn"><div class="rc-warn-t">+ '+(bad.length-3)+' more without exactly one A</div></div>';
+  p.innerHTML=h;
+}
+$('#rc-panel').addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)jumpToNode(+g.dataset.go);});
+// ── Workshop mode ──
+// Settings > Workshop mode, for capturing a meeting live. A box at the bottom of the map adds sticky notes to the Inbox
+// (end a line with ! for a quick win or ? for a question; Quick capture, Q, understands them too). The Inbox is drawn as a
+// frame of stickies; drag one onto a theme, or select it and press 1 to 9, to file it. A side panel shows a session timer
+// with an agenda and who captured what (each note is signed with Settings > Your name).
+// "Quick wins into tasks" gives each quick win a due date a week out; "End and write summary" copies the outcome as text.
+// The agenda is saved with the map: names and minutes, separated by semicolons.
+const WS_AGENDA='Warm-up 5; Issues and risks 30; Quick wins 10; Actions and owners 15';
+let wsI=0,wsLeft=0,wsRun=false,wsTimer=0;
+function cleanWorkshop(v){return v&&typeof v==='object'?{agenda:String(v.agenda||WS_AGENDA).slice(0,600)}:null;}
+function wsItems(){return String(workshop?workshop.agenda:'').split(';').map(s=>s.trim()).filter(Boolean).slice(0,12).map(s=>{const m=/^(.*?)\s+(\d{1,3})$/.exec(s);return m?{n:m[1],m:+m[2]}:{n:s,m:10};});}
+const wsIsIn=n=>String(n.text||'').trim().toLowerCase()==='inbox';
+const wsInbox=()=>nodes.find(n=>n.parentId===null&&wsIsIn(n))||nodes.find(wsIsIn)||null;
+// Themes: beside the Inbox if it is a branch (older maps), otherwise under the "Themes" tree (or the first other tree)
+function wsThemes(){
+  const ib=wsInbox();if(!ib)return [];
+  if(ib.parentId!==null)return gch(ib.parentId).filter(n=>n.id!==ib.id).slice(0,9);
+  const r=nodes.find(n=>n.parentId===null&&n.id!==ib.id&&/^themes$/i.test(String(n.text).trim()))||nodes.find(n=>n.parentId===null&&n.id!==ib.id&&gch(n.id).length);
+  return r?gch(r.id).slice(0,9):[];
+}
+const wsTag=(t)=>nodes.filter(n=>getNodeTags(n).includes(t));
+let wsHide=false;
+function wsUI(){
+  const t=$('#workshop-toggle');if(t)t.textContent='Workshop mode: '+(workshop?'On':'Off');
+  const p=$('#ws-panel');if(!p)return;
+  p.classList.toggle('visible',!!workshop&&!wsHide);$('#ws-bar').classList.toggle('visible',!!workshop);
+  const b=$('#tb-ws');if(b){b.style.display=workshop?'':'none';b.classList.toggle('on',!!workshop&&!wsHide);}
+  if(!workshop){wsStop();wsI=0;wsHide=false;}else{if(!wsLeft)wsLeft=(wsItems()[wsI]||{m:0}).m*60;wsDraw();}
+}
+function wsTogglePanel(){wsHide=!wsHide;wsUI();}
+// `auto` is a Map type switching it on or off. Turning it on yourself from the menu marks it as wanted, so changing type leaves it alone.
+let wsKeep=false;
+function toggleWorkshop(auto){
+  workshop=workshop?null:{agenda:WS_AGENDA};wsKeep=!auto&&!!workshop;wsI=0;wsLeft=0;wsUI();render();autoSave();
+  toast(workshop?'Workshop mode on. Type in the box at the bottom: end a line with ! for a quick win or ? for a question':'Workshop mode off. Your notes stay on the map');
+  if(workshop)setTimeout(()=>$('#ws-input').focus(),0);
+}
+function wsStop(){wsRun=false;clearInterval(wsTimer);wsTimer=0;}
+function wsTick(){
+  if(!wsRun)return;
+  wsLeft=Math.max(0,wsLeft-1);const e=$('#ws-time');if(e)e.textContent=wsClock();
+  if(!wsLeft){wsStop();wsDraw();toast('Time is up for '+((wsItems()[wsI]||{}).n||'this item'));}
+}
+const wsClock=()=>Math.floor(wsLeft/60)+':'+String(wsLeft%60).padStart(2,'0');
+function wsGo(i){const a=wsItems();if(i<0||i>=a.length)return;wsI=i;wsLeft=a[i].m*60;wsStop();wsDraw();}
+function wsToggleRun(){if(wsRun){wsStop();}else if(wsLeft){wsRun=true;wsTimer=setInterval(wsTick,1000);}wsDraw();}
+function wsDraw(){
+  const p=$('#ws-panel');if(!p||!workshop)return;
+  const a=wsItems(),ib=wsInbox(),win=wsTag('quick-win'),q=wsTag('question'),cur=a[wsI],by=new Map();
+  nodes.forEach(n=>{if(n.by)by.set(n.by,(by.get(n.by)||0)+1);});
+  const pl=(k,w)=>k+' '+w+(k===1?'':'s');
+  p.innerHTML='<button class="dc-close" type="button" data-a="hide" title="Hide the panel (the Workshop button brings it back)" aria-label="Hide">&times;</button>'
+    +'<div class="ws-lbl">Session</div><div id="ws-time" class="ws-time">'+wsClock()+'</div><div class="ws-sub">'+(cur?'left in “'+esc(cur.n)+'” ('+cur.m+' min)':'No agenda')+'</div>'
+    +'<div class="ws-row"><button class="lt-btn" type="button" data-a="run">'+(wsRun?'Pause':'Start')+'</button><button class="lt-btn" type="button" data-a="next">Next ›</button></div><hr>'
+    +'<div class="ws-lbl">Agenda <button class="dp-mini" type="button" data-a="edit">Edit</button></div>'+a.map((x,i)=>'<div class="ws-ag'+(i===wsI?' on':i<wsI?' done':'')+'" data-i="'+i+'"><s>'+(i<wsI?'✓':i===wsI?'●':'○')+'</s>'+esc(x.n)+' <i>· '+x.m+' min</i></div>').join('')+'<hr>'
+    +'<div class="ws-lbl">Captured by</div>'+(by.size?'<div class="ws-who">'+[...by].sort((x,y)=>y[1]-x[1]).map(e=>esc(e[0])+' '+e[1]).join(' · ')+'</div>':'<div class="ws-sub"><a href="#" data-a="name">Set your name</a> to sign each note</div>')
+    +'<div class="ws-sub">'+(ib?gch(ib.id).length:0)+' in the Inbox · '+pl(win.length,'quick win')+' · '+pl(q.length,'question')+'</div>'
+    +'<div class="ws-fill"></div><button class="lt-btn" type="button" data-a="wins">Turn quick wins into tasks</button><button class="lt-btn primary" type="button" data-a="end">End and write summary</button>'+(mapType==='work'?'<button class="lt-btn" type="button" data-a="plan" title="Switch Workshop mode off and make this a Plan map, so the Date Axis, Board, Timeline and Report are back in the toolbar. Your notes stay">Carry on as a plan &rarr;</button>':'');
+  const w=$('#ws-who');if(w)w.textContent=logAuthor||'set your name';
+}
+// Sticky notes: the Inbox is drawn as a dashed frame with its items in a grid inside it, without connector lines
+const WS_W=170,WS_H=66,WS_GX=12,WS_GY=12,WS_PAD=14,WS_TOP=36;
+function wsFrame(ib){const k=ib.collapsed?0:gch(ib.id).filter(c=>!isHidden(c)).length;return {k,w:WS_PAD*2+WS_W*2+WS_GX,h:WS_TOP+Math.max(3,Math.ceil(k/2))*(WS_H+WS_GY)+WS_PAD-WS_GY};}
+function wsLayout(){
+  const ib=workshop&&!dateMode&&wsInbox();if(!ib||ib.collapsed)return;
+  gch(ib.id).filter(c=>!isHidden(c)).forEach((c,i)=>{c.x=ib.x+WS_PAD+(i%2)*(WS_W+WS_GX);c.y=ib.y+WS_TOP+Math.floor(i/2)*(WS_H+WS_GY);});
+}
+function wsCtx(){const ib=workshop&&!dateMode&&wsInbox();return ib?{ib,th:new Set(wsThemes().map(n=>n.id))}:null;}
+function wsDecorate(el,node,C){
+  if(node.id===C.ib.id){
+    const f=wsFrame(node);el.classList.add('ws-frame');Object.assign(el.style,{width:f.w+'px',height:f.h+'px',fontSize:'',fontWeight:'',padding:'',background:'',borderColor:''});
+    el.querySelector('.label').textContent='Inbox · '+f.k+' new';
+  }else if(node.parentId===C.ib.id){
+    const c=node.colorId;el.classList.add('ws-sticky','ws-'+(c==='green'?'g':c==='pink'||c==='red'?'p':'y'));
+    el.style.background=el.style.borderColor='';el.style.setProperty('--tilt',((node.id*7)%5-2)*0.5+'deg');
+    const d=node.createdAt?new Date(node.createdAt):null,m=document.createElement('span');m.className='ws-meta';
+    m.textContent=[node.by||'',d&&!isNaN(d)?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):''].filter(Boolean).join(' · ');el.appendChild(m);
+  }else if(C.th.has(node.id)){
+    const k=gdesc(node.id).length,s=document.createElement('span');s.className='ws-cnt';s.textContent=k+' item'+(k===1?'':'s');el.appendChild(s);
+  }
+}
+const wsSticky=id=>{const ib=workshop&&!dateMode&&wsInbox(),n=gn(id);return !!(ib&&n&&n.parentId===ib.id);};
+// Put the Inbox frame to the left of the Themes tree (after a tidy or a new map from the template)
+function wsPlace(){
+  const ib=wsInbox(),th=wsThemes();if(!ib||ib.parentId!==null||!th.length)return;
+  const r=gn(th[0].parentId),f=wsFrame(ib),e=elOf(r.id),ys=th.map(n=>n.y);
+  const mid=(Math.min(...ys)+Math.max(...ys)+(elOf(th[th.length-1].id)||{offsetHeight:40}).offsetHeight)/2;
+  ib.x=r.x-f.w-120;ib.y=Math.round(mid-f.h/2);render();
+}
+// The capture box at the bottom of the map: Enter adds a sticky to the Inbox and keeps the cursor in the box
+$('#ws-input').addEventListener('keydown',e=>{
+  e.stopPropagation();
+  if(e.key==='Enter'){e.preventDefault();qcAdd($('#ws-input'));}else if(e.key==='Escape'){e.preventDefault();e.target.blur();}
+});
+$('#ws-name').addEventListener('click',()=>{setAuthorName();wsDraw();});
+// File the selected node (with what is under it) under theme number k
+function wsFile(k){
+  if(!workshop)return;
+  const n=selectedId!==null?gn(selectedId):null,t=wsThemes()[k-1];
+  if(n&&t)wsFileTo(n.id,t.id);
+}
+// Move an Inbox item (with what is under it) under a theme, or anywhere in a theme's tree, then tidy that tree
+function wsFileTo(id,tid,snapped){
+  const n=gn(id),t=gn(tid),ib=wsInbox();
+  if(!n||!t||n.id===t.id||(ib&&(n.id===ib.id||t.id===ib.id||gdesc(ib.id).includes(t.id)))||wsThemes().some(x=>x.id===n.id))return false;
+  const was=n.colorId;reparentNode(n.id,t.id,snapped);
+  if(n.parentId===t.id){if(ib&&was===ib.colorId)n.colorId='default';t.collapsed=false;if(!dateMode){let r=t;while(r.parentId!==null&&gn(r.parentId))r=gn(r.parentId);selectNode(r.id);tidyLayout('h','branch',{noSnap:true,quiet:true});selectNode(null);}render();autoSave();}
+  return true;
+}
+function wsWins(){
+  const w=wsTag('quick-win').filter(n=>!n.due);
+  if(!w.length){toast('No quick wins without a due date');return;}
+  change(()=>{const d=isoFromToday(7);w.forEach(n=>{n.due=d;if(!n.status)n.status='ongoing';n.modifiedAt=new Date().toISOString();});});
+  toast(w.length+' quick win'+(w.length===1?'':'s')+' now due in a week');
+}
+function wsSummary(){
+  const ib=wsInbox(),L=['Workshop summary',''],list=(t,a)=>{if(a.length){L.push(t);a.forEach(n=>L.push('- '+n.text+(n.owner?' ('+n.owner+')':'')+(n.due?' by '+n.due:'')));L.push('');}};
+  wsThemes().forEach(t=>list(t.text,gdesc(t.id).map(gn)));
+  list('Still in the Inbox',ib?gdesc(ib.id).map(gn):[]);
+  list('Quick wins',wsTag('quick-win'));list('Questions',wsTag('question'));
+  return L.join('\n').trim();
+}
+function wsEnd(){writeClipboard(wsSummary()).then(()=>toast('Summary copied: paste it into an email or a document'),()=>toast('Could not copy'));}
+$('#ws-panel').addEventListener('click',e=>{
+  const a=e.target.closest('[data-a]'),ag=e.target.closest('[data-i]');
+  if(a){const v=a.dataset.a;e.preventDefault();
+    if(v==='hide')wsTogglePanel();else if(v==='name'){setAuthorName();wsDraw();}else if(v==='run')wsToggleRun();else if(v==='next')wsGo(wsI+1);else if(v==='wins')wsWins();else if(v==='end')wsEnd();else if(v==='plan'){toggleWorkshop(true);setMapType('');}
+    else if(v==='edit'){const s=prompt('Agenda: item names with minutes, separated by semicolons',workshop.agenda);if(s!==null){workshop.agenda=s.slice(0,600);wsI=0;wsLeft=(wsItems()[0]||{m:0}).m*60;wsStop();autoSave();wsDraw();}}}
+  else if(ag)wsGo(+ag.dataset.i);
+});
 // ── Tags (stored as an array of strings; old '||'-joined strings are still understood) ──
 function getNodeTags(node){
   if(!node)return[];
@@ -8284,7 +8902,7 @@ function selfTest(){
      ok('quick capture +2w and ISO dates',qcParse('Review plan +2w').due===addToIso(new Date(tm).toISOString().slice(0,10),2,'w')&&qcParse('Ship it 2031-12-01').due==='2031-12-01'&&qcParse('Ship it 31/02/2031').due==='');}
     {const keep=COLORS.map(c=>c.label);applyLabels(LABEL_SETS['Task status']);const a=COLORS[3].label==='In progress'&&COLORS[4].label==='Blocked'&&COLORS[2].label==='Done';applyLabels(DEFAULT_LABELS);const b=COLORS[3].label==='In Progress'&&COLORS[1].label==='Primary';applyLabels(keep);
      ok('colour label sets apply and reset',a&&b&&Object.values(LABEL_SETS).every(x=>x.length===COLORS.length));}
-    {const was=!!prefs.simple;setSimpleMenus(true,true);const hid=getComputedStyle($('#dep-toggle')).display==='none'&&getComputedStyle($('#tb-saved')).display==='none'&&getComputedStyle($('#simple-toggle')).display!=='none';
+    {const was=!!prefs.simple;setSimpleMenus(true,true);const hid=getComputedStyle($('#dep-toggle')).display==='none'&&getComputedStyle($('#simple-toggle')).display!=='none';
      setSimpleMenus(false,true);const back=getComputedStyle($('#dep-toggle')).display!=='none';setSimpleMenus(was,true);
      ok('simple menus hide specialist items and keep the switch visible',hid&&back);}
     // The command list (005-commands.js): everything the menus, keys, palette and help screens read from
