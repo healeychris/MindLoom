@@ -540,6 +540,8 @@
   #save-badge.sb-warn { color:#ffc866; border-color:rgba(255,160,40,0.55); }
   #save-badge.sb-stale { color:#ff9a9a; border-color:rgba(224,82,82,0.65); font-weight:600; }
   #save-badge.sb-muted { color:var(--text-muted); }
+  #save-badge .sb-act { margin-left:8px; padding:0 6px; border-radius:4px; border:1px solid var(--accent); color:var(--accent); font-weight:600; }
+  #save-badge.sb-warn .sb-act, #save-badge.sb-stale .sb-act { background:var(--accent); color:#fff; }
   .agenda-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .agenda-head .stats-title { margin:0; flex:1; }
   .agenda-opt { font-size:11px; color:var(--text-muted); display:flex; gap:6px; align-items:center; margin-bottom:8px; cursor:pointer; }
@@ -1081,7 +1083,29 @@
   #about-box .about-ver { font-size:12px; color:var(--text-muted); margin-bottom:12px; }
   #about-box p { font-size:13px; line-height:1.6; color:var(--text); margin-bottom:10px; }
   #about-box .about-section { font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin:10px 0 6px; }
-  .about-columns { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
+  #about-box .ab-head { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  #about-box .ab-head h2 { margin:0; font-size:20px; }
+  #about-box .ab-head .about-ver { margin:0; }
+  #about-box p.ab-tag { color:var(--text-muted); margin:0 0 12px; max-width:560px; }
+  #about-box .upd-row { margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+  #about-box .ab-guide { margin-left:auto; color:var(--accent); text-decoration:none; font-size:13px; white-space:nowrap; }
+  #about-box .ab-guide:hover { text-decoration:underline; }
+  #about-box .ab-cs { margin-left:14px; }
+  .ab-tabs { display:flex; gap:4px; margin-bottom:14px; }
+  .ab-tabs button { background:none; border:none; border-bottom:2px solid transparent; color:var(--text-muted); font:inherit; font-size:13px; padding:5px 12px; cursor:pointer; }
+  .ab-tabs button:hover { color:var(--text); }
+  .ab-tabs button.on { color:var(--text); border-bottom-color:var(--accent); }
+  .ab-pane { display:none; min-height:300px; }
+  .ab-pane.on { display:block; }
+  .ab-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .ab-cards > div { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:11px 12px; }
+  .ab-cards b { display:block; font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+  .ab-cards span { display:block; font-size:12px; line-height:1.5; color:var(--text-muted); }
+  #about-box p.ab-more { font-size:12px; color:var(--text-muted); margin:12px 0 0; }
+  .ab-tiplist { margin:0; padding-left:18px; font-size:13px; line-height:1.55; color:var(--text-muted); }
+  .ab-tiplist li { margin-bottom:6px; }
+  #about-box #ab-keys .shortcut-grid { grid-template-columns:auto 1fr auto 1fr; gap:5px 12px; }
+  @media (max-width:640px) { .ab-cards { grid-template-columns:1fr 1fr; } #about-box #ab-keys .shortcut-grid { grid-template-columns:auto 1fr; } #about-box { padding:22px 18px; } #about-box .ab-guide { margin-left:0; } }
   #about-box .shortcut-grid { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; font-size:12px; }
   #about-box .shortcut-grid kbd {
     font-family:var(--font); font-size:11px; color:var(--text-muted);
@@ -1124,6 +1148,15 @@
     opacity:0; visibility:hidden;
     transition:transform 0.25s ease, opacity 0.25s ease, visibility 0s linear 0.25s; pointer-events:none;
   }
+  #toast.act { pointer-events:auto; display:flex; align-items:center; gap:14px; padding:6px 8px 6px 16px; }
+  #toast button { background:none; border:1px solid var(--border); border-radius:6px; color:var(--accent); font:inherit; font-size:13px; font-weight:600; padding:3px 10px; cursor:pointer; }
+  #toast button:hover { border-color:var(--accent); }
+  #drop-hint { position:fixed; inset:0; z-index:900; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); pointer-events:none; }
+  #drop-hint.show { display:flex; }
+  #drop-hint > div { border:2px dashed var(--accent); border-radius:14px; background:var(--surface); padding:26px 40px; text-align:center; }
+  #drop-hint b { display:block; font-size:17px; color:var(--text); margin-bottom:4px; }
+  #drop-hint span { font-size:13px; color:var(--text-muted); }
+  #dm-empty { position:fixed; top:150px; left:50%; transform:translateX(-50%); z-index:40; display:none; max-width:440px; text-align:center; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:9px 16px; font-size:13px; color:var(--text-muted); pointer-events:none; }
   #toast.show { transform:translateX(-50%) translateY(0); opacity:1; visibility:visible; transition:transform 0.25s ease, opacity 0.25s ease, visibility 0s; }
 
   /* ── Keyboard focus and small text ── */
@@ -1161,7 +1194,7 @@
     body { background:#fff !important; color:#000 !important; overflow:visible !important; height:auto !important; }
     #toolbar, #filter-bar, #color-bar, #bulk-bar, #minimap, #legend,
     #detail-panel, #ctx-menu, #about-overlay, #shift-overlay, #bulk-overlay, #impact-bar, #impact-panel, #lt-overlay, #dc-overlay, #mg-overlay, #tp-overlay, #ws-panel, #ws-bar, #cv-panel, #rc-panel, #rc-overlay, #search-box, #focus-panel,
-    #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
+    #stats-panel, #agenda-panel, #timeline-overlay, #mobile-bar, #cmd-overlay, #qc-overlay, #board-overlay, #report-overlay, #tl-tip, #demo-section, #drop-hint, #dm-empty, #save-badge, #stats, #link-banner, #toast, .collapse-btn, .more-btn,
     #bookmarks-panel, #views-panel, #xp-panel, #bl-panel, #act-panel, #why-bar, #due-badge, #dm-tip,
     .info-dot, .status-icon { display:none !important; }
     body.print-report > *:not(#report-overlay) { display:none !important; }
@@ -1630,16 +1663,14 @@
 <div id="about-overlay" onclick="if(event.target===this)closeAbout()">
   <div id="about-box">
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
-    <h2>MindLoom</h2>
-    <div class="about-ver" id="about-ver">Version</div>
-        <div class="upd-row" style="margin-bottom:12px">
+    <div class="ab-head"><h2>MindLoom</h2><span class="about-ver" id="about-ver">Version</span></div>
+    <p class="ab-tag">Mind mapping and planning in one offline file. Plan visually, then see the same map as a timeline, a board or a report. No install, no cloud.</p>
+    <div class="upd-row">
       <button class="dp-mini" type="button" id="upd-btn" onclick="checkForUpdate()" title="Look up the latest version on GitHub. Only runs when you click, nothing is sent from your map.">Check for updates</button>
-      <span id="upd-msg" role="status" aria-live="polite">Not checked. Needs an internet connection; nothing is checked automatically.</span>
+      <span id="upd-msg" role="status" aria-live="polite">Only checks when you click.</span>
+      <a class="ab-guide" href="https://healeychris.github.io/MindLoom/" target="_blank" rel="noopener noreferrer" title="Screenshots and step-by-step recipes (needs an internet connection)">User Guide &#8599;</a>
+      <a class="ab-guide ab-cs" href="https://healeychris.github.io/MindLoom/cheatsheet.html" target="_blank" rel="noopener noreferrer" title="One page to print and keep by your desk (needs an internet connection)">Cheat sheet &#8599;</a>
     </div>
-
-    <div style="margin-bottom:12px"><a href="https://healeychris.github.io/MindLoom/" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Open the User Guide</a> <span style="color:var(--text-muted);font-size:11px">&nbsp;with screenshots and step-by-step recipes (needs an internet connection)</span></div>
-    <p>A fully offline, single-file tool for mind mapping and planning: dependencies, a board, a timeline and status reports, all from one map. No cloud services, no dependencies, no install &mdash; just save the HTML file and open it in any browser.</p>
-    <p>Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).</p>
 
     <div id="demo-section">
       <div class="about-section" style="margin-top:0">Demo data</div>
@@ -1652,54 +1683,39 @@
       <button class="demo-btn" type="button" data-demo="roadmap"><b>5. Annual Roadmap</b><span>Date Axis &middot; about 35 nodes &middot; a full year in four quarters: months and quarters along the top, swimlanes per workstream, dependencies, milestones and quarterly reviews. Opens on the Date Axis</span></button>
     </div>
 
-    <div class="about-section">Features</div>
-    <p style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">
-      Multiple root nodes &middot; Renamable colour categories with ready-made label sets &middot; Cross-links with labels &middot;
-      Node notes, project, owner &amp; status fields &middot; Tags &middot;
-      Filter bar &middot; Search &middot; Auto layout &middot; Minimap &middot;
-      Undo/redo &middot; PNG, SVG, Markdown &amp; CSV export with named export presets &middot; JSON save/load &middot;
-      CSV &amp; Markdown import &middot; Customisable background &middot; Snap to grid &middot;
-      Multi-select &amp; bulk ops &middot; Reparent by Ctrl+drag &middot; Focus roots &middot;
-      Statistics dashboard &middot; Bookmarks &middot;
-      Dark/Light theme &middot; Node timestamps &middot; Duplicate subtree &middot;
-      Three details-panel layouts &middot; Hide completed &middot; Due dates with overdue flags, an Agenda view and a draggable Timeline (Gantt) view &middot; Clickable links in notes &middot; Tidy tree layouts &middot; Bulk date shift for a branch and its links &middot; Copy, cut and paste branches (also between maps, or paste plain text as nodes) &middot; Saved views &middot; Dependencies (prerequisite arrows and a waiting badge) &middot; Board (kanban) view &middot; Status report you can copy, download or print &middot; Command palette (Ctrl+K) that finds every action &middot; Save indicator, optional auto-save to your file and rolling backups &middot; Date Axis roadmap with swimlanes, milestones, Slide view and Critical-path view &middot; Dependencies between items &middot; Baselines that show how dates have slipped &middot; Checklists and progress &middot; Recurring tasks &middot; Board (kanban) view &middot; Saved views &middot; Status report (Markdown, HTML or print) &middot; Optional comments and change history &middot; Optional application mapping (link types, migration waves, impact view) &middot; Touch support &middot; Print support &middot; Keyboard-driven workflow
-    </p>
-
-    <div class="about-columns">
-      <div>
-        <div class="about-section">Keyboard Shortcuts</div>
-        <div class="shortcut-grid" id="about-keys"></div>
-      </div>
-      <div>
-        <div class="about-section">Tips</div>
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:4px; line-height:1.7;">
-          &bull; Double-click the canvas to add a node at that spot<br>
-          &bull; Right-click any node for a context menu<br>
-          &bull; Scroll to zoom, drag canvas to pan<br>
-          &bull; Blue dot means the node has metadata or notes<br>
-          &bull; Status icons appear top-right on nodes<br>
-          &bull; Press Q anywhere to capture a task: type it, add #tag, @owner and a date such as fri or +2w, then press Enter. It lands under an Inbox node<br>
-          &bull; Tags are comma-separated — press Enter to add<br>
-          &bull; Each visit opens a fresh map. Your previous map is kept under File &gt; Restore backup, and a copy is also auto-saved in this browser<br>
-          &bull; Use File &gt; Save to keep a file copy, or to move a map between machines. Save is the only format that keeps everything<br>
-          &bull; Shift+click to multi-select, then bulk-change colour, status or owner<br>
-          &bull; Double-click a colour on the colour bar to rename it, or open View &gt; Panels &gt; Legend for ready-made label sets<br>
-          &bull; Ctrl+drag a node onto another to reparent it<br>
-          &bull; Use Focus to show/hide entire root trees<br>
-          &bull; Collapse All / Expand All in the View menu<br>
-          &bull; Snap to Grid (Settings menu) for tidy alignment<br>
-          &bull; Import CSV or Markdown from File &gt; Import<br>
-          &bull; Right-click a node to bookmark or duplicate subtree<br>
-          &bull; Switch between the dark and light theme from the Settings menu<br>
-          &bull; Set a due date in the details panel (press I); overdue and due-today nodes are flagged and counted in the toolbar<br>
-          &bull; Touch: drag to move or pan, pinch to zoom, long-press for the menu, double-tap to edit or add
-        </p>
-      </div>
+    <div class="ab-tabs" role="tablist">
+      <button type="button" role="tab" class="on" data-ab="ab-core">Core features</button>
+      <button type="button" role="tab" data-ab="ab-keys">Shortcuts</button>
+      <button type="button" role="tab" data-ab="ab-tips">Tips</button>
     </div>
 
-    <div class="about-footer">
-      Standalone HTML &middot; Zero dependencies &middot; Works air-gapped &middot; &copy; 2026
+    <div class="ab-pane on" id="ab-core">
+      <div class="ab-cards">
+        <div><b>Map it</b><span>Branches, cross-links, colours and tidy layouts. Several roots on one canvas.</span></div>
+        <div><b>Track it</b><span>Status, owner, tags, due dates, checklists and recurring tasks on any node.</span></div>
+        <div><b>See it your way</b><span>Agenda, Timeline, Date Axis roadmap, Board and a status Report from the same map.</span></div>
+        <div><b>Start fast</b><span>Templates, Workshop mode, Quick capture (Q) and Ctrl+K to find any command.</span></div>
+        <div><b>Share it</b><span>Export PNG, SVG, CSV or Markdown. Merge two copies, or share one map file.</span></div>
+        <div><b>Keep it safe</b><span>One HTML file, works air-gapped. Undo, auto-save and rolling backups.</span></div>
+      </div>
+      <p class="ab-more">Optional extras, off until you want them: dependencies and application mapping, Coverage, RACI, baselines, comments and history. See Settings and View.</p>
     </div>
+
+    <div class="ab-pane" id="ab-keys"><div class="shortcut-grid" id="about-keys"></div></div>
+
+    <div class="ab-pane" id="ab-tips">
+      <ul class="ab-tiplist">
+        <li>Double-click the canvas to add a node there. Right-click a node for its menu.</li>
+        <li>Scroll to zoom, drag to pan, press F to fit everything.</li>
+        <li>Press Q to capture a task. Add #tag, @owner and a date such as fri or +2w, then Enter. It lands under an Inbox node.</li>
+        <li>Shift+click to select several nodes and change them together. Ctrl+drag a node onto another to move it.</li>
+        <li>Double-click a colour on the colour bar to rename it.</li>
+        <li>Each visit opens a fresh map. Use File &gt; Save to keep a file copy. Your last map is under File &gt; Restore backup.</li>
+        <li>Touch: drag to move or pan, pinch to zoom, long-press for the menu.</li>
+      </ul>
+    </div>
+
+    <div class="about-footer">Created by <strong>Chris Healey</strong>, built with assistance from <strong>Claude</strong> (Anthropic).<br>Standalone HTML &middot; Zero dependencies &middot; &copy; 2026</div>
   </div>
 </div>
 
@@ -1731,6 +1747,8 @@
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="drop-hint"><div><b>Drop to open</b><span>A .json map opens. A .csv or .md file is imported.</span></div></div>
+<div id="dm-empty">No dates on this map yet. Select a node, press I, and set a Start or Due date to place it on the axis.</div>
 <input type="file" id="file-input" accept=".json" style="display:none">
 <input type="file" id="csv-input" accept=".csv" style="display:none">
 <input type="file" id="merge-input" accept=".json" style="display:none">
@@ -2370,6 +2388,7 @@ let nodes=[],crossLinks=[],nextId=1,selectedId=null;
 let panX=0,panY=0,zoom=1;
 let isPanning=false,panStartX,panStartY;
 let dragNode=null,dragOffX,dragOffY;
+let fhLast='',dropDepth=0;   // remembered-file key and file-drag depth (257-files.js)
 let editingId=null,detailNodeId=null,detailPinned=false,detailSnapped=false;
 let dragMoved=false,dragStart={x:0,y:0};
 let agendaVisible=false,mdOwner='';
@@ -2504,7 +2523,19 @@ function stepPop(stack){
 function snap(full){stepPush(undoStack,snapState(full===true));if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}
 // The usual way to make an undoable change: remember the map as it is, run the edit, then redraw and save.
 // An edit that returns false changed nothing: no redraw or save.
+// ── One route for every undoable edit ──
+// Only this file calls snap(). Everything else uses one of these, and tools/build.js stops a build that breaks the rule.
+//   change(edit)   one edit: record the undo step, run edit(), then redraw and save. edit() returning false means
+//                  "record the step only": the caller redraws or saves itself (inline text editing does this).
+//   beginChange()  an edit that must redraw part-way to measure the screen (tidy, import, add node, quick capture),
+//   endChange()    or that runs over several events (dragging): record the step first, then redraw and save at the end.
+//   panelChange()  the details panel: the first edit since the panel opened records the step; later edits join it.
+//   replaceMap()   just before Load, Restore backup, New Map or a merge: a full step that also keeps the map's settings.
 function change(edit){snap();if(edit()!==false){render();autoSave();}}
+function beginChange(){snap();}
+function endChange(){render();autoSave();}
+function panelChange(){if(!detailSnapped){snap();detailSnapped=true;}}
+function replaceMap(){snap(true);}
 // Forget the newest undo step; the map itself is unchanged
 function dropUndoStep(){stepPop(undoStack);}
 function undo(){if(!undoStack.length)return;dismissDetail();multiSelected.clear();updateBulkBar();const prev=stepPop(undoStack);stepPush(redoStack,snapState(hasExtras(prev)));restoreState(prev);render();autoSave();toast('Undo');}
@@ -2681,7 +2712,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.58.1';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.60.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2925,21 +2956,21 @@ function refreshDirty(){
 }
 function markSaved(name){
   lastFileSig=sigOf();lastFileSavedAt=Date.now();lastFileName=name||lastFileName;dirtySince=null;lastNudge=0;
-  updateSaveBadge();
+  updateSaveBadge();rememberFile();
 }
 function updateSaveBadge(){
   const b=document.getElementById('save-badge');if(!b)return;
   const dirty=refreshDirty(),everSaved=lastFileSig!==null;
   const mins=dirtySince?Math.floor((Date.now()-dirtySince)/60000):0;
-  let txt,cls,tip;
+  let txt,cls,tip,act=0;
   if(sharedMap&&everSaved){txt=dirty?'\u25CF Syncing soon\u2026':'\u2713 Shared';cls=dirty?'sb-warn':'sb-ok';tip='Shared map: '+(lastFileName||'File')+' \u00B7 synced '+fmtClock(lastFileSavedAt)+'. Others\u2019 changes are merged in about every 15 seconds.';}
   else if(autoFile&&everSaved&&!dirty){txt='\u2713 Auto-saved';cls='sb-ok';tip=(lastFileName||'File')+' \u00B7 '+fmtClock(lastFileSavedAt)+'. Auto-save to file is on.';}
   else if(autoFile&&everSaved){txt='\u25CF Saving soon\u2026';cls='sb-warn';tip='Auto-save to file is on. Changes are written about every 15 seconds.';}
   else if(everSaved&&!dirty){txt='\u2713 Saved to file';cls='sb-ok';tip=(lastFileName||'File')+' \u00B7 '+fmtClock(lastFileSavedAt)+'. Click to save again.';}
-  else if(everSaved){txt='\u25CF Unsaved changes';cls=mins>=15?'sb-stale':'sb-warn';tip='Changed for '+mins+' min since '+(lastFileName||'the file')+' was saved at '+fmtClock(lastFileSavedAt)+'. Click to save (Ctrl+S).';}
-  else if(dirty){txt='\u25CF Not saved to a file';cls=mins>=15?'sb-stale':'sb-warn';tip='Changes are kept in this browser only. Click to save a file copy (Ctrl+S).';}
-  else{txt='Browser copy only';cls='sb-muted';tip='Your map is auto-saved in this browser. Click to also save a file copy (Ctrl+S).';}
-  b.textContent=txt;b.title=tip;b.className='tb-btn '+cls;
+  else if(everSaved){txt='\u25CF Unsaved changes';act=1;cls=mins>=15?'sb-stale':'sb-warn';tip='Changed for '+mins+' min since '+(lastFileName||'the file')+' was saved at '+fmtClock(lastFileSavedAt)+'. Click to save (Ctrl+S).';}
+  else if(dirty){txt='\u25CF Not saved to a file';act=1;cls=mins>=15?'sb-stale':'sb-warn';tip='Changes are kept in this browser only. Click to save a file copy (Ctrl+S).';}
+  else{txt='Not saved to a file';cls='sb-muted';act=1;tip='Your map is kept in this browser only. Click to save a file copy (Ctrl+S).';}
+  b.textContent=txt;if(act){const k=document.createElement('span');k.className='sb-act';k.textContent='Save';b.append(k);}b.title=tip;b.className='tb-btn '+cls;
 }
 function saveTick(){
   updateSaveBadge();
@@ -3075,7 +3106,7 @@ function applyLoadedData(text,name){
     const fresh=sanitizeNodes(d.nodes);
     if(!fresh.length)throw new Error('No nodes in file');
     if(Number(d.version)>FORMAT_VERSION)toast('This file was saved by a newer MindLoom (v'+d.version+'). Some details may be ignored');
-    hideDetail();pushBackup('before load',true);snap(true);
+    hideDetail();pushBackup('before load',true);replaceMap();
     nodes=fresh;crossLinks=sanitizeLinks(d.crossLinks,nodes);nextId=nextIdFor(nodes,d.nextId);logSync();
     // Every other field comes from the table, so stale values from the previous map cannot leak in
     docLoad(d,()=>true);docExtrasUI();stampReset();
@@ -3084,7 +3115,7 @@ function applyLoadedData(text,name){
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
-function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);snap(true);setDateMode(false,true);createDefault();selectedId=null;docResetMap();docExtrasUI();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
+function newMap(){if(!confirm('Start a new map?'))return;dismissDetail();pushBackup('before new map',true);replaceMap();setDateMode(false,true);createDefault();selectedId=null;docResetMap();docExtrasUI();multiSelected.clear();updateBulkBar();render();updateTransform();autoSave();detachFile();toast('New map');}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -3203,6 +3234,7 @@ function rectEdge(cx,cy,w,h,tx,ty){ // where the line from a rectangle's centre 
 let elMap=new Map();
 function elOf(id){const e=elMap.get(Number(id));return (e&&e.isConnected)?e:canvas.querySelector('[data-id="'+id+'"]');}
 function render(){
+  {const de=document.getElementById('dm-empty');if(de)de.style.display=dateMode&&nodes.length&&!nodes.some(n=>dmInfo(n))?'block':'none';}
   _dmHid=null;stampDone();logChanges();
   impactMap=(depMap&&impactId!==null&&gn(impactId))?computeImpact():null;if(!impactMap&&impactId!==null){impactId=null;}updateImpactUI();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
@@ -3659,7 +3691,7 @@ function dmBeginResize(e,node,side,touch){
     const x=toCanvas(ev.clientX,ev.clientY).x;
     let a=ns,b=ne;
     if(side==='l')a=Math.min(Math.round(x/DM_PX)+o,i.e-1);else b=Math.max(Math.round(x/DM_PX)-1+o,i.s+1);
-    if(!moved){if(a===ns&&b===ne)return;moved=true;snap();}
+    if(!moved){if(a===ns&&b===ne)return;moved=true;beginChange();}
     ns=a;ne=b;
     node.x=(ns-o)*DM_PX;el.style.left=node.x+'px';el.style.width=((ne-ns+1)*DM_PX)+'px';
     dmTip(ev.clientX,ev.clientY,fmtDay(dmStr(ns),true)+' \u2192 '+fmtDay(dmStr(ne),true));
@@ -3668,7 +3700,7 @@ function dmBeginResize(e,node,side,touch){
   const up=()=>{
     window.removeEventListener('mousemove',mv);window.removeEventListener('mouseup',up);
     window.removeEventListener('touchmove',tmv);window.removeEventListener('touchend',up);window.removeEventListener('touchcancel',up);dmTip(0,0,null);
-    if(moved){node.start=dmStr(ns);node.due=dmStr(ne);node.modifiedAt=new Date().toISOString();render();autoSave();}
+    if(moved){node.start=dmStr(ns);node.due=dmStr(ne);node.modifiedAt=new Date().toISOString();endChange();}
   };
   const tmv=ev=>{if(ev.touches&&ev.touches[0]){ev.preventDefault();mv(ev.touches[0]);}};
   if(touch){window.addEventListener('touchmove',tmv,{passive:false});window.addEventListener('touchend',up);window.addEventListener('touchcancel',up);}
@@ -3685,7 +3717,7 @@ function dateTidy(scope,quiet){
     tops=[sel];
   }else tops=getRoots().filter(r=>!hiddenRoots.has(r.id)&&!isHidden(r));
   if(!tops.length)return;
-  snap();render();
+  beginChange();render();
   const ROW=34,LANE_GAP=(dateMode&&axSlide)?46:26,H_GAP=12;
   const key=n=>{const i=dmInfo(n);return i?(i.bar?i.s:i.d):null;};
   const cmp=(a,b)=>{const ka=key(a),kb=key(b);if(ka!==null&&kb!==null&&ka!==kb)return ka-kb;if((ka===null)!==(kb===null))return ka===null?1:-1;return 0;};
@@ -3723,7 +3755,7 @@ function dateTidy(scope,quiet){
   }
   // roots sit at the top of their first lane
   for(const li of laneInfo){if(li.L.root&&!rootOwn.has(li.L.root.id))li.L.root.y=li.top;}
-  dmParkUndated();render();autoSave();
+  dmParkUndated();endChange();
   if(scope==='all')fitAll();
   if(!quiet)toast('Tidied: swimlanes on the date axis'+(scope==='branch'?' (selected branch)':''));
 }
@@ -3989,13 +4021,12 @@ function startLinkMode(kind){if(!selectedId){toast('Select a node first');return
 function cancelLinkMode(){linkPre='';linkMode=false;linkSourceId=null;linkKind='link';wrap.classList.remove('linking');$('#link-btn').classList.remove('active');$('#link-banner').classList.remove('visible');render();}
 function completeCrossLink(tid){
   if(tid===linkSourceId){cancelLinkMode();return;}
-  if(linkPre&&linkKind==='link'&&!crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){const f=linkSourceId,t=linkPre;cancelLinkMode();snap();crossLinks.push({from:f,to:tid,label:'',type:t});render();autoSave();toast('Linked as '+t);return;}
+  if(linkPre&&linkKind==='link'&&!crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){const f=linkSourceId,t=linkPre;cancelLinkMode();change(()=>{crossLinks.push({from:f,to:tid,label:'',type:t});});toast('Linked as '+t);return;}
   if(linkKind!=='link'){const src=linkSourceId,kind=linkKind;cancelLinkMode();if(kind==='dep')addDependency(src,tid);else addDependency(tid,src);return;}
   if(crossLinks.some(l=>(l.from===linkSourceId&&l.to===tid)||(l.from===tid&&l.to===linkSourceId))){toast('Link exists');cancelLinkMode();return;}
   if(depMap){const src=linkSourceId;cancelLinkMode();openLinkType(src,tid,false);return;}
-  snap();const label=prompt('Link label (optional):','');
-  crossLinks.push({from:linkSourceId,to:tid,label:label||''});
-  cancelLinkMode();render();autoSave();toast('Cross-link created');
+  const label=prompt('Link label (optional):',''),from=linkSourceId;
+  cancelLinkMode();change(()=>{crossLinks.push({from,to:tid,label:label||''});});toast('Cross-link created');
 }
 
 // ── Detail ──
@@ -4132,7 +4163,7 @@ function setRepeat(raw){
   const n=detailNodeId?gn(detailNodeId):null;if(!n)return;
   const r=raw?cleanRepeat(raw):null;
   if(JSON.stringify(r)===JSON.stringify(cleanRepeat(n.repeat)))return;
-  if(!detailSnapped){snap();detailSnapped=true;}
+  panelChange();
   n.repeat=r;n.modifiedAt=new Date().toISOString();autoSave();render();renderDetailRepeat();refreshAgenda();
   if(r&&!normDate(n.due)&&!normDate(n.start))toast('Give it a due date so the next one can be worked out');
 }
@@ -4152,7 +4183,7 @@ function setProgress(raw){
   const v=cleanPct(raw);
   $('#dp-pg-range').value=v;$('#dp-pg-num').value=v;$('#dp-tog-pg-n').textContent=v?v+'%':'';
   if(v===cleanPct(n.progress))return;
-  if(!detailSnapped){snap();detailSnapped=true;}
+  panelChange();
   n.progress=v;n.modifiedAt=new Date().toISOString();autoSave();
   const el=elOf(n.id);if(el){const w=el.querySelector('.node-pg');
     if(v>0){if(w){w.firstChild.style.width=v+'%';w.classList.toggle('full',v>=100);w.title=v+'% complete';}else el.appendChild(pgBarEl(v));}else if(w)w.remove();}
@@ -4191,7 +4222,7 @@ function dpClamp(left,top){
 })();
 // ── Checklist inside a node (details panel) ──
 function ckTouch(n,rebuild){
-  if(!detailSnapped){snap();detailSnapped=true;}
+  panelChange();
   n.modifiedAt=new Date().toISOString();autoSave();render();if(rebuild)renderDetailChecks();refreshAgenda();
 }
 function renderDetailChecks(){
@@ -4248,7 +4279,7 @@ function saveDetailFields(){
   if(pendingTags)$('#dp-tag-input').value='';
   if(!changed)return; // merely opening/closing the panel must not touch the node
   // One undo step per panel session
-  if(!detailSnapped){snap();detailSnapped=true;}
+  panelChange();
   const oldStatus=n.status,oldDue=n.due||'',oldStart=n.start||'',oldMarker=n.marker||'';
   n.notes=nv.notes;n.project=nv.project;n.owner=nv.owner;n.status=nv.status;n.marker=nv.marker;n.due=nv.due;n.start=nv.start;
   if(newTags.length)setNodeTags(nid,[...cur,...newTags]);
@@ -4417,18 +4448,17 @@ function importOrigin(){
   vis.forEach(n=>{const el=elOf(n.id);r=Math.max(r,n.x+(el?el.offsetWidth:120));t=Math.min(t,n.y);});
   return {x:r+140,y:t};
 }
-function addRootNode(){snap();const cx=(window.innerWidth/2-panX)/zoom,cy=((window.innerHeight-44)/2-panY)/zoom;const roots=getRoots();const oy=roots.length*200;const now=new Date().toISOString();const n={id:nextId++,text:'New Central Idea',x:cx-80,y:cy+oy-100,parentId:null,collapsed:false,colorId:'green',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);render();selectNode(n.id);autoSave();startEdit(n.id);}
+function addRootNode(){beginChange();const cx=(window.innerWidth/2-panX)/zoom,cy=((window.innerHeight-44)/2-panY)/zoom;const roots=getRoots();const oy=roots.length*200;const now=new Date().toISOString();const n={id:nextId++,text:'New Central Idea',x:cx-80,y:cy+oy-100,parentId:null,collapsed:false,colorId:'green',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);endChange();selectNode(n.id);startEdit(n.id);}
 
-function addChild(){hideDetail();let p=selectedId?gn(selectedId):getRoots()[0];if(!p)return;snap();if(p.collapsed)p.collapsed=false;const pEl=elOf(p.id);const pw=pEl?pEl.offsetWidth:120;const ch=gch(p.id).filter(c=>!isHidden(c));const nx=p.x+pw+60;let y0=p.y;if(ch.length)y0=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));const ny=freeY(nx,y0,120,38);const now=new Date().toISOString();const n={id:nextId++,text:'New topic',x:nx,y:ny,parentId:p.id,collapsed:false,colorId:p.colorId||'default',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);render();selectNode(n.id);autoSave();startEdit(n.id);}
+function addChild(){hideDetail();let p=selectedId?gn(selectedId):getRoots()[0];if(!p)return;beginChange();if(p.collapsed)p.collapsed=false;const pEl=elOf(p.id);const pw=pEl?pEl.offsetWidth:120;const ch=gch(p.id).filter(c=>!isHidden(c));const nx=p.x+pw+60;let y0=p.y;if(ch.length)y0=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));const ny=freeY(nx,y0,120,38);const now=new Date().toISOString();const n={id:nextId++,text:'New topic',x:nx,y:ny,parentId:p.id,collapsed:false,colorId:p.colorId||'default',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);endChange();selectNode(n.id);startEdit(n.id);}
 
-function addSibling(){hideDetail();const s=selectedId?gn(selectedId):null;if(!s||s.parentId===null){addChild();return;}snap();const sEl=elOf(s.id);const sy=freeY(s.x,s.y+(sEl?sEl.offsetHeight:36)+14,120,38);const now=new Date().toISOString();const n={id:nextId++,text:'New topic',x:s.x,y:sy,parentId:s.parentId,collapsed:false,colorId:s.colorId||'default',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);render();selectNode(n.id);autoSave();startEdit(n.id);}
+function addSibling(){hideDetail();const s=selectedId?gn(selectedId):null;if(!s||s.parentId===null){addChild();return;}beginChange();const sEl=elOf(s.id);const sy=freeY(s.x,s.y+(sEl?sEl.offsetHeight:36)+14,120,38);const now=new Date().toISOString();const n={id:nextId++,text:'New topic',x:s.x,y:sy,parentId:s.parentId,collapsed:false,colorId:s.colorId||'default',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};nodes.push(n);endChange();selectNode(n.id);startEdit(n.id);}
 
 function deleteSelected(skipConfirm){
   const ids=multiSelected.size>1?[...multiSelected]:(selectedId?[selectedId]:[]);
   if(!ids.length)return;
   const all=new Set();
   ids.forEach(id=>{if(gn(id)){all.add(id);gdesc(id).forEach(d=>all.add(d));}});
-  if(all.size>5&&!skipConfirm&&!confirm('Delete '+all.size+' nodes (the selection and everything beneath it)?\nYou can undo this with Ctrl+Z.'))return;
   change(()=>{
   const first=gn(ids[0]);
   nodes=nodes.filter(n=>!all.has(n.id));
@@ -4439,11 +4469,12 @@ function deleteSelected(skipConfirm){
   multiSelected.clear();updateBulkBar();
   hideDetail();
   });
+  if(all.size>1)toast('Deleted '+all.size+' nodes',{label:'Undo',fn:undo});
 }
 
 function duplicateSelected(){
   if(!selectedId)return;const orig=gn(selectedId);if(!orig)return;
-  snap();const idMap={};const dnow=new Date().toISOString();
+  beginChange();const idMap={};const dnow=new Date().toISOString();
   function dup(n,pid,top){
     const nid=nextId++;idMap[n.id]=nid;
     nodes.push({id:nid,text:top?n.text+' (copy)':n.text,x:n.x+40,y:n.y+40,parentId:pid,collapsed:n.collapsed,colorId:n.colorId,notes:n.notes,project:n.project||'',owner:n.owner||'',checks:cleanChecks(n.checks),progress:cleanPct(n.progress),repeat:cleanRepeat(n.repeat),lastDone:n.lastDone||'',status:n.status||'',doneAt:n.doneAt||'',marker:n.marker||'',tags:getNodeTags(n),due:n.due||'',start:n.start||'',createdAt:dnow,modifiedAt:dnow});
@@ -4454,7 +4485,7 @@ function duplicateSelected(){
   Object.keys(idMap).forEach(oid=>{const o=gn(+oid),nn=gn(idMap[oid]);if(o&&nn)nn.deps=depsOf(o).map(d=>idMap[d]||d);});
   // Carry over cross-links that sit entirely inside the duplicated branch
   crossLinks.filter(l=>idMap[l.from]&&idMap[l.to]).forEach(l=>crossLinks.push({from:idMap[l.from],to:idMap[l.to],label:l.label||'',type:l.type||''}));
-  render();selectNode(idMap[orig.id]);autoSave();toast('Branch duplicated');
+  endChange();selectNode(idMap[orig.id]);toast('Branch duplicated');
 }
 
 
@@ -4546,7 +4577,7 @@ function parseTextOutline(text){
 // Pasted nodes go under the selected node; with nothing selected they become top-level trees
 function pasteClip(clip,forceRoot){
   const target=(!forceRoot&&selectedId!==null)?gn(selectedId):null;
-  hideDetail();snap();
+  hideDetail();beginChange();
   const now=new Date().toISOString(),ids=clip.nodes.map(()=>nextId++);
   const bw=Math.max(...clip.nodes.map(r=>r.rx))+170,bh=Math.max(...clip.nodes.map(r=>r.ry))+44;
   let bx,by;
@@ -4559,10 +4590,9 @@ function pasteClip(clip,forceRoot){
   by=freeY(bx,by,bw,bh);
   clip.nodes.forEach((r,i)=>{nodes.push({id:ids[i],text:r.text,x:bx+r.rx,y:by+r.ry,parentId:r.parent>=0?ids[r.parent]:(target?target.id:null),collapsed:r.collapsed,colorId:r.colorId,notes:r.notes,project:r.project,owner:r.owner,checks:cleanChecks(r.checks),progress:cleanPct(r.progress),repeat:cleanRepeat(r.repeat),lastDone:normDate(r.lastDone)||'',status:r.status,marker:r.marker,tags:r.tags,due:r.due,start:r.start,deps:r.deps.map(i=>ids[i]),createdAt:now,modifiedAt:now});if(r.by)nodes[nodes.length-1].by=r.by;});
   clip.links.forEach(l=>{crossLinks.push({from:ids[l.from],to:ids[l.to],label:l.label,type:l.type||''});});
-  render();
+  endChange();
   const first=clip.nodes.findIndex(r=>r.parent<0);
   selectNode(ids[first<0?0:first]);
-  autoSave();
 }
 function pasteText(text){
   text=String(text==null?'':text);
@@ -4734,8 +4764,7 @@ function saveLinkType(){
     change(()=>{l.type=type;l.label=note;if(s.from!==s.of){l.from=s.from;l.to=s.to;}closeLinkType();});toast('Link updated');return;
   }
   if(crossLinks.some(l=>(l.from===s.from&&l.to===s.to)||(l.from===s.to&&l.to===s.from))){closeLinkType();toast('Link exists');return;}
-  snap();crossLinks.push({from:s.from,to:s.to,label:note,type});
-  closeLinkType();render();autoSave();toast('Link created');
+  change(()=>{crossLinks.push({from:s.from,to:s.to,label:note,type});closeLinkType();});toast('Link created');
 }
 $('#lt-overlay').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();closeLinkType();}else if(e.key==='Enter'){e.preventDefault();saveLinkType();}});
 $('#lt-custom').addEventListener('input',()=>{if(ltState){ltState.type='';buildLinkTypeUI();}});
@@ -4874,24 +4903,22 @@ function buildBookmarkList(){
 }
 function toggleBookmarkSelected(){
   if(!selectedId)return;
-  snap();
-  const idx=bookmarks.indexOf(selectedId);
-  if(idx>=0){bookmarks.splice(idx,1);toast('Bookmark removed');}
-  else{bookmarks.push(selectedId);toast('Bookmarked');}
-  autoSave();
+  change(()=>{
+    const idx=bookmarks.indexOf(selectedId);
+    if(idx>=0){bookmarks.splice(idx,1);toast('Bookmark removed');}
+    else{bookmarks.push(selectedId);toast('Bookmarked');}
+  });
   const bp=$('#bookmarks-panel');
   if(bp.classList.contains('visible'))buildBookmarkList();
 }
 function removeBookmark(id){
-  snap();
-  bookmarks=bookmarks.filter(b=>b!==id);
-  autoSave();buildBookmarkList();
+  change(()=>{bookmarks=bookmarks.filter(b=>b!==id);});buildBookmarkList();
 }
 
 // ── Auto-save to file ──
 // Writes to the file you saved or opened, about every 15 seconds while there are changes. It lasts for this visit only and is
 // switched off when you start a new map or open a different file, so it can never overwrite a file you did not choose.
-function updateAutoUI(){const b=document.getElementById('autofile-toggle');if(b)b.textContent='Auto-save to file: '+(autoFile?'On':'Off');const s=document.getElementById('shared-toggle');if(s)s.textContent='Shared map: '+(sharedMap?'On':'Off');updateSaveBadge();}
+function updateAutoUI(){const b=document.getElementById('autofile-toggle');if(b)b.textContent='Auto-save to file: '+(autoFile?'On':'Off');const s=document.getElementById('shared-toggle');if(s)s.textContent='Shared map: '+(sharedMap?'On':'Off');updateSaveBadge();rememberFile();}
 function stopAutoFile(quiet){if(!autoFile)return;autoFile=false;sharedMap=false;updateAutoUI();if(!quiet)toast('Auto-save to file is off');}
 async function autoFileWrite(){
   if(sharedMap)return sharedSync();
@@ -4985,7 +5012,7 @@ function deleteView(id){
 }
 function applyView(id){
   const v=savedViews.find(x=>x.id===id);if(!v)return;
-  hideDetail();snap();
+  hideDetail();beginChange();
   const col=new Set(v.collapsed);nodes.forEach(n=>{n.collapsed=col.has(n.id);});
   hiddenRoots=new Set(v.hiddenRoots.filter(r=>gn(r)));
   hideCompleted=v.hideCompleted;$('#completed-toggle').textContent='Hide Completed: '+(hideCompleted?'On':'Off');
@@ -5004,7 +5031,7 @@ function applyView(id){
   const vr=viewRect();
   const anyOn=nodes.some(n=>{if(isHidden(n))return false;const sx=n.x*zoom+panX,sy=n.y*zoom+panY;return sx>-40&&sy>-40&&sx<vr.width&&sy<vr.height;});
   if(!anyOn)fitAll();
-  autoSave();
+  endChange();
   if(focusPanelVisible)buildFocusList();
   toast('View: '+v.name);
 }
@@ -5111,7 +5138,7 @@ function deletePreset(id){
 // Set the screen up like the preset, without exporting
 function applyPreset(id){
   const v=exportPresets.find(x=>x.id===id);if(!v)return;
-  hideDetail();snap();applyExportSettings(v);fitAll();autoSave();toast('Export settings: '+v.name);
+  hideDetail();change(()=>{applyExportSettings(v);});fitAll();toast('Export settings: '+v.name);
 }
 // Export with the preset, then restore the screen (settings, positions, pan and zoom)
 function runPreset(id){
@@ -5412,11 +5439,12 @@ function closeAct(){actNodeId=null;$('#act-panel').classList.remove('visible');}
 function postLogNote(){
   const n=actNodeId!==null?gn(actNodeId):null,inp=$('#act-in');if(!n)return;
   const text=inp.value.trim().slice(0,1000);if(!text)return;
-  snap();
-  const e={at:new Date().toISOString(),t:'note',text};if(logAuthor)e.by=logAuthor;
-  (n.log||(n.log=[])).push(e);if(n.log.length>LOG_MAX)n.log.splice(0,n.log.length-LOG_MAX);
-  n.modifiedAt=e.at;inp.value='';
-  autoSave();render();renderAct();
+  change(()=>{
+    const e={at:new Date().toISOString(),t:'note',text};if(logAuthor)e.by=logAuthor;
+    (n.log||(n.log=[])).push(e);if(n.log.length>LOG_MAX)n.log.splice(0,n.log.length-LOG_MAX);
+    n.modifiedAt=e.at;inp.value='';
+  });
+  renderAct();
 }
 $('#act-post').addEventListener('click',postLogNote);
 $('#act-close').addEventListener('click',closeAct);
@@ -5424,7 +5452,7 @@ $('#act-in').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Ente
 $('#act-list').addEventListener('click',e=>{
   const n=actNodeId!==null?gn(actNodeId):null;if(!n)return;
   const x=e.target.closest('.lg-x'),a=e.target.closest('.lg-add');
-  if(x){const i=Number(x.dataset.i);if(n.log&&n.log[i]&&n.log[i].t==='note'){snap();n.log.splice(i,1);autoSave();render();renderAct();}}
+  if(x){const i=Number(x.dataset.i);if(n.log&&n.log[i]&&n.log[i].t==='note'){change(()=>{n.log.splice(i,1);});renderAct();}}
   else if(a){const i=Number(a.dataset.i),en=n.log&&n.log[i];if(en)askWhy(n,en);}
 });
 
@@ -6059,14 +6087,14 @@ function openCapture(){
 function closeCapture(){$('#qc-overlay').classList.remove('visible');}
 function qcAdd(box){
   const inp=box||$('#qc-input'),p=qcParse(inp.value);if(!p.text)return;
-  hideDetail();snap();
+  hideDetail();beginChange();
   const ib=qcInbox();ib.collapsed=false;
   const pEl=elOf(ib.id),pw=pEl?pEl.offsetWidth:120,ch=gch(ib.id).filter(c=>!isHidden(c)),nx=ib.x+pw+60;
   let y0=ib.y;if(ch.length)y0=Math.max(...ch.map(c=>{const e=elOf(c.id);return c.y+(e?e.offsetHeight:36)+14;}));
   const now=new Date().toISOString();
   const n={id:nextId++,text:p.text,x:nx,y:freeY(nx,y0,120,38),parentId:ib.id,collapsed:false,colorId:p.kind==='!'?'green':p.kind==='?'?'pink':(ib.colorId||'default'),notes:'',project:'',owner:p.owner,status:'',tags:p.tags,due:p.due,start:'',createdAt:now,modifiedAt:now};
   if(workshop&&logAuthor)n.by=logAuthor;
-  nodes.push(n);render();autoSave();
+  nodes.push(n);endChange();
   refreshAgenda();if(boardVisible)buildBoard(true);if(tlVisible)buildTimeline(true);
   inp.value='';if(box){inp.focus();return;}qcShowPreview();
   const L=$('#qc-last');L.textContent='';
@@ -6197,7 +6225,7 @@ function handleCSVImport(file){
     const dueCol=col('due','due date','due_date','expected','expected date','deadline');
     const startCol=col('start','start date','start_date','begin','begins');
     const get=(cols,c)=>{if(c<0)return '';let v=(cols[c]||'').trim();if(/^'[=+\-@\t\r]/.test(v))v=v.slice(1);return v;};
-    snap();
+    beginChange();
     const now=new Date().toISOString();
     let ambiguousDates=0;
     const made=[],byCsvId=Object.create(null),byName=Object.create(null);
@@ -6230,7 +6258,7 @@ function handleCSVImport(file){
     made.forEach(({n},i)=>{n.x=org.x+depthOf(n)*220;n.y=org.y+i*54;nodes.push(n);});
     render();
     if(!dateMode)tidyLayout('h','branch',{tops:made.filter(m=>m.n.parentId===null).map(m=>m.n),noSnap:true,quiet:true});
-    autoSave();toast(made.length+' nodes imported from CSV'+(ambiguousDates?'. '+ambiguousDates+' date'+(ambiguousDates===1?'':'s')+' like 03/04/2026 were read as day/month/year (3 April). Check them if your file uses month/day':''));
+    endChange();toast(made.length+' nodes imported from CSV'+(ambiguousDates?'. '+ambiguousDates+' date'+(ambiguousDates===1?'':'s')+' like 03/04/2026 were read as day/month/year (3 April). Check them if your file uses month/day':''));
   };
   reader.readAsText(file);
 }
@@ -6320,7 +6348,7 @@ function handleMarkdownImport(file){
       stack.push({level,idx:made.length-1});
     }
     if(!made.length){toast('No headings or bullets found');return;}
-    snap();
+    beginChange();
     const now=new Date().toISOString();
     const org=importOrigin();
     const ids=made.map(()=>nextId++);
@@ -6331,7 +6359,7 @@ function handleMarkdownImport(file){
     linkSpecs.forEach(([a,b,l])=>{const ia=idByText.get(a),ib=idByText.get(b);if(ia&&ib&&ia!==ib&&!crossLinks.some(k=>k.from===ia&&k.to===ib)){crossLinks.push({from:ia,to:ib,label:l});linkCount++;}});
     render();
     if(!dateMode)tidyLayout('h','branch',{tops:made.map((m,i)=>m.parentIdx<0?gn(ids[i]):null).filter(Boolean),noSnap:true,quiet:true});
-    autoSave();toast(made.length+' nodes'+(linkCount?' and '+linkCount+' link'+(linkCount===1?'':'s'):'')+' imported from Markdown');
+    endChange();toast(made.length+' nodes'+(linkCount?' and '+linkCount+' link'+(linkCount===1?'':'s'):'')+' imported from Markdown');
   };
   reader.readAsText(file);
 }
@@ -6343,7 +6371,7 @@ function startEdit(id){
   el.contentEditable='true';el.focus();
   const range=document.createRange();range.selectNodeContents(el);
   const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
-  let cancelled=false;const finish=()=>{el.contentEditable='false';const n=gn(id);if(n){const nt=cancelled?n.text:(el.textContent.trim()||'Untitled');if(nt!==n.text){snap();n.text=nt;n.modifiedAt=new Date().toISOString();}el.textContent=n.text;}editingId=null;autoSave();drawConnectors();};
+  let cancelled=false;const finish=()=>{el.contentEditable='false';const n=gn(id);if(n){const nt=cancelled?n.text:(el.textContent.trim()||'Untitled');if(nt!==n.text)change(()=>{n.text=nt;n.modifiedAt=new Date().toISOString();return false;});el.textContent=n.text;}editingId=null;autoSave();drawConnectors();};
   el.addEventListener('blur',finish,{once:true});
   el.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el.blur();}if(e.key==='Escape'){cancelled=true;el.blur();}e.stopPropagation();});
 }
@@ -6416,7 +6444,7 @@ function applyShiftDates(){
   if(shiftRootId===null)return;
   const {o,plan}=shiftPlan();
   if(!o.days||!plan.length)return;
-  snap();
+  beginChange();
   const now=new Date().toISOString();
   plan.forEach(p=>{
     if(p.ch.start)p.n.start=p.ch.start[1];
@@ -6424,7 +6452,7 @@ function applyShiftDates(){
     p.n.modifiedAt=now;
   });
   closeShiftDates();
-  render();autoSave();
+  endChange();
   if(typeof agendaVisible!=='undefined'&&agendaVisible)buildAgenda();
   if(tlVisible)buildTimeline(true);
   toast('Shifted dates on '+plan.length+' node'+(plan.length===1?'':'s')+' by '+(o.days>0?'+':'')+o.days+' day'+(Math.abs(o.days)===1?'':'s')+' (Ctrl+Z to undo)');
@@ -6453,7 +6481,7 @@ function tidyLayout(orient,scope,opts){
     tops=[sel];
   }else tops=getRoots().filter(r=>!hiddenRoots.has(r.id)&&!isHidden(r));
   if(!tops.length)return;
-  if(!opts.noSnap)snap();
+  if(!opts.noSnap)beginChange();
   render();
   if(orient==='b'){tidyBalanced(tops,scope,opts);return;}
   const H=orient==='h',LEVEL=H?60:56,GAP=H?14:22,TREEGAP=70;
@@ -6535,7 +6563,7 @@ function tidyBalanced(tops,scope,opts){
 function autoLayout(){tidyLayout('h','all');}
 function autoLayoutVertical(){tidyLayout('v','all');}
 
-function autoLayoutOutline(){hideDetail();snap();const INDENT=60,VGAP=14;
+function autoLayoutOutline(){hideDetail();beginChange();const INDENT=60,VGAP=14;
   function th(id){const n=gn(id);const el=elOf(id);const nh=el?el.offsetHeight:36;const ch=gch(id);if(ch.length===0||(n&&n.collapsed))return nh;let h=nh+VGAP;for(const c of ch)h+=th(c.id)+VGAP;return h-VGAP;}
   function lay(id,x,y){const n=gn(id);const el=elOf(id);const nh=el?el.offsetHeight:36;n.x=x;n.y=y;const ch=gch(id);if(n.collapsed||ch.length===0)return nh;let curY=y+nh+VGAP;for(const c of ch){const h=lay(c.id,x+INDENT,curY);curY+=h+VGAP;}return curY-VGAP-y;}
   render();const roots=getRoots();
@@ -6543,7 +6571,7 @@ function autoLayoutOutline(){hideDetail();snap();const INDENT=60,VGAP=14;
   for(const r of roots){lay(r.id,sx,cy);cy+=th(r.id)+80;}
   render();cy=((window.innerHeight-44)/3-panY)/zoom;
   for(const r of roots){lay(r.id,sx,cy);cy+=th(r.id)+80;}
-  render();autoSave();toast('Outline layout applied');
+  endChange();toast('Outline layout applied');
 }
 
 function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),_wp=workshop&&!dateMode?$('#ws-panel'):null,wsR=(_wp&&_wp.classList.contains('visible')?_wp.offsetWidth+24:0)+(covOn?432:0)+(raciOn()&&!rcHide?270:0),wsB=workshop&&!dateMode?110:0,dl=dateMode?150:0,vw=_vr.width-wsR-dl,inset=dateMode?52:0,vh=_vr.height-inset-wsB;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=dl+vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
@@ -6833,7 +6861,7 @@ function onPointerMove(e){
     // Small dead zone so a plain click never counts as a move; snapshot once, just before the first real move
     if(!dragMoved){
       if(Math.hypot(e.clientX-dragStart.x,e.clientY-dragStart.y)<3)return;
-      dragMoved=true;snap();
+      dragMoved=true;beginChange();
     }
     const _pt=toCanvas(e.clientX,e.clientY);let nx=_pt.x-dragOffX, ny=_pt.y-dragOffY;
     if(snapToGrid){nx=Math.round(nx/GRID_SIZE)*GRID_SIZE;ny=Math.round(ny/GRID_SIZE)*GRID_SIZE;}
@@ -6881,7 +6909,7 @@ function onPointerUp(e){
 window.addEventListener('mouseup',onPointerUp);
 wrap.addEventListener('wheel',e=>{e.preventDefault();const d=e.deltaY>0?0.9:1.1;const nz=Math.min(3,Math.max(0.15,zoom*d));const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;panX=mx-(mx-panX)*(nz/zoom);panY=my-(my-panY)*(nz/zoom);zoom=nz;updateTransform();viewSave();},{passive:false});
 function addNodeAt(e){
-  snap();const _p=toCanvas(e.clientX,e.clientY),x=_p.x,y=_p.y;
+  beginChange();const _p=toCanvas(e.clientX,e.clientY),x=_p.x,y=_p.y;
   // Parent: the nearest visible node within reach of the click; otherwise the new topic starts its own tree
   let pid=null,best=260;
   for(const r of nodeRects()){
@@ -6890,7 +6918,7 @@ function addNodeAt(e){
   }
   const par=pid!==null?gn(pid):null,now=new Date().toISOString();
   const n={id:nextId++,text:'New topic',x,y,parentId:pid,collapsed:false,colorId:par?(par.colorId||'default'):'green',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now};
-  nodes.push(n);render();selectNode(n.id);autoSave();startEdit(n.id);
+  nodes.push(n);endChange();selectNode(n.id);startEdit(n.id);
   toast(par?'Added under "'+par.text+'"':'Added as a new top-level idea');
 }
 wrap.addEventListener('dblclick',e=>{if(e.target!==wrap&&e.target!==canvas&&e.target!==svgEl)return;addNodeAt(e);});
@@ -7044,7 +7072,8 @@ document.addEventListener('keydown',e=>{
 function escapeMap(){selectNode(null);hideCtx();hideDetail();closeAbout();if(multiSelected.size)clearMultiSelect();if(statsPanelVisible)toggleStatsPanel();if(agendaVisible)toggleAgenda();if(focusPanelVisible)toggleFocusPanel();if(linkMode)cancelLinkMode();if(impactId!==null)clearImpact();if(searchActive)toggleSearch();if($('#bookmarks-panel').classList.contains('visible'))toggleBookmarks();if($('#views-panel').classList.contains('visible'))toggleViews();if($('#xp-panel').classList.contains('visible'))toggleExportPresets();if(blPanelOpen())toggleBaselines();if(actOpen())closeAct();if($('#why-bar').classList.contains('visible'))hideWhy();}
 function navigateArrow(key){if(!selectedId){selectNode(nodes[0]?.id);return;}const n=gn(selectedId);if(!n)return;if(key==='ArrowRight'){const ch=gch(selectedId).filter(c=>!isHidden(c));if(ch.length)selectNode(ch[0].id);}else if(key==='ArrowLeft'){if(n.parentId)selectNode(n.parentId);}else if(key==='ArrowDown'||key==='ArrowUp'){if(n.parentId===null){const roots=getRoots();const idx=roots.findIndex(r=>r.id===selectedId);if(key==='ArrowDown'&&idx<roots.length-1)selectNode(roots[idx+1].id);if(key==='ArrowUp'&&idx>0)selectNode(roots[idx-1].id);return;}const sibs=gch(n.parentId).filter(c=>!isHidden(c));const idx=sibs.findIndex(s=>s.id===selectedId);if(key==='ArrowDown'&&idx<sibs.length-1)selectNode(sibs[idx+1].id);if(key==='ArrowUp'&&idx>0)selectNode(sibs[idx-1].id);}}
 
-function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
+// toast(msg) shows a short message; toast(msg,{label,fn}) adds a button (such as Undo) and stays up longer
+function toast(msg,act){const el=$('#toast');el.textContent=msg;el.classList.toggle('act',!!act);if(act){const b=document.createElement('button');b.type='button';b.textContent=act.label;b.onclick=()=>{el.classList.remove('show');act.fn();};el.append(b);}el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),act?6000:2000);}
 
 // ── Agenda: a working to-do list (overdue, today, this week, under way) ──
 function toggleAgenda(){
@@ -7239,7 +7268,7 @@ function tlDragEnd(e){
   if(!days){buildTimeline(true);return;}   // dragged but ended where it started
   const n=gn(d.id);if(!n){buildTimeline(true);return;}
   const sh=days*DAY_MS,sp=tlDragSpan(d,days);
-  snap();
+  beginChange();
   if(d.own.ms){if(d.own.startOnly)n.start=isoFromMs(sp.a);else n.due=isoFromMs(sp.a);}
   else{
     const sd=dayMs(n.start),dd=dayMs(n.due),startIsLeft=sd<=dd;
@@ -7257,7 +7286,7 @@ function tlDragEnd(e){
       if(ch){c.modifiedAt=now;carried++;}
     }
   }
-  render();autoSave();buildTimeline(true);
+  endChange();buildTimeline(true);
   toast('Dates changed'+(carried?' (and '+carried+' item'+(carried===1?'':'s')+' below)':'')+'. Ctrl+Z to undo');
 }
 $('#tl-undo').addEventListener('click',()=>{if(tlDrag)tlDragCancel();undo();buildTimeline(true);});
@@ -7582,7 +7611,7 @@ function applyBulk(){
   const bo=$('#bulk-owner').value.trim();
   const bd=normDate($('#bulk-due').value);
   if(!bc&&!bs&&!bo&&!bd){toast('Set a value to apply');return;}
-  snap();
+  beginChange();
   multiSelected.forEach(id=>{
     const n=gn(id);if(!n)return;
     if(bc)n.colorId=bc;
@@ -7590,7 +7619,7 @@ function applyBulk(){
     if(bo)n.owner=bo;
     if(bd)n.due=bd;
   });
-  render();autoSave();
+  endChange();
   toast('Applied to '+multiSelected.size+' nodes');
   // Reset inputs
   $('#bulk-color').value='';$('#bulk-status').value='';$('#bulk-owner').value='';$('#bulk-due').value='';
@@ -7618,10 +7647,10 @@ function reparentNode(nodeId,newParentId,alreadySnapped){
   // Prevent circular: can't parent under own descendant
   const desc=gdesc(nodeId);
   if(desc.includes(newParentId)){toast('Cannot reparent under own child');return;}
-  if(!alreadySnapped)snap();
+  if(!alreadySnapped)beginChange();
   setParentId(n,newParentId);
   // If the new parent is null (making it a root), that's fine too
-  render();autoSave();
+  endChange();
   toast('Moved under "'+(gn(newParentId)?.text||'root')+'"');
 }
 
@@ -7663,10 +7692,7 @@ function buildFocusList(){
       '<span class="focus-name" title="'+esc(root.text)+'">'+esc(root.text)+'</span>'+
       '<span class="focus-count">'+total+'</span>';
     row.addEventListener('click',()=>{
-      snap();
-      if(visible) hiddenRoots.add(root.id);
-      else hiddenRoots.delete(root.id);
-      render();autoSave();buildFocusList();
+      change(()=>{if(visible)hiddenRoots.add(root.id);else hiddenRoots.delete(root.id);});buildFocusList();
     });
     container.appendChild(row);
   });
@@ -7806,7 +7832,7 @@ function mergeFromText(text,name){
 }
 // quiet = Shared map: no backup or undo step, and the selection stays where it is
 function mgApply(p,quiet){
-  if(quiet)dismissDetail();else{hideDetail();pushBackup('before merge',true);snap(true);}
+  if(quiet)dismissDetail();else{hideDetail();pushBackup('before merge',true);replaceMap();}
   nodes=sanitizeNodes(p.nodes);crossLinks=sanitizeLinks(p.crossLinks,nodes);nextId=nextIdFor(nodes,p.nextId);deleted=p.deleted;logSync();
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
   if(!quiet||!gn(selectedId))selectedId=null;[...multiSelected].forEach(i=>{if(!gn(i))multiSelected.delete(i);});updateBulkBar();stampReset();
@@ -7880,6 +7906,75 @@ async function startShared(){
   sharedSync(true);
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)sharedSync();});
+// ── Reopen the real file, and drop a file onto the window to open it (1.60) ──
+// The file a map was last saved to or opened from is remembered in this browser. IndexedDB can keep a file handle;
+// localStorage cannot. "Continue last session" uses it to point Ctrl+S, auto-save and Shared map back at that file.
+const FH_DB='mindloom-files';   // fhLast and dropDepth are declared in 010-core.js
+function fhStore(rec){return new Promise(res=>{try{const q=indexedDB.open(FH_DB,1);q.onupgradeneeded=()=>q.result.createObjectStore('h');q.onerror=()=>res(null);
+  q.onsuccess=()=>{try{const s=q.result.transaction('h',rec?'readwrite':'readonly').objectStore('h'),r=rec?s.put(rec,'last'):s.get('last');r.onsuccess=()=>res(rec?true:(r.result||null));r.onerror=()=>res(null);}catch(e){res(null);}};}catch(e){res(null);}});}
+// Called from markSaved: remember the file, which map it holds (a sample of node uids) and whether auto-save or Shared map was on
+function rememberFile(){
+  if(!currentFileHandle||!window.indexedDB||!window.showSaveFilePicker)return;
+  const uids=nodes.slice(0,60).map(n=>n.uid).filter(Boolean),key=[currentFileHandle.name,autoFile,sharedMap,uids.slice(0,5)].join('|');
+  if(key===fhLast)return;fhLast=key;
+  fhStore({handle:currentFileHandle,name:currentFileHandle.name,auto:autoFile,shared:sharedMap,uids});
+}
+// The remembered file, but only if it holds the same map as this backup
+async function fhFor(b){
+  if(!b||!window.showSaveFilePicker||!window.indexedDB)return null;
+  const rec=await fhStore();if(!rec||!rec.handle||!Array.isArray(rec.uids)||!rec.uids.length)return null;
+  try{const u=new Set(JSON.parse(b.data).nodes.map(n=>n.uid));return rec.uids.some(x=>u.has(x))?rec:null;}catch(e){return null;}
+}
+// Newest change recorded in a saved map: node and link change times, and deletions
+function fhLastEdit(d){let m=0;const f=v=>{const t=Date.parse(v);if(t>m)m=t;};(d.nodes||[]).forEach(n=>f(n.mod));(d.crossLinks||[]).forEach(l=>f(l.mod));(d.deleted||[]).forEach(x=>f(x&&x.at));return m;}
+async function continueLast(){
+  const b=lastSession();if(!b)return;
+  const rec=await fhFor(b),plain=msg=>{if(applyLoadedData(b.data,'your last session')&&msg)toast(msg);};
+  if(!rec){plain();return;}
+  const h=rec.handle;let ok=false;
+  try{ok=(await h.queryPermission({mode:'readwrite'}))==='granted'||(await h.requestPermission({mode:'readwrite'}))==='granted';}catch(e){}
+  if(!ok){plain('Opened your last session from this browser. '+rec.name+' is not connected, so use Save to choose a file');return;}
+  let file;try{file=await h.getFile();}catch(e){plain('Opened your last session from this browser. '+rec.name+' could not be found');return;}
+  const ft=file.lastModified,edit=fhLastEdit(JSON.parse(b.data));
+  // The file changed after your last edit here (another machine, or a copy put back): open the file itself
+  if(!rec.shared&&ft>edit+2000){
+    if(!applyLoadedData(await file.text(),file.name))return;
+    currentFileHandle=h;markSaved(file.name);if(rec.auto)autoOnAfterSave();
+    toast('Reopened '+file.name+'. It was newer than the copy in this browser');return;
+  }
+  if(!applyLoadedData(b.data,'your last session'))return;
+  currentFileHandle=h;
+  const behind=()=>{lastFileSig='';lastFileName=file.name;lastFileSavedAt=ft;dirtySince=Date.now();updateSaveBadge();};
+  if(rec.shared){behind();startShared();return;}   // Shared map merges the file in and writes back
+  if(edit>ft+2000)behind();else markSaved(file.name);
+  if(rec.auto)autoOnAfterSave();
+  toast('Continued your last session. Saving to '+file.name+(autoFile?' (auto-save on)':''));
+}
+// Adds "saves to Phoenix.json" to the start screen card when the file will be reconnected
+function fhHint(b){fhFor(b).then(r=>{const s=document.querySelector('.tp-last span');if(r&&s&&!s.dataset.fh){s.dataset.fh=1;s.append(' · saves to '+r.name);}});}
+
+// Drop a .json map to open it (in Chrome and Edge, Ctrl+S then saves back to that file); .csv and .md are imported
+const isFileDrag=e=>!!(e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files'));
+const dropHint=on=>$('#drop-hint').classList.toggle('show',on);
+window.addEventListener('dragenter',e=>{if(!isFileDrag(e))return;e.preventDefault();dropDepth++;dropHint(true);});
+window.addEventListener('dragover',e=>{if(!isFileDrag(e))return;e.preventDefault();e.dataTransfer.dropEffect='copy';});
+window.addEventListener('dragleave',e=>{if(!isFileDrag(e))return;if(--dropDepth<=0){dropDepth=0;dropHint(false);}});
+window.addEventListener('drop',e=>{
+  if(!isFileDrag(e))return;e.preventDefault();dropDepth=0;dropHint(false);
+  const f=e.dataTransfer.files[0],it=e.dataTransfer.items&&e.dataTransfer.items[0];if(!f)return;
+  let hp=null;try{if(it&&it.getAsFileSystemHandle)hp=it.getAsFileSystemHandle();}catch(x){}   // only allowed during the drop event
+  openDropped(f,hp);
+});
+async function openDropped(f,hp){
+  const ext=(f.name.split('.').pop()||'').toLowerCase();
+  if(ext==='csv'){handleCSVImport(f);return;}
+  if(ext==='md'||ext==='markdown'||ext==='txt'){handleMarkdownImport(f);return;}
+  if(ext!=='json'){toast('Drop a MindLoom .json map to open it, or a .csv or .md file to import');return;}
+  if(!applyLoadedData(await f.text(),f.name))return;
+  const h=hp?await Promise.resolve(hp).catch(()=>null):null;
+  if(h&&h.kind==='file')currentFileHandle=h;
+  markSaved(f.name);
+}
 // ── About ──
 const UPDATE_URL='https://raw.githubusercontent.com/healeychris/mindloom/main/version.json',REPO_URL='https://github.com/healeychris/mindloom';
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(x[i]||0)-(y[i]||0);if(d)return d>0?1:-1;}return 0;}
@@ -7901,6 +7996,7 @@ async function checkForUpdate(){
   finally{clearTimeout(tm);btn.disabled=false;}
 }
 function showAbout(){$('#about-overlay').classList.add('visible');}
+document.querySelectorAll('.ab-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.ab-tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.ab-pane').forEach(x=>x.classList.toggle('on',x.id===b.dataset.ab));}));
 function closeAbout(){$('#about-overlay').classList.remove('visible');$('#demo-section').classList.remove('show');}
 
 // ── Demo data (hidden: click the version number on the About page 5 times) ──
@@ -8288,7 +8384,6 @@ function openTemplates(){tplSel=null;tplCat='all';closeDD();hideCtx();$('#tp-add
 function closeTemplates(){$('#tp-overlay').classList.remove('visible');}
 // The copy of the map that was open when MindLoom last closed (kept in this browser, unsaved changes included)
 function lastSession(){return readBackups().find(b=>b.label==='last session')||null;}
-function continueLast(){const b=lastSession();if(b)applyLoadedData(b.data,'your last session');}
 function tplDraw(){
   const ls=lastSession(),on=(k,i)=>tplSel&&tplSel.k===k&&tplSel.i===i,mine=tplMine();
   $('#tp-side').innerHTML=(ls?'<div class="tp-last" data-last="1" tabindex="0" role="button" title="Reopen the map that was open when you last closed MindLoom, including changes you had not saved"><b>Continue last session</b><span>'+ls.count+' nodes &middot; '+esc(new Date(ls.t).toLocaleDateString([],{day:'numeric',month:'short'})+' '+fmtClock(ls.t))+'</span></div>':'')+TPL_CAT.map(c=>'<div class="tp-cat'+(tplCat===c[0]?' sel':'')+'" data-cat="'+c[0]+'">'+c[1]+'</div>').join('')
@@ -8296,6 +8391,7 @@ function tplDraw(){
     +'<div class="tp-save" onclick="saveAsTemplate()">+ Save current map as template</div>';
   $('#tp-grid').innerHTML=TPL.map((t,i)=>tplCat!=='all'&&t.cat!==tplCat?'':'<div class="tp-card'+(on('b',i)?' sel':'')+'" data-k="b" data-i="'+i+'" data-id="'+t.id+'" tabindex="0" role="button"><div class="tp-pic">'+tplPic(t.id)+'</div><b>'+esc(t.name)+(t.pop?'<em>Popular</em>':'')+'</b><span>'+esc(t.desc)+'</span><i>'+esc(t.uses)+'</i></div>').join('');
   $('#tp-use').disabled=!tplSel;
+  if(ls)fhHint(ls);
 }
 // Turn saved-file text into something paste can place: the nodes parents-first, links by position
 function tplClip(text){
@@ -8698,13 +8794,9 @@ function renderDetailTags(nodeId){
     chip.textContent=t;
     const x=document.createElement('span');x.className='tag-x';x.textContent='\u00D7';
     x.addEventListener('click',()=>{
-      snap();
       const fresh=gn(nid);if(!fresh)return;
-      const cur=getNodeTags(fresh);
-      cur.splice(i,1);
-      setNodeTags(nid,cur);
-      renderDetailTags(nid);
-      autoSave();render();rebuildTagFilter();
+      change(()=>{const cur=getNodeTags(fresh);cur.splice(i,1);setNodeTags(nid,cur);});
+      renderDetailTags(nid);rebuildTagFilter();
     });
     chip.appendChild(x);container.appendChild(chip);
   });
@@ -8719,12 +8811,9 @@ $('#dp-tag-input').addEventListener('keydown',e=>{
     const cur=getNodeTags(n);
     const newTags=v.split(',').map(s=>s.trim()).filter(s=>s&&!cur.includes(s));
     if(newTags.length){
-      snap();
       const fresh=gn(nid);if(!fresh)return;
-      const updated=[...getNodeTags(fresh),...newTags];
-      setNodeTags(nid,updated);
-      renderDetailTags(nid);
-      autoSave();render();rebuildTagFilter();
+      change(()=>{setNodeTags(nid,[...getNodeTags(fresh),...newTags]);});
+      renderDetailTags(nid);rebuildTagFilter();
     }
     $('#dp-tag-input').value='';
   }

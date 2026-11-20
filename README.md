@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.58.1)
+# MINDLOOM FEATURES (v1.60.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,19 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.58
+WHAT'S NEW IN 1.60
+
+Continue last session reconnects your file (Edge and Chrome): Ctrl+S, auto-save and Shared map carry on writing to the file you last saved.
+  The start screen card says which file. If the file changed after your last edit here, MindLoom opens the file instead and tells you
+Drag a file onto the window to open it: a .json map opens, a .csv or .md file is imported into the open map
+Deleting several nodes no longer asks first. A message says what was deleted, with an Undo button
+The save badge reads "Not saved to a file" with a Save button until the map is in a file
+The Date Axis shows a hint when nothing on the map has a date yet
+A tidier About box: core features, shortcuts and tips on three tabs
+One-page cheat sheet to print: docs/cheatsheet.html (or docs/MindLoom-cheatsheet.pdf), also linked from About and the User Guide
+Behind the scenes: every undoable edit now goes through one route, and the app has a 650 KB size budget
+
+EARLIER IN 1.58
 
 Start screen: MindLoom opens on a gallery of ready-made maps. Pick one, choose Continue last session, or Open existing map. Untick Show on startup to skip it
 Templates (File > New from template): Blank, Mind map, Programme roadmap, Risk and issue tree, Stakeholders and RACI, Workshop, Requirements trace and

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MindLoom cheat sheet</title>
+<meta name="description" content="One-page MindLoom cheat sheet: the six core features, the essential keys and how saving works. Print it on one A4 page.">
+<style>
+@page{size:A4 portrait;margin:10mm}
+*{box-sizing:border-box}
+:root{--text:#1d2330;--muted:#5b6475;--accent:#2f6fed;--soft:#eef3ff;--border:#d9dde6;--card:#f7f8fa}
+body{margin:0;background:#e9ecf1;color:var(--text);font:12px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.page{width:210mm;min-height:297mm;margin:16px auto;background:#fff;padding:12mm 12mm 10mm;box-shadow:0 4px 24px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.bar{position:fixed;top:12px;right:16px;display:flex;gap:8px}
+.bar a,.bar button{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text);text-decoration:none;cursor:pointer}
+header{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--accent);padding-bottom:6px;margin-bottom:10px}
+header h1{margin:0;font-size:22px;color:var(--accent)}
+header .sub{color:var(--muted);font-size:12.5px}
+header .ver{margin-left:auto;color:var(--muted);font-size:11px;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.card h2{margin:0 0 1px;font-size:13.5px}
+.card p.what{margin:0 0 5px;color:var(--muted);font-size:11px}
+ul{margin:0;padding-left:15px}
+li{margin:0 0 2px}
+kbd{display:inline-block;font:600 10.5px/1.3 ui-monospace,Menlo,Consolas,monospace;background:#fff;border:1px solid var(--border);border-bottom-width:2px;border-radius:4px;padding:0 4px;white-space:nowrap}
+b.m{font-weight:600}
+.row{display:grid;grid-template-columns:1.25fr 1fr;gap:10px;margin-top:10px}
+.box{border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.box h3{margin:0 0 6px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.keys{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:3px 8px;align-items:center}
+.keys kbd{justify-self:end}
+.qc{background:var(--soft);border-radius:6px;padding:6px 8px;margin:4px 0 6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px}
+.qc i{color:var(--muted);font-style:normal}
+.box + .box{margin-top:8px}
+footer{margin-top:auto;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted);font-size:10.5px}
+@media print{body{background:#fff}.page{margin:0;box-shadow:none;width:auto;min-height:0;height:277mm;padding:0}.bar{display:none}}
+@media screen and (max-width:820px){.page{width:auto;min-height:0;margin:0;padding:16px}.cards,.row{grid-template-columns:1fr}.keys{grid-template-columns:auto 1fr}.bar{position:static;justify-content:flex-end;padding:8px}}
+</style>
+</head>
+<body>
+<div class="bar"><a href="index.html">&larr; User Guide</a><button type="button" onclick="print()">Print or save as PDF</button></div>
+<div class="page">
+  <header>
+    <h1>MindLoom</h1><span class="sub">Cheat sheet</span>
+    <span class="ver">Version 1.60 &middot; healeychris.github.io/MindLoom</span>
+  </header>
+
+  <div class="cards">
+    <div class="card"><h2>Map it</h2><p class="what">Branches, cross-links, colours and tidy layouts.</p>
+      <ul>
+        <li><kbd>Tab</kbd> adds a child, <kbd>Enter</kbd> a sibling, <kbd>F2</kbd> renames</li>
+        <li>Double-click empty canvas to add a node there</li>
+        <li><kbd>L</kbd> then click another node to cross-link</li>
+        <li><b class="m">Tidy</b> menu: horizontal, vertical, balanced, outline</li>
+        <li><kbd>Ctrl</kbd>+drag onto a node to move a branch under it</li>
+        <li>Double-click a colour on the colour bar to rename it</li>
+      </ul></div>
+    <div class="card"><h2>Track it</h2><p class="what">Status, owner, tags and dates on any node.</p>
+      <ul>
+        <li><kbd>I</kbd> opens details: status, owner, project, tags, notes</li>
+        <li>Start and Due dates; overdue items are flagged in the toolbar</li>
+        <li>Checklist, % progress and repeat (weekly, monthly&hellip;)</li>
+        <li><kbd>Shift</kbd>+click several nodes, then change them together</li>
+        <li><kbd>Ctrl</kbd>+<kbd>F</kbd> filters by status, owner, tag or due</li>
+      </ul></div>
+    <div class="card"><h2>See it your way</h2><p class="what">The same map as a list, a plan or a report.</p>
+      <ul>
+        <li><kbd>A</kbd> Agenda: overdue, today, this week</li>
+        <li><kbd>T</kbd> Timeline: drag bars to change dates</li>
+        <li><b class="m">Date Axis</b>: swimlanes, milestones, critical path, Slide view</li>
+        <li><kbd>K</kbd> Board (kanban) &middot; <kbd>R</kbd> status Report</li>
+        <li><kbd>V</kbd> Saved views keep filters, folds and zoom</li>
+      </ul></div>
+    <div class="card"><h2>Start fast</h2><p class="what">Ready-made maps and quick ways in.</p>
+      <ul>
+        <li>The start screen offers templates: roadmap, risks, RACI, workshop&hellip;</li>
+        <li>The map type chip (Plan, Mind map&hellip;) tidies the toolbar</li>
+        <li><kbd>Q</kbd> Quick capture adds a task to the Inbox (see right)</li>
+        <li><kbd>Ctrl</kbd>+<kbd>K</kbd> finds any command by name</li>
+        <li>Workshop mode: sticky notes you file onto themes</li>
+      </ul></div>
+    <div class="card"><h2>Share it</h2><p class="what">Pictures, files and shared maps.</p>
+      <ul>
+        <li>File &rsaquo; Export: PNG, SVG, CSV or Markdown</li>
+        <li>Date Axis + Slide view + PNG for clean PowerPoint slides</li>
+        <li>Report: copy, download or print a status summary</li>
+        <li>File &rsaquo; Import &rsaquo; Merge from file joins two copies</li>
+        <li>File &rsaquo; Shared map: one file in a OneDrive folder (Edge, Chrome)</li>
+      </ul></div>
+    <div class="card"><h2>Keep it safe</h2><p class="what">One HTML file. Nothing leaves your machine.</p>
+      <ul>
+        <li><kbd>Ctrl</kbd>+<kbd>S</kbd> saves a .json file: the only format that keeps everything</li>
+        <li>After the first save, auto-save keeps that file up to date</li>
+        <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes up to 50 steps; deletes offer Undo</li>
+        <li>File &rsaquo; Restore backup has earlier copies</li>
+        <li>Drop a .json file on the window to open it</li>
+      </ul></div>
+  </div>
+
+  <div class="row">
+    <div class="box"><h3>Essential keys</h3>
+      <div class="keys">
+        <kbd>Tab</kbd><span>Add child</span><kbd>I</kbd><span>Details</span>
+        <kbd>Enter</kbd><span>Add sibling</span><kbd>Q</kbd><span>Quick capture</span>
+        <kbd>F2</kbd><span>Rename</span><kbd>A</kbd><span>Agenda</span>
+        <kbd>Del</kbd><span>Delete</span><kbd>T</kbd><span>Timeline</span>
+        <kbd>Space</kbd><span>Fold / unfold</span><kbd>K</kbd><span>Board</span>
+        <kbd>Arrows</kbd><span>Move between nodes</span><kbd>R</kbd><span>Report</span>
+        <kbd>L</kbd><span>Cross-link</span><kbd>/</kbd><span>Search</span>
+        <kbd>F</kbd><span>Fit all in view</span><kbd>Ctrl+F</kbd><span>Filters</span>
+        <kbd>Ctrl+C/X/V</kbd><span>Copy, cut, paste</span><kbd>Ctrl+K</kbd><span>Find a command</span>
+        <kbd>Ctrl+Z / Y</kbd><span>Undo, redo</span><kbd>Ctrl+S</kbd><span>Save</span>
+        <kbd>Esc</kbd><span>Close panels</span><kbd>?</kbd><span>About and help</span>
+      </div>
+    </div>
+    <div>
+      <div class="box"><h3>Quick capture (Q)</h3>
+        <div class="qc">Book venue #event @Sam fri</div>
+        <ul>
+          <li><b class="m">#tag</b> adds a tag, <b class="m">@name</b> sets the owner</li>
+          <li>End with a date: today, tomorrow, fri, +2w, 14/12</li>
+          <li><kbd>Enter</kbd> adds it under <b class="m">Inbox</b> and keeps the box open</li>
+        </ul>
+      </div>
+      <div class="box"><h3>Good habits</h3>
+        <ul>
+          <li>Each visit opens on the start screen. Pick <b class="m">Continue last session</b> to carry on; in Edge and Chrome it reconnects your file</li>
+          <li>Keep maps in a synced folder so they are backed up</li>
+          <li>Settings &rsaquo; Simple Menus hides the specialist items</li>
+          <li>Right-click a node for its menu; long-press on touch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer><span>Full guide with screenshots and recipes: healeychris.github.io/MindLoom</span><span>Created by Chris Healey &middot; built with Claude</span></footer>
+</div>
+</body>
+</html>

@@ -99,6 +99,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <h4>Start here</h4>
   <a href="#welcome">Welcome</a>
   <a href="#quickstart">Quick start</a>
+  <a href="cheatsheet.html">One-page cheat sheet &#8599;</a>
   <a href="#recipes">Step-by-step recipes</a>
   <h4>Building maps</h4>
   <a href="#basics">Working with nodes</a>
@@ -149,7 +150,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <div class="card"><h4>Map how things connect</h4><p>Optionally switch on Application Mapping Structures to show what relies on what, for migrations and change planning.</p></div>
   </div>
   <h3>How to read this guide</h3>
-  <p>Use the contents on the left, or the search box at the top. If you are new, read <a href="#quickstart">Quick start</a>, then try a <a href="#recipes">recipe</a>. Everything is also in the <a href="#shortcuts">keyboard shortcut</a> list and the <a href="#faq">questions and fixes</a> section. Developers and IT teams will find the <a href="#technical">technical reference</a> at the end. Inside MindLoom, <b>File &rarr; User Guide</b> opens this page.</p>
+  <p>Want it on paper? Print the one-page <a href="cheatsheet.html">cheat sheet</a> (or download the <a href="MindLoom-cheatsheet.pdf">PDF</a>). Use the contents on the left, or the search box at the top. If you are new, read <a href="#quickstart">Quick start</a>, then try a <a href="#recipes">recipe</a>. Everything is also in the <a href="#shortcuts">keyboard shortcut</a> list and the <a href="#faq">questions and fixes</a> section. Developers and IT teams will find the <a href="#technical">technical reference</a> at the end. Inside MindLoom, <b>File &rarr; User Guide</b> opens this page.</p>
   <div class="callout tip"><b class="t">Keep this open while you learn</b>Press <kbd>?</kbd> in MindLoom for a built-in list of shortcuts and tips, and <kbd>Ctrl</kbd>+<kbd>K</kbd> to search every command by name.</div>
 </section>
 
@@ -540,13 +541,14 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <tr><td>Saved file</td><td>Wherever you save it</td><td>The only copy that moves between computers and keeps everything.</td></tr>
     <tr><td>Rolling backups</td><td>Your browser</td><td>File &rarr; Restore backup. Your previous map is kept here as "last session".</td></tr>
   </table>
-  <p>MindLoom always opens on a fresh map. To continue earlier work, use <b>File &rarr; Load</b> or <b>Restore backup</b>.</p>
+  <p>MindLoom opens on the start screen. To carry on, choose <b>Continue last session</b>. If that map was saved to a file, in Edge and Chrome it reconnects to the same file, so <kbd>Ctrl</kbd>+<kbd>S</kbd>, auto-save and Shared map carry on writing to it. The card says which file (&ldquo;saves to Phoenix.json&rdquo;). The browser may ask once whether MindLoom can edit that file. If the file was changed after your last edit here (on another computer, say), MindLoom opens the file instead and tells you. You can also use <b>File &rarr; Open</b>, <b>Restore backup</b>, or drag a map file onto the window.</p>
   <figure class="small"><img src="img/menu-file.png" alt="The File menu" loading="lazy"><figcaption>The File menu. <b>User Guide</b> opens this guide in your browser.</figcaption></figure>
   <h3>Saving</h3>
   <ul>
     <li><b>Save</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and <b>Save As</b> write a file in MindLoom's own format. Use this for your real work.</li>
     <li><b>Auto-save to file</b> keeps your chosen file up to date as you work (in browsers that support it). It switches on by itself the first time you <b>Save</b> or <b>Save As</b> a file, and the toolbar shows the status. Choose <b>File &rarr; Auto-save to file</b> to switch it off; it then stays off until you open a different file or start a new map. If several people use the same file in a synced folder, turn on <a href="#shared-map">Shared map</a> as well, so each save merges in the others' changes instead of overwriting them. <b>File &rarr; New Map</b> starts an empty map; your current one is backed up first.</li>
-    <li>The save badge on the toolbar tells you when there are unsaved changes, and reminds you every ten minutes.</li>
+    <li>The save badge on the toolbar tells you when there are unsaved changes, and reminds you every ten minutes. Until the map is in a file it reads <b>Not saved to a file</b> with a <b>Save</b> button.</li>
+    <li><b>Drag a file onto the window</b> to open it: a <code>.json</code> map opens (in Edge and Chrome, <kbd>Ctrl</kbd>+<kbd>S</kbd> then saves back to that file), and a <code>.csv</code> or <code>.md</code> file is imported into the open map.</li>
   </ul>
   <h3>Export and import</h3>
   <ul>
@@ -711,8 +713,10 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <p>Not live as they type, but close. MindLoom is an offline tool. From version 1.41 each person can work on their own copy and combine them with <a href="#merge">Merge from file</a>, which also rescues the duplicate that OneDrive makes when two people save the same file. From version 1.42, <a href="#shared-map">Shared map</a> does the merging automatically every 15 seconds for people who keep one file in a synced folder.</p>
   <h3>Is my data sent anywhere?</h3>
   <p>No. Everything stays in your browser and in files you save. The only time MindLoom contacts the internet is when you press <b>Check for updates</b> in the About screen.</p>
-  <h3>The save badge says "Browser copy only".</h3>
-  <p>That means no file copy has been saved yet. Press <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
+  <h3>The save badge says "Not saved to a file".</h3>
+  <p>That means no file copy has been saved yet. Press <b>Save</b> on the badge, or <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
+  <h3>I deleted a branch by mistake.</h3>
+  <p>Deleting more than one node shows a message with an <b>Undo</b> button for a few seconds. After that, <kbd>Ctrl</kbd>+<kbd>Z</kbd> still brings it back.</p>
   <h3>Why can't I see the link types or Show impact?</h3>
   <p>They belong to <a href="#mapping">Application Mapping Structures</a>, which is off by default. Turn it on in <b>Settings</b>. If you cannot see that setting, <a href="#simple-menus">Simple Menus</a> is on; switch it off first.</p>
   <h3>Some menu items have gone (Saved Views, Baselines, Details Layout&hellip;).</h3>
@@ -838,8 +842,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.58.1", "date": "2026-11-19", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.58.1.</footer>
+  <pre><code>{ "version": "1.60.0", "date": "2026-11-20", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.60.0.</footer>
 </section>
 </main>
 </div>

@@ -1,1 +1,1 @@
-{"version":"1.58.1","date":"2026-11-19","notes":"Templates and map types: a start screen with ready-made maps, map types that tidy the toolbar, a Coverage panel, Workshop mode and a Stakeholders and RACI map. Shared map explainer and auto-save on first save."}
+{"version": "1.60.0", "date": "2026-11-20", "notes": "Continue last session reconnects your file (Edge and Chrome). Drag a map onto the window to open it. Deleting shows Undo instead of a confirm box. Clearer save badge, a Date Axis hint for maps with no dates, a tidier About box and a one-page cheat sheet."}
