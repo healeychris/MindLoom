@@ -217,6 +217,8 @@
   }
   .node .node-row { display:flex; align-items:center; gap:8px; }
   .node:hover { box-shadow:0 0 0 1px rgba(255,255,255,0.2); }
+  .node.done-fade { opacity:0.5; }
+  .node.done-fade .label { text-decoration:line-through; }
   .node.crit { border-color:#f5c518; box-shadow:0 0 0 2px rgba(245,197,24,0.6), 0 0 20px 5px rgba(245,197,24,0.45); }
   .node.selected { box-shadow:0 0 0 2px var(--accent), 0 4px 16px rgba(0,0,0,0.3); border-color:var(--accent); }
   .node.crit.selected { border-color:#f5c518; box-shadow:0 0 0 2px var(--accent), 0 0 20px 5px rgba(245,197,24,0.45); }
@@ -1877,6 +1879,7 @@ const COMMANDS=[
   {id:"ctx.pasteSelection",fn:"pasteSelection",label:"Paste as child",hint:"Ctrl+V",tip:"Paste a copied branch (or plain text) under this node"},
   {id:"ctx.duplicateSelected",fn:"duplicateSelected",label:"Duplicate",tip:"Copy the selected node together with everything beneath it"},
   {id:"ctx.openShiftDates",fn:"openShiftDates",label:"Shift dates&hellip;",tip:"Move the dates of the selected branch (and nodes linked to it) by days, weeks or months"},
+  {id:"ctx.cycleDoneMode",fn:"cycleDoneMode",adv:true,elId:"cx-done",style:"display:none",label:"When done: Keep",tip:"For a list (a top-level node): what happens to its completed items. Keep, Move to Done (a folded Done node; set the status back to reopen), Fade or Hide. Click again for the next choice"},
   {id:"ctx.convertToRoot",fn:"convertToRoot",label:"Detach as root",tip:"Detach this node and its branch from its parent so it becomes its own top-level idea"},
   {id:"ctx.deleteSelected",fn:"deleteSelected",cls:"dd-item danger",label:"Delete",hint:"Del",tip:"Delete the selected node and everything beneath it"}
 ,
@@ -2137,6 +2140,7 @@ const MENU_CTX=`
   {{ctx.duplicateSelected}}
   {{ctx.openShiftDates}}
   {{ctx.convertToRoot}}
+  {{ctx.cycleDoneMode}}
   <div class="dd-sep"></div>
   {{ctx.deleteSelected}}`;
 const renderMenu=t=>t.replace(/\{\{([\w.]+)\}\}/g,(m,id)=>{if(!CMD[id])throw new Error('unknown command '+id);return cmdHtml(CMD[id]);});
@@ -2388,7 +2392,7 @@ let nodes=[],crossLinks=[],nextId=1,selectedId=null;
 let panX=0,panY=0,zoom=1;
 let isPanning=false,panStartX,panStartY;
 let dragNode=null,dragOffX,dragOffY;
-let fhLast='',dropDepth=0;   // remembered-file key and file-drag depth (257-files.js)
+let fhLast='',dropDepth=0,lastDoneSweep=null;   // remembered-file key and file-drag depth (257-files.js)
 let editingId=null,detailNodeId=null,detailPinned=false,detailSnapped=false;
 let dragMoved=false,dragStart={x:0,y:0};
 let agendaVisible=false,mdOwner='';
@@ -2530,10 +2534,11 @@ function snap(full){stepPush(undoStack,snapState(full===true));if(undoStack.leng
 //   beginChange()  an edit that must redraw part-way to measure the screen (tidy, import, add node, quick capture),
 //   endChange()    or that runs over several events (dragging): record the step first, then redraw and save at the end.
 //   panelChange()  the details panel: the first edit since the panel opened records the step; later edits join it.
+//   change() and endChange() also run doneAfter() (272-done.js), so "Move to Done" lists tidy up inside the same step.
 //   replaceMap()   just before Load, Restore backup, New Map or a merge: a full step that also keeps the map's settings.
-function change(edit){snap();if(edit()!==false){render();autoSave();}}
+function change(edit){snap();if(edit()!==false){doneAfter();render();autoSave();}}
 function beginChange(){snap();}
-function endChange(){render();autoSave();}
+function endChange(){doneAfter();render();autoSave();}
 function panelChange(){if(!detailSnapped){snap();detailSnapped=true;}}
 function replaceMap(){snap(true);}
 // Forget the newest undo step; the map itself is unchanged
@@ -2669,6 +2674,11 @@ function sanitizeNodes(raw){
       doneAt:r.status==='completed'?(cleanIso(r.doneAt)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now):''
     });
     {const lg=cleanLog(r.log);if(lg.length)out[out.length-1].log=lg;}
+    {const o=out[out.length-1];   // When done (272-done.js)
+     if(['move','fade','hide'].includes(r.doneMode)&&o.parentId===null)o.doneMode=r.doneMode;
+     if(r.doneBin===true)o.doneBin=true;
+     if(cleanUid(r.doneFrom))o.doneFrom=r.doneFrom;
+     if(Array.isArray(r.doneOff)&&r.doneOff.length===2&&r.doneOff.every(Number.isFinite))o.doneOff=r.doneOff.map(Number);}
     // Merge bookkeeping (see 035-doc.js). A file from before format 6 has none, so the id is worked out from the node's
     // number and creation time: everyone who opens the same old file gets the same ids
     {const n=out[out.length-1];n.uid=cleanUid(r.uid)||makeUid(id,r.createdAt);n.mod=cleanIso(r.mod)||cleanIso(r.modifiedAt)||cleanIso(r.createdAt)||now;
@@ -2712,7 +2722,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.60.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.61.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -3151,14 +3161,14 @@ function isHidden(n){
   if(dateMode&&!critOnly&&(!showUndated||axSlide)&&n.id!==selectedId&&n.id!==editingId&&dmHiddenUndated().has(n.id))return true;
   // A completed node (when Hide Completed is on) takes its whole branch with it
   if(hideCompleted&&n.status==='completed')return true;
-  let x=n;
+  let x=n,done=n.status==='completed'&&n.parentId!==null;   // for a root set to When done: Hide (the root itself never hides)
   while(x.parentId!==null){
     const p=gn(x.parentId);if(!p)return false;
     if(p.collapsed)return true;
-    if(hideCompleted&&p.status==='completed')return true;
+    if(p.status==='completed'){if(hideCompleted)return true;if(p.parentId!==null)done=true;}
     x=p;
   }
-  return hiddenRoots.has(x.id);
+  return (done&&x.doneMode==='hide')||hiddenRoots.has(x.id);
 }
 function isRoot(n){return n.parentId===null;}
 function getRoots(){return nodes.filter(n=>n.parentId===null);}
@@ -3260,6 +3270,8 @@ function render(){
     if(depth===0){el.style.fontSize='16px';el.style.fontWeight='600';el.style.padding='10px 18px';}
     if(node.collapsed)el.classList.add('collapsed');
     if(node.status==='critical')el.classList.add('crit');
+    if(doneFaded(node))el.classList.add('done-fade');
+    if(node.parentId===null&&node.doneMode)el.title='When done: '+DONE_LABEL[node.doneMode];
     if(node.id===selectedId)el.classList.add('selected');
     if(linkMode&&node.id===linkSourceId)el.classList.add('link-source');
     if(multiSelected.has(node.id))el.classList.add('multi-selected');
@@ -4288,6 +4300,7 @@ function saveDetailFields(){
   if(n.status==='completed'&&oldStatus!=='completed'){const nx=rollRecurring(n,oldStatus);if(nx){rolled=true;rollToast(n,nx);}}
   autoSave();
   if(rolled){$('#dp-status').value=n.status||'';$('#dp-start').value=n.start||'';$('#dp-due').value=n.due||'';updateDueNote();renderDetailChecks();renderDetailProgress();renderDetailRepeat();}
+  if(!rolled&&n.status!==oldStatus)doneAfter();
   if(rolled||n.status!==oldStatus||newTags.length||(n.due||'')!==oldDue||(n.start||'')!==oldStart||(n.marker||'')!==oldMarker) render();
   else{const el=elOf(nid);
     if(el){const d=el.querySelector('.info-dot');if(d)d.classList.toggle('has',n.notes.trim().length>0||!!n.project||!!n.owner||!!n.due||!!n.start||getNodeTags(n).length>0);}
@@ -6732,7 +6745,8 @@ function exportDraw(ctx,b){
   for(const lk of (critX?[]:crossLinks)){const nA=gn(lk.from),nB=gn(lk.to);if(!nA||!nB||isHidden(nA)||isHidden(nB))continue;const fxv=fxf(lk.from,lk.to);if(fxv===0)continue;const eA=elOf(nA.id);const eB=elOf(nB.id);if(!eA||!eB)continue;const ax=nA.x+eA.offsetWidth/2-x1+pad,ay=nA.y+eA.offsetHeight/2-y1+pad;const bx=nB.x+eB.offsetWidth/2-x1+pad,by=nB.y+eB.offsetHeight/2-y1+pad;const tcol=(depMap&&lk.type)?typeColor(lk.type):null;ctx.globalAlpha=fxv;ctx.beginPath();ctx.setLineDash(tcol?[]:[10,5]);const dx=bx-ax,dy=by-ay;const cpx=(ax+bx)/2-dy*0.3,cpy=(ay+by)/2+dx*0.3;const lp=sqx?linkPts(nA,nB,rcs):null;if(lp){lp.forEach(q=>{q.x+=-x1+pad;q.y+=-y1+pad;});polyCmds(lp,10).forEach(a=>{if(a[0]==='M')ctx.moveTo(a[1],a[2]);else if(a[0]==='L')ctx.lineTo(a[1],a[2]);else ctx.quadraticCurveTo(a[1],a[2],a[3],a[4]);});}else{ctx.moveTo(ax,ay);ctx.quadraticCurveTo(cpx,cpy,bx,by);}ctx.strokeStyle=tcol||pngInk.link;ctx.lineWidth=tcol?3:2.5;ctx.stroke();ctx.setLineDash([]);
     if(lk.label){let tx=(ax+2*cpx+bx)/4,ty=(ay+2*cpy+by)/4;if(lp){const m=polyMid(lp);tx=m.x;ty=m.y;}ctx.font='11px system-ui,sans-serif';ctx.fillStyle=pngInk.linkLab;ctx.textAlign='center';ctx.fillText(lk.label,tx,ty-4);ctx.textAlign='start';}ctx.globalAlpha=1;}
   // Nodes
-  for(const node of nodes){if(isHidden(node)||(slideX&&slideHides(node)))continue;const el=elOf(node.id);if(!el)continue;if(dateMode){ctx.globalAlpha=(slideX&&node.status!=='critical')?0.5:1;const done=dmExportNode(ctx,node,el,x1,y1,pad);ctx.globalAlpha=1;if(done)continue;}const c=gc(node.colorId);const x=node.x-x1+pad,y=node.y-y1+pad;const w=el.offsetWidth,h=el.offsetHeight;const crit=node.status==='critical';ctx.fillStyle=c.bg;ctx.strokeStyle=crit?'#f5c518':c.border;ctx.lineWidth=crit?3:(isRoot(node)?3:2);if(crit){ctx.shadowColor='rgba(245,197,24,0.8)';ctx.shadowBlur=18;}ctx.beginPath();const r=8;ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowColor='transparent';ctx.shadowBlur=0;const _lab=el.querySelector('.label'),_bw=isRoot(node)?3:2;ctx.fillStyle='#d4d8e0';ctx.font=(gdepth(node)===0?'600 16':'14')+'px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='start';ctx.fillText(node.text,x+_bw+(_lab?_lab.offsetLeft:12),y+_bw+(_lab?_lab.offsetTop+_lab.offsetHeight/2:(h-2*_bw)/2),w-28);pngChips(ctx,el,x,y,_bw);if(node.status==='critical'){ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+w-2,y-18);ctx.lineTo(x+w+14,y+8);ctx.lineTo(x+w-18,y+8);ctx.closePath();ctx.fill();}else if(node.status==='blocked'){ctx.fillStyle='#bf3a3a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u26A0',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='completed'){ctx.fillStyle='#3a9f55';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u2713',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='awaiting'){ctx.fillStyle='#bf8f2a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u23F3',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='ongoing'){ctx.fillStyle='#3a7abf';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u25B6',x+w-4,y+1);ctx.textAlign='start';}}
+  for(const node of nodes){if(isHidden(node)||(slideX&&slideHides(node)))continue;const el=elOf(node.id);if(!el)continue;if(dateMode){ctx.globalAlpha=(slideX&&node.status!=='critical')?0.5:1;const done=dmExportNode(ctx,node,el,x1,y1,pad);ctx.globalAlpha=1;if(done)continue;}ctx.globalAlpha=doneFaded(node)?0.45:1;const c=gc(node.colorId);const x=node.x-x1+pad,y=node.y-y1+pad;const w=el.offsetWidth,h=el.offsetHeight;const crit=node.status==='critical';ctx.fillStyle=c.bg;ctx.strokeStyle=crit?'#f5c518':c.border;ctx.lineWidth=crit?3:(isRoot(node)?3:2);if(crit){ctx.shadowColor='rgba(245,197,24,0.8)';ctx.shadowBlur=18;}ctx.beginPath();const r=8;ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowColor='transparent';ctx.shadowBlur=0;const _lab=el.querySelector('.label'),_bw=isRoot(node)?3:2;ctx.fillStyle='#d4d8e0';ctx.font=(gdepth(node)===0?'600 16':'14')+'px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='start';ctx.fillText(node.text,x+_bw+(_lab?_lab.offsetLeft:12),y+_bw+(_lab?_lab.offsetTop+_lab.offsetHeight/2:(h-2*_bw)/2),w-28);pngChips(ctx,el,x,y,_bw);if(node.status==='critical'){ctx.fillStyle='#f5c518';ctx.beginPath();ctx.moveTo(x+w-2,y-18);ctx.lineTo(x+w+14,y+8);ctx.lineTo(x+w-18,y+8);ctx.closePath();ctx.fill();}else if(node.status==='blocked'){ctx.fillStyle='#bf3a3a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u26A0',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='completed'){ctx.fillStyle='#3a9f55';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u2713',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='awaiting'){ctx.fillStyle='#bf8f2a';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u23F3',x+w-4,y+1);ctx.textAlign='start';}else if(node.status==='ongoing'){ctx.fillStyle='#3a7abf';ctx.beginPath();ctx.arc(x+w-4,y-2,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='10px system-ui';ctx.textAlign='center';ctx.fillText('\u25B6',x+w-4,y+1);ctx.textAlign='start';}}
+  ctx.globalAlpha=1;
   if(slideX)dmExportLegend(ctx,cw,ch,y1,pad);
 }
 function exportPNG(){
@@ -7031,7 +7045,8 @@ function onNodeContext(e,node){
   e.preventDefault();e.stopPropagation();selectNode(node.id);
   {const bm=$('#cx-bm'),cl=$('#cx-col'),hasKids=gch(node.id).length>0;
    bm.textContent=bookmarks.includes(node.id)?'Remove bookmark':'Bookmark';
-   cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';$('#cx-impact').style.display=depMap?'':'none';}
+   cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';$('#cx-impact').style.display=depMap?'':'none';
+   const cd=$('#cx-done');cd.style.display=node.parentId===null?'':'none';cd.textContent='When done: '+DONE_LABEL[node.doneMode||''];}
   ctxMenu.style.left=e.clientX+'px';ctxMenu.style.top=e.clientY+'px';ctxMenu.classList.add('visible');
   // keep the whole menu on screen
   const w=ctxMenu.offsetWidth,h=ctxMenu.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
@@ -8935,6 +8950,73 @@ function buildMdNode(node,depth){
 $('#csv-input').addEventListener('change',e=>{if(e.target.files[0])handleCSVImport(e.target.files[0]);e.target.value='';});
 $('#md-input').addEventListener('change',e=>{if(e.target.files[0])handleMarkdownImport(e.target.files[0]);e.target.value='';});
 
+// ── When done: what happens to completed items in a list (1.61) ──
+// Set on a root node only (right-click a root > When done), saved on the root as doneMode. Child nodes are unchanged.
+//   (none) Keep          completed items stay where they are (the map-wide Hide Completed still applies)
+//   'move' Move to Done  a completed item moves, with its branch, into a folded "Done" node under the root (doneBin).
+//                        It remembers where it came from (doneFrom = parent uid, doneOff = offset from that parent);
+//                        set its status back and it returns there. Runs after each edit, inside that edit's undo step.
+//   'fade' Fade          completed items stay in place, dimmed and struck through
+//   'hide' Hide          completed items under this root are hidden (see isHidden), as Hide Completed does for the map
+const DONE_MODES=['','move','fade','hide'],DONE_LABEL={'':'Keep','move':'Move to Done','fade':'Fade','hide':'Hide'};
+function rootOf(n){let x=n,g=0;while(x&&x.parentId!==null&&g++<1e5){const p=gn(x.parentId);if(!p)break;x=p;}return x;}
+function doneFaded(n){if(n.status!=='completed'||n.parentId===null)return false;const m=rootOf(n).doneMode;return m==='fade'||m==='move';}
+const doneShift=(n,dx,dy)=>[n.id,...gdesc(n.id)].forEach(id=>{const m=gn(id);if(m){m.x+=dx;m.y+=dy;}});
+function doneBinFor(r,make){
+  let b=gch(r.id).find(c=>c.doneBin);if(b||!make)return b||null;
+  const ch=gch(r.id),now=new Date().toISOString();
+  const x=ch.length?Math.min(...ch.map(c=>c.x)):r.x+220,y=ch.length?Math.max(...ch.map(c=>c.y))+60:r.y;
+  b={id:nextId++,text:'Done',x,y,parentId:r.id,collapsed:true,colorId:'default',notes:'',project:'',owner:'',status:'',tags:[],due:'',start:'',createdAt:now,modifiedAt:now,doneBin:true};
+  nodes.push(b);_kcVer++;return b;
+}
+function doneMoveIn(n,bin){
+  const p=gn(n.parentId);if(p){if(!p.uid)stampChanges();n.doneFrom=p.uid||'';n.doneOff=[n.x-p.x,n.y-p.y];}
+  const k=gch(bin.id).length;doneShift(n,bin.x+190-n.x,bin.y+k*44-n.y);setParentId(n,bin.id);n.modifiedAt=new Date().toISOString();
+}
+function doneMoveBack(n,r,bin){
+  let p=n.doneFrom?nodes.find(x=>x.uid===n.doneFrom):null;
+  if(!p||p===bin||rootOf(p)!==r||gdesc(bin.id).includes(p.id))p=r;   // gone, moved away, or itself in Done: back under the root
+  const o=Array.isArray(n.doneOff)&&p!==r?n.doneOff:null,sib=gch(p.id).filter(c=>c!==bin);
+  const tx=o?p.x+o[0]:(sib.length?sib[0].x:p.x+220),ty=o?p.y+o[1]:(sib.length?Math.max(...sib.map(c=>c.y))+50:p.y);
+  doneShift(n,tx-n.x,ty-n.y);setParentId(n,p.id);delete n.doneFrom;delete n.doneOff;n.modifiedAt=new Date().toISOString();
+  return p;
+}
+// Called by change() and endChange(): tidies every "Move to Done" list. Returns {moved, back, n, to}
+function doneSweep(){
+  const res={moved:0,back:0,n:null,to:null};
+  for(const r of nodes.filter(x=>x.parentId===null)){
+    let bin=doneBinFor(r,false);const back=new Set();
+    // Reopened (whatever the list's setting now): back to where it came from, with its branch as it is
+    if(bin)for(const c of gch(bin.id))if(c.status!=='completed'){res.to=doneMoveBack(c,r,bin);res.back++;res.n=c;back.add(c.id);gdesc(c.id).forEach(d=>back.add(d));}
+    if(r.doneMode!=='move')continue;
+    const inBin=new Set(bin?gdesc(bin.id):[]);
+    for(const id of gdesc(r.id)){
+      const n=gn(id);if(!n||n.doneBin||n.status!=='completed'||inBin.has(id)||back.has(id))continue;
+      let p=gn(n.parentId),up=false;while(p&&p!==r){if(p.status==='completed'||p.doneBin){up=true;break;}p=gn(p.parentId);}
+      if(up)continue;   // its parent branch is completed too and moves as one
+      if(!bin)bin=doneBinFor(r,true);
+      doneMoveIn(n,bin);res.moved++;res.n=n;
+    }
+  }
+  return res;
+}
+function doneAfter(){
+  const r=doneSweep();lastDoneSweep=r;
+  if(r.moved===1&&!r.back)toast('Moved "'+r.n.text+'" to Done');
+  else if(r.moved>1)toast('Moved '+r.moved+' completed items to Done');
+  else if(r.back===1)toast('Reopened "'+r.n.text+'": back under "'+r.to.text+'"');
+  else if(r.back>1)toast(r.back+' items reopened and moved back');
+  if((r.moved||r.back)&&selectedId&&gn(selectedId)&&isHidden(gn(selectedId))){selectedId=null;hideDetail();}
+  return r;
+}
+// Right-click a root > When done. From Ctrl+K it acts on the root of the selected node
+function cycleDoneMode(){
+  const s=selectedId&&gn(selectedId);if(!s){toast('Select a list (a top-level node) first');return;}
+  const r=rootOf(s),m=DONE_MODES[(DONE_MODES.indexOf(r.doneMode||'')+1)%DONE_MODES.length];
+  change(()=>{if(m)r.doneMode=m;else delete r.doneMode;r.modifiedAt=new Date().toISOString();});
+  const mv=lastDoneSweep&&lastDoneSweep.moved,had=!!doneBinFor(r,false);
+  toast('"'+r.text+'" when done: '+DONE_LABEL[m]+(m==='move'?(mv?' ('+mv+' moved to Done)':'. Completed items go into a folded Done node'):m==='fade'?'. Completed items are dimmed':m==='hide'?'. Completed items are hidden':had?'. Items already in Done stay there':''));
+}
 // ── Self-test (hidden: About page, click the version number 5 times) ──
 function selfTest(){
   const res=[];const ok=(name,cond)=>res.push([name,!!cond]);

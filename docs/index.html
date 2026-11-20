@@ -403,8 +403,18 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <ul>
     <li><kbd>/</kbd> opens <b>Search</b>, to find nodes quickly.</li>
     <li><kbd>Ctrl</kbd>+<kbd>F</kbd> opens the <b>Filter bar</b>, to narrow the map by status, owner, project, category, tag and due date.</li>
-    <li><b>Hide Completed</b> (Settings) clears finished work off the canvas.</li>
+    <li><b>Hide Completed</b> (Settings) clears finished work off the whole canvas. To treat one list differently, see <a href="#when-done">When done</a> below.</li>
   </ul>
+  <h3 id="when-done">When done: a to-do list next to a plan</h3>
+  <p>Right-click a <b>top-level node</b> and choose <b>When done</b> to decide what happens to the completed items in that list only. Click it again for the next choice. Other lists and child nodes are not affected, and nothing changes until you choose.</p>
+  <table>
+    <tr><th>Choice</th><th>What happens to a completed item</th></tr>
+    <tr><td>Keep</td><td>Stays where it is (the normal behaviour).</td></tr>
+    <tr><td>Move to Done</td><td>Moves, with anything beneath it, into a folded <b>Done</b> node under the list. Nothing is lost: notes, checklist, dates and history go with it. Expand Done to look back.</td></tr>
+    <tr><td>Fade</td><td>Stays in place, dimmed and struck through.</td></tr>
+    <tr><td>Hide</td><td>Is hidden, as Hide Completed does, but for this list only.</td></tr>
+  </table>
+  <p><b>Reopening:</b> open an item in Done and set its status back to anything other than Completed. It returns to where it was. If its old place has gone, it comes back under the list. A typical setup is your to-do list on <b>Move to Done</b>, your plan on <b>Keep</b> or <b>Fade</b>, and Hide Completed off. The choice is saved in the map. Simple Menus hides the item.</p>
   <figure><img src="img/filter.png" alt="The filter bar" loading="lazy"><figcaption>The filter bar across the top of the canvas.</figcaption></figure>
   <h3>Focus <kbd>G</kbd></h3>
   <figure class="small"><img src="img/focus.png" alt="The Focus panel" loading="lazy"><figcaption>Switch whole root trees on or off.</figcaption></figure>
@@ -842,8 +852,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.60.0", "date": "2026-11-20", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.60.0.</footer>
+  <pre><code>{ "version": "1.61.0", "date": "2026-11-20", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.61.0.</footer>
 </section>
 </main>
 </div>

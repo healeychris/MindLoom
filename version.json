@@ -1,1 +1,1 @@
-{"version": "1.60.0", "date": "2026-11-20", "notes": "Continue last session reconnects your file (Edge and Chrome). Drag a map onto the window to open it. Deleting shows Undo instead of a confirm box. Clearer save badge, a Date Axis hint for maps with no dates, a tidier About box and a one-page cheat sheet."}
+{"version": "1.61.0", "date": "2026-11-20", "notes": "When done: right-click a top-level node to choose what happens to its completed items: Keep, Move to Done (a folded Done list; set the status back to reopen), Fade or Hide. Other lists are not affected."}

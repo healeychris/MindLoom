@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.60.0)
+# MINDLOOM FEATURES (v1.61.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,16 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.60
+WHAT'S NEW IN 1.61
+
+When done (right-click a top-level node): choose what happens to the completed items in that list only. Click again for the next choice
+  Keep: they stay where they are (as before)
+  Move to Done: they move, with anything beneath them, into a folded Done node under the list. Nothing is lost. Set an item's status back and it returns
+  Fade: they stay in place, dimmed and struck through
+  Hide: they are hidden, for this list only
+  Handy for a to-do list next to a plan on the same map. Hidden by Simple Menus. See "When done" in the User Guide
+
+EARLIER IN 1.60
 
 Continue last session reconnects your file (Edge and Chrome): Ctrl+S, auto-save and Shared map carry on writing to the file you last saved.
   The start screen card says which file. If the file changed after your last edit here, MindLoom opens the file instead and tells you
