@@ -1,1 +1,1 @@
-{"version": "1.61.0", "date": "2026-11-20", "notes": "When done: right-click a top-level node to choose what happens to its completed items: Keep, Move to Done (a folded Done list; set the status back to reopen), Fade or Hide. Other lists are not affected."}
+{"version": "1.61.2", "date": "2026-11-20", "notes": "Two new Tidy layouts, Radial (fan out) and Layered flow, for the whole map or one branch, also under Tidy branch in the right-click menu. Map files made by other tools can ask to be tidied when opened."}

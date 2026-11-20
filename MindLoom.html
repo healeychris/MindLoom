@@ -386,6 +386,16 @@
     box-shadow:0 8px 32px rgba(0,0,0,0.4); z-index:200; display:none;
   }
   #ctx-menu.visible { display:block; }
+  /* Tighter rows for a mouse; touch screens keep the larger tap targets */
+  @media (hover:hover) {
+    #ctx-menu { min-width:210px; padding:3px; }
+    #ctx-menu .dd-item { padding:3px 10px; font-size:12.5px; }
+    #ctx-menu .dd-sep { margin:3px 8px; }
+    #ctx-menu .dd-label { padding:4px 10px 2px; font-size:9.5px; }
+    #ctx-menu .dd-submenu-items { top:-3px; min-width:190px; }
+    #ctx-menu .dd-submenu-items .dd-item { white-space:nowrap; }
+  }
+  #ctx-menu.flip .dd-submenu-items { left:auto; right:100%; margin:0 2px 0 0; }
 
   /* ── Multi-select ── */
   .node.multi-selected { box-shadow:0 0 0 2px rgba(255,180,50,0.8), 0 4px 12px rgba(0,0,0,0.3); border-color:rgba(255,180,50,0.6); }
@@ -1845,10 +1855,19 @@ const COMMANDS=[
   {id:"tidy.tidyLayoutHAll",fn:"tidyLayout",args:["h","all"],label:"Horizontal tree &rarr;",tip:"Arrange the whole map as a left-to-right tree, siblings ordered by due date"},
   {id:"tidy.tidyLayoutVAll",fn:"tidyLayout",args:["v","all"],label:"Vertical tree &darr;",tip:"Arrange the whole map as a top-to-bottom tree, siblings ordered by due date"},
   {id:"tidy.tidyLayoutBAll",fn:"tidyLayout",args:["b","all"],label:"Balanced (both sides) &harr;",tip:"Root in the middle, branches split between the left and right sides. Best for large maps"},
+  {id:"tidy.tidyLayoutRAll",fn:"tidyLayout",args:["r","all"],label:"Radial (fan out) &#9737;",tip:"Put each top node in the middle and fan its branches out around it, like a classic mind map"},
+  {id:"tidy.tidyLayoutLAll",fn:"tidyLayout",args:["l","all"],label:"Layered flow &rarr;",tip:"Columns left to right: whatever leads to a node (its parent, dependencies and cross-links) sits to its left. Good for processes and dependencies"},
   {id:"tidy.autoLayoutOutline",fn:"autoLayoutOutline",label:"Outline (indented list)",tip:"Arrange the map as an indented list"},
   {id:"tidy.tidyLayoutHBranch",fn:"tidyLayout",args:["h","branch"],label:"Horizontal tree &rarr;",tip:"Arrange only the selected branch as a left-to-right tree"},
   {id:"tidy.tidyLayoutVBranch",fn:"tidyLayout",args:["v","branch"],label:"Vertical tree &darr;",tip:"Arrange only the selected branch as a top-to-bottom tree"},
   {id:"tidy.tidyLayoutBBranch",fn:"tidyLayout",args:["b","branch"],label:"Balanced (both sides) &harr;",tip:"Arrange only the selected branch with its children split between both sides"},
+  {id:"tidy.tidyLayoutRBranch",fn:"tidyLayout",args:["r","branch"],label:"Radial (fan out) &#9737;",tip:"Fan out only the selected branch, on the side facing away from its parent"},
+  {id:"tidy.tidyLayoutLBranch",fn:"tidyLayout",args:["l","branch"],label:"Layered flow &rarr;",tip:"Arrange only the selected branch in flow columns"},
+  {id:"ctx.tidyBranchR",fn:"tidyLayout",args:["r","branch"],label:"Radial (fan out) &#9737;",tip:"Fan out only this branch, on the side facing away from its parent"},
+  {id:"ctx.tidyBranchL",fn:"tidyLayout",args:["l","branch"],label:"Layered flow &rarr;",tip:"Arrange only this branch in flow columns"},
+  {id:"ctx.tidyBranchH",fn:"tidyLayout",args:["h","branch"],label:"Horizontal tree &rarr;",tip:"Arrange only this branch as a left-to-right tree"},
+  {id:"ctx.tidyBranchV",fn:"tidyLayout",args:["v","branch"],label:"Vertical tree &darr;",tip:"Arrange only this branch as a top-to-bottom tree"},
+  {id:"ctx.tidyBranchB",fn:"tidyLayout",args:["b","branch"],label:"Balanced (both sides) &harr;",tip:"Arrange only this branch with its children split between both sides"},
   {id:"view.openRaci",fn:"openRaci",adv:true,label:"RACI matrix&hellip;",tip:"Who is Responsible, Accountable, Consulted and Informed for what, built from links of type R, A, C and I. Click a cell to change it"},
   {id:"view.toggleRaciKey",fn:"toggleRaciKey",adv:true,label:"RACI key",tip:"Show or hide the key and the warnings about deliverables without exactly one Accountable (Stakeholders map type)"},
   {id:"view.openCoverage",fn:"openCoverage",adv:true,label:"Coverage",tip:"Check that things are connected the way you expect, for example every requirement has a test or every task has an owner. Gaps are listed and ringed on the map"},
@@ -2093,12 +2112,16 @@ const MENU_TOOLBAR=`
       {{tidy.tidyLayoutHAll}}
       {{tidy.tidyLayoutVAll}}
       {{tidy.tidyLayoutBAll}}
+      {{tidy.tidyLayoutRAll}}
+      {{tidy.tidyLayoutLAll}}
       {{tidy.autoLayoutOutline}}
       <div class="dd-sep"></div>
       <div class="dd-label">Selected branch only</div>
       {{tidy.tidyLayoutHBranch}}
       {{tidy.tidyLayoutVBranch}}
       {{tidy.tidyLayoutBBranch}}
+      {{tidy.tidyLayoutRBranch}}
+      {{tidy.tidyLayoutLBranch}}
     </div>
   </div>
   <div class="sep tb-wide"></div>
@@ -2138,6 +2161,16 @@ const MENU_CTX=`
   {{ctx.cutSelection}}
   {{ctx.pasteSelection}}
   {{ctx.duplicateSelected}}
+  <div class="dd-submenu">
+    <button class="dd-item" title="Arrange just this branch">Tidy branch</button>
+    <div class="dd-submenu-items">
+      {{ctx.tidyBranchH}}
+      {{ctx.tidyBranchV}}
+      {{ctx.tidyBranchB}}
+      {{ctx.tidyBranchR}}
+      {{ctx.tidyBranchL}}
+    </div>
+  </div>
   {{ctx.openShiftDates}}
   {{ctx.convertToRoot}}
   {{ctx.cycleDoneMode}}
@@ -2722,7 +2755,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.61.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.61.2';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -3121,7 +3154,9 @@ function applyLoadedData(text,name){
     // Every other field comes from the table, so stale values from the previous map cannot leak in
     docLoad(d,()=>true);docExtrasUI();stampReset();
     multiSelected.clear();updateBulkBar();
-    selectedId=null;centreView();render();autoSave();detachFile();toast('Loaded '+name);closeTemplates();
+    selectedId=null;centreView();render();
+    if(d.tidyOnOpen&&!dateMode){tidyLayout({radial:'r',layered:'l',balanced:'b',vertical:'v'}[d.tidyOnOpen]||'h','all',{noSnap:true,quiet:true});fitAll();} // set by files made outside MindLoom, whose boxes were placed without knowing their size
+    autoSave();detachFile();toast('Loaded '+name);closeTemplates();
     return true;
   }catch(err){toast('Error reading file');return false;}
 }
@@ -6497,6 +6532,8 @@ function tidyLayout(orient,scope,opts){
   if(!opts.noSnap)beginChange();
   render();
   if(orient==='b'){tidyBalanced(tops,scope,opts);return;}
+  if(orient==='r'){tidyRadial(tops,scope,opts);return;}
+  if(orient==='l'){tidyLayered(tops,scope,opts);return;}
   const H=orient==='h',LEVEL=H?60:56,GAP=H?14:22,TREEGAP=70;
   const dim=n=>{const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};};
   const crossOf=n=>{const d=dim(n);return H?d.h:d.w;},depthOf=n=>{const d=dim(n);return H?d.w:d.h;};
@@ -6605,6 +6642,104 @@ function doSearch(q){
 }
 function clearSearchDim(){if(searchHits){searchHits=null;render();}}
 
+// ── Radial and Layered tidy layouts. tidyLayout (200-layout.js) hands over to these for orient 'r' and 'l' ──
+function tidyKids(n){ // the visible children, earliest due date first (undated keep their order)
+  if(n.collapsed)return [];
+  const ds=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
+  return gch(n.id).filter(c=>!isHidden(c)).map((c,i)=>[c,i]).sort((a,b)=>ds(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
+}
+function tidyDim(n){const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};}
+function tidyCentre(n){const d=tidyDim(n);return {x:n.x+d.w/2,y:n.y+d.h/2};}
+// Radial: the top node in the middle, branches fan out in rings, each branch gets a slice of the circle
+// in proportion to how many leaves it has. A selected branch fans out on the side facing away from its parent.
+function tidyRadial(tops,scope,opts){
+  const GAPR=40,TREEGAP=70,K=1.7,lv=new Map(); // K: rings are wider than tall, so boxes at the top and bottom have room side by side
+  const cnt=n=>{const k=tidyKids(n),v=k.length?k.reduce((a,c)=>a+cnt(c),0):1;lv.set(n.id,v);return v;};
+  let cursor=0,cy0=0,first=true;
+  tops.forEach(t=>{
+    cnt(t);
+    const ang=new Map(),byDepth=[];
+    let a0=-Math.PI/2,a1=a0+2*Math.PI;
+    const par=t.parentId!==null?gn(t.parentId):null;
+    if(par&&scope==='branch'){const tc=tidyCentre(t),pc=tidyCentre(par),dir=Math.atan2(tc.y-pc.y,tc.x-pc.x);a0=dir-Math.PI/2;a1=dir+Math.PI/2;}
+    const sector=(n,s0,s1,d)=>{
+      ang.set(n.id,(s0+s1)/2);(byDepth[d]=byDepth[d]||[]).push(n);
+      let s=s0;tidyKids(n).forEach(c=>{const w=(s1-s0)*lv.get(c.id)/lv.get(n.id);sector(c,s,s+w,d+1);s+=w;});
+    };
+    sector(t,a0,a1,0);
+    const half=(n,r)=>{const a=ang.get(n.id),d=tidyDim(n);return Math.abs(Math.cos(a))*d.w/2+Math.abs(Math.sin(a))*d.h/2;};
+    const box=(n,r)=>{const a=ang.get(n.id),d=tidyDim(n);return {x:K*r*Math.cos(a),y:r*Math.sin(a),w:d.w,h:d.h};};
+    const hit=(p,q)=>Math.abs(p.x-q.x)<(p.w+q.w)/2+8&&Math.abs(p.y-q.y)<(p.h+q.h)/2+8;
+    const R=[0],placed=[]; // placed: boxes on the rings already fixed
+    const clash=(list,r)=>{ // does a node on this ring touch another on it, or one on an inner ring?
+      const b=list.map(n=>box(n,r));
+      for(let i=0;i<b.length;i++){for(let j=i+1;j<b.length;j++)if(hit(b[i],b[j]))return true;for(const q of placed)if(hit(b[i],q))return true;}
+      return false;
+    };
+    placed.push(box(t,0));
+    for(let d=1;d<byDepth.length;d++){
+      let r=R[d-1]+Math.max(...byDepth[d-1].map(n=>d===1?Math.hypot(tidyDim(n).w,tidyDim(n).h)/2:half(n)))+Math.max(...byDepth[d].map(n=>half(n)))+GAPR;
+      for(let g=0;g<200&&clash(byDepth[d],r);g++)r+=12;
+      R[d]=r;byDepth[d].forEach(n=>placed.push(box(n,r)));
+    }
+    const rel=[];let minX=Infinity,maxX=-Infinity;
+    byDepth.forEach((list,d)=>list.forEach(n=>{
+      const a=ang.get(n.id),dm=tidyDim(n),x=d?K*R[d]*Math.cos(a):0,y=d?R[d]*Math.sin(a):0;
+      rel.push({n,x,y,dm});minX=Math.min(minX,x-dm.w/2);maxX=Math.max(maxX,x+dm.w/2);
+    }));
+    let ox,oy;
+    if(first){const c=tidyCentre(t);ox=c.x;oy=c.y;cy0=oy;first=false;}else{ox=cursor-minX;oy=cy0;}
+    rel.forEach(v=>{v.n.x=Math.round(ox+v.x-v.dm.w/2);v.n.y=Math.round(oy+v.y-v.dm.h/2);});
+    cursor=ox+maxX+TREEGAP;
+  });
+  render();autoSave();
+  if(opts.quiet)return;
+  if(scope==='all')fitAll();
+  toast('Tidied: radial'+(scope==='branch'?' (selected branch)':''));
+}
+// Layered: columns left to right, a node always sits to the right of whatever leads to it (its parent, its
+// dependencies and cross-link sources), so the links read as a flow. Boxes in a column are ordered to cut crossings.
+function tidyLayered(tops,scope,opts){
+  const LEVEL=90,GAP=16,list=[],seen=new Set(),par=new Map();
+  const add=n=>{if(seen.has(n.id))return;seen.add(n.id);list.push(n);tidyKids(n).forEach(c=>{par.set(c.id,n.id);add(c);});};
+  tops.forEach(add);
+  const edges=[];
+  list.forEach(n=>{if(par.has(n.id))edges.push([par.get(n.id),n.id]);(n.deps||[]).forEach(d=>{if(seen.has(d))edges.push([d,n.id]);});});
+  crossLinks.forEach(l=>{if(seen.has(l.from)&&seen.has(l.to))edges.push([l.from,l.to]);});
+  const adj=new Map(list.map(n=>[n.id,[]]));edges.forEach(e=>adj.get(e[0]).push(e[1]));
+  const state=new Map(),keep=[];
+  const dfs=a=>{state.set(a,1);adj.get(a).forEach(b=>{if(state.get(b)===1)return;keep.push([a,b]);if(!state.get(b))dfs(b);});state.set(a,2);};
+  list.forEach(n=>{if(!state.get(n.id))dfs(n.id);}); // edges that would close a loop are left out
+  const layer=new Map(list.map(n=>[n.id,0]));
+  for(let p=0;p<list.length;p++){let ch=false;keep.forEach(([a,b])=>{if(layer.get(b)<=layer.get(a)){layer.set(b,layer.get(a)+1);ch=true;}});if(!ch)break;}
+  const L=Math.max(...layer.values()),cols=Array.from({length:L+1},()=>[]);
+  list.forEach(n=>cols[layer.get(n.id)].push(n));
+  const nb=new Map(list.map(n=>[n.id,[]]));keep.forEach(([a,b])=>{nb.get(a).push(b);nb.get(b).push(a);});
+  const pos=new Map(),setPos=()=>cols.forEach(c=>c.forEach((n,i)=>pos.set(n.id,c.length>1?i/(c.length-1):.5)));
+  setPos();
+  const sortCol=(l,fwd)=>{
+    const c=cols[l],v=new Map(c.map(n=>{const ns=nb.get(n.id).filter(m=>fwd?layer.get(m)<l:layer.get(m)>l);return [n.id,ns.length?ns.reduce((a,m)=>a+pos.get(m),0)/ns.length:pos.get(n.id)];}));
+    c.sort((a,b)=>v.get(a.id)-v.get(b.id));setPos();
+  };
+  for(let p=0;p<4;p++){for(let l=1;l<=L;l++)sortCol(l,true);for(let l=L-1;l>=0;l--)sortCol(l,false);}
+  const dm=new Map(list.map(n=>[n.id,tidyDim(n)])),cy=new Map();
+  cols.forEach(c=>{const tot=c.reduce((a,n)=>a+dm.get(n.id).h,0)+GAP*(c.length-1);let y=-tot/2;c.forEach(n=>{const h=dm.get(n.id).h;cy.set(n.id,y+h/2);y+=h+GAP;});});
+  const settle=(l,fwd)=>{
+    const c=cols[l],want=c.map(n=>{const ns=nb.get(n.id).filter(m=>fwd?layer.get(m)<l:layer.get(m)>l);return ns.length?ns.reduce((a,m)=>a+cy.get(m),0)/ns.length:cy.get(n.id);});
+    let pb=-Infinity;const out=c.map((n,i)=>{const h=dm.get(n.id).h,y=Math.max(want[i],pb+GAP+h/2);pb=y+h/2;return y;});
+    const sh=(want.reduce((a,b)=>a+b,0)-out.reduce((a,b)=>a+b,0))/c.length;
+    c.forEach((n,i)=>cy.set(n.id,out[i]+sh));
+  };
+  for(let p=0;p<3;p++){for(let l=1;l<=L;l++)settle(l,true);for(let l=L-1;l>=0;l--)settle(l,false);}
+  const x0=Math.min(...tops.map(t=>t.x)),colX=[],colW=cols.map(c=>Math.max(...c.map(n=>dm.get(n.id).w)));
+  let acc=x0;colW.forEach((w,l)=>{colX[l]=acc;acc+=w+LEVEL;});
+  const f=tops[0],dy=tidyCentre(f).y-cy.get(f.id);
+  list.forEach(n=>{const d=dm.get(n.id),l=layer.get(n.id);n.x=Math.round(colX[l]+(colW[l]-d.w)/2);n.y=Math.round(cy.get(n.id)+dy-d.h/2);});
+  render();autoSave();
+  if(opts.quiet)return;
+  if(scope==='all')fitAll();
+  toast('Tidied: layered flow'+(scope==='branch'?' (selected branch)':''));
+}
 // ── Export PNG ──
 // Text and strokes that sit directly on the page background switch to dark ink when the background is light
 let pngInk={main:'#e9ecf2',sub:'#c9ced8',text:'#d4d8e0',link:'rgba(255,200,60,0.6)',linkLab:'rgba(255,220,100,0.85)'};
@@ -7052,6 +7187,8 @@ function onNodeContext(e,node){
   const w=ctxMenu.offsetWidth,h=ctxMenu.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
   ctxMenu.style.left=Math.max(8,Math.min(e.clientX,vw-w-8))+'px';
   ctxMenu.style.top=Math.max(8,Math.min(e.clientY,vh-h-8))+'px';
+  ctxMenu.classList.toggle('flip',parseFloat(ctxMenu.style.left)+w+200>vw); // open the Tidy flyout to the left near the right edge
+  ctxMenu.querySelectorAll('.dd-submenu.open').forEach(x=>x.classList.remove('open'));
 }
 function hideCtx(){ctxMenu.classList.remove('visible');}
 document.addEventListener('click',e=>{if(!ctxMenu.contains(e.target))hideCtx();});

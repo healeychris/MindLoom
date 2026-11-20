@@ -326,9 +326,12 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
     <li><b>Horizontal tree</b>: left to right, siblings ordered by due date.</li>
     <li><b>Vertical tree</b>: top to bottom.</li>
     <li><b>Balanced tree</b>: the root in the middle and branches split left and right. Best for large maps, and a good choice when cross-links or dependencies matter, because the linked nodes end up on both sides and the lines between them stay visible.</li>
+    <li><b>Radial (fan out)</b>: each top node in the middle with its branches fanning out around it in rings, like a classic mind map. Each branch gets a slice of the circle in proportion to its size. For a selected branch it fans out on the side facing away from its parent. A good choice for presenting a topic.</li>
+    <li><b>Layered flow</b>: columns from left to right, where whatever leads to a node (its parent, the things it depends on and the nodes that cross-link to it) sits to its left, so links read as a flow. Best for processes and dependencies. If two items depend on each other in a loop, one of the links is drawn backwards.</li>
     <li><b>Outline (indented list)</b>: every node in one column, each level indented under its parent, like a table of contents. Useful for reading a plan top to bottom or for pasting into a document. It applies to the whole map.</li>
   </ul>
-  <p>The <b>Tidy</b> menu has two groups, <b>Whole map</b> and <b>Selected branch</b>. Choose the second to arrange only the branch you have selected and leave the rest where it is. Tidy is one undo step.</p>
+  <p>The <b>Tidy</b> menu has two groups, <b>Whole map</b> and <b>Selected branch</b>. Choose the second to arrange only the branch you have selected and leave the rest where it is. Tidy is one undo step. The right-click menu has the same branch layouts under <b>Tidy branch</b>. With the Date Axis on, every layout arranges by date instead.</p>
+  <p><b>Maps made outside MindLoom.</b> A map file written by another tool, such as a Claude skill, can ask to be tidied when it is opened (<code>"tidyOnOpen": "radial"</code>, <code>"layered"</code>, <code>"balanced"</code>, <code>"vertical"</code> or <code>true</code> for the horizontal tree). MindLoom then uses the real box sizes. Your own saved maps are never rearranged on open, and the setting is not written back when you save.</p>
   <figure><img src="img/balanced.png" alt="A balanced tree layout" loading="lazy"><figcaption>Balanced tree: branches fan out on both sides of the root.</figcaption></figure>
   <p><b>Snap to grid</b> (Settings) keeps manual layouts neat. <b>Lane Bands</b> do the same job on the Date Axis. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
 </section>
@@ -852,8 +855,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.61.0", "date": "2026-11-20", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.61.0.</footer>
+  <pre><code>{ "version": "1.61.2", "date": "2026-11-20", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.61.2.</footer>
 </section>
 </main>
 </div>

@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.61.0)
+# MINDLOOM FEATURES (v1.61.2)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,15 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.61
+WHAT'S NEW IN 1.61.2
+
+Two new Tidy layouts, for the whole map or the selected branch (Tidy menu, and the right-click Tidy branch menu):
+  Radial (fan out): the top node in the middle, branches fanning out around it like a classic mind map. Good for presenting a topic
+  Layered flow: columns from left to right, so whatever leads to a node (its parent, dependencies and cross-links) sits to its left. Good for processes
+Right-click menu is more compact on a mouse, and has a Tidy branch menu in the Branch section
+Map files made by other tools can ask to be tidied when opened ("tidyOnOpen"). Your own maps are never rearranged on open
+
+EARLIER IN 1.61
 
 When done (right-click a top-level node): choose what happens to the completed items in that list only. Click again for the next choice
   Keep: they stay where they are (as before)
