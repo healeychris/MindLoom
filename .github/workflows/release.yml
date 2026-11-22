@@ -1,0 +1,35 @@
+name: Release
+
+# Creates a tag and GitHub Release whenever version.json changes on main.
+# Can also be run by hand from the Actions tab.
+on:
+  push:
+    branches: [main]
+    paths: [version.json]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read version
+        id: v
+        run: echo "version=$(jq -r .version version.json)" >> "$GITHUB_OUTPUT"
+      - name: Create release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          TAG="v$VERSION"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "$TAG already exists, nothing to do"
+            exit 0
+          fi
+          gh release create "$TAG" MindLoom.html \
+            --target "$GITHUB_SHA" \
+            --title "MindLoom $VERSION" \
+            --notes "MindLoom $VERSION. Download MindLoom.html and open it in any browser. See the README for what's new."
