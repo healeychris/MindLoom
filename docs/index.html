@@ -332,6 +332,15 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   </ul>
   <p>The <b>Tidy</b> menu has two groups, <b>Whole map</b> and <b>Selected branch</b>. Choose the second to arrange only the branch you have selected and leave the rest where it is. Tidy is one undo step. The right-click menu has the same branch layouts under <b>Tidy branch</b>. With the Date Axis on, every layout arranges by date instead.</p>
   <p><b>Maps made outside MindLoom.</b> A map file written by another tool, such as a Claude skill, can ask to be tidied when it is opened (<code>"tidyOnOpen": "radial"</code>, <code>"layered"</code>, <code>"balanced"</code>, <code>"vertical"</code> or <code>true</code> for the horizontal tree). MindLoom then uses the real box sizes. Your own saved maps are never rearranged on open, and the setting is not written back when you save.</p>
+  <h3 id="zones">Zones</h3>
+  <p>A <b>zone</b> is a labelled, tinted box drawn behind the nodes: a layer, a boundary or a group of things that belong together, such as the Windows CA or the Security controls in an application structure. A zone is not tied to any node. A node is <em>in</em> a zone when its centre is inside the box.</p>
+  <ul>
+    <li><b>Add one</b> from <b>Tidy &gt; Zones &gt; Add zone</b> (it appears in the middle of the screen), or right-click empty canvas and choose <b>Add zone here</b>. Select some nodes and choose <b>Zone around selection</b> (Tidy menu or the right-click menu) to wrap a zone round them. With one node selected, the zone wraps that node and its visible branch.</li>
+    <li><b>Move</b> a zone by dragging its title bar: the nodes inside it, and any zone wholly inside it, move too. Drag the small triangle in the corner to resize. Double-click the title to rename it.</li>
+    <li><b>Right-click the title</b> for Rename, Fit to contents, Tidy contents, the colour and Delete zone. Deleting a zone leaves its nodes alone. Everything is one undo step.</li>
+    <li><b>Tidy inside zones.</b> When the map has zones, <b>Tidy &gt; Whole map</b> arranges the nodes outside every zone as usual and arranges each zone's nodes inside that zone: every tree in the zone gets the layout you chose, and the trees (a lone node counts as one) sit in rows from left to right, wrapping at the zone's width. A zone keeps its corner and width and grows only as tall as it needs. A zone that grows into the one above it moves down with its nodes. Tidy on a selected branch does not look at zones. A zone that holds other zones is left alone.</li>
+    <li>Zones are saved in the map file (the <code>zones</code> key), are included in PNG and SVG exports and show faintly on the minimap. They are hidden while the Date Axis is on. A map with no zones is saved exactly as before.</li>
+  </ul>
   <figure><img src="img/balanced.png" alt="A balanced tree layout" loading="lazy"><figcaption>Balanced tree: branches fan out on both sides of the root.</figcaption></figure>
   <p><b>Snap to grid</b> (Settings) keeps manual layouts neat. <b>Lane Bands</b> do the same job on the Date Axis. <b>Fit All</b> (<kbd>F</kbd>) and <b>Centre</b> (<kbd>Home</kbd>) help you find your way back.</p>
 </section>
@@ -795,6 +804,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padd
   <table>
     <tr><th>Key</th><th>Holds</th></tr>
     <tr><td><code>nodes</code>, <code>crossLinks</code>, <code>nextId</code></td><td>The map itself</td></tr>
+    <tr><td><code>zones</code></td><td>Labelled boxes behind the nodes: <code>{ "id", "title", "x", "y", "w", "h", "colorId" }</code>. Left out when the map has none</td></tr>
     <tr><td><code>deleted</code></td><td>Nodes removed in the last 90 days (merge bookkeeping, format 6)</td></tr>
     <tr><td><code>colorLabels</code>, <code>bgColorId</code>, <code>bgPatternId</code>, <code>lightTheme</code>, <code>connStyle</code></td><td>Appearance</td></tr>
     <tr><td><code>bookmarks</code>, <code>hiddenRoots</code>, <code>savedViews</code>, <code>hideCompleted</code>, <code>snapToGrid</code>, <code>hoverPopup</code>, <code>focusSel</code></td><td>Views and preferences</td></tr>
@@ -855,8 +865,8 @@ frame-src 'none';  object-src 'none'</code></pre>
     <li><b>Publishing a release (maintainers).</b> Replace <code>MindLoom.html</code>, update the version and notes in <code>version.json</code> and the header of <code>README.md</code>, commit, and update <code>main</code>.</li>
     <li><b>This guide.</b> It is a static page in the <code>docs</code> folder, served with GitHub Pages. Edit <code>docs/index.html</code> and commit to update it.</li>
   </ul>
-  <pre><code>{ "version": "1.61.2", "date": "2026-11-20", "notes": "What changed" }</code></pre>
-  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.61.2.</footer>
+  <pre><code>{ "version": "1.62.0", "date": "2026-11-22", "notes": "What changed" }</code></pre>
+  <footer>MindLoom was created by Chris Healey, built with assistance from Claude (Anthropic). This guide describes version 1.62.0.</footer>
 </section>
 </main>
 </div>

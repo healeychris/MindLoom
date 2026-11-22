@@ -132,6 +132,31 @@
 
   #connectors { position:absolute; top:0; left:0; width:1px; height:1px; pointer-events:none; overflow:visible; }
 
+  /* ── Zones: tinted boxes behind the nodes. Only the title bar and the corner take the mouse; the rest lets clicks through ── */
+  #zones { position:absolute; top:0; left:0; width:1px; height:1px; pointer-events:none; overflow:visible; }
+  #canvas.dm-on #zones { display:none; }
+  .zone { position:absolute; box-sizing:border-box; pointer-events:none; border-radius:14px;
+    border:1.5px solid color-mix(in srgb, var(--zc) 65%, transparent); background:color-mix(in srgb, var(--zc) 9%, transparent); }
+  .zone-title { position:absolute; left:0; top:0; right:0; height:30px; line-height:30px; padding:0 14px; box-sizing:border-box;
+    font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    border-radius:14px 14px 0 0; cursor:move; pointer-events:auto; user-select:none; touch-action:none; }
+  .zone-title:hover { background:color-mix(in srgb, var(--zc) 15%, transparent); }
+  .zone-title.empty { opacity:0.55; font-style:italic; }
+  .zone-edit { width:70%; max-width:100%; font:inherit; padding:1px 6px; border-radius:5px; border:1px solid var(--zc); background:var(--surface); color:var(--text); line-height:20px; }
+  .zone-resize { position:absolute; right:0; bottom:0; width:20px; height:20px; cursor:nwse-resize; pointer-events:auto; touch-action:none;
+    border-radius:0 0 14px 0; background:linear-gradient(135deg, transparent 52%, var(--zc) 52%); opacity:0.5; }
+  .zone-resize:hover { opacity:0.9; }
+  #zone-menu { position:fixed; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:3px; min-width:190px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4); z-index:200; display:none; }
+  #zone-menu.visible { display:block; }
+  #zone-menu .dd-item { padding:3px 10px; font-size:12.5px; white-space:nowrap; }
+  #zone-menu .dd-sep { margin:3px 8px; }
+  #zone-menu .dd-submenu-items { top:-3px; min-width:170px; }
+  #zone-menu.flip .dd-submenu-items { left:auto; right:100%; margin:0 2px 0 0; }
+  .zone-sws { display:flex; gap:5px; padding:4px 10px; }
+  .zone-sw { width:18px; height:18px; border-radius:50%; border:2px solid transparent; cursor:pointer; padding:0; }
+  .zone-sw.on { border-color:var(--text); }
+
   /* ── Date axis view ── */
   #dm-tools { position:absolute; top:58px; right:12px; z-index:25; display:none; gap:6px; flex-wrap:wrap; justify-content:flex-end; max-width:calc(100% - 24px); }
   body:has(#canvas.dm-on) #dm-tools { display:flex; }
@@ -1441,6 +1466,7 @@
 <div id="canvas-wrap" class="bg-grid">
   <div id="date-grid"></div>
   <div id="canvas" role="tree" aria-label="Mind map">
+    <div id="zones"></div>
     <svg id="connectors" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -1864,6 +1890,9 @@ const COMMANDS=[
   {id:"tidy.tidyLayoutRBranch",fn:"tidyLayout",args:["r","branch"],label:"Radial (fan out) &#9737;",tip:"Fan out only the selected branch, on the side facing away from its parent"},
   {id:"tidy.tidyLayoutLBranch",fn:"tidyLayout",args:["l","branch"],label:"Layered flow &rarr;",tip:"Arrange only the selected branch in flow columns"},
   {id:"ctx.tidyBranchR",fn:"tidyLayout",args:["r","branch"],label:"Radial (fan out) &#9737;",tip:"Fan out only this branch, on the side facing away from its parent"},
+  {id:"zone.add",fn:"addZone",label:"Add zone",tip:"Add a labelled zone (a tinted box behind the nodes, for a layer or a group) to the middle of the screen. Drag its title bar to move it with the nodes inside, drag the corner to resize, right-click it for colour, rename, tidy and delete"},
+  {id:"zone.around",fn:"zoneAroundSelection",label:"Zone around selection",tip:"Wrap a zone around the selected nodes (a single node: its visible branch)"},
+  {id:"ctx.zoneAround",fn:"zoneAroundSelection",label:"Zone around selection",tip:"Wrap a zone around the selected nodes (a single node: its visible branch)"},
   {id:"ctx.tidyBranchL",fn:"tidyLayout",args:["l","branch"],label:"Layered flow &rarr;",tip:"Arrange only this branch in flow columns"},
   {id:"ctx.tidyBranchH",fn:"tidyLayout",args:["h","branch"],label:"Horizontal tree &rarr;",tip:"Arrange only this branch as a left-to-right tree"},
   {id:"ctx.tidyBranchV",fn:"tidyLayout",args:["v","branch"],label:"Vertical tree &darr;",tip:"Arrange only this branch as a top-to-bottom tree"},
@@ -2122,6 +2151,10 @@ const MENU_TOOLBAR=`
       {{tidy.tidyLayoutBBranch}}
       {{tidy.tidyLayoutRBranch}}
       {{tidy.tidyLayoutLBranch}}
+      <div class="dd-sep"></div>
+      <div class="dd-label">Zones</div>
+      {{zone.add}}
+      {{zone.around}}
     </div>
   </div>
   <div class="sep tb-wide"></div>
@@ -2171,6 +2204,7 @@ const MENU_CTX=`
       {{ctx.tidyBranchL}}
     </div>
   </div>
+  {{ctx.zoneAround}}
   {{ctx.openShiftDates}}
   {{ctx.convertToRoot}}
   {{ctx.cycleDoneMode}}
@@ -2514,7 +2548,7 @@ function snapState(full){
 function hasExtras(str){try{return JSON.parse(str).extras!==undefined;}catch(e){return false;}}
 function restoreState(str){
   const s=JSON.parse(str);
-  nodes=s.nodes;crossLinks=s.crossLinks||[];nextId=s.nextId;logSync();
+  nodes=s.nodes;crossLinks=s.crossLinks||[];zones=sanitizeZones(s.zones);nextId=s.nextId;logSync();
   if(Array.isArray(s.bookmarks))bookmarks=s.bookmarks;
   if(Array.isArray(s.hiddenRoots))hiddenRoots=new Set(s.hiddenRoots);
   bookmarks=bookmarks.filter(b=>gn(b));hiddenRoots=new Set([...hiddenRoots].filter(r=>gn(r)));
@@ -2755,7 +2789,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.61.2';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.62.0';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -2778,6 +2812,7 @@ function storageSet(k,v){
 const DOC_FIELDS=[
   {k:'nodes',get:()=>nodes,undo:1,sig:1},
   {k:'crossLinks',get:()=>crossLinks,undo:1,sig:1},
+  {k:'zones',get:()=>zones,undo:1,sig:1,map:1,load:d=>{zones=sanitizeZones(d.zones);}},
   {k:'nextId',get:()=>nextId,undo:1},
   {k:'colorLabels',get:()=>COLORS.map(c=>({id:c.id,label:c.label})),
    load:d=>{applyLabels(DEFAULT_LABELS);if(d.colorLabels)d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});buildLegend();updateSwatchLabels();rebuildColorFilter();}},
@@ -2919,7 +2954,7 @@ function init(){
       if(d.colorLabels) d.colorLabels.forEach(cl=>{const c=COLORS.find(x=>x.id===cl.id);if(c&&cl&&typeof cl.label==='string')c.label=cl.label;});
       buildLegend();updateSwatchLabels();
       if(d.lightTheme!==undefined){lightTheme=d.lightTheme;document.body.classList.toggle('light-theme',lightTheme);$('#theme-toggle').textContent='Theme: '+(lightTheme?'Light':'Dark');}
-      bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);
+      bookmarks=(Array.isArray(d.bookmarks)?d.bookmarks:[]).filter(Number.isInteger);zones=sanitizeZones(d.zones);
       savedViews=sanitizeViews(d.savedViews);
       nodes.forEach(n=>{if(!n.colorId)n.colorId='default';if(n.notes===undefined)n.notes='';if(!n.project)n.project='';if(!n.owner)n.owner='';if(!n.status)n.status='';if(!n.createdAt)n.createdAt=new Date().toISOString();if(!n.modifiedAt)n.modifiedAt=n.createdAt;});
       // Always open on a fresh map so it is never mistaken for a saved file; keep the last map in Restore backup
@@ -2964,7 +2999,7 @@ function flushSave(){
   if(saveTimer===null)return;
   clearTimeout(saveTimer);saveTimer=null;
   stampChanges();
-  storageSet(STORE_KEY,JSON.stringify(docCollect(()=>true)));
+  storageSet(STORE_KEY,JSON.stringify(noEmptyZones(docCollect(()=>true))));
   updateSaveBadge();pushBackup('auto',false);
 }
 // Two tabs of the same file share one browser store: warn instead of silently overwriting each other
@@ -2980,9 +3015,11 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)flushSave()
 let currentFileHandle=null;
 let autoFile=false,autoBusy=false,sharedMap=false,autoOptOut=false;
 
+// A map with no zones is saved exactly as before: the key is left out, so older files and older copies of MindLoom see no change
+function noEmptyZones(o){if(!zones.length)delete o.zones;return o;}
 function getSaveData(compact){
   stampChanges();
-  return JSON.stringify(docCollect(f=>f.file!==0,{format:FORMAT_NAME,version:FORMAT_VERSION}),null,compact?0:2);
+  return JSON.stringify(noEmptyZones(docCollect(f=>f.file!==0,{format:FORMAT_NAME,version:FORMAT_VERSION})),null,compact?0:2);
 }
 
 // ── Save status and rolling backups ──
@@ -3283,7 +3320,7 @@ function render(){
   _dmHid=null;stampDone();logChanges();
   impactMap=(depMap&&impactId!==null&&gn(impactId))?computeImpact():null;if(!impactMap&&impactId!==null){impactId=null;}updateImpactUI();
   const _af=document.activeElement,_hadFocus=(_af&&_af.classList&&_af.classList.contains('node'))?parseInt(_af.dataset.id,10):null;
-  applyDateLayout();wsLayout();
+  applyDateLayout();wsLayout();renderZones();
   canvas.querySelectorAll('.node').forEach(el=>el.remove());
   const kids=buildKids(),fActive=filterActive();elMap=new Map();
   const descInfo=id=>{let c=0,u=false;const st=[id];while(st.length){const k=kids.get(st.pop())||[];c+=k.length;for(const x of k){st.push(x.id);if(!u){const ds=dueInfo(x).state;if(ds==='overdue'||ds==='today')u=true;}}}return{c,u};};
@@ -6519,6 +6556,7 @@ document.getElementById('shift-overlay').addEventListener('keydown',e=>{
 function tidyLayout(orient,scope,opts){
   opts=opts||{};
   if(dateMode){dateTidy(scope);return;}
+  if(scope==='all'&&!opts.tops&&zones.length){tidyZoned(orient,opts);return;} // zones: see 202-zones.js
   hideDetail();
   let tops;
   if(opts.tops)tops=opts.tops;
@@ -6541,7 +6579,7 @@ function tidyLayout(orient,scope,opts){
   const byStart=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
   const ordered=list=>list.map((n,i)=>[n,i]).sort((a,b)=>byStart(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
   const wsIb=workshop&&wsInbox(); // the Workshop Inbox lays out its own stickies
-  const kids=n=>n.collapsed||(wsIb&&n.id===wsIb.id)?[]:ordered(gch(n.id).filter(c=>!isHidden(c)));
+  const kids=n=>n.collapsed||(wsIb&&n.id===wsIb.id)?[]:ordered(gch(n.id).filter(c=>!isHidden(c)&&(!tidyOnly||tidyOnly.has(c.id))));
   const span=new Map(),kidsTotal=new Map(),levelSize=[];
   function measure(n,lvl){
     levelSize[lvl]=Math.max(levelSize[lvl]||0,depthOf(n));
@@ -6574,7 +6612,7 @@ function tidyBalanced(tops,scope,opts){
   const LEVEL=60,GAP=14,TREEGAP=70;
   const dim=n=>{const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};};
   const byStart=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
-  const kids=n=>n.collapsed?[]:gch(n.id).filter(c=>!isHidden(c)).map((c,i)=>[c,i]).sort((a,b)=>byStart(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
+  const kids=n=>n.collapsed?[]:gch(n.id).filter(c=>!isHidden(c)&&(!tidyOnly||tidyOnly.has(c.id))).map((c,i)=>[c,i]).sort((a,b)=>byStart(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
   const span=new Map(),kt=new Map();
   function measure(n){let tot=0;kids(n).forEach((c,i)=>{tot+=measure(c)+(i?GAP:0);});kt.set(n.id,tot);const sp=Math.max(dim(n).h,tot);span.set(n.id,sp);return sp;}
   function sizes(list,out,l){list.forEach(n=>{out[l]=Math.max(out[l]||0,dim(n).w);sizes(kids(n),out,l+1);});}
@@ -6624,7 +6662,7 @@ function autoLayoutOutline(){hideDetail();beginChange();const INDENT=60,VGAP=14;
   endChange();toast('Outline layout applied');
 }
 
-function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),_wp=workshop&&!dateMode?$('#ws-panel'):null,wsR=(_wp&&_wp.classList.contains('visible')?_wp.offsetWidth+24:0)+(covOn?432:0)+(raciOn()&&!rcHide?270:0),wsB=workshop&&!dateMode?110:0,dl=dateMode?150:0,vw=_vr.width-wsR-dl,inset=dateMode?52:0,vh=_vr.height-inset-wsB;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=dl+vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
+function fitAll(){if(!nodes.length)return;render();if(!nodes.some(n=>!isHidden(n)))return;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}if(!dateMode)for(const z of zones){x1=Math.min(x1,z.x);y1=Math.min(y1,z.y);x2=Math.max(x2,z.x+z.w);y2=Math.max(y2,z.y+z.h);}const pad=60;const bw=x2-x1+pad*2,bh=y2-y1+pad*2;const _vr=viewRect(),_wp=workshop&&!dateMode?$('#ws-panel'):null,wsR=(_wp&&_wp.classList.contains('visible')?_wp.offsetWidth+24:0)+(covOn?432:0)+(raciOn()&&!rcHide?270:0),wsB=workshop&&!dateMode?110:0,dl=dateMode?150:0,vw=_vr.width-wsR-dl,inset=dateMode?52:0,vh=_vr.height-inset-wsB;zoom=Math.min(2,Math.max(0.15,Math.min(vw/bw,vh/bh)));panX=dl+vw/2-(x1+x2)/2*zoom;panY=inset+vh/2-(y1+y2)/2*zoom;updateTransform();autoSave();}
 
 function centreView(){panX=0;panY=0;zoom=1;updateTransform();autoSave();}
 
@@ -6646,7 +6684,7 @@ function clearSearchDim(){if(searchHits){searchHits=null;render();}}
 function tidyKids(n){ // the visible children, earliest due date first (undated keep their order)
   if(n.collapsed)return [];
   const ds=(a,b)=>{const sa=a.due||'',sb=b.due||'';if(sa&&sb)return sa<sb?-1:sa>sb?1:0;return sa?-1:sb?1:0;};
-  return gch(n.id).filter(c=>!isHidden(c)).map((c,i)=>[c,i]).sort((a,b)=>ds(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
+  return gch(n.id).filter(c=>!isHidden(c)&&(!tidyOnly||tidyOnly.has(c.id))).map((c,i)=>[c,i]).sort((a,b)=>ds(a[0],b[0])||a[1]-b[1]).map(x=>x[0]);
 }
 function tidyDim(n){const el=elOf(n.id);return {w:el?el.offsetWidth:130,h:el?el.offsetHeight:38};}
 function tidyCentre(n){const d=tidyDim(n);return {x:n.x+d.w/2,y:n.y+d.h/2};}
@@ -6739,6 +6777,245 @@ function tidyLayered(tops,scope,opts){
   if(opts.quiet)return;
   if(scope==='all')fitAll();
   toast('Tidied: layered flow'+(scope==='branch'?' (selected branch)':''));
+}
+// ── Zones ──
+// A zone is a labelled, tinted rectangle drawn behind the nodes: a layer, a boundary, a set of boxes that belong together
+// (the Windows CA, Security controls). It is not tied to any node: a node is "in" a zone when its centre lies inside
+// the rectangle, so dragging the zone's title bar carries those nodes (and any zone wholly inside it) along.
+// Saved in the map file as `zones` (a row in the table in 035-doc.js), part of every undo step. Hidden while the Date Axis is on.
+let zones=[],tidyOnly=null; // tidyOnly: while a zone is being tidied, the ids of the nodes the layouts may arrange
+const ZONE_PAD=24,ZONE_TITLE=30,ZONE_MIN_W=120,ZONE_MIN_H=70;
+function zoneHex(id){const c=gc(id);return (!id||id==='default')?'#8a93a3':c.border;}
+function gz(id){return zones.find(z=>z.id===id);}
+function sanitizeZones(a){
+  const out=[],seen=new Set();
+  (Array.isArray(a)?a:[]).slice(0,200).forEach(z=>{
+    if(!z||typeof z!=='object')return;
+    let id=Number(z.id);if(!Number.isInteger(id)||id<1||seen.has(id))id=0;else seen.add(id);
+    out.push({id,title:typeof z.title==='string'?z.title.slice(0,80):'',x:finiteOr(z.x,0),y:finiteOr(z.y,0),
+      w:Math.max(ZONE_MIN_W,finiteOr(z.w,300)),h:Math.max(ZONE_MIN_H,finiteOr(z.h,200)),colorId:COLORS.some(c=>c.id===z.colorId)?z.colorId:'default'});
+  });
+  let next=Math.max(0,...seen)+1;out.forEach(z=>{if(!z.id)z.id=next++;});
+  return out;
+}
+const zoneNextId=()=>Math.max(0,...zones.map(z=>z.id))+1;
+// Where a node's centre is, and which nodes / zones sit inside a zone
+function nodeBox(n){const el=elOf(n.id);return {x:n.x,y:n.y,w:el?el.offsetWidth:120,h:el?el.offsetHeight:36};}
+function nodeCentre(n){const b=nodeBox(n);return {x:b.x+b.w/2,y:b.y+b.h/2};}
+function inZone(z,p){return p.x>=z.x&&p.x<=z.x+z.w&&p.y>=z.y&&p.y<=z.y+z.h;}
+function zoneInside(a,b){return a!==b&&a.x>=b.x&&a.y>=b.y&&a.x+a.w<=b.x+b.w&&a.y+a.h<=b.y+b.h;} // a lies wholly inside b
+function zoneNodes(z){return nodes.filter(n=>!isHidden(n)&&inZone(z,nodeCentre(n)));} // the visible nodes in a zone
+function zoneMovers(z){ // everything that travels with a zone: nodes inside it, plus the folded-away sub-nodes of those
+  const s=new Map();
+  nodes.forEach(n=>{if(inZone(z,nodeCentre(n)))s.set(n.id,n);});
+  [...s.values()].forEach(n=>{if(n.collapsed)gdesc(n.id).forEach(id=>{const d=gn(id);if(d)s.set(id,d);});});
+  return [...s.values()];
+}
+function boundsOf(list){let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;list.forEach(n=>{const b=nodeBox(n);x1=Math.min(x1,b.x);y1=Math.min(y1,b.y);x2=Math.max(x2,b.x+b.w);y2=Math.max(y2,b.y+b.h);});return {x1,y1,x2,y2};}
+function wrapRect(b){return {x:Math.round(b.x1-ZONE_PAD),y:Math.round(b.y1-ZONE_TITLE-12),w:Math.round(b.x2-b.x1+ZONE_PAD*2),h:Math.round(b.y2-b.y1+ZONE_TITLE+12+ZONE_PAD)};}
+
+// ── Drawing ──
+function renderZones(){
+  const layer=document.getElementById('zones');if(!layer)return;
+  layer.textContent='';
+  zones.forEach(z=>{
+    const el=document.createElement('div');el.className='zone';el.dataset.zid=z.id;el.style.setProperty('--zc',zoneHex(z.colorId));
+    const t=document.createElement('div');t.className='zone-title'+(z.title?'':' empty');t.textContent=z.title||'Unnamed zone';
+    t.title='Drag to move the zone and the nodes in it. Double-click to rename. Right-click for colour, tidy and delete.';
+    t.addEventListener('pointerdown',e=>zoneDown(e,z.id,'move'));
+    t.addEventListener('dblclick',e=>{e.stopPropagation();zoneRename(z.id);});
+    t.addEventListener('contextmenu',e=>zoneContext(e,z.id));
+    const h=document.createElement('span');h.className='zone-resize';h.title='Drag to resize';
+    h.addEventListener('pointerdown',e=>zoneDown(e,z.id,'size'));
+    el.appendChild(t);el.appendChild(h);layer.appendChild(el);zoneSync(z,el);
+  });
+}
+function zoneSync(z,el){el=el||document.querySelector('#zones [data-zid="'+z.id+'"]');if(el){el.style.left=z.x+'px';el.style.top=z.y+'px';el.style.width=z.w+'px';el.style.height=z.h+'px';}}
+
+// ── Dragging and resizing ──
+let zDrag=null;
+function zoneDown(e,id,mode){
+  if(e.button!==0)return;e.preventDefault();e.stopPropagation();hideCtx();
+  const z=gz(id);if(!z)return;
+  zDrag={id,mode,sx:e.clientX,sy:e.clientY,x:z.x,y:z.y,w:z.w,h:z.h,moved:false,mem:null,inner:null};
+  window.addEventListener('pointermove',zoneMove);window.addEventListener('pointerup',zoneUp);window.addEventListener('pointercancel',zoneUp);
+}
+function zoneMove(e){
+  const d=zDrag;if(!d)return;const z=gz(d.id);if(!z)return;
+  if(!d.moved){
+    if(Math.hypot(e.clientX-d.sx,e.clientY-d.sy)<3)return;
+    d.moved=true;beginChange();
+    if(d.mode==='move'){d.mem=zoneMovers(z).map(n=>[n,n.x,n.y]);d.inner=zones.filter(o=>zoneInside(o,z)).map(o=>[o,o.x,o.y]);}
+  }
+  const snapv=v=>snapToGrid?Math.round(v/GRID_SIZE)*GRID_SIZE:v;
+  let dx=(e.clientX-d.sx)/zoom,dy=(e.clientY-d.sy)/zoom;
+  if(d.mode==='move'){
+    z.x=snapv(d.x+dx);z.y=snapv(d.y+dy);dx=z.x-d.x;dy=z.y-d.y;
+    d.mem.forEach(([n,x,y])=>{n.x=x+dx;n.y=y+dy;const el=elOf(n.id);if(el){el.style.left=n.x+'px';el.style.top=n.y+'px';}});
+    d.inner.forEach(([o,x,y])=>{o.x=x+dx;o.y=y+dy;zoneSync(o);});
+  }else{z.w=Math.max(ZONE_MIN_W,snapv(d.w+dx));z.h=Math.max(ZONE_MIN_H,snapv(d.h+dy));}
+  zoneSync(z);connDragFast=true;drawConnectorsSoon();
+}
+function zoneUp(){
+  window.removeEventListener('pointermove',zoneMove);window.removeEventListener('pointerup',zoneUp);window.removeEventListener('pointercancel',zoneUp);
+  const d=zDrag;zDrag=null;if(!d||!d.moved)return;
+  if(connDragFast){connDragFast=false;if(connRaf){cancelAnimationFrame(connRaf);connRaf=0;}drawConnectors();}
+  autoSave();
+}
+
+// ── Adding, renaming, fitting, deleting ──
+function addZoneAt(cx,cy,w,h){
+  if(dateMode){toast('Zones are hidden while the Date Axis is on');return;}
+  const id=zoneNextId();w=w||320;h=h||180;
+  let x=cx-w/2,y=cy-h/2;if(snapToGrid){x=Math.round(x/GRID_SIZE)*GRID_SIZE;y=Math.round(y/GRID_SIZE)*GRID_SIZE;}
+  change(()=>{zones.push({id,title:'New zone',x:Math.round(x),y:Math.round(y),w,h,colorId:'default'});});
+  setTimeout(()=>zoneRename(id),0);
+}
+function addZone(){const r=viewRect(),p=toCanvas(r.left+r.width/2,r.top+r.height/2);addZoneAt(p.x,p.y);}
+function zoneAroundSelection(){
+  if(dateMode){toast('Zones are hidden while the Date Axis is on');return;}
+  let list;
+  if(multiSelected.size)list=[...multiSelected].map(gn);
+  else if(selectedId!==null&&gn(selectedId)){const n=gn(selectedId);list=[n];if(!n.collapsed)gdesc(n.id).forEach(id=>list.push(gn(id)));} // one node: its visible branch
+  else{toast('Select one or more nodes first');return;}
+  list=list.filter(n=>n&&!isHidden(n));if(!list.length){toast('Select one or more nodes first');return;}
+  const r=wrapRect(boundsOf(list)),id=zoneNextId();
+  change(()=>{zones.push({id,title:'New zone',x:r.x,y:r.y,w:r.w,h:r.h,colorId:'default'});});
+  setTimeout(()=>zoneRename(id),0);
+}
+function zoneRename(id){
+  const z=gz(id),t=document.querySelector('#zones [data-zid="'+id+'"] .zone-title');if(!z||!t)return;
+  const inp=document.createElement('input');inp.className='zone-edit';inp.value=z.title;inp.maxLength=80;inp.placeholder='Zone name';inp.setAttribute('aria-label','Zone name');
+  t.textContent='';t.appendChild(inp);inp.focus();inp.select();
+  let done=false;
+  const fin=ok=>{if(done)return;done=true;const v=inp.value.trim();if(ok&&v!==z.title)change(()=>{const q=gz(id);if(q)q.title=v;});else renderZones();};
+  inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')fin(true);else if(e.key==='Escape')fin(false);});
+  inp.addEventListener('blur',()=>fin(true));
+  ['pointerdown','dblclick','contextmenu'].forEach(ev=>inp.addEventListener(ev,e=>e.stopPropagation()));
+}
+function zoneFit(id){
+  const z=gz(id);if(!z)return;const ns=zoneNodes(z);if(!ns.length){toast('No nodes in that zone to fit around');return;}
+  const r=wrapRect(boundsOf(ns));change(()=>{z.x=r.x;z.y=r.y;z.w=r.w;z.h=r.h;});
+}
+function zoneDelete(id){change(()=>{zones=zones.filter(z=>z.id!==id);});toast('Zone deleted. The nodes stay (Ctrl+Z to undo)');}
+
+// ── Tidy inside zones ──
+// Arrange `set` (node ids) as a forest of its own: the layouts only look at nodes in the set, and a node whose parent is outside it is a top.
+function tidyRun(set,orient){
+  const tops=[...set].map(gn).filter(n=>n&&!set.has(n.parentId)).sort((a,b)=>a.y-b.y||a.x-b.x);
+  if(!tops.length)return;
+  tidyOnly=set;
+  try{tidyLayout(orient,'all',{tops,noSnap:true,quiet:true});}finally{tidyOnly=null;}
+}
+// Lay one zone's nodes out. Each tree inside the zone is arranged with the chosen layout; the trees (a lone node is a tree)
+// are then set in rows in reading order, wrapping at the zone's width, so a lane of separate boxes stays a lane. The zone keeps
+// its corner and width (it only grows if it must) and its height wraps the rows.
+function zoneTidyOne(z,orient){
+  const M=new Set(zoneNodes(z).map(n=>n.id));if(!M.size)return;
+  const blocks=[...M].map(gn).filter(n=>!M.has(n.parentId)).map(t=>({t,x:t.x,y:t.y})); // where each tree started, for the reading order
+  blocks.forEach(bk=>{
+    const s=new Set([bk.t.id]),st=[bk.t];
+    while(st.length){const p=st.pop();gch(p.id).forEach(c=>{if(M.has(c.id)&&!s.has(c.id)){s.add(c.id);st.push(c);}});}
+    tidyRun(s,orient);bk.list=[...s].map(gn);bk.box=boundsOf(bk.list);
+  });
+  blocks.sort((a,b)=>a.y-b.y||a.x-b.x);
+  const bands=[];blocks.forEach(bk=>{const r=bands[bands.length-1];if(r&&Math.abs(bk.y-r.y0)<60)r.items.push(bk);else bands.push({y0:bk.y,items:[bk]});});
+  const ordered=bands.flatMap(r=>r.items.sort((a,b)=>a.x-b.x)),bw=bk=>bk.box.x2-bk.box.x1,bh=bk=>bk.box.y2-bk.box.y1;
+  const maxW=Math.max(z.w-ZONE_PAD*2,...ordered.map(bw)),rows=[];
+  let cur=null,cx=0;
+  ordered.forEach(bk=>{if(!cur||cx+bw(bk)>maxW){cur={items:[],h:0};rows.push(cur);cx=0;}cur.items.push(bk);cur.h=Math.max(cur.h,bh(bk));cx+=bw(bk)+40;});
+  let y=z.y+ZONE_TITLE+12,usedW=0;
+  rows.forEach(r=>{
+    let x=z.x+ZONE_PAD;
+    r.items.forEach(bk=>{
+      const dx=x-bk.box.x1,dy=y+(r.h-bh(bk))/2-bk.box.y1;
+      bk.list.forEach(n=>{n.x=Math.round(n.x+dx);n.y=Math.round(n.y+dy);});
+      x+=bw(bk)+40;
+    });
+    usedW=Math.max(usedW,x-40-z.x);y+=r.h+28;
+  });
+  z.w=Math.max(ZONE_MIN_W,z.w,Math.round(usedW+ZONE_PAD));
+  z.h=Math.max(ZONE_MIN_H,Math.round(y-28-z.y+ZONE_PAD));
+}
+const holdsZone=z=>zones.some(o=>zoneInside(o,z));
+function zoneTidy(id,orient){
+  const z=gz(id);if(!z)return;
+  if(holdsZone(z)){toast('This zone holds other zones: tidy those first');return;}
+  hideDetail();beginChange();render();zoneTidyOne(z,orient);render();autoSave();toast('Tidied the zone');
+}
+// Whole-map Tidy when the map has zones: nodes outside every zone are arranged as usual; the nodes of each zone are arranged
+// inside that zone (zoneTidyOne). A zone that grew into the one above moves down with its nodes, and the outside nodes step
+// clear of the zones if the layout ran them into one. Zones that hold other zones are left alone.
+function tidyZoned(orient,opts){
+  hideDetail();if(!opts.noSnap)beginChange();render();
+  const flat=zones.filter(z=>!holdsZone(z)),owner=new Map();
+  nodes.filter(n=>!isHidden(n)).forEach(n=>{const c=nodeCentre(n);let best=null;flat.forEach(z=>{if(inZone(z,c)&&(!best||z.w*z.h<best.w*best.h))best=z;});if(best)owner.set(n.id,best);});
+  const outside=new Set(nodes.filter(n=>!isHidden(n)&&!owner.has(n.id)).map(n=>n.id));
+  tidyRun(outside,orient);
+  flat.forEach(z=>{render();zoneTidyOne(z,orient);});
+  const ord=flat.slice().sort((a,b)=>a.y-b.y);
+  ord.forEach((z,i)=>{
+    let need=z.y;ord.slice(0,i).forEach(p=>{if(p.x<z.x+z.w&&z.x<p.x+p.w)need=Math.max(need,p.y+p.h+40);});
+    if(need>z.y){const dy=need-z.y;zoneMovers(z).forEach(n=>{n.y+=dy;});z.y+=dy;}
+  });
+  if(outside.size&&zones.length){
+    const os=[...outside].map(gn),b=boundsOf(os);
+    if(zones.some(z=>z.x<b.x2&&b.x1<z.x+z.w&&z.y<b.y2&&b.y1<z.y+z.h)){const dx=Math.max(...zones.map(z=>z.x+z.w))+80-b.x1;os.forEach(n=>{n.x=Math.round(n.x+dx);});}
+  }
+  render();autoSave();
+  if(opts.quiet)return;
+  fitAll();toast('Tidied: '+({h:'horizontal tree',v:'vertical tree',b:'balanced tree',r:'radial',l:'layered flow'}[orient]||'map')+', zones kept');
+}
+
+// ── Menus: right-click a zone's title, or empty canvas ──
+function zmenu(){
+  let m=document.getElementById('zone-menu');
+  if(!m){m=document.createElement('div');m.id='zone-menu';document.body.appendChild(m);document.addEventListener('click',e=>{if(!m.contains(e.target))hideZoneMenu();});}
+  return m;
+}
+function hideZoneMenu(){const m=document.getElementById('zone-menu');if(m)m.classList.remove('visible');}
+function zItem(label,fn,cls,tip,off){
+  const b=document.createElement('button');b.className='dd-item'+(cls?' '+cls:'');b.innerHTML=label;if(tip)b.title=tip;
+  if(off)b.disabled=true;else b.addEventListener('click',e=>{e.stopPropagation();hideZoneMenu();fn();});
+  return b;
+}
+function zSep(){const s=document.createElement('div');s.className='dd-sep';return s;}
+function zoneMenuShow(e,items){
+  const m=zmenu();m.textContent='';items.forEach(i=>m.appendChild(i));
+  m.style.left=e.clientX+'px';m.style.top=e.clientY+'px';m.classList.add('visible');
+  const w=m.offsetWidth,h=m.offsetHeight;
+  m.style.left=Math.max(8,Math.min(e.clientX,innerWidth-w-8))+'px';m.style.top=Math.max(8,Math.min(e.clientY,innerHeight-h-8))+'px';
+  m.classList.toggle('flip',parseFloat(m.style.left)+w+200>innerWidth);
+}
+function zoneContext(e,id){
+  e.preventDefault();e.stopPropagation();hideCtx();
+  const z=gz(id);if(!z)return;
+  const sub=document.createElement('div');sub.className='dd-submenu';
+  const lb=document.createElement('button');lb.className='dd-item';lb.textContent='Tidy contents';lb.title='Arrange the nodes inside this zone';sub.appendChild(lb);
+  const list=document.createElement('div');list.className='dd-submenu-items';
+  [['h','Horizontal tree &rarr;'],['v','Vertical tree &darr;'],['b','Balanced'],['r','Radial (fan out) &#9737;'],['l','Layered flow &rarr;']].forEach(([o,t])=>list.appendChild(zItem(t,()=>zoneTidy(id,o))));
+  sub.appendChild(list);
+  const sw=document.createElement('div');sw.className='zone-sws';
+  COLORS.forEach(c=>{const b=document.createElement('button');b.className='zone-sw'+(c.id===z.colorId?' on':'');b.style.background=zoneHex(c.id);b.title=c.label;b.setAttribute('aria-label','Colour: '+c.label);
+    b.addEventListener('click',ev=>{ev.stopPropagation();hideZoneMenu();change(()=>{const q=gz(id);if(q)q.colorId=c.id;});});sw.appendChild(b);});
+  zoneMenuShow(e,[zItem('Rename',()=>zoneRename(id)),zItem('Fit to contents',()=>zoneFit(id),'','Resize the zone to wrap the nodes inside it'),sub,zSep(),sw,zSep(),zItem('Delete zone',()=>zoneDelete(id),'danger','Remove the zone; the nodes stay')]);
+}
+function zoneCanvasMenu(e){
+  if(dateMode)return;
+  const p=toCanvas(e.clientX,e.clientY);
+  zoneMenuShow(e,[zItem('Add zone here',()=>addZoneAt(p.x,p.y),'','A labelled box behind the nodes, to group them')]);
+}
+
+// ── Export: the same drawing calls serve PNG and SVG (210-export-png.js) ──
+function zoneExport(ctx,z,x1,y1,pad){
+  const x=z.x-x1+pad,y=z.y-y1+pad,col=zoneHex(z.colorId);
+  ctx.save();
+  ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,z.w,z.h,14):ctx.rect(x,y,z.w,z.h);
+  ctx.globalAlpha=0.09;ctx.fillStyle=col;ctx.fill();
+  ctx.globalAlpha=0.7;ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+  ctx.globalAlpha=1;
+  if(z.title){ctx.fillStyle=pngInk.main;ctx.font='600 13px system-ui,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(z.title,x+14,y+ZONE_TITLE/2,z.w-28);}
+  ctx.restore();
 }
 // ── Export PNG ──
 // Text and strokes that sit directly on the page background switch to dark ink when the background is light
@@ -6843,6 +7120,7 @@ function pngChips(ctx,el,x,y,bw){
 }
 function exportBounds(){render();if(!nodes.some(n=>!isHidden(n))){toast('Nothing to export: no nodes are showing');return null;}const slideX=dateMode&&axSlide;let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;for(const n of nodes){if(isHidden(n)||(slideX&&slideHides(n)))continue;const el=elOf(n.id);const w=el?el.offsetWidth:120,h=el?el.offsetHeight:36;if(n.x<x1)x1=n.x;if(n.y<y1)y1=n.y;if(n.x+w>x2)x2=n.x+w;if(n.y+h>y2)y2=n.y+h;}
   if(dateMode)for(const g of dmGhostRows()){x1=Math.min(x1,g.gx);x2=Math.max(x2,g.gx+g.gw);}
+  else for(const z of zones){x1=Math.min(x1,z.x);y1=Math.min(y1,z.y);x2=Math.max(x2,z.x+z.w);y2=Math.max(y2,z.y+z.h);}
   const pad=dateMode?(slideX?150:110):50,cw=x2-x1+pad*2,ch=y2-y1+pad*2;
   return {x1,y1,x2,y2,pad,cw,ch,slideX};
 }
@@ -6855,6 +7133,7 @@ function exportDraw(ctx,b){
   const fwf=n=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(n.id)||FS.anc.has(n.id))?1:0):FS?((FS.core.has(n.id)||FS.anc.has(n.id))?1:0.1):(quietDM?0.35:1);
   const fxf=(a,b)=>lvm==='off'?0:lvm==='selected'?(FS&&(FS.core.has(a)||FS.core.has(b))?1:0):FS?((FS.core.has(a)||FS.core.has(b))?1:0):(quietDM?0.5:1);
   if(dateMode){dmExportAxis(ctx,x1,y1,pad,cw,ch);dmExportGhosts(ctx,x1,y1,pad);}
+  else zones.forEach(z=>zoneExport(ctx,z,x1,y1,pad));
   // Wires
   const sqx=connStyle==='squared',rcs=sqx?nodeRects():null;
   const critX=dateMode&&(critOnly||axSlide);
@@ -6953,6 +7232,7 @@ function drawMinimap(){
   const pad=40,bw=x2-x1+pad*2||1,bh=y2-y1+pad*2||1,sc=Math.min(mw/bw,mh/bh);
   const ox=(mw-bw*sc)/2-x1*sc+pad*sc,oy=(mh-bh*sc)/2-y1*sc+pad*sc;
   mmMap={sc,ox,oy};
+  if(!dateMode)for(const z of zones){ctx.fillStyle=zoneHex(z.colorId)+'26';ctx.fillRect(z.x*sc+ox,z.y*sc+oy,z.w*sc,z.h*sc);}
   // Parent wires (parent's right edge to the child's left edge)
   for(const n of vis){
     if(n.parentId===null)continue;const p=gn(n.parentId);if(!p||isHidden(p))continue;
@@ -7177,7 +7457,7 @@ function onNodeMouseDown(e,node){
   elOf(node.id)?.classList.add('dragging');
 }
 function onNodeContext(e,node){
-  e.preventDefault();e.stopPropagation();selectNode(node.id);
+  e.preventDefault();e.stopPropagation();hideZoneMenu();selectNode(node.id);
   {const bm=$('#cx-bm'),cl=$('#cx-col'),hasKids=gch(node.id).length>0;
    bm.textContent=bookmarks.includes(node.id)?'Remove bookmark':'Bookmark';
    cl.firstChild.nodeValue=node.collapsed?'Expand ':'Collapse ';cl.style.display=hasKids?'':'none';$('#cx-impact').style.display=depMap?'':'none';
@@ -7190,9 +7470,9 @@ function onNodeContext(e,node){
   ctxMenu.classList.toggle('flip',parseFloat(ctxMenu.style.left)+w+200>vw); // open the Tidy flyout to the left near the right edge
   ctxMenu.querySelectorAll('.dd-submenu.open').forEach(x=>x.classList.remove('open'));
 }
-function hideCtx(){ctxMenu.classList.remove('visible');}
+function hideCtx(){ctxMenu.classList.remove('visible');hideZoneMenu();}
 document.addEventListener('click',e=>{if(!ctxMenu.contains(e.target))hideCtx();});
-wrap.addEventListener('contextmenu',e=>{if(e.target===wrap||e.target===canvas||e.target===svgEl){e.preventDefault();hideCtx();}});
+wrap.addEventListener('contextmenu',e=>{if(e.target===wrap||e.target===canvas||e.target===svgEl){e.preventDefault();hideCtx();zoneCanvasMenu(e);}});
 
 // ── Keyboard ──
 document.addEventListener('keydown',e=>{

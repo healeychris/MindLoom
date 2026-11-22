@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.61.2)
+# MINDLOOM FEATURES (v1.62.0)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,16 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.61.2
+WHAT'S NEW IN 1.62.0
+
+Zones: labelled, coloured boxes behind the nodes, for layers or groups such as a Windows CA or Security controls
+  Add one from Tidy > Zones > Add zone, or right-click empty canvas, or select nodes and choose Zone around selection
+  Drag the title bar to move the zone with the nodes inside it. Drag the corner to resize. Double-click the title to rename
+  Right-click the title for Fit to contents, Tidy contents, colour and Delete zone. The nodes are never deleted with a zone
+  Tidy (whole map) arranges each zone's nodes inside that zone and the rest of the map as usual
+  Zones appear in PNG and SVG exports. A map with no zones is saved exactly as before. See "Zones" in the User Guide
+
+EARLIER IN 1.61.2
 
 Two new Tidy layouts, for the whole map or the selected branch (Tidy menu, and the right-click Tidy branch menu):
   Radial (fan out): the top node in the middle, branches fanning out around it like a classic mind map. Good for presenting a topic

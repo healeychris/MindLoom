@@ -1,1 +1,1 @@
-{"version": "1.61.2", "date": "2026-11-20", "notes": "Two new Tidy layouts, Radial (fan out) and Layered flow, for the whole map or one branch, also under Tidy branch in the right-click menu. Map files made by other tools can ask to be tidied when opened."}
+{"version": "1.62.0", "date": "2026-11-22", "notes": "Zones: labelled, coloured boxes behind the nodes for layers and groups (a Windows CA, Security controls). Drag the title bar to move a zone with the nodes inside it. Tidy arranges each zone's nodes inside the zone."}
