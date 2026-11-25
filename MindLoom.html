@@ -1124,6 +1124,8 @@
   #about-box .ab-head h2 { margin:0; font-size:20px; }
   #about-box .ab-head .about-ver { margin:0; }
   #about-box p.ab-tag { color:var(--text-muted); margin:0 0 12px; max-width:560px; }
+  #about-box p.ab-lic { color:var(--text-muted); margin:0 0 12px; max-width:560px; font-size:12px; }
+  #about-box p.ab-lic a { color:inherit; text-decoration:underline; }
   #about-box .upd-row { margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
   #about-box .ab-guide { margin-left:auto; color:var(--accent); text-decoration:none; font-size:13px; white-space:nowrap; }
   #about-box .ab-guide:hover { text-decoration:underline; }
@@ -1703,6 +1705,7 @@
     <button class="about-close" onclick="closeAbout()" aria-label="Close">&times;</button>
     <div class="ab-head"><h2>MindLoom</h2><span class="about-ver" id="about-ver">Version</span></div>
     <p class="ab-tag">Mind mapping and planning in one offline file. Plan visually, then see the same map as a timeline, a board or a report. No install, no cloud.</p>
+    <p class="ab-lic">Free to use at work or at home. Licensed under the <a href="https://polyformproject.org/licenses/internal-use/1.0.0" target="_blank" rel="noopener noreferrer">PolyForm Internal Use License 1.0.0</a>: not for resale or redistribution. &copy; 2026 Chris Healey.</p>
     <div class="upd-row">
       <button class="dp-mini" type="button" id="upd-btn" onclick="checkForUpdate()" title="Look up the latest version on GitHub. Only runs when you click, nothing is sent from your map.">Check for updates</button>
       <span id="upd-msg" role="status" aria-live="polite">Only checks when you click.</span>
@@ -2789,7 +2792,7 @@ function sanitizeLinks(raw,list){
 const OLD_KEY='mindmap_v5';
 const LEGACY_KEY='mindloom_v1';
 const STORE_KEY=location.protocol==='file:'?LEGACY_KEY+':'+location.pathname:LEGACY_KEY;
-const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.62.0';
+const FORMAT_NAME='MindLoom',FORMAT_VERSION=6,APP_VERSION='1.62.1';
 const BK_KEY=STORE_KEY+':backups',BACKUP_EVERY=10*60*1000,NUDGE_EVERY=10*60*1000,BACKUP_KEEP=6,PROTECTED_KEEP=6,PROTECTED_LABELS=['last session','before load','before new map','before restore'];
 let storageWarned=false;
 function storageGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}

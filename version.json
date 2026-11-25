@@ -1,1 +1,1 @@
-{"version": "1.62.0", "date": "2026-11-22", "notes": "Zones: labelled, coloured boxes behind the nodes for layers and groups (a Windows CA, Security controls). Drag the title bar to move a zone with the nodes inside it. Tidy arranges each zone's nodes inside the zone."}
+{"version": "1.62.1", "date": "2026-11-25", "notes": "MindLoom is now licensed under the PolyForm Internal Use License 1.0.0: free to use at work or at home, but not for resale or redistribution. The licence is shown in About and in the LICENSE file."}

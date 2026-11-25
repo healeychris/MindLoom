@@ -1,4 +1,4 @@
-# MINDLOOM FEATURES (v1.62.0)
+# MINDLOOM FEATURES (v1.62.1)
 
 https://healeychris.github.io/MindLoom/
 
@@ -6,7 +6,16 @@ USER GUIDE: see the docs folder (index.html), published with GitHub Pages. It co
 step-by-step recipes, example maps (docs/examples) and a technical reference.
 
 
-WHAT'S NEW IN 1.62.0
+LICENCE
+MindLoom is free to use, at work or at home, under the PolyForm Internal Use License 1.0.0 (see LICENSE). You may use it and change it for your own use, but you may not resell it or redistribute it. Copyright (c) 2026 Chris Healey.
+
+
+WHAT'S NEW IN 1.62.1
+
+Licence added (PolyForm Internal Use 1.0.0). It is shown in About and in the LICENSE file. No change to how the app works.
+
+
+EARLIER IN 1.62.0
 
 Zones: labelled, coloured boxes behind the nodes, for layers or groups such as a Windows CA or Security controls
   Add one from Tidy > Zones > Add zone, or right-click empty canvas, or select nodes and choose Zone around selection
